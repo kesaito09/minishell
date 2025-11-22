@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/09 17:50:29 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/23 07:34:29 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef enum e_token_type
 	TOKEN_APPEND,
 	TOKEN_CONJUNCTIONE,
 	TOKEN_DISJUNCTIONE,
+	TOKEN_PARENTHESIS_LEFT,
+	TOKEN_PARENTHESIS_RIGHT,
 	TOKEN_EOF,
 	// リストのヌル文字みたいな意味
 
@@ -35,8 +37,8 @@ typedef enum e_state
 	STATE_GENERAL = 0,
 	STATE_SQUOTE,
 	STATE_DQUOTE,
-	STATE_BSLASH,
 }						t_state;
+
 
 typedef struct s_token
 {
@@ -84,7 +86,7 @@ t_token_type 			is_token_type(char *c);
 int 					count_section(char *str);
 int						section_len(char *str);
 char					**split_section(char *str);
-void					my_lex(char *input, t_token **token_list);
+int 					lexer(char *input, t_token **token_list);
 
 
 # endif

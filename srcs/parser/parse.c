@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/16 21:54:21 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/23 07:35:18 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ t_tree	*parser(char *input)
 	token_list = NULL;
 	if (!input || !*input)
 		return (NULL);
-	my_lex(input, &token_list);
+	if (lexer(input, &token_list) == FAILUER)
+		return (NULL);
 	if (!token_list)	
 		return (NULL);
 	tmp = token_list;

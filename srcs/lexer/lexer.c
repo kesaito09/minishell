@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/09 20:00:30 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/23 07:31:38 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 static int	is_operator(int c)
 {
-	return (c == '|' || c == '<' || c == '>' );
+	return (c == '|' || c == '<' || c == '>' || c == '(' || c == ')');
 }
 
-static int	is_ifs(int c)
+static int	is_delimiter(int c)
 {
 	return (c == ' ' || c == '\n' || c == '\t');
 }
 
-void	my_lex(char *input, t_token **token_list)
+int	tokenizer(char *input, t_token **token_list)
 {
 	t_state		state;
 	char		*op;
@@ -46,7 +46,8 @@ void	my_lex(char *input, t_token **token_list)
 				append_char(&c_list, *input);
 				input++;
 			}
-			else if (is_ifs(*input) || is_operator(*input) || !ft_strncmp(input, "&&", 2))
+			else if (is_delimiter(*input) || is_operator(*input)
+				|| !ft_strncmp(input, "&&", 2))
 			{
 				if (c_list)
 				{
@@ -59,7 +60,7 @@ void	my_lex(char *input, t_token **token_list)
 					{
 						op = ft_strdup("<<");
 						if (!op)
-							return ;
+							return (FAILUER);
 						add_token(token_list, op, TOKEN_HEREDOC);
 						input += 2;
 						continue ;
@@ -68,7 +69,7 @@ void	my_lex(char *input, t_token **token_list)
 					{
 						op = ft_strdup(">>");
 						if (!op)
-							return ;
+							return (FAILUER);
 						add_token(token_list, op, TOKEN_APPEND);
 						input += 2;
 						continue ; // 一時的に例外処理にしてる後で直す
@@ -77,39 +78,53 @@ void	my_lex(char *input, t_token **token_list)
 					{
 						op = ft_strdup("||");
 						if (!op)
-							return ;
+							return (FAILUER);
 						add_token(token_list, op, TOKEN_DISJUNCTIONE);
 						input += 2;
-						continue;
+						continue ;
 					}
 					else if (!ft_strncmp(input, "&&", 2))
 					{
 						op = ft_strdup("&&");
 						if (!op)
-							return ;
+							return (FAILUER);
 						add_token(token_list, op, TOKEN_CONJUNCTIONE);
 						input += 2;
-						continue;
+						continue ;
+					}
+					else if (!ft_strncmp(input, "(", 1))
+					{
+						op = ft_strdup("(");
+						if (!op)
+							return (FAILUER);
+						add_token(token_list, op, TOKEN_PARENTHESIS_LEFT);
+					}
+					else if (!ft_strncmp(input, ")", 1))
+					{
+						op = ft_strdup(")");
+						if (!op)
+							return (FAILUER);
+						add_token(token_list, op, TOKEN_PARENTHESIS_RIGHT);
 					}
 					else if (!ft_strncmp(input, "|", 1))
 					{
 						op = ft_strdup("|");
 						if (!op)
-							return ;
+							return (FAILUER);
 						add_token(token_list, op, TOKEN_PIPE);
 					}
 					else if (!ft_strncmp(input, ">", 1))
 					{
 						op = ft_strdup(">");
 						if (!op)
-							return ;
+							return (FAILUER);
 						add_token(token_list, op, TOKEN_REDIRECT_OUT);
 					}
 					else if (!ft_strncmp(input, "<", 1))
 					{
 						op = ft_strdup("<");
 						if (!op)
-							return ;
+							return (FAILUER);
 						add_token(token_list, op, TOKEN_REDIRECT_IN);
 					}
 					input++;
@@ -120,6 +135,14 @@ void	my_lex(char *input, t_token **token_list)
 			else if (*input == '\\')
 			{
 				input++;
+				if (!*input)
+				{
+					if (c_list)
+						c_lstclear(&c_list, free);
+					t_lstclear(token_list, free);
+					ft_putendl_fd("minishell: syntax error: unclosed back slash",
+						2);
+				}
 				if (*input)
 				{
 					append_char(&c_list, *input);
@@ -161,28 +184,40 @@ void	my_lex(char *input, t_token **token_list)
 			}
 		}
 	}
+	if (state == STATE_SQUOTE || state == STATE_DQUOTE)
+	{
+		if (c_list)
+			c_lstclear(&c_list, free);
+		t_lstclear(token_list, free);
+		ft_putendl_fd("minishell: syntax error: unclosed quote", 2);
+		return (FAILUER);
+	}
 	if (c_list)
 	{
 		add_token(token_list, list_to_string(&c_list), TOKEN_WORD);
 		c_list = NULL;
 	}
+	return (SUCCESS);
 }
 
-void	lexer(char *input, t_token **token_list)
+int	lexer(char *input, t_token **token_list)
 {
 	t_token	*last_node;
 	t_token	*eof_node;
 
-	my_lex(input, token_list);
+	if (tokenizer(input, token_list) == FAILUER)
+		return (FAILUER);
 	if (!*token_list)
-		return ;
+		return (FAILUER);
 	last_node = t_lstlast(*token_list);
 	eof_node = t_lstnew(NULL);
 	if (!eof_node)
-		return ;
+		return (FAILUER);
 	eof_node->type = TOKEN_EOF;
 	last_node->next = eof_node;
+	return (SUCCESS);
 }
+
 
 // int	main(void)
 // {
