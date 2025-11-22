@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/23 07:34:29 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/23 07:37:19 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void					t_lstadd_back(t_token **lst, t_token *new);
 t_char_list				*c_lstlast(t_char_list *lst);
 size_t					c_lstsize(t_char_list *lst);
 void					c_lstclear(t_char_list **lst, void (*del)(void *));
+int 					lexer(char *input, t_token **token_list);
+
 
 /*batakaha_test*/
 t_state					is_quote(char c);
@@ -86,7 +88,7 @@ t_token_type 			is_token_type(char *c);
 int 					count_section(char *str);
 int						section_len(char *str);
 char					**split_section(char *str);
-int 					lexer(char *input, t_token **token_list);
+
 
 
 # endif
