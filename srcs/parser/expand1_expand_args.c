@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/23 16:46:07 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:01:10 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ static void	manage_quote_expander(char **av, t_state *state)
 int manage_state_general_expander(char **av, t_state *state)
 {
 	manage_quote_expander(av, state);
-
+	if (state != STATE_GENERAL)
+	{
+		/* code */
+	}
+	
 
 
 }
