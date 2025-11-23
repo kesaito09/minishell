@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/23 18:50:05 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/23 20:19:02 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 static int is_delimiter_variables(int c)
 {
-	return (c != '_' || !ft_isalnum(c));
+	if (c == '_' || ft_isalnum(c))
+		return (0);
+	return (1);
 }
 
 static	int count_varibles(char *av)
@@ -40,11 +42,12 @@ int hundle_expand_var(t_token **cur_list, char **cur_argv, t_state state, char *
 	if (!tmp)
 		return (FAILUER);
 	var = getenv(tmp);
-	if (!var)
-		return (free(tmp), SUCCESS);
-	free((*cur_list) ->token); 
 	free(tmp);
-	tmp = ft_strdup(var);
+	free((*cur_list) ->token); 
+	if (!var)
+		tmp = ft_strdup("");
+	else
+		tmp = ft_strdup(var);
 	if (!tmp)
 		return (FAILUER);
 	(*cur_list) ->token = tmp;
@@ -66,8 +69,26 @@ static void	manage_quote_expander(char **av, t_state *state)
 	}
 }
 
+static void manage_state_squote(t_token **cur_list, char **cur_argv, t_state *state)
+{
+	if (**cur_argv == '\'')
+	{
+		*state = STATE_GENERAL;
+		(*cur_argv)++;
+		return ;
+	}
+	(*cur_argv)++;
+	return ;
+}
+
 int manage_state_dquote(t_token **cur_list, char **cur_argv, t_state *state)
 {
+	if (**cur_argv == '"')
+	{
+		*state = STATE_GENERAL;
+		(*cur_argv)++;
+		return (SUCCESS);
+	}
 	if (**cur_argv == '$')
 	{
 		(*cur_argv)++;
@@ -98,12 +119,14 @@ int manage_state_general_expander(t_token **cur_list, char **cur_argv, t_state *
 int  manage_state_transition_expander(t_token **cur_list)
 {
 	char	*cur_argv;
+	char	*new_argv;
 	t_state state;
 
 	if (!ft_strchr((*cur_list) ->token, '$'))
 			return (SUCCESS);
 	state = STATE_GENERAL;
 	cur_argv = (*cur_list) ->token;
+	new_argv = ft_strdup("");
 	while (*cur_argv)
 	{
 		if (state == STATE_GENERAL)
@@ -113,18 +136,14 @@ int  manage_state_transition_expander(t_token **cur_list)
 		}
 		else if (state == STATE_DQUOTE)
 		{
-
-			
+			if (manage_state_dquote(cur_list, &cur_argv, &state) == FAILUER)
+				return (FAILUER);
 		}
 		else if (state == STATE_SQUOTE)
-			(*cur_argv)++;		
-		
+			manage_state_squote(cur_list, cur_argv, &state);
 	}
+	(*cur_list) ->token = new_argv;
 	return (SUCCESS);
-	
-	
-	
-	
 }
 
 int	*expand_variables(t_token **token_list)
@@ -143,18 +162,3 @@ int	*expand_variables(t_token **token_list)
 	return (SUCCESS);
 	
 }
-
-int expander(t_token *token_list, char *ifs)
-{
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-}
-
