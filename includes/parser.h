@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/16 21:55:50 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/23 10:47:33 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ bool	is_command(t_token *cur);
 
 /*parse_cmd*/
 t_tree	*parse_command(t_token **cur);
+t_tree	*parse_manage(t_token **cur);
+
 
 /*parse*/
 t_tree	*parser(char *input);
