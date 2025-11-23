@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/20 11:34:58 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/23 13:41:43 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 # include "minishell.h"
 # include <stdbool.h>
+# include <dirent.h>
 
 /*struct detail in execution.h*/
 
+typedef struct dirent t_dirent;
 typedef struct s_tree t_tree;
 typedef struct s_flist t_flist;
 typedef enum e_tree_type t_tree_type;
