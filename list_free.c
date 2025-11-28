@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   list_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/26 12:40:22 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/28 11:56:39 by kesaitou         ###   ########.fr       */
+/*   Created: 2025/11/28 12:22:44 by kesaitou          #+#    #+#             */
+/*   Updated: 2025/11/28 12:48:52 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-#include "perser.h"
-#include "lexer.h"
-# include "libft/includes/ft_printf.h"
-# include "libft/includes/get_next_line.h"
-# include "libft/includes/libft.h"
+void	lstdelone(t_token_list *lst, void (*del)(void *))
+{
+	(del)(lst->token);
+	free(lst);
+}
 
+void	lstclear_(t_token_list **lst, void (*del)(void *))
+{
+	t_token_list	*current;
+	t_token_list	*next;
 
-#endif
+	current = *lst;
+	while (current)
+	{
+		next = current->next;
+		(del)(current->token);
+		free(current);
+		current = next;
+	}
+	(*lst) = NULL;
+}
+
