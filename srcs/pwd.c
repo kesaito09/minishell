@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commands.h                                         :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/29 01:33:47 by natakaha         ###   ########.fr       */
+/*   Created: 2025/11/29 00:54:34 by natakaha          #+#    #+#             */
+/*   Updated: 2025/11/29 01:43:22 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMMANDS_H
-# define COMMANDS_H
+#include "../commands.h"
 
-# define SUCCESS 1
-# define FAIL -1
+/* this function must be in parent process*/
 
-#include "libft/includes/ft_printf.h"
-#include "libft/includes/get_next_line.h"
-#include "libft/includes/libft.h"
+void	pwd(char **cmd)
+{
+	char	*tmp;
+	if (!ft_strcmp(cmd[0], "pwd"))
+	{
+		tmp = getcwd(NULL, 0);
+		ft_putendl_fd(tmp, 1);
+		free(tmp);
+	}
+}
 
-void	echo(char **cmd);
-void	pwd(char **cmd);
-
-#endif
+//int main(void)
+//{
+//	char	**str;
+//	char	*tmp;
+//	tmp = "pwd";
+//	str = &tmp;
+//	pwd(str);
+//}

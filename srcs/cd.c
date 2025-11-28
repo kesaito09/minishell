@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commands.h                                         :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/29 01:33:47 by natakaha         ###   ########.fr       */
+/*   Created: 2025/11/29 01:23:57 by natakaha          #+#    #+#             */
+/*   Updated: 2025/11/29 01:52:55 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMMANDS_H
-# define COMMANDS_H
+#include "../commands.h"
 
-# define SUCCESS 1
-# define FAIL -1
+void	cd(char **cmd)
+{
+	if (!ft_strcmp(cmd[0], "cd"))
+		chdir(cmd[1]);
+}
 
-#include "libft/includes/ft_printf.h"
-#include "libft/includes/get_next_line.h"
-#include "libft/includes/libft.h"
+//int main(void)
+//{
+//	char	*pwd1;
+//	char	**cmd;
 
-void	echo(char **cmd);
-void	pwd(char **cmd);
-
-#endif
+//	pwd1 = "pwd";
+//	cmd = (char **)malloc(sizeof(char *) * 2);
+//	cmd[0] = "cd";
+//	cmd[1] = "../";
+//	pwd(&pwd1);
+//	cd(cmd);
+//	pwd(&pwd1);
+//	free(cmd);
+//}

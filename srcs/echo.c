@@ -6,13 +6,13 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:49:23 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/29 00:10:36 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/29 01:32:56 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "commands.h"
+#include "../commands.h"
 
-void	echo_opn(char **cmd)
+static void	echo_opn(char **cmd)
 {
 	int		i;
 
@@ -28,7 +28,7 @@ void	echo_opn(char **cmd)
 	return ;
 }
 
-void	echo_(char **cmd)
+static void	echo_(char **cmd)
 {
 	int	i;
 
@@ -59,8 +59,8 @@ void	echo(char **cmd)
 		echo_(cmd);
 }
 
-int main(int argc, char **argv)
-{
-	echo(argv);
-	(void)argc;
-}
+//int main(int argc, char **argv)
+//{
+//	echo(argv);
+//	(void)argc;
+//}

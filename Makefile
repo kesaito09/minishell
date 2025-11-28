@@ -6,7 +6,7 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/30 14:43:16 by kesaitou          #+#    #+#              #
-#    Updated: 2025/11/28 18:51:15 by natakaha         ###   ########.fr        #
+#    Updated: 2025/11/29 01:38:13 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,9 @@ LDFLAGS = -L $(LIBDIR)
 LDLIBS = -lft
 
 
-MAND_SRCS = echo.c
+MAND_SRCS = srcs/echo.c\
+			srcs/pwd.c\
+			srcs/cd.c\
 
 
 MAND_OBJS = $(MAND_SRCS:.c=.o)
