@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   readline.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/29 00:54:34 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/29 01:43:22 by natakaha         ###   ########.fr       */
+/*   Created: 2025/11/29 11:37:30 by natakaha          #+#    #+#             */
+/*   Updated: 2025/11/29 13:27:38 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../commands.h"
+#ifndef LEXER_H
+# define LEXER_H
 
-/* this function must be in parent process*/
+# define SUCCESS 1
+# define FAIL -1
 
-void	pwd(char **cmd)
-{
-	char	*tmp;
-	if (!ft_strcmp(cmd[0], "pwd"))
-	{
-		tmp = getcwd(NULL, 0);
-		ft_putendl_fd(tmp, 1);
-		free(tmp);
-	}
-}
+# include "commands.h"
+# include "../libft/includes/ft_printf.h"
+# include "../libft/includes/get_next_line.h"
+# include "../libft/includes/libft.h"
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <stdio.h>
+# include <stdlib.h>
 
-//int main(void)
-//{
-//	char	**str;
-//	char	*tmp;
-//	tmp = "pwd";
-//	str = &tmp;
-//	pwd(str);
-//}
+#endif

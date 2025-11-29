@@ -6,7 +6,7 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/30 14:43:16 by kesaitou          #+#    #+#              #
-#    Updated: 2025/11/29 01:38:13 by natakaha         ###   ########.fr        #
+#    Updated: 2025/11/29 15:27:11 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,13 +20,16 @@ LIBFT = $(LIBFTDIR)/libft.a
 
 LIBDIR = $(LIBFTDIR)
 LDFLAGS = -L $(LIBDIR)
-LDLIBS = -lft
+LDLIBS = -lft -lreadline
 
 
-MAND_SRCS = srcs/echo.c\
-			srcs/pwd.c\
-			srcs/cd.c\
-
+MAND_SRCS = srcs/cmd_echo.c\
+			srcs/cmd_pwd.c\
+			srcs/cmd_cd.c\
+			srcs/readline.c\
+			srcs/pipe_command.c\
+			srcs/pipe_parse.c\
+			srcs/pipe_util.c\
 
 MAND_OBJS = $(MAND_SRCS:.c=.o)
 

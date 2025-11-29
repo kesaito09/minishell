@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/29 01:23:57 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/29 01:52:55 by natakaha         ###   ########.fr       */
+/*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
+/*   Updated: 2025/11/29 13:29:57 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../commands.h"
-
-void	cd(char **cmd)
-{
-	if (!ft_strcmp(cmd[0], "cd"))
-		chdir(cmd[1]);
-}
+#include "../includes/readline.h"
 
 //int main(void)
 //{
-//	char	*pwd1;
-//	char	**cmd;
+//	char	*line;
 
-//	pwd1 = "pwd";
-//	cmd = (char **)malloc(sizeof(char *) * 2);
-//	cmd[0] = "cd";
-//	cmd[1] = "../";
-//	pwd(&pwd1);
-//	cd(cmd);
-//	pwd(&pwd1);
-//	free(cmd);
+//	while (1)
+//	{
+//		line = readline("minishell$ ");
+//		if (!line)
+//			return (rl_clear_history(), 0);
+//		add_history(line);
+//		free(line);
+//	}
 //}
