@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 12:26:37 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/29 16:00:25 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/29 18:17:59 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ static int	execve_my_cmds(char **cmd, pid_t pid)
 		return (SUCCESS);
 }
 
+static int	fork_recursive(t_tree *branch, t_pipe info, pid_t pid)
+{
+	pid = fork();
+
+}
+
 void	pipe_operator(t_tree *branch, t_pipe info, pid_t pid)
 {
 	if (branch->mode == 'c' && !pid)
@@ -61,7 +67,7 @@ void	pipe_operator(t_tree *branch, t_pipe info, pid_t pid)
 	else if (branch->mode == 'x')
 		execve_my_cmds(branch->argv, pid);
 	else if (branch->mode == 'p' && pid)
-		
+		fork_recursive(branch, info, pid);
 }
 
 

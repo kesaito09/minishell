@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/29 15:32:35 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/29 18:28:43 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,25 @@
 # define FIRST 2
 # define LAST argc - 2
 
+typedef enum e_token_type
+{
+	TOKEN_WORD = 0,
+	TOKEN_PIPE,
+	TOKEN_REDIRECT_IN,
+	TOKEN_REDIRECT_OUT,
+	TOKEN_HEREDOC,
+	TOKEN_APPEND,
+	TOKEN_EOF
+
+}					t_token_type;
+
 typedef struct s_tree
 {
 	char			*op;
 	struct s_tree	*left;
 	struct s_tree	*right;
 	char			**argv;
-	char			mode;
+	t_token_type	mode;
 
 }					t_tree;
 

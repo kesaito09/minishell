@@ -6,7 +6,7 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/30 14:43:16 by kesaitou          #+#    #+#              #
-#    Updated: 2025/11/29 15:27:11 by natakaha         ###   ########.fr        #
+#    Updated: 2025/11/29 18:11:17 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,6 @@ LIBFT = $(LIBFTDIR)/libft.a
 LIBDIR = $(LIBFTDIR)
 LDFLAGS = -L $(LIBDIR)
 LDLIBS = -lft -lreadline
-
 
 MAND_SRCS = srcs/cmd_echo.c\
 			srcs/cmd_pwd.c\
