@@ -28,17 +28,12 @@
 # define FIRST 2
 # define LAST argc - 2
 
-typedef enum e_token_type
+typedef enum e_tree_type
 {
-	TOKEN_WORD = 0,
-	TOKEN_PIPE,
-	TOKEN_REDIRECT_IN,
-	TOKEN_REDIRECT_OUT,
-	TOKEN_HEREDOC,
-	TOKEN_APPEND,
-	TOKEN_EOF
-
-}					t_token_type;
+	PIPE = 0,
+	COMMAND,
+	MY_COMMAND,
+}					t_tree_type;
 
 typedef struct s_tree
 {
@@ -46,7 +41,8 @@ typedef struct s_tree
 	struct s_tree	*left;
 	struct s_tree	*right;
 	char			**argv;
-	t_token_type	mode;
+	char			*redirect;
+	t_tree_type		state;
 
 }					t_tree;
 

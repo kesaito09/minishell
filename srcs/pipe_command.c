@@ -32,21 +32,21 @@ static int	execve_cmds(char **path, char **envp, char **cmd)
 	}
 	return (error_exit(cmd, "execve failed", 127), FAIL);
 }
-static int	execve_my_cmds(char **cmd, pid_t pid)
+static int	execve_my_cmds(char **cmd)
 {
-	if (!ft_strcmp(cmd[0], "echo" && !pid))
+	if (!ft_strcmp(cmd[0], "echo"))
 		echo(cmd);
-	if (!ft_strcmp(cmd[0], "cd" && pid))
+	if (!ft_strcmp(cmd[0], "cd"))
 		cd(cmd);
-	if (!ft_strcmp(cmd[0], "pwd" && !pid))
+	if (!ft_strcmp(cmd[0], "pwd"))
 		pwd(cmd);
-	if (!ft_strcmp(cmd[0], "export" && pid))
+	if (!ft_strcmp(cmd[0], "export"))
 		echo(cmd);
-	if (!ft_strcmp(cmd[0], "unset" && pid))
+	if (!ft_strcmp(cmd[0], "unset"))
 		echo(cmd);
-	if (!ft_strcmp(cmd[0], "env" && !pid))
+	if (!ft_strcmp(cmd[0], "env"))
 		echo(cmd);
-	if (!ft_strcmp(cmd[0], "exit" && !pid))
+	if (!ft_strcmp(cmd[0], "exit"))
 		echo(cmd);
 	if (!pid)
 		exit(0);
@@ -54,20 +54,28 @@ static int	execve_my_cmds(char **cmd, pid_t pid)
 		return (SUCCESS);
 }
 
-static int	fork_recursive(t_tree *branch, t_pipe info, pid_t pid)
+void	manage_pipe(t_tree *branch, t_pipe info, pid_t pid)
 {
+	if (pid == 0)
+		exit(0);
 	pid = fork();
-
+	if (pid < 0)
+		return ;
+	else if (pid == 0)
+		tree_operator(branch->left, info, pid);
+	if ()
 }
 
-void	pipe_operator(t_tree *branch, t_pipe info, pid_t pid)
+void	tree_operator(t_tree *branch, t_pipe info, pid_t pid)
 {
-	if (branch->mode == 'c' && !pid)
-		execve_cmds(info.path, info.envp, branch->argv);
-	else if (branch->mode == 'x')
-		execve_my_cmds(branch->argv, pid);
-	else if (branch->mode == 'p' && pid)
-		fork_recursive(branch, info, pid);
+	if (branch->state == PIPE)
+		manage_pipe(branch, info, pid);
+	if (branch->state == COMMAND)
+		manage_cmd(branch, info, pid);
+	if (branch->state == MY_COMMAND)
+		manage_my_cmd(branch, info, pid);
+	else
+		return ;
 }
 
 
