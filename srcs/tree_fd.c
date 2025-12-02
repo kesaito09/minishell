@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 20:42:50 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/02 07:50:23 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:38:25 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ int	manage_fd(t_pipe *info)
 	info->fd_in[1] = info->fd_out[1];
 	if (pipe(info->fd_out) == FAIL)
 		return (FAIL);
-	dup2(info->fd_in[0], 0);
-	dup2(info->fd_out[1], 1);
 	return (SUCCESS);
 }
 
@@ -84,14 +82,9 @@ int	fd_stdout(t_pipe *info)
 {
 	if (info->fd_in[0] != -1 && info->fd_in[1] != -1)
 	{
-		ft_putendl_fd("1", 2);
 		close(info->fd_in[0]);
 		close(info->fd_in[1]);
 	}
-	else if (pipe(info->fd_out) == FAIL)
-		return (FAIL);
 	info->fd_in[0] = info->fd_out[0];
-	info->fd_in[1] = info->fd_out[1];
-	dup2(info->fd_in[0], 0);
 	return (SUCCESS);
 }

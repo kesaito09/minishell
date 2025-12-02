@@ -1,10 +1,10 @@
-total 36
--rw-r--r-- 1 natakaha _tokyo     0 12月  2 08:00 file1
--rw-r--r-- 1 natakaha _tokyo     0 12月  2 08:00 file2
+total 40
+-rw-r--r-- 1 natakaha _tokyo     0 12月  2 11:30 file1
+-rw-r--r-- 1 natakaha _tokyo  1493 12月  2 11:30 file2
 drwxr-xr-x 2 natakaha _tokyo    57 12月  1 19:58 includes
 drwxr-xr-x 6 natakaha _tokyo    96 11月 29 11:59 libft
 -rw-r--r-- 1 natakaha _tokyo  1672 12月  1 22:59 Makefile
--rwxr-xr-x 1 natakaha _tokyo 23432 12月  2 07:54 minishell
+-rwxr-xr-x 1 natakaha _tokyo 23432 12月  2 11:30 minishell
 -rw-r--r-- 1 natakaha _tokyo  3960 11月 29 11:35 natakaha.md
-drwxr-xr-x 2 natakaha _tokyo  4096 12月  2 07:54 srcs
+drwxr-xr-x 2 natakaha _tokyo  4096 12月  2 11:30 srcs
 -rw-r--r-- 1 natakaha _tokyo     0 12月  2 04:08 testa

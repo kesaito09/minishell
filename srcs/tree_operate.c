@@ -6,36 +6,40 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 12:26:37 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/02 07:54:14 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:32:59 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/commands.h"
 #include "../includes/pipex.h"
 
-static void	treat_pipe_left(t_tree *branch, t_pipe info, pid_t pid, t_pid **plist)
+static void	treat_pipe_left(t_tree *branch, t_pipe *info, pid_t pid, t_pid **plist)
 {
-	if (manage_fd(&info) == FAIL)
+	if (manage_fd(info) == FAIL)
 		return (perror(""));
 	pid = fork();
 	if (pid < 0)
 		return (perror(""));
 	if (pid == 0)
-		tree_operator(branch->left, info, pid, plist);
+		tree_operator(branch->left, *info, pid, plist);
+	close(info->fd_in[0]);
+	close(info->fd_in[1]);
+	close(info->fd_out[0]);
 	pid_add_back(plist, pid);
 }
 
-static void	treat_pipe_right(t_tree *branch, t_pipe info, pid_t pid, t_pid **plist)
+static void	treat_pipe_right(t_tree *branch, t_pipe *info, pid_t pid, t_pid **plist)
 {
 	if (branch->right->state == PIPE)
-		tree_operator(branch->right, info, pid, plist);
-	if (fd_stdout(&info) == FAIL)
+		tree_operator(branch->right, *info, pid, plist);
+	if (fd_stdout(info) == FAIL)
 		return (perror(""));
 	pid = fork();
 	if (pid < 0)
 		return (perror(""));
 	if (pid == 0)
-		tree_operator(branch->right, info, pid, plist);
+		tree_operator(branch->right, *info, pid, plist);
+	close(info->fd_in[1]);
 	pid_add_back(plist, pid);
 }
 
@@ -43,8 +47,10 @@ static void	manage_pipe(t_tree *branch, t_pipe info, pid_t pid, t_pid **plist)
 {
 	if (pid == 0)
 		exit(0);
-	treat_pipe_left(branch, info, pid, plist);
-	treat_pipe_right(branch, info, pid, plist);
+	treat_pipe_left(branch, &info, pid, plist);
+	ft_putnbr_fd(info.fd_out[0], 2);
+	treat_pipe_right(branch, &info, pid, plist);
+	ft_putnbr_fd(info.fd_in[0], 2);
 	return ;
 }
 
@@ -64,10 +70,12 @@ void	waitpid_plist(t_pid *plist)
 {
 	int	status;
 
-	while (plist)
+	while (1)
 	{
-		waitpid(plist->pid, &status, 0);
 		plist = plist->next;
+		if (!plist)
+			return ;
+		waitpid(plist->pid, &status, 0);
 	}
 }
 
@@ -120,12 +128,12 @@ int main(int argc, char **argv, char **envp)
 
 	str = "ls -l";
 	cmd = ft_split(str, ' ');
-	tmp = tree_new(cmd, null, null, "file1", COMMAND);
+	tmp = tree_new(cmd, null, null, null, COMMAND);
 	tree_add_left(&branch, tmp);
 
-	str = "sort -u";
+	str = "head";
 	cmd = ft_split(str, ' ');
-	tmp = tree_new(cmd, null, null, "file2", COMMAND);
+	tmp = tree_new(cmd, null, null, null, COMMAND);
 	tree_add_right(&branch, tmp);
 
 	tree_operator(branch, info, 1, &plist);
