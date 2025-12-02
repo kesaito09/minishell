@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/02 21:10:46 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/02 21:18:10 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void	my_lex(char *input, t_token **token_list)
 			}
 			else
 			{
-				// 文字のリストにする
 				append_char(&c_list, *input);
 				input++;
 			}
