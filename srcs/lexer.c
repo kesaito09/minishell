@@ -6,153 +6,208 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/01 13:06:06 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/02 21:10:46 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../incs/minishell.h"
 
-int	is_token(int c)
+static int	is_operator(int c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }
 
-int	is_ifs(int c)
+static int	is_ifs(int c)
 {
 	return (c == ' ' || c == '\n' || c == '\t');
 }
 
-int	is_sq_dq(char **c, t_state *state)
+void	my_lex(char *input, t_token **token_list)
 {
-	if (**c == '\'')
-	{
-		*state = STATE_SQUOTE;
-		(*c)++;
-		return (1);
-	}
-	else
-	{
-		*state = STATE_DQUOTE;
-		(*c)++;
-		return (1);
-	}
+	t_state		state;
+	char		*op;
+	t_char_list	*c_list;
 
-	return (0);
-}
-
-int		push_token()
-{
-	
-	
-	
-	
-}
-
-char	my_lex(char *input)
-{
-	t_lexer	lex;
-
-	lex.c_list;
-	lex.token;
-	lex.state = STATE_GENERAL;
+	state = STATE_GENERAL;
+	c_list = NULL;
 	while (*input)
 	{
-		if (lex.state == STATE_GENERAL)
-		{
-				if (*input == '\'')
-				{
-					lex.state = STATE_SQUOTE;
-					input++;
-					continue;
-				}
-				else if (*input == '"')
-				{
-					lex.state = STATE_DQUOTE;
-					input++;
-					continue;
-				}
-				else if (is_ifs(*input))
-				{
-					list_to_string(lex.c_list)
-					skip_ifs();
-				}
-				else if (*input == '\\')
-				{
-					if (*(input + 1) != '\0')
-					{
-						push_token(*(input + 1));
-						input += 2;
-					}
-				}
-				else
-				{
-					push_token();
-				}
-				
-				
-		}
-		else if (lex.state == STATE_SQUOTE)
+		if (state == STATE_GENERAL)
 		{
 			if (*input == '\'')
 			{
-				lex.state = STATE_GENERAL;
+				state = STATE_SQUOTE;
+				append_char(&c_list, *input);
+				input++;
+			}
+			else if (*input == '"')
+			{
+				state = STATE_DQUOTE;
+				append_char(&c_list, *input);
+				input++;
+			}
+			else if (is_ifs(*input) || is_operator(*input))
+			{
+				// オペレータの場合はトークンにする必要があるからいったんそれまでの文字列を区切る
+				if (c_list)
+				{
+					// list_to_stringでc_listはfreeしてる
+					add_token(token_list, list_to_string(&c_list), TOKEN_WORD);
+				}
+				if (is_operator(*input))
+				{
+					if (!ft_strncmp(input, "<<", 2))
+					{
+						op = ft_strdup("<<");
+						if (!op)
+							return ;
+						add_token(token_list, op, TOKEN_HEREDOC);
+						input += 2;
+						continue ;
+					}
+					else if (!ft_strncmp(input, ">>", 2))
+					{
+						op = ft_strdup(">>");
+						if (!op)
+							return ;
+						add_token(token_list, op, TOKEN_APPEND);
+						input += 2;
+						continue ; // 一時的に例外処理にしてる後で直す
+					}
+					else if (!ft_strncmp(input, "|", 1))
+					{
+						op = ft_strdup("|");
+						if (!op)
+							return ;
+						add_token(token_list, op, TOKEN_PIPE);
+					}
+					else if (!ft_strncmp(input, ">", 1))
+					{
+						op = ft_strdup(">");
+						if (!op)
+							return ;
+						add_token(token_list, op, TOKEN_REDIRECT_OUT);
+					}
+					else if (!ft_strncmp(input, "<", 1))
+					{
+						op = ft_strdup("<");
+						if (!op)
+							return ;
+						add_token(token_list, op, TOKEN_REDIRECT_IN);
+					}
+					input++;
+				}
+				else
+					input++;
+			}
+			else if (*input == '\\')
+			{
+				input++;
+				if (*input)
+				{
+					append_char(&c_list, *input);
+					input++;
+				}
 			}
 			else
-
+			{
+				// 文字のリストにする
+				append_char(&c_list, *input);
+				input++;
+			}
 		}
-		else if (lex.state == STATE_DQUOTE)
+		else if (state == STATE_SQUOTE)
+		{
+			if (*input == '\'')
+			{
+				state = STATE_GENERAL;
+				append_char(&c_list, *input);
+				input++;
+			}
+			else
+			{
+				append_char(&c_list, *input);
+				input++;
+			}
+		}
+		else if (state == STATE_DQUOTE)
 		{
 			if (*input == '"')
 			{
-				commit_token();
-				lex.state = STATE_DQUOTE;
-				
+				state = STATE_GENERAL;
+				append_char(&c_list, *input);
+				input++;
 			}
-			
-
+			// ダブルクォート内処理はまだできてない。拡張可能
+			else
+			{
+				append_char(&c_list, *input);
+				input++;
+			}
 		}
-		else
-			break;
-		
 	}
-
-
-
-
-
-
-
-
+	// バッファに残っている文字があればトークンにする
+	if (c_list)
+	{
+		add_token(token_list, list_to_string(&c_list), TOKEN_WORD);
+	}
 }
-
-// t_token	*lexer(char *input)
-// {
-// 	t_token	*curr;
-// 	t_token	*new;
-// 	char			*tmp;
-
-// 	curr = NULL;
-// 	new = NULL;
-// 	while (*input)
-// 	{
-// 		curr = new;
-// 		skip_ifs();
-// 		tmp = get_token_list(input); //ここでトークンの次の文字までポインタを勧めてる
-// 		if (!tmp)
-// 			return (NULL);
-// 		lstnew(tmp);
-// 		lstadd_back(&curr, new);
-// 	}
-// 	return (curr);
-// }
 
 int	main(void)
 {
+	t_token	*token;
+	char	*test1;
+	char	*test2;
+	char	*test3;
+	char	*test4;
+	t_token	*token2;
+	t_token	*token3;
+	t_token	*token4;
 
-	
+	token = NULL;
+	test1 = "<<infile ls -l|cat -e > file1";
+	test2 = "<<infile ls -l|cat -e>>file1";
+	test3 = "awk '{print $1}'";
+	test4 = "echo \"$USER\" \'$USER\'";
+	printf("%s\n", test1);
+	my_lex(test1, &token);
+	while (token)
+	{
+		printf(" WORD %s : TYPE ", token->token);
+		printf("%u\n", token->type);
+		token = token->next;
+	}
+	token2 = NULL;
+	my_lex(test2, &token2);
+	printf("%s\n", test2);
+	while (token2)
+	{
+		printf(" WORD %s : TYPE ", token2->token);
+		printf("%u\n", token2->type);
+		token2 = token2->next;
+	}
+	token3 = NULL;
+	my_lex(test3, &token3);
+	printf("%s\n", test3);
+	while (token3)
+	{
+		printf(" WORD %s : TYPE ", token3->token);
+		printf("%u\n", token3->type);
+		token3 = token3->next;
+	}
+	token4 = NULL;
+	my_lex(test4, &token4);
+	printf("%s\n", test4);
+	while (token4)
+	{
+		printf(" WORD %s : TYPE ", token4->token);
+		printf("%u\n", token4->type);
+		token4 = token4->next;
+	}
 }
 
 /*
+memo
 	inputがヌルになるまでループして、状態によって分岐させる
 	3状態の分岐を作ってcontinueで制御する
 
@@ -182,26 +237,6 @@ int	main(void)
 
 		awk '{print $1}'
 							]
-
-
-
-
-	int lexer()
-	{
-		t_token curr;
-		t_token new;
-
-		new = NULL;
-		while(*input)
-		{
-			curr = new;
-			skip_ifs();
-			new = get_token_list(); //ここでトークンの次の文字までポインタを勧めてる
-			if(!new)
-				return (ERROR);
-			lst_add_back(curr, new);
-			input++;　　
-		}
 
 
 

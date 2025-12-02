@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_utils.c                                       :+:      :+:    :+:   */
+/*   token_list_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:23:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/29 22:39:26 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/02 20:39:06 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../incs/minishell.h"
 
-int	lstsize(t_token *lst)
+size_t	t_lstsize(t_token *lst)
 {
 	int	len;
 
@@ -26,7 +26,7 @@ int	lstsize(t_token *lst)
 }
 
 /*lexer用に改造した*/
-t_token	*lstnew(char *token)
+t_token	*t_lstnew(char *token)
 {
 	t_token	*new_elem;
 
@@ -39,30 +39,53 @@ t_token	*lstnew(char *token)
 	return (new_elem);
 }
 
-t_token	*lstlast(t_token *lst)
+t_token	*t_lstlast(t_token *lst)
 {
 	while (lst && lst->next)
 		lst = lst->next;
 	return (lst);
 }
 
-void	lstadd_back(t_token **lst, t_token *new)
+
+void	t_lstdelone(t_token *lst, void (*del)(void *))
+{
+	(del)(lst->token);
+	free(lst);
+}
+
+void	t_lstclear(t_token **lst, void (*del)(void *))
 {
 	t_token	*current;
+	t_token	*next;
 
-	if (!*lst)
-		*lst = new;
-	else
+	current = *lst;
+	while (current)
 	{
-		current = *lst;
-		while (current->next)
-			current = current->next;
-		current->next = new;
+		next = current->next;
+		(del)(current->token);
+		free(current);
+		current = next;
 	}
+	(*lst) = NULL;
 }
 
-void	lstadd_front(t_token **lst, t_token *new)
-{
-	new->next = (*lst);
-	(*lst) = new;
-}
+// void	t_lstadd_back(t_token **lst, t_token *new)
+// {
+// 	t_token	*current;
+
+// 	if (!*lst)
+// 		*lst = new;
+// 	else
+// 	{
+// 		current = *lst;
+// 		while (current->next)
+// 			current = current->next;
+// 		current->next = new;
+// 	}
+// }
+
+// void	t_lstadd_front(t_token **lst, t_token *new)
+// {
+// 	new->next = (*lst);
+// 	(*lst) = new;
+// }

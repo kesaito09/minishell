@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/01 07:18:09 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/02 20:39:01 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_token
 {
 	char				*token;
 	enum e_token_type	type;
-	struct s_token_list	*next;
+	struct s_token		*next;
 }						t_token;
 
 /*　　一文字ずつ生成していき最終的に連結してトークンにする　　*/
@@ -45,27 +45,26 @@ typedef struct s_char_list
 
 }						t_char_list;
 
-typedef	struct s_lexer
+typedef struct s_lexer
 {
-	t_state		state;
-	t_token		*token;
-	t_char_list	*c_list;
-	
-}	t_lexer;
+	t_state				state;
+	t_token				*token;
+	t_char_list			*c_list;
 
+}						t_lexer;
 
+void					buff_add_buck(t_char_list **char_list,
+							t_char_list *new_char_list);
+void					append_char(t_char_list **list, char c);
+char					*list_to_string(t_char_list **list);
+void					add_token(t_token **token_list, char *token,
+							t_token_type type);
+t_token					*t_lstnew(char *token);
+size_t					t_lstsize(t_token *lst);
+void					t_lstdelone(t_token *lst, void (*del)(void *));
+void					t_lstclear(t_token **lst, void (*del)(void *));
+t_token					*t_lstlast(t_token *lst);
 
-void    append_char(t_char_list **list, char c);
-char *list_to_string(t_char_list *list);
-
-
-void					lstadd_front(t_token **lst, t_token *new);
-void					lstadd_back(t_token **lst, t_token *new);
-int						lstsize(t_token *lst);
-t_token			*lstlast(t_token *lst);
-t_token			*lstnew(char *token);
-void					lstclear(t_token **lst, void (*del)(void *));
-void					lstdelone(t_token *lst, void (*del)(void *));
-t_token			*lstmap(t_token *lst, void *(*f)(void *),
-							void (*del)(void *));
-void					lstiter(t_token *lst, void (*f)(void *));
+t_char_list				*c_lstlast(t_char_list *lst);
+size_t					c_lstsize(t_char_list *lst);
+void					c_lstclear(t_char_list **lst, void (*del)(void *));
