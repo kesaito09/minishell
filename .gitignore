@@ -1,3 +1,7 @@
 *.o
 *.a
 .vscode/*
+.gitignore
+*.pdf
+*.txt
+*test.c
