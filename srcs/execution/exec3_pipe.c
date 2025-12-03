@@ -38,6 +38,7 @@ static int	treat_pipe_right(t_tree *branch, t_pipe *info, pid_t pid)
 		tree_operator(branch->right, info, pid);
 	close(info->fd_in[1]);
 	pid_add_back(&(info->plist), pid);
+	return (SUCCESS);
 }
 
 void	manage_pipe(t_tree *branch, t_pipe *info, pid_t pid)
