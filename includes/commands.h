@@ -17,8 +17,6 @@
 # define FAILUER -1
 
 #include "minishell.h"
-# include "pipex.h"
-# include "readline.h"
 # include <stdlib.h>
 
 void	echo(char **cmd);

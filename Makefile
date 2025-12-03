@@ -20,26 +20,24 @@ LIBFT = $(LIBFTDIR)/libft.a
 
 LIBDIR = $(LIBFTDIR)
 LDFLAGS = -L $(LIBDIR)
-LDLIBS = -lft -lreadline
+LDLIBS = -lft #-lreadline
 
-MAND_SRCS = srcs/cmd_echo.c\
-			srcs/cmd_pwd.c\
-			srcs/cmd_cd.c\
-			srcs/readline.c\
-			srcs/tree_parse.c\
-			srcs/tree_fd.c\
-			srcs/tree_operate.c\
-			srcs/tree_cmd.c\
-			srcs/util_tree.c\
-			srcs/util_error.c\
-			srcs/lexer.c\
-			srcs/lexer_utils.c\
-			srcs/token_list_utils.c\
-			srcs/char_list_utils.c\
-
-
-			
-
+MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
+			srcs/builtin_cmd/cmd_pwd.c\
+			srcs/builtin_cmd/cmd_cd.c\
+			srcs/execution/exec_utils0_info.c\
+			srcs/execution/exec_utils1_pid.c\
+			srcs/execution/exec_utils2_error.c\
+			srcs/execution/exec_utils3_pipe.c\
+			srcs/execution/exec1_operate.c\
+			srcs/execution/exec2_cmd.c\
+			srcs/execution/exec3_pipe.c\
+			srcs/execution/exec4_redirect.c\
+			srcs/lexer/charlist.c\
+			srcs/lexer/lexer_utils.c\
+			srcs/lexer/lexer.c\
+			srcs/lexer/token_list_utils.c\
+			srcs/main/main.c\
 
 MAND_OBJS = $(MAND_SRCS:.c=.o)
 
@@ -55,7 +53,7 @@ $(NAME):$(MAND_OBJS) $(LIBFT)
 bonus: all
 
 %.o : %.c
-	$(CC) $(CFLAGS) $(INCS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 
 clean:

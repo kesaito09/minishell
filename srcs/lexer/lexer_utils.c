@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lexer.h"
+#include "../../includes/lexer.h"
 
 void	buff_add_buck(t_char_list **char_list, t_char_list *new_char_list)
 {

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/commands.h"
-#include "../includes/pipex.h"
+#include "../../includes/commands.h"
+#include "../../includes/pipex.h"
 
 static void	echo_opn(char **cmd)
 {

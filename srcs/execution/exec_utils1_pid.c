@@ -10,22 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../../includes/pipex.h"
 
-t_pid	*pid_new(pid_t pid)
+t_pidlist	*pid_new(pid_t pid)
 {
-	t_pid	*plist;
+	t_pidlist	*plist;
 
-	plist = (t_pid *)ft_calloc(sizeof(t_pid), 1);
+	plist = (t_pidlist *)ft_calloc(sizeof(t_pidlist), 1);
 	if (!plist)
 		return (NULL);
 	plist->pid = pid;
 	return (plist);
 }
 
-void	pid_add_back(t_pid **plist, pid_t pid)
+void	pid_add_back(t_pidlist **plist, pid_t pid)
 {
-	t_pid	*tmp;
+	t_pidlist	*tmp;
 
 	if (!*plist)
 	{
@@ -43,9 +43,9 @@ void	pid_add_back(t_pid **plist, pid_t pid)
 	}
 }
 
-void	free_pid(t_pid *plist)
+void	free_pid(t_pidlist *plist)
 {
-	t_pid	*tmp;
+	t_pidlist	*tmp;
 
 	if (!plist)
 		return ;
@@ -55,5 +55,18 @@ void	free_pid(t_pid *plist)
 		tmp = tmp->next;
 		free(plist);
 		plist = tmp;
+	}
+}
+
+void	waitpid_plist(t_pidlist *plist)
+{
+	int	status;
+
+	while (1)
+	{
+		plist = plist->next;
+		if (!plist)
+			return ;
+		waitpid(plist->pid, &status, 0);
 	}
 }

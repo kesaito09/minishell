@@ -44,7 +44,6 @@ typedef struct s_char_list
 {
 	char				c;
 	struct s_char_list	*next;
-
 }						t_char_list;
 
 typedef struct s_lexer

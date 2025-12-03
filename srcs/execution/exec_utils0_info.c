@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../../includes/pipex.h"
 
 void	free_path(char **path)
 {
@@ -39,17 +39,17 @@ static int	find_path(char ***path, char **envp)
 		{
 			tmp = ft_strdup(envp[i]);
 			if (!tmp)
-				return (FAIL);
+				return (FAILUER);
 			break;
 		}
 		i++;
 	}
 	if (!tmp)
-		return (FAIL);
+		return (FAILUER);
 	*path = ft_split(tmp, ':');
 	free(tmp);
 	if (!path)
-		return (FAIL);
+		return (FAILUER);
 	return (SUCCESS);
 }
 
@@ -58,15 +58,15 @@ static int	complete_path(char ***path, char **envp)
 	int		i;
 	char	*tmp;
 
-	if (find_path(path, envp) == FAIL)
-		return (FAIL);
+	if (find_path(path, envp) == FAILUER)
+		return (FAILUER);
 	i = 0;
 	while ((*path)[i])
 	{
 		tmp = (*path)[i];
 		(*path)[i] = ft_strjoin((*path)[i], "/");
 		if (!(*path)[i])
-			return (free_path(*path), FAIL);
+			return (free_path(*path), FAILUER);
 		free(tmp);
 		i++;
 	}
@@ -79,7 +79,7 @@ t_pipe	correct_info(int argc, char **argv, char **envp)
 
 
 	ft_bzero(&info, sizeof(t_pipe));
-	if (complete_path(&(info.path), envp) == FAIL)
+	if (complete_path(&(info.path), envp) == FAILUER)
 		error_exit(NULL, "path not found", 2);
 	info.argv = argv;
 	info.envp = envp;
@@ -88,5 +88,7 @@ t_pipe	correct_info(int argc, char **argv, char **envp)
 	info.fd_out[1] = -1;
 	info.fd_in[0] = -1;
 	info.fd_in[1] = -1;
+	info.fd_stdout = dup(1);
+	info.fd_stdin = dup(0);	
 	return (info);
 }
