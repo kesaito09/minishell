@@ -34,6 +34,26 @@ int	pipe_update(int	fd_in[2], int fd_out[2])
 		return (FAILUER);
 	return (SUCCESS);
 }
+int	pipe_terminate(int	fd_in[2], int fd_out[2])
+{
+	if (fd_in[0] >= 0)
+	{
+		close(fd_in[0]);			
+		fd_in[0] = -1;
+	}
+	if (fd_in[1] >= 0)
+	{
+		close(fd_in[1]);
+		fd_in[1] = -1;
+	}
+	if (fd_out[0] >= 0)
+		fd_in[0] = fd_out[0];
+	if (fd_out[1] >= 0)
+		fd_in[1] = fd_out[1];
+	fd_out[0] = -1;
+	fd_out[1] = -1;
+	return (SUCCESS);
+}
 
 void	close_fd_in_out(int *fd_in, int *fd_out)
 {
@@ -47,10 +67,12 @@ void	close_fd_in_out(int *fd_in, int *fd_out)
 
 int	dup2_stdin_out(int fd_in, int fd_out)
 {
-	if (dup2(fd_in, 0) == FAILUER)
-		return (FAILUER);
-	if (dup2(fd_out, 1) == FAILUER)
-		return (FAILUER);
+	if (fd_in >= 0)
+		if (dup2(fd_in, 0) == FAILUER)
+			return (FAILUER);
+	if (fd_out >= 0)
+		if (fd_out >= 0 && dup2(fd_out, 1) == FAILUER)
+			return (FAILUER);
 	return (SUCCESS);
 }
 

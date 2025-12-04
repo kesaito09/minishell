@@ -17,8 +17,8 @@
 # define FAILUER -1
 
 #include "minishell.h"
-# include <readline/history.h>
-# include <readline/readline.h>
+//# include <readline/history.h>
+//# include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
 

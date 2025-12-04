@@ -105,6 +105,7 @@ void				error_exit(char **path, char *str, int errno);
 
 /*exec_utils3_pipe*/
 int					pipe_update(int	fd_in[2], int fd_out[2]);
+int					pipe_terminate(int	fd_in[2], int fd_out[2]);
 void				close_fd_in_out(int *fd_in, int *fd_out);
 int					dup2_stdin_out(int fd_in, int fd_out);
 int					reset_stdin_out(t_pipe *info);

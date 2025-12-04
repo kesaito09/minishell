@@ -84,6 +84,7 @@ t_pipe	correct_info(int argc, char **argv, char **envp)
 	info.argv = argv;
 	info.envp = envp;
 	info.argc = argc;
+	info.plist = pid_new(getpid());
 	info.fd_out[0] = -1;
 	info.fd_out[1] = -1;
 	info.fd_in[0] = -1;

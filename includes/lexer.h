@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef LEXER_H
+# define LEXER_H
+
 #include "minishell.h"
 
 typedef enum e_token_type
@@ -69,3 +72,5 @@ t_token					*t_lstlast(t_token *lst);
 t_char_list				*c_lstlast(t_char_list *lst);
 size_t					c_lstsize(t_char_list *lst);
 void					c_lstclear(t_char_list **lst, void (*del)(void *));
+
+# endif

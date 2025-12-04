@@ -63,7 +63,7 @@ void	manage_cmd(t_tree *branch, t_pipe *info, pid_t pid)
 	if (pid == 0)
 	{
 		if (dup2_stdin_out(info->fd_in[0], info->fd_out[1]) == FAILUER)
-			error_exit(branch->argv, "", 1);
+				error_exit(branch->argv, "", 1);
 		if (manage_redirect(info, branch) == FAILUER)
 			error_exit(branch->argv, "", 1);
 		execve_cmd(info->path, info->envp, branch->argv);

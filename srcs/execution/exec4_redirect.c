@@ -61,7 +61,7 @@ int	manage_redirect_module(t_pipe *info, t_flist *flist)
 		if (append_open_dup2(info, flist) == FAILUER)
 			return (FAILUER);
 	}
-	return (FAILUER);
+	return (SUCCESS);
 }
 
 int	manage_redirect(t_pipe *info, t_tree *branch)

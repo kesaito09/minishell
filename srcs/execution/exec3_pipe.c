@@ -19,9 +19,10 @@ static int	treat_pipe_left(t_tree *branch, t_pipe *info, pid_t pid)
 	pid = fork();
 	if (pid < 0)
 		return (FAILUER);
+	if (pid > 0)
+		pid_add_back(&(info->plist), pid);
 	if (pid == 0)
 		tree_operator(branch->left, info, pid);
-	pid_add_back(&(info->plist), pid);
 	return (SUCCESS);
 }
 
@@ -29,15 +30,15 @@ static int	treat_pipe_right(t_tree *branch, t_pipe *info, pid_t pid)
 {
 	if (branch->right->b_type == PIPE)
 		tree_operator(branch->right, info, pid);
-	if (pipe_update(info->fd_in, info->fd_out) == FAILUER)
+	if (pipe_terminate(info->fd_in, info->fd_out) == FAILUER)
 		return (FAILUER);
 	pid = fork();
 	if (pid < 0)
 		return (FAILUER);
 	if (pid == 0)
 		tree_operator(branch->right, info, pid);
-	close(info->fd_in[1]);
 	pid_add_back(&(info->plist), pid);
+	close_fd_in_out(&(info->fd_in[0]), &(info->fd_in)[1]); 
 	return (SUCCESS);
 }
 
