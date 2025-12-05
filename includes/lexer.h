@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/02 23:19:11 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/05 16:33:12 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef enum e_token_type
 	TOKEN_REDIRECT_OUT,
 	TOKEN_HEREDOC,
 	TOKEN_APPEND,
-	TOKEN_EOF // リストのヌル文字みたいな意味
+	TOKEN_EOF,
+	SPACE // リストのヌル文字みたいな意味
 
 }						t_token_type;
 
@@ -32,7 +33,7 @@ typedef enum e_state
 	STATE_GENERAL = 0,
 	STATE_SQUOTE,
 	STATE_DQUOTE,
-	STATE_ERROR,
+	STATE_BSLASH,
 }						t_state;
 
 typedef struct s_token
@@ -72,5 +73,13 @@ t_token					*t_lstlast(t_token *lst);
 t_char_list				*c_lstlast(t_char_list *lst);
 size_t					c_lstsize(t_char_list *lst);
 void					c_lstclear(t_char_list **lst, void (*del)(void *));
+
+/*batakaha_lexer*/
+t_state					is_quote(char c);
+int						quote_len(char *str);
+t_token_type 			is_token_type(char *c);
+int 					count_section(char *str);
+int						section_len(char *str);
+char					**split_section(char *str);
 
 # endif

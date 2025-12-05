@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readline.c                                         :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/01 22:53:11 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/05 14:09:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,67 +28,30 @@
 
 /*tester*/
 
-t_flist	*flist_new(t_file_type ftype, char *fname)
-{
-	t_flist *flist;
+//int main(int argc, char **argv, char **envp)
+//{
+//	t_tree	*tmp;
+//	t_tree	*branch;
+//	t_pipe	info;
+//	char	*str;
+//	char	*null;
+//	char	**cmd;
 
-	flist = (t_flist *)ft_calloc(sizeof(t_flist), 1);
-	flist->f_type = ftype;
-	flist->file = fname;
-	flist->next = NULL;
-	return (flist);
-}
+//	null = (char *)NULL;
 
-t_tree	*tree_new(char **cmd, char *fname, t_file_type ftype, t_type btype)
-{
-	t_tree *node;
+//	branch = tree_new(&null, null, PIPE);
+//	info = correct_info(argc, argv, envp);
 
-	node = (t_tree *)ft_calloc(sizeof(t_tree), 1);
-	node->parent = NULL;
-	node->right = NULL;
-	node->left = NULL;
-	node->argv = cmd;
-	node->flist = flist_new(ftype, fname);
-	node->b_type = btype;
-	return (node);
-}
+//	str = "ls -l";
+//	cmd = ft_split(str, ' ');
+//	tmp = tree_new(cmd, null, COMMAND);
+//	tree_add_left(&branch, tmp);
 
-void	tree_add_left(t_tree **branch, t_tree *node)
-{
-	(*branch)->left = node;
-	node->parent = (*branch);
-}
+//	str = "wc -l";
+//	cmd = ft_split(str, ' ');
+//	tmp = tree_new(cmd, null, COMMAND);
+//	tree_add_right(&branch, tmp);
 
-void	tree_add_right(t_tree **branch, t_tree *node)
-{
-	(*branch)->right = node;
-	node->parent = (*branch);
-}
-
-int main(int argc, char **argv, char **envp)
-{
-	t_tree	*tmp;
-	t_tree	*branch;
-	t_pipe	info;
-	char	*str;
-	char	*null;
-	char	**cmd;
-
-	null = (char *)NULL;
-
-	branch = tree_new(&null, null, NONE, PIPE);
-	info = correct_info(argc, argv, envp);
-
-	str = "ls -l";
-	cmd = ft_split(str, ' ');
-	tmp = tree_new(cmd, null, NONE, COMMAND);
-	tree_add_left(&branch, tmp);
-
-	str = "cat -e";
-	cmd = ft_split(str, ' ');
-	tmp = tree_new(cmd, null, NONE, COMMAND);
-	tree_add_right(&branch, tmp);
-
-	tree_operator(tmp, &info, 1);
-	waitpid_plist(info.plist);
-}
+//	tree_operator(branch, &info, 1);
+//	waitpid_plist(info.plist);
+//}

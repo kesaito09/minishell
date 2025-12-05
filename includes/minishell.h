@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 12:40:22 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/02 23:17:52 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/05 13:46:49 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@
 # include "lexer.h"
 # include "pipex.h"
 # include "readline.h"
+# include "parser.h"
 
 #endif

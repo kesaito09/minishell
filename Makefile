@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2025/12/02 23:21:36 by kesaitou         ###   ########.fr        #
+#    Updated: 2025/12/05 16:09:29 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,12 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/lexer/lexer_utils.c\
 			srcs/lexer/lexer.c\
 			srcs/lexer/token_list_utils.c\
+			srcs/parser/utils1_make_tree.c\
+			srcs/parser/utils2_redirect.c\
 			srcs/main/main.c\
+			srcs/natakaha_lexer/lexer_utils1_quote.c\
+			srcs/natakaha_lexer/lexer_utils2_section.c\
+			srcs/natakaha_lexer/lexer_utils3_redirect.c\
 
 MAND_OBJS = $(MAND_SRCS:.c=.o)
 
