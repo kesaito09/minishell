@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readline.h                                         :+:      :+:    :+:   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/29 11:37:30 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/06 18:19:39 by kesaitou         ###   ########.fr       */
+/*   Created: 2025/12/07 02:56:58 by kesaitou          #+#    #+#             */
+/*   Updated: 2025/12/07 03:28:47 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef READLINE_H
-#define READLINE_H
+#include "../../includes/minishell.h"
+#include "../../includes/parser.h"
 
-# define SUCCESS 1
-# define FAILUER -1
+int	list_to_next(t_token **token_list, t_token_type type)
+{
+	if (!token_list || (*token_list)->type != type)
+		return (ERROR);
+	*token_list = (*token_list)->next;
+	return (SUCCESS);
+}
 
-// #include "minishell.h"
-//# include <readline/history.h>
-//# include <readline/readline.h>
-# include <stdio.h>
-# include <stdlib.h>
+// int	main(void)
+// {
 
-#endif
+    
+    
+    
+    
+    
+// }

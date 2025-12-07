@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/06 04:26:56 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/07 19:04:29 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	flist_add_back(t_flist **lst, t_flist *new);
 void	free_flist(t_flist *lst);
 
 void	my_lex(char *input, t_token **token_list);
-void	parser(char *line);
+t_tree	*parser(char *input);
 
 
 

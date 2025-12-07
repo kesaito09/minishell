@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/05 17:14:05 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/07 02:33:27 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # define FAILUER -1
 # define FIRST 2
 # define LAST argc - 2
+
+typedef struct s_tree t_tree;
+typedef struct s_token t_token;
 
 typedef enum e_type
 {
@@ -55,6 +58,7 @@ typedef struct s_tree
 	struct s_tree	*left;
 	struct s_tree	*right;
 	char			**argv;
+	char			**assigns;
 	t_flist			*flist;
 	t_type			b_type;
 }					t_tree;
