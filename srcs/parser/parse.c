@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/07 20:14:07 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/07 20:49:21 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,39 +126,39 @@ char	**ultimate_strjoin(char **argv, char *new)
 			return (free_argv(new_argv), NULL);
 		i++;
 	}
-	new_argv[i + 1] = ft_strdup(new);
+	new_argv[i] = ft_strdup(new);
 	if (!new_argv[i])
 		return (free_argv(new_argv), NULL);
 	return (new_argv);
 }
 
-void	append_redirect(t_tree *node, t_token ***curr)
+void	append_redirect(t_tree *node, t_token **curr)
 {
 	t_flist			*new_file;
 	t_file_type		ftype;
 	char			*fname;
 
-	ftype = check_ftype(**curr);
-	**curr = (**curr)->next;
-	if ((**curr)->type == TOKEN_EOF)
+	ftype = check_ftype(*curr);
+	*curr = (*curr)->next;
+	if ((*curr)->type == TOKEN_EOF)
 		return ;
-	fname = (**curr)->token;
+	fname = (*curr)->token;
 	new_file = flist_new(ftype, fname);
 	flist_add_back(&(node->flist), new_file);
-	**curr = (**curr)->next;
+	*curr = (*curr)->next;
 }
 
-void	append_argv(t_tree *node, t_token ***curr)
+void	append_argv(t_tree *node, t_token **curr)
 {
 	char	**new_argv;
 
-	new_argv = ultimate_strjoin(node->argv, (**curr)->token);
-	print_argv(new_argv);
+	new_argv = ultimate_strjoin(node->argv, (*curr)->token);
+	// print_argv(new_argv);
 	if (!new_argv)
 		return ;
 	free_argv(node->argv);
 	node->argv = new_argv;
-	**curr = (**curr) ->next;
+	*curr = (*curr) ->next;
 }
 
 t_type	cmd_type(t_token *cur)
@@ -179,9 +179,9 @@ t_tree	*parse_command(t_token **cur)
 			TOKEN_EOF))
 	{
 		if (is_redirect(*cur))
-			append_redirect(node, &cur);
+			append_redirect(node, cur);
 		else
-			append_argv(node, &cur);
+			append_argv(node, cur);
 	}
 	return (node);
 }
@@ -220,12 +220,7 @@ t_tree	*parser(char *input)
 	ast = NULL;
 	token_list = NULL;
 	lexer(input, &token_list);
-	while (token_list)
-	{
-		printf(" WORD %s : TYPE ", token_list->token);
-		printf("%u\n", token_list->type);
-		token_list = token_list->next;
-	}
+	
 	cur_token = token_list;
 	ast = parse_pipeline(&cur_token);
 	return (ast);
@@ -238,9 +233,21 @@ int main(void)
 {
 	t_tree	*ast;
 
-	ast = parser("ls -l | cat -e");
-	ft_putendl_fd(ast ->left ->argv[0], 1);
+	ast = parser(" < file1 <file2 >>file3 ls -l | cat -e | echo aaa");
+	ft_putendl_fd(ast ->left ->left ->argv[0], 1);
+	ft_putendl_fd(ast ->left ->left ->flist->file, 1);
+	ft_putnbr_fd(ast ->left ->left ->flist->f_type, 1);
+	ft_putnbr_fd(ast ->left ->left ->flist->next->f_type, 1);
+	ft_putnbr_fd(ast ->left ->left ->flist->next->next->f_type, 1);
+	ft_putendl_fd(ast ->left ->left ->argv[1], 1);
+	ft_putendl_fd(ast ->left ->right ->argv[0], 1);
+	ft_putendl_fd(ast ->left ->right ->argv[1], 1);
+	ft_putendl_fd(ast ->right ->argv[0], 1);
+	ft_putendl_fd(ast ->right ->argv[1], 1);
+	// ft_putendl_fd(ast ->right ->argv[0], 1);
+	// ft_putendl_fd(ast ->right ->argv[1], 1);
 
+	
 
 
 
