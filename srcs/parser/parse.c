@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/08 01:13:23 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/08 03:36:09 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,40 @@ t_tree	*parse_pipeline(t_token **cur)
 		pipe_node->right = parse_pipeline(cur);
 		return (pipe_node);
 	}
+	while (check_token(*cur, TOKEN_CONJUNCTIONE))
+	{
+		pipe_node = tree_new(NULL, NULL, CONJUNCTION);
+		if (!pipe_node)
+			return (NULL);
+		pipe_node->left = left_node;
+		*cur = (*cur)->next;
+		pipe_node->right = parse_pipeline(cur);
+		return (pipe_node);
+	}
+	while (check_token(*cur, TOKEN_DISJUNCTIONE))
+	{
+		pipe_node = tree_new(NULL, NULL, DISJUNCTION);
+		if (!pipe_node)
+			return (NULL);
+		pipe_node->left = left_node;
+		*cur = (*cur)->next;
+		pipe_node->right = parse_pipeline(cur);
+		return (pipe_node);
+	}
 	return (left_node);
+}
+
+void	print_lex(char *input, t_token *token)
+{
+	if (!token)
+		return ;
+	printf("%s\n",input);
+	while (token)
+	{
+		printf(" WORD %s : TYPE ", token->token);
+		printf("%u\n", token->type);
+		token = token->next;
+	}
 }
 
 t_tree	*parser(char *input)
@@ -245,38 +278,32 @@ t_tree	*parser(char *input)
 	ast = NULL;
 	token_list = NULL;
 	lexer(input, &token_list);
-	
+	// print_lex(input, token_list);
 	cur_token = token_list;
 	ast = parse_pipeline(&cur_token);
 	return (ast);
-	
 	
 }
 
 
 int main(void)
 {
-	t_tree	*ast;
+	// t_tree	*ast;
+	t_tree	*ast2;
 
-	ast = parser(" < file1 <file2 >>file3 ls -l | cat -e | echo aaa");
-	ft_putendl_fd(ast ->left ->argv[0],1);
-	ft_putendl_fd(ast ->left ->argv[1],1);
-	ft_putendl_fd(ast ->right -> left-> argv[0],1);
-	ft_putendl_fd(ast -> right ->left ->argv[1],1);
+	// ast = parser(" < file1 <file2 >>file3 ls -l || cat -e | echo aaa");
+	// ft_putendl_fd(ast ->left ->argv[0],1);
+	// ft_putendl_fd(ast ->left ->argv[1],1);
+	// ft_putendl_fd(ast ->right -> left-> argv[0],1);
+	// ft_putendl_fd(ast -> right ->left ->argv[1],1);
 	
 	
-	// ft_putendl_fd(ast ->left ->left ->argv[0], 1);
-	// ft_putendl_fd(ast ->left ->left ->flist->file, 1);
-	// ft_putnbr_fd(ast ->left ->left ->flist->f_type, 1);
-	// ft_putnbr_fd(ast ->left ->left ->flist->next->f_type, 1);
-	// ft_putnbr_fd(ast ->left ->left ->flist->next->next->f_type, 1);
-	// ft_putendl_fd(ast ->left ->left ->argv[1], 1);
-	// ft_putendl_fd(ast ->left ->right ->argv[0], 1);
-	// ft_putendl_fd(ast ->left ->right ->argv[1], 1);
-	// ft_putendl_fd(ast ->right ->argv[0], 1);
-	// ft_putendl_fd(ast ->right ->argv[1], 1);
-	// ft_putendl_fd(ast ->right ->argv[0], 1);
-	// ft_putendl_fd(ast ->right ->argv[1], 1);
+	
+	
+	ast2 = parser("ls -l && echo aaa && cat || ls | cat");
+	ft_putendl_fd(ast2 ->left ->argv[0],1);
+	// ft_putendl_fd(ast2 ->left ->argv[0],1);
+	
 
 	
 
