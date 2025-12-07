@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/05 23:00:13 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/06 04:28:27 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/readline.h"
+#include "../../includes/minishell.h"
+
+int	main_stream(char *line)
+{
+	parser(line);
+	
+	
+	
+	
+	
+	
+}
+
+
+
 
 int main(void)
 {
@@ -22,6 +37,7 @@ int main(void)
 		if (!line)
 			return (rl_clear_history(), 0);
 		add_history(line);
+		main_stream(line);
 		free(line);
 	}
 }

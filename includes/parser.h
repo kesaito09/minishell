@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/05 17:43:19 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/06 04:26:56 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,10 @@ void 	free_cmd(char **cmd);
 t_flist	*flist_new(t_file_type ftype, char *fname);
 void	flist_add_back(t_flist **lst, t_flist *new);
 void	free_flist(t_flist *lst);
+
+void	my_lex(char *input, t_token **token_list);
+void	parser(char *line);
+
+
 
 # endif

@@ -6,12 +6,12 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:37:30 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/03 03:00:10 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/06 05:39:51 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef READLINE_H
+#define READLINE_H
 
 # define SUCCESS 1
 # define FAILUER -1
