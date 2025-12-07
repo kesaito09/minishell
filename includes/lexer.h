@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/05 17:47:21 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/07 08:19:56 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef enum e_state
 typedef struct s_token
 {
 	char				*token;
-	enum e_token_type	type;
+	t_token_type		type;
 	struct s_token		*next;
 }						t_token;
 
@@ -81,5 +81,7 @@ t_token_type 			is_token_type(char *c);
 int 					count_section(char *str);
 int						section_len(char *str);
 char					**split_section(char *str);
+void					lexer(char *input, t_token **token_list);
+
 
 # endif

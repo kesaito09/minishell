@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1_make_tree.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:42:39 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/05 15:10:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/07 07:52:23 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@ t_tree	*tree_new(char **cmd, t_flist *flist, t_type btype)
 	t_tree *node;
 
 	node = (t_tree *)ft_calloc(sizeof(t_tree), 1);
-	node->parent = NULL;
-	node->right = NULL;
-	node->left = NULL;
+	if (!node)
+		return (NULL);	
 	node->argv = cmd;
 	node->flist = flist;
 	node->b_type = btype;
