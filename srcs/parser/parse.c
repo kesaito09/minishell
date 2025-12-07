@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/08 03:36:09 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/08 05:04:51 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,8 @@ void	print_argv(char **argv)
 {
 	for (int i = 0; argv[i]; i++)
 	{
-		ft_printf("%s\n",argv[i]);
+		ft_printf("%s\n", argv[i]);
 	}
-
-	
-	
 }
 
 static int	is_redirect(t_token *cur)
@@ -59,22 +56,22 @@ int	check_token(t_token *token, t_token_type type)
 */
 t_file_type	check_ftype(t_token *cur)
 {
-	if (cur ->type == TOKEN_REDIRECT_IN)
-		return (INFILE);	
-	if (cur ->type == TOKEN_REDIRECT_OUT)
-	return (OUTFILE);				
-	if (cur ->type == TOKEN_APPEND)
+	if (cur->type == TOKEN_REDIRECT_IN)
+		return (INFILE);
+	if (cur->type == TOKEN_REDIRECT_OUT)
+		return (OUTFILE);
+	if (cur->type == TOKEN_APPEND)
 		return (APPEND);
-	if (cur ->type == TOKEN_HEREDOC)
+	if (cur->type == TOKEN_HEREDOC)
 		return (HEARDOC);
 	return (NONE);
 }
 
 int	is_builtin(char *token)
 {
-	if (!ft_strcmp(token, "cd") || !ft_strcmp(token, "env")
-		|| !ft_strcmp(token, "export") || !ft_strcmp(token, "unset")
-		|| !ft_strcmp(token, "echo") || !ft_strcmp(token, "pwd"))
+	if (!ft_strcmp(token, "cd") || !ft_strcmp(token, "env") || !ft_strcmp(token,
+			"export") || !ft_strcmp(token, "unset") || !ft_strcmp(token, "echo")
+		|| !ft_strcmp(token, "pwd"))
 		return (1);
 	return (0);
 }
@@ -134,9 +131,9 @@ char	**ultimate_strjoin(char **argv, char *new)
 
 void	append_redirect(t_tree *node, t_token **curr)
 {
-	t_flist			*new_file;
-	t_file_type		ftype;
-	char			*fname;
+	t_flist		*new_file;
+	t_file_type	ftype;
+	char		*fname;
 
 	ftype = check_ftype(*curr);
 	*curr = (*curr)->next;
@@ -158,7 +155,7 @@ void	append_argv(t_tree *node, t_token **curr)
 		return ;
 	free_argv(node->argv);
 	node->argv = new_argv;
-	*curr = (*curr) ->next;
+	*curr = (*curr)->next;
 }
 
 t_type	cmd_type(t_token *cur)
@@ -213,8 +210,6 @@ t_tree	*parse_command(t_token **cur)
 // 	return (left_node);
 // }
 
-
-/*右パイプ*/
 t_tree	*parse_pipeline(t_token **cur)
 {
 	t_tree	*left_node;
@@ -223,7 +218,7 @@ t_tree	*parse_pipeline(t_token **cur)
 	left_node = parse_command(cur);
 	if (!left_node)
 		return (NULL);
-	while (check_token(*cur, TOKEN_PIPE))
+	while (*cur && check_token(*cur, TOKEN_PIPE))
 	{
 		pipe_node = tree_new(NULL, NULL, PIPE);
 		if (!pipe_node)
@@ -231,27 +226,34 @@ t_tree	*parse_pipeline(t_token **cur)
 		pipe_node->left = left_node;
 		*cur = (*cur)->next;
 		pipe_node->right = parse_pipeline(cur);
+		if (!pipe_node->right)
+			return (NULL);
 		return (pipe_node);
 	}
-	while (check_token(*cur, TOKEN_CONJUNCTIONE))
+	return (left_node);
+}
+
+t_tree	*parse_logical(t_token **cur)
+{
+	t_tree	*logical_node;
+	t_tree	*left_node;
+
+	left_node = parse_pipeline(cur);
+	if (!left_node)
+		return (NULL);
+	while (*cur && (check_token(*cur, TOKEN_CONJUNCTIONE) || (check_token(*cur,
+					TOKEN_DISJUNCTIONE))))
 	{
-		pipe_node = tree_new(NULL, NULL, CONJUNCTION);
-		if (!pipe_node)
-			return (NULL);
-		pipe_node->left = left_node;
+		if (check_token(*cur, TOKEN_CONJUNCTIONE))
+			logical_node = tree_new(NULL, NULL, CONJUNCTION);
+		else
+			logical_node = tree_new(NULL, NULL, DISJUNCTION);
+		logical_node->left = left_node;
 		*cur = (*cur)->next;
-		pipe_node->right = parse_pipeline(cur);
-		return (pipe_node);
-	}
-	while (check_token(*cur, TOKEN_DISJUNCTIONE))
-	{
-		pipe_node = tree_new(NULL, NULL, DISJUNCTION);
-		if (!pipe_node)
+		logical_node->right = parse_logical(cur);
+		if (!logical_node->right)
 			return (NULL);
-		pipe_node->left = left_node;
-		*cur = (*cur)->next;
-		pipe_node->right = parse_pipeline(cur);
-		return (pipe_node);
+		return (logical_node);
 	}
 	return (left_node);
 }
@@ -260,7 +262,7 @@ void	print_lex(char *input, t_token *token)
 {
 	if (!token)
 		return ;
-	printf("%s\n",input);
+	printf("%s\n", input);
 	while (token)
 	{
 		printf(" WORD %s : TYPE ", token->token);
@@ -280,38 +282,42 @@ t_tree	*parser(char *input)
 	lexer(input, &token_list);
 	// print_lex(input, token_list);
 	cur_token = token_list;
-	ast = parse_pipeline(&cur_token);
+	ast = parse_logical(&cur_token);
 	return (ast);
-	
 }
 
 
+
+void	print_av(t_tree *ast)
+{
+	int	i;
+
+	if (!ast)
+		return ;
+
+	if (ast->argv)
+	{
+		i = 0;
+		while (ast->argv[i])
+		{
+			printf("ast%d %s \n", i, ast->argv[i]);
+			i++;
+		}
+		printf("\n");
+	}
+	print_av(ast->left);
+	print_av(ast->right);
+}
+
 int main(void)
 {
-	// t_tree	*ast;
+	t_tree	*ast1;
 	t_tree	*ast2;
 
-	// ast = parser(" < file1 <file2 >>file3 ls -l || cat -e | echo aaa");
-	// ft_putendl_fd(ast ->left ->argv[0],1);
-	// ft_putendl_fd(ast ->left ->argv[1],1);
-	// ft_putendl_fd(ast ->right -> left-> argv[0],1);
-	// ft_putendl_fd(ast -> right ->left ->argv[1],1);
-	
-	
-	
-	
-	ast2 = parser("ls -l && echo aaa && cat || ls | cat");
-	ft_putendl_fd(ast2 ->left ->argv[0],1);
-	// ft_putendl_fd(ast2 ->left ->argv[0],1);
-	
-
-	
-
-
-
-	
-	
-	
+	ast1 = parser("ls -l && cat -e || echo aaa");
+	print_av(ast1);
+	ast2 = parser("ls -l | cat -e || wc -l && pwd | cat -e");
+	print_av(ast2);
 	
 	
 	
