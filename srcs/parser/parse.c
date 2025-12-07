@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/08 05:04:51 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/08 05:20:17 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,15 +286,12 @@ t_tree	*parser(char *input)
 	return (ast);
 }
 
-
-
 void	print_av(t_tree *ast)
 {
 	int	i;
 
 	if (!ast)
 		return ;
-
 	if (ast->argv)
 	{
 		i = 0;
@@ -309,16 +306,13 @@ void	print_av(t_tree *ast)
 	print_av(ast->right);
 }
 
-int main(void)
-{
-	t_tree	*ast1;
-	t_tree	*ast2;
+// int	main(void)
+// {
+// 	t_tree *ast1;
+// 	t_tree *ast2;
 
-	ast1 = parser("ls -l && cat -e || echo aaa");
-	print_av(ast1);
-	ast2 = parser("ls -l | cat -e || wc -l && pwd | cat -e");
-	print_av(ast2);
-	
-	
-	
-}
+// 	ast1 = parser("ls -l && cat -e || echo aaa");
+// 	print_av(ast1);
+// 	ast2 = parser("ls -l | cat -e || wc -l && pwd | cat -e");
+// 	print_av(ast2);
+// }
