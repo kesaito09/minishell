@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/08 01:54:01 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/08 09:12:14 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ typedef enum e_token_type
 	TOKEN_REDIRECT_OUT,
 	TOKEN_HEREDOC,
 	TOKEN_APPEND,
+	TOKEN_CONJUNCTIONE,
+	TOKEN_DISJUNCTIONE,
 	TOKEN_EOF,
+	// リストのヌル文字みたいな意味
+
 }						t_token_type;
 
 typedef enum e_state

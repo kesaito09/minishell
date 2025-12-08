@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/07 20:04:28 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/08 03:11:57 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	is_operator(int c)
 {
-	return (c == '|' || c == '<' || c == '>');
+	return (c == '|' || c == '<' || c == '>' );
 }
 
 static int	is_ifs(int c)
@@ -46,15 +46,14 @@ void	my_lex(char *input, t_token **token_list)
 				append_char(&c_list, *input);
 				input++;
 			}
-			else if (is_ifs(*input) || is_operator(*input))
+			else if (is_ifs(*input) || is_operator(*input) || !ft_strncmp(input, "&&", 2))
 			{
-				// オペレータの場合はトークンにする必要があるからいったんそれまでの文字列を区切る
 				if (c_list)
 				{
-					// list_to_stringでc_listはfreeしてる
 					add_token(token_list, list_to_string(&c_list), TOKEN_WORD);
+					c_list = NULL;
 				}
-				if (is_operator(*input))
+				if (is_operator(*input) || !ft_strncmp(input, "&&", 2))
 				{
 					if (!ft_strncmp(input, "<<", 2))
 					{
@@ -73,6 +72,24 @@ void	my_lex(char *input, t_token **token_list)
 						add_token(token_list, op, TOKEN_APPEND);
 						input += 2;
 						continue ; // 一時的に例外処理にしてる後で直す
+					}
+					else if (!ft_strncmp(input, "||", 2))
+					{
+						op = ft_strdup("||");
+						if (!op)
+							return ;
+						add_token(token_list, op, TOKEN_DISJUNCTIONE);
+						input += 2;
+						continue;
+					}
+					else if (!ft_strncmp(input, "&&", 2))
+					{
+						op = ft_strdup("&&");
+						if (!op)
+							return ;
+						add_token(token_list, op, TOKEN_CONJUNCTIONE);
+						input += 2;
+						continue;
 					}
 					else if (!ft_strncmp(input, "|", 1))
 					{
@@ -137,7 +154,6 @@ void	my_lex(char *input, t_token **token_list)
 				append_char(&c_list, *input);
 				input++;
 			}
-			// ダブルクォート内処理はまだできてない。拡張可能
 			else
 			{
 				append_char(&c_list, *input);
@@ -145,17 +161,17 @@ void	my_lex(char *input, t_token **token_list)
 			}
 		}
 	}
-	// バッファに残っている文字があればトークンにする
 	if (c_list)
 	{
 		add_token(token_list, list_to_string(&c_list), TOKEN_WORD);
+		c_list = NULL;
 	}
 }
 
 void	lexer(char *input, t_token **token_list)
 {
-	t_token *lst_node;
-	t_token *eof_node;
+	t_token	*lst_node;
+	t_token	*eof_node;
 
 	my_lex(input, token_list);
 	lst_node = t_lstlast(*token_list);
@@ -164,8 +180,8 @@ void	lexer(char *input, t_token **token_list)
 		eof_node = ft_calloc(1, sizeof(t_token));
 		if (!eof_node)
 			return ;
-		eof_node ->type = TOKEN_EOF;
-		lst_node ->next = eof_node;
+		eof_node->type = TOKEN_EOF;
+		lst_node->next = eof_node;
 	}
 }
 
@@ -176,13 +192,16 @@ void	lexer(char *input, t_token **token_list)
 // 	char	*test2;
 // 	char	*test3;
 // 	char	*test4;
+// 	// char	*test5;
+
 // 	t_token	*token2;
 // 	t_token	*token3;
 // 	t_token	*token4;
+// 	// t_token	*token5;
 
 // 	token = NULL;
-// 	test1 = "<<infile ls -l|cat -e > file1";
-// 	test2 = "<<infile ls -l|cat -e>>file1";
+// 	test1 = " cat- e  file1 file2 file3 infile || cat -e";
+// 	test2 = "cat -e  file1 file2 file3 infila && echo aa";
 // 	test3 = "awk '{print $1}'";
 // 	test4 = "echo \"$USER\" \'$USER\'";
 // 	printf("%s\n", test1);

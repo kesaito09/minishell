@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/07 02:33:27 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/08 03:10:03 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct s_token t_token;
 typedef enum e_type
 {
 	PIPE = 0,
+	CONJUNCTION,
+	DISJUNCTION,
 	COMMAND,
 	MY_COMMAND,
 }					t_type;

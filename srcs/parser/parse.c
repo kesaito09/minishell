@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/08 01:59:32 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/08 09:11:36 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	print_argv(char **argv)
 {
 	for (int i = 0; argv[i]; i++)
 	{
-		ft_printf("%s\n",argv[i]);
+		ft_printf("%s\n", argv[i]);
 	}
 
 
@@ -65,16 +65,16 @@ t_file_type	check_ftype(t_token *cur)
 	return (OUTFILE);
 	if (cur ->type == TOKEN_APPEND)
 		return (APPEND);
-	if (cur ->type == TOKEN_HEREDOC)
+	if (cur->type == TOKEN_HEREDOC)
 		return (HEARDOC);
 	return (NONE);
 }
 
 int	is_builtin(char *token)
 {
-	if (!ft_strcmp(token, "cd") || !ft_strcmp(token, "env")
-		|| !ft_strcmp(token, "export") || !ft_strcmp(token, "unset")
-		|| !ft_strcmp(token, "echo") || !ft_strcmp(token, "pwd"))
+	if (!ft_strcmp(token, "cd") || !ft_strcmp(token, "env") || !ft_strcmp(token,
+			"export") || !ft_strcmp(token, "unset") || !ft_strcmp(token, "echo")
+		|| !ft_strcmp(token, "pwd"))
 		return (1);
 	return (0);
 }
@@ -134,9 +134,9 @@ char	**ultimate_strjoin(char **argv, char *new)
 
 void	append_redirect(t_tree *node, t_token **curr)
 {
-	t_flist			*new_file;
-	t_file_type		ftype;
-	char			*fname;
+	t_flist		*new_file;
+	t_file_type	ftype;
+	char		*fname;
 
 	ftype = check_ftype(*curr);
 	*curr = (*curr)->next;
@@ -158,7 +158,7 @@ void	append_argv(t_tree *node, t_token **curr)
 		return ;
 	free_argv(node->argv);
 	node->argv = new_argv;
-	*curr = (*curr) ->next;
+	*curr = (*curr)->next;
 }
 
 t_type	cmd_type(t_token *cur)
@@ -213,8 +213,6 @@ t_tree	*parse_command(t_token **cur)
 // 	return (left_node);
 // }
 
-
-/*右パイプ*/
 t_tree	*parse_pipeline(t_token **cur)
 {
 	t_tree	*left_node;
@@ -223,7 +221,7 @@ t_tree	*parse_pipeline(t_token **cur)
 	left_node = parse_command(cur);
 	if (!left_node)
 		return (NULL);
-	while (check_token(*cur, TOKEN_PIPE))
+	while (*cur && check_token(*cur, TOKEN_PIPE))
 	{
 		pipe_node = tree_new(NULL, NULL, PIPE);
 		if (!pipe_node)
@@ -231,9 +229,49 @@ t_tree	*parse_pipeline(t_token **cur)
 		pipe_node->left = left_node;
 		*cur = (*cur)->next;
 		pipe_node->right = parse_pipeline(cur);
+		if (!pipe_node->right)
+			return (NULL);
 		return (pipe_node);
 	}
 	return (left_node);
+}
+
+t_tree	*parse_logical(t_token **cur)
+{
+	t_tree	*logical_node;
+	t_tree	*left_node;
+
+	left_node = parse_pipeline(cur);
+	if (!left_node)
+		return (NULL);
+	while (*cur && (check_token(*cur, TOKEN_CONJUNCTIONE) || (check_token(*cur,
+					TOKEN_DISJUNCTIONE))))
+	{
+		if (check_token(*cur, TOKEN_CONJUNCTIONE))
+			logical_node = tree_new(NULL, NULL, CONJUNCTION);
+		else
+			logical_node = tree_new(NULL, NULL, DISJUNCTION);
+		logical_node->left = left_node;
+		*cur = (*cur)->next;
+		logical_node->right = parse_logical(cur);
+		if (!logical_node->right)
+			return (NULL);
+		return (logical_node);
+	}
+	return (left_node);
+}
+
+void	print_lex(char *input, t_token *token)
+{
+	if (!token)
+		return ;
+	printf("%s\n", input);
+	while (token)
+	{
+		printf(" WORD %s : TYPE ", token->token);
+		printf("%u\n", token->type);
+		token = token->next;
+	}
 }
 
 t_tree	*parser(char *input)
@@ -247,7 +285,47 @@ t_tree	*parser(char *input)
 	if (!input || !*input)
 		return (NULL);
 	lexer(input, &token_list);
+
 	cur_token = token_list;
-	ast = parse_pipeline(&cur_token);
+	ast = parse_logical(&cur_token);
 	return (ast);
+
+
+}
+
+
+int main(void)
+{
+	t_tree	*ast;
+
+	ast = parser(" < file1 <file2 >>file3 ls -l | cat -e | echo aaa");
+	ft_putendl_fd(ast ->left ->argv[0],1);
+	ft_putendl_fd(ast ->left ->argv[1],1);
+	ft_putendl_fd(ast ->right -> left-> argv[0],1);
+	ft_putendl_fd(ast -> right ->left ->argv[1],1);
+
+
+	// ft_putendl_fd(ast ->left ->left ->argv[0], 1);
+	// ft_putendl_fd(ast ->left ->left ->flist->file, 1);
+	// ft_putnbr_fd(ast ->left ->left ->flist->f_type, 1);
+	// ft_putnbr_fd(ast ->left ->left ->flist->next->f_type, 1);
+	// ft_putnbr_fd(ast ->left ->left ->flist->next->next->f_type, 1);
+	// ft_putendl_fd(ast ->left ->left ->argv[1], 1);
+	// ft_putendl_fd(ast ->left ->right ->argv[0], 1);
+	// ft_putendl_fd(ast ->left ->right ->argv[1], 1);
+	// ft_putendl_fd(ast ->right ->argv[0], 1);
+	// ft_putendl_fd(ast ->right ->argv[1], 1);
+	// ft_putendl_fd(ast ->right ->argv[0], 1);
+	// ft_putendl_fd(ast ->right ->argv[1], 1);
+
+
+
+
+
+
+
+
+
+
+
 }
