@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/06 18:21:19 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/08 04:31:48 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,36 @@
 // int	main_stream(char *line)
 // {
 // 	parser(line);
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 // }
 
 
 
 
-// int main(void)
-// {
-// 	char	*line;
+ int main(int ac, char **av, char **en)
+ {
+ 	char	*line;
+	t_pipe	info;
+	t_tree	*branch;
 
-// 	while (1)
-// 	{
-// 		line = readline("minishell$ ");
-// 		if (!line)
-// 			return (rl_clear_history(), 0);
-// 		add_history(line);
-// 		// main_stream(line);
-// 		free(line);
-// 	}
-// }
+	info = correct_info(ac, av, en);
+ 	while (1)
+ 	{
+ 		line = readline("minishell$ ");
+ 		if (!line)
+ 			return (rl_clear_history(), 0);
+		branch = parser(line);
+		tree_operator(branch, &info, 1);
+		waitpid_plist(info.plist);
+ 		add_history(line);
+ 		free(line);
+ 	}
+ }
 
 // /*tester*/
 
@@ -80,3 +85,15 @@
 // 	tree_operator(branch, &info, 1);
 // 	waitpid_plist(info.plist);
 // }
+
+
+//int main(int ac, char **av, char **en)
+//{
+//	t_tree	*ast;
+//	t_pipe	info;
+
+//	ast = parser(av[1]);
+//	info = correct_info(ac, NULL, en);
+//	tree_operator(ast, &info, 1);
+//	waitpid_plist(info.plist);
+//}

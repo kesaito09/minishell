@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/07 08:19:56 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/08 01:54:01 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-#include "minishell.h"
+#include "readline.h"
+# include <readline/history.h>
+# include <readline/readline.h>
 
 typedef enum e_token_type
 {
@@ -24,8 +26,6 @@ typedef enum e_token_type
 	TOKEN_HEREDOC,
 	TOKEN_APPEND,
 	TOKEN_EOF,
-	SPACE // リストのヌル文字みたいな意味
-
 }						t_token_type;
 
 typedef enum e_state

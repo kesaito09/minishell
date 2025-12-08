@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/08 01:13:23 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/08 01:59:32 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	print_argv(char **argv)
 		ft_printf("%s\n",argv[i]);
 	}
 
-	
-	
+
+
 }
 
 static int	is_redirect(t_token *cur)
@@ -60,9 +60,9 @@ int	check_token(t_token *token, t_token_type type)
 t_file_type	check_ftype(t_token *cur)
 {
 	if (cur ->type == TOKEN_REDIRECT_IN)
-		return (INFILE);	
+		return (INFILE);
 	if (cur ->type == TOKEN_REDIRECT_OUT)
-	return (OUTFILE);				
+	return (OUTFILE);
 	if (cur ->type == TOKEN_APPEND)
 		return (APPEND);
 	if (cur ->type == TOKEN_HEREDOC)
@@ -244,48 +244,10 @@ t_tree	*parser(char *input)
 
 	ast = NULL;
 	token_list = NULL;
+	if (!input || !*input)
+		return (NULL);
 	lexer(input, &token_list);
-	
 	cur_token = token_list;
 	ast = parse_pipeline(&cur_token);
 	return (ast);
-	
-	
-}
-
-
-int main(void)
-{
-	t_tree	*ast;
-
-	ast = parser(" < file1 <file2 >>file3 ls -l | cat -e | echo aaa");
-	ft_putendl_fd(ast ->left ->argv[0],1);
-	ft_putendl_fd(ast ->left ->argv[1],1);
-	ft_putendl_fd(ast ->right -> left-> argv[0],1);
-	ft_putendl_fd(ast -> right ->left ->argv[1],1);
-	
-	
-	// ft_putendl_fd(ast ->left ->left ->argv[0], 1);
-	// ft_putendl_fd(ast ->left ->left ->flist->file, 1);
-	// ft_putnbr_fd(ast ->left ->left ->flist->f_type, 1);
-	// ft_putnbr_fd(ast ->left ->left ->flist->next->f_type, 1);
-	// ft_putnbr_fd(ast ->left ->left ->flist->next->next->f_type, 1);
-	// ft_putendl_fd(ast ->left ->left ->argv[1], 1);
-	// ft_putendl_fd(ast ->left ->right ->argv[0], 1);
-	// ft_putendl_fd(ast ->left ->right ->argv[1], 1);
-	// ft_putendl_fd(ast ->right ->argv[0], 1);
-	// ft_putendl_fd(ast ->right ->argv[1], 1);
-	// ft_putendl_fd(ast ->right ->argv[0], 1);
-	// ft_putendl_fd(ast ->right ->argv[1], 1);
-
-	
-
-
-
-	
-	
-	
-	
-	
-	
 }
