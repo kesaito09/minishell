@@ -6,11 +6,10 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/08 09:11:36 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/09 19:13:48 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
 #include "../../includes/parser.h"
 
 /*
@@ -28,9 +27,6 @@ void	print_argv(char **argv)
 	{
 		ft_printf("%s\n", argv[i]);
 	}
-
-
-
 }
 
 static int	is_redirect(t_token *cur)
@@ -59,11 +55,11 @@ int	check_token(t_token *token, t_token_type type)
 */
 t_file_type	check_ftype(t_token *cur)
 {
-	if (cur ->type == TOKEN_REDIRECT_IN)
+	if (cur->type == TOKEN_REDIRECT_IN)
 		return (INFILE);
-	if (cur ->type == TOKEN_REDIRECT_OUT)
-	return (OUTFILE);
-	if (cur ->type == TOKEN_APPEND)
+	if (cur->type == TOKEN_REDIRECT_OUT)
+		return (OUTFILE);
+	if (cur->type == TOKEN_APPEND)
 		return (APPEND);
 	if (cur->type == TOKEN_HEREDOC)
 		return (HEARDOC);
@@ -285,47 +281,39 @@ t_tree	*parser(char *input)
 	if (!input || !*input)
 		return (NULL);
 	lexer(input, &token_list);
-
+	// print_lex(input, token_list);
 	cur_token = token_list;
 	ast = parse_logical(&cur_token);
 	return (ast);
-
-
 }
 
-
-int main(void)
+void	print_av(t_tree *ast)
 {
-	t_tree	*ast;
+	int	i;
 
-	ast = parser(" < file1 <file2 >>file3 ls -l | cat -e | echo aaa");
-	ft_putendl_fd(ast ->left ->argv[0],1);
-	ft_putendl_fd(ast ->left ->argv[1],1);
-	ft_putendl_fd(ast ->right -> left-> argv[0],1);
-	ft_putendl_fd(ast -> right ->left ->argv[1],1);
-
-
-	// ft_putendl_fd(ast ->left ->left ->argv[0], 1);
-	// ft_putendl_fd(ast ->left ->left ->flist->file, 1);
-	// ft_putnbr_fd(ast ->left ->left ->flist->f_type, 1);
-	// ft_putnbr_fd(ast ->left ->left ->flist->next->f_type, 1);
-	// ft_putnbr_fd(ast ->left ->left ->flist->next->next->f_type, 1);
-	// ft_putendl_fd(ast ->left ->left ->argv[1], 1);
-	// ft_putendl_fd(ast ->left ->right ->argv[0], 1);
-	// ft_putendl_fd(ast ->left ->right ->argv[1], 1);
-	// ft_putendl_fd(ast ->right ->argv[0], 1);
-	// ft_putendl_fd(ast ->right ->argv[1], 1);
-	// ft_putendl_fd(ast ->right ->argv[0], 1);
-	// ft_putendl_fd(ast ->right ->argv[1], 1);
-
-
-
-
-
-
-
-
-
-
-
+	if (!ast)
+		return ;
+	if (ast->argv)
+	{
+		i = 0;
+		while (ast->argv[i])
+		{
+			printf("ast%d %s \n", i, ast->argv[i]);
+			i++;
+		}
+		printf("\n");
+	}
+	print_av(ast->left);
+	print_av(ast->right);
 }
+
+// int	main(void)
+// {
+// 	t_tree *ast1;
+// 	t_tree *ast2;
+
+// 	ast1 = parser("ls -l && cat -e || echo aaa");
+// 	print_av(ast1);
+// 	ast2 = parser("ls -l | cat -e || wc -l && pwd | cat -e");
+// 	print_av(ast2);
+// }

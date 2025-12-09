@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2_redirect.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:49:03 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/07 09:06:38 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/09 19:14:38 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

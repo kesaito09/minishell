@@ -6,7 +6,7 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2025/12/08 01:55:10 by natakaha         ###   ########.fr        #
+#    Updated: 2025/12/09 19:23:58 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,9 @@ LDLIBS = -lft -lreadline
 MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/builtin_cmd/cmd_pwd.c\
 			srcs/builtin_cmd/cmd_cd.c\
-			srcs/execution/exec_utils0_info.c\
+			srcs/builtin_cmd/cmd_export.c\
+			srcs/builtin_cmd/cmd_env.c\
+			srcs/builtin_cmd/cmd_utils_info.c\
 			srcs/execution/exec_utils1_pid.c\
 			srcs/execution/exec_utils2_error.c\
 			srcs/execution/exec_utils3_pipe.c\
@@ -39,6 +41,7 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/lexer/token_list_utils.c\
 			srcs/parser/utils1_make_tree.c\
 			srcs/parser/utils2_redirect.c\
+			srcs/parser/utilas3_parse.c\
 			srcs/parser/getsize.c\
 			srcs/parser/parse.c\
 			srcs/main/main.c\

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:54:04 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/08 01:34:29 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/07 20:56:18 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,12 @@ void	print_token(t_token *lst)
 
 void	print_flist(t_flist *flist)
 {
-	if (!flist)
-		ft_putendl_fd("nothing", 2);
 	while (flist)
 	{
+		ft_putstr_fd(flist->file, 2);
+		ft_putchar_fd(',', 2);
 		ft_putnbr_fd(flist->f_type, 2);
 		ft_putchar_fd(':', 2);
-		ft_putendl_fd(flist->file, 2);
 		flist = flist->next;
 	}
 	ft_putchar_fd('\n', 2);
@@ -57,32 +56,25 @@ void	print_tree(t_tree *branch)
 		return ;
 	if (branch->b_type == PIPE)
 	{
-		ft_putendl_fd("%%%%%%%%%%[PIPE]%%%%%%%%%%%", 2);
-		ft_putchar_fd('\n', 2);
+		ft_putendl_fd("PIPE", 1);
 		return ;
 	}
 	if (branch->b_type == MY_COMMAND)
-		ft_putendl_fd("MY_CMD", 2);
+		ft_putendl_fd("MY_CMD", 1);
 	if (branch->b_type == COMMAND)
-		ft_putendl_fd("CMD", 2);
-	ft_putendl_fd("---------cmd-----------", 2);
+		ft_putendl_fd("CMD", 1);
+	ft_putendl_fd("----cmd------", 1);
 	print_split(branch->argv);
-	ft_putendl_fd("----redirect------", 2);
+	ft_putendl_fd("----redirect------", 1);
 	print_flist(branch->flist);
-	ft_putchar_fd('\n', 2);
+	ft_putchar_fd('\n', 1);
 }
 
 void	print_tree_rec(t_tree *branch)
 {
 	print_tree(branch);
 	if (branch->left)
-	{
-		ft_putendl_fd("left↓", 2);
 		print_tree_rec(branch->left);
-	}
 	if (branch->right)
-	{
-		ft_putendl_fd("right↓", 2);
 		print_tree_rec(branch->right);
-	}
 }

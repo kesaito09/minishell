@@ -6,16 +6,14 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/08 09:12:14 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/09 17:50:29 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-#include "readline.h"
-# include <readline/history.h>
-# include <readline/readline.h>
+#include "minishell.h"
 
 typedef enum e_token_type
 {

@@ -1,25 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readline.h                                         :+:      :+:    :+:   */
+/*   utilas3_parse.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/29 11:37:30 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 17:23:54 by natakaha         ###   ########.fr       */
+/*   Created: 2025/12/09 19:13:11 by natakaha          #+#    #+#             */
+/*   Updated: 2025/12/09 19:13:52 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef READLINE_H
-#define READLINE_H
+#include "../../includes/parser.h"
 
-# define SUCCESS 1
-# define FAILUER -1
-
- #include "minishell.h"
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <stdio.h>
-# include <stdlib.h>
-
-#endif
