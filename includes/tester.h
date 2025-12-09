@@ -5,18 +5,22 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/07 18:37:30 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/08 01:26:47 by natakaha         ###   ########.fr       */
+/*   Created: 2025/12/09 19:21:32 by natakaha          #+#    #+#             */
+/*   Updated: 2025/12/09 19:23:12 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TESTER_H
 # define TESTER_H
 
-# include "minishell.h"
+# define SUCCESS 1
+# define FAILUER -1
 
-typedef struct s_token	t_token;
-typedef struct s_flist	t_flist;
+#include "minishell.h"
+# include <stdlib.h>
+
+typedef struct s_pipe	t_pipe;
+typedef struct s_pipe	t_pipe;
 
 void	print_token(t_token *lst);
 void	print_flist(t_flist *flist);
@@ -24,4 +28,4 @@ void	print_split(char **cmd);
 void	print_tree(t_tree *branch);
 void	print_tree_rec(t_tree *branch);
 
-# endif
+#endif

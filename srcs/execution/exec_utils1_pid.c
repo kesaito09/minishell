@@ -6,11 +6,11 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 03:43:18 by naoki             #+#    #+#             */
-/*   Updated: 2025/12/05 13:28:13 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/09 17:16:23 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/pipex.h"
+#include "../../includes/execution.h"
 
 t_pidlist	*pid_new(pid_t pid)
 {

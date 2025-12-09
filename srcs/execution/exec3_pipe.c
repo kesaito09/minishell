@@ -6,11 +6,11 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 08:54:42 by naoki             #+#    #+#             */
-/*   Updated: 2025/12/05 20:24:16 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:08:15 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/pipex.h"
+#include "../../includes/execution.h"
 
 static int	treat_pipe_left(t_tree *branch, t_pipe *info, pid_t pid)
 {
@@ -36,7 +36,7 @@ static int	treat_pipe_left(t_tree *branch, t_pipe *info, pid_t pid)
 static int	treat_pipe_right(t_tree *branch, t_pipe *info, pid_t pid)
 {
 	if (branch->right->b_type == PIPE)
-		tree_operator(branch->right, info, pid);
+		return (tree_operator(branch->right, info, pid), SUCCESS);
 	if (pipe_terminate(info->fd_in, info->fd_out) == FAILUER)
 		return (FAILUER);
 	pid = fork();
@@ -44,9 +44,9 @@ static int	treat_pipe_right(t_tree *branch, t_pipe *info, pid_t pid)
 		return (FAILUER);
 	if (pid > 0)
 	{
+		pid_add_back(&(info->plist), pid);
 		close_fd_in_out(&(info->fd_in[0]), &(info->fd_in)[1]);
 		close_fd_in_out(&(info->fd_out[0]), &(info->fd_out)[1]);
-		pid_add_back(&(info->plist), pid);
 	}
 	if (pid == 0)
 	{

@@ -6,12 +6,12 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:49:23 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/29 16:00:50 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:21:15 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/commands.h"
-#include "../../includes/pipex.h"
+#include "../../includes/execution.h"
 
 static void	echo_opn(char **cmd)
 {
@@ -52,12 +52,12 @@ void	echo(char **cmd)
 
 	i = 0;
 	i++;
+	if (!cmd[i])
+		return ;
 	if (!ft_strncmp(cmd[i], "-n", 3))
 		echo_opn(cmd);
 	else
 		echo_(cmd);
-	free_path(cmd);
-	exit(0);
 }
 
 //int main(int argc, char **argv)

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils3_pipe.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naoki <naoki@student.42.fr>                #+#  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-12-03 09:14:04 by naoki             #+#    #+#             */
-/*   Updated: 2025-12-03 09:14:04 by naoki            ###   ########.fr       */
+/*   Created: 2025/12/03 09:14:04 by naoki             #+#    #+#             */
+/*   Updated: 2025/12/09 17:16:23 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/pipex.h"
+#include "../../includes/execution.h"
 
 /*initial num of fd == -1*/
 
@@ -18,7 +18,7 @@ int	pipe_update(int	fd_in[2], int fd_out[2])
 {
 	if (fd_in[0] >= 0)
 	{
-		close(fd_in[0]);			
+		close(fd_in[0]);
 		fd_in[0] = -1;
 	}
 	if (fd_in[1] >= 0)
@@ -38,7 +38,7 @@ int	pipe_terminate(int	fd_in[2], int fd_out[2])
 {
 	if (fd_in[0] >= 0)
 	{
-		close(fd_in[0]);			
+		close(fd_in[0]);
 		fd_in[0] = -1;
 	}
 	if (fd_in[1] >= 0)

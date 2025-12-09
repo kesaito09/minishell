@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readline.h                                         :+:      :+:    :+:   */
+/*   cmd_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/29 11:37:30 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 17:23:54 by natakaha         ###   ########.fr       */
+/*   Created: 2025/12/06 06:29:07 by natakaha          #+#    #+#             */
+/*   Updated: 2025/12/09 18:26:12 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef READLINE_H
-#define READLINE_H
+#include "../../includes/commands.h"
 
-# define SUCCESS 1
-# define FAILUER -1
+void	env(char **cmd, t_pipe *info)
+{
+	int	i;
 
- #include "minishell.h"
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <stdio.h>
-# include <stdlib.h>
-
-#endif
+	i = 0;
+	if (!info->envp)
+		return ;
+	while (info->envp[i])
+	{
+		ft_putendl_fd(info->envp[i], 1);
+		i++;
+	}
+	(void)cmd;
+}

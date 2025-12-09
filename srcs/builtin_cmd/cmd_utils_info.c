@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_parse.c                                       :+:      :+:    :+:   */
+/*   cmd_utils_info.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 06:33:13 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/01 22:41:06 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/09 17:45:11 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/pipex.h"
+#include "../../includes/execution.h"
 
 void	free_path(char **path)
 {
@@ -22,7 +22,6 @@ void	free_path(char **path)
 		free(path[i]);
 		i++;
 	}
-	free(path);
 	return ;
 }
 
@@ -90,6 +89,6 @@ t_pipe	correct_info(int argc, char **argv, char **envp)
 	info.fd_in[0] = -1;
 	info.fd_in[1] = -1;
 	info.fd_stdout = dup(1);
-	info.fd_stdin = dup(0);	
+	info.fd_stdin = dup(0);
 	return (info);
 }

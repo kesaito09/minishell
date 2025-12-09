@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tree_fd.c                                          :+:      :+:    :+:   */
+/*   exec4_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 20:42:50 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/02 12:38:25 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/09 17:16:23 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/pipex.h"
+#include "../../includes/execution.h"
 
 static int	redirect_in_open_dup2(t_pipe *info, t_flist *flist)
 {
