@@ -6,72 +6,78 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 20:42:50 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 17:16:23 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/10 01:32:43 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 
-static int	redirect_in_open_dup2(t_pipe *info, t_flist *flist)
+static int	redirect_in_open_dup2(t_flist *flist)
 {
-	info->fd_in[0] = open(flist->file, O_RDONLY);
-	if (info->fd_in[0] < 0)
+	int	fd_in;
+
+	fd_in = open(flist->file, O_RDONLY);
+	if (fd_in < 0)
 		return (FAILUER);
-	if (dup2(info->fd_in[0], 0) == FAILUER)
+	if (dup2(fd_in, 0) == FAILUER)
 		return (FAILUER);
 	return (SUCCESS);
 }
 
-static int	redirect_out_open_dup2(t_pipe *info, t_flist *flist)
+static int	redirect_out_open_dup2(t_flist *flist)
 {
-	info->fd_out[1] = open(flist->file, O_WRONLY | O_CREAT | O_TRUNC,
+	int	fd_out;
+
+	fd_out = open(flist->file, O_WRONLY | O_CREAT | O_TRUNC,
 			0644);
-	if (info->fd_out[1] < 0)
+	if (fd_out < 0)
 		return (FAILUER);
-	if (dup2(info->fd_out[1], 1) == FAILUER)
+	if (dup2(fd_out, 1) == FAILUER)
 		return (FAILUER);
 	return (SUCCESS);
 }
 
-static int	append_open_dup2(t_pipe *info, t_flist *flist)
+static int	append_open_dup2(t_flist *flist)
 {
-	info->fd_out[1] = open(flist->file, O_WRONLY | O_CREAT | O_APPEND,
+	int	fd_out;
+
+	fd_out = open(flist->file, O_WRONLY | O_CREAT | O_APPEND,
 			0644);
-	if (info->fd_out[1] < 0)
+	if (fd_out < 0)
 		return (FAILUER);
-	if (dup2(info->fd_out[1], 1) == FAILUER)
+	if (dup2(fd_out, 1) == FAILUER)
 		return (FAILUER);
 	return (SUCCESS);
 }
 
-int	manage_redirect_module(t_pipe *info, t_flist *flist)
+static int	manage_redirect_module(t_flist *flist)
 {
 	if (flist->f_type == INFILE)
 	{
-		if (redirect_in_open_dup2(info, flist) == FAILUER)
+		if (redirect_in_open_dup2(flist) == FAILUER)
 			return (FAILUER);
 	}
 	else if (flist->f_type == OUTFILE)
 	{
-		if (redirect_out_open_dup2(info, flist) == FAILUER)
+		if (redirect_out_open_dup2(flist) == FAILUER)
 			return (FAILUER);
 	}
 	else if (flist->f_type == APPEND)
 	{
-		if (append_open_dup2(info, flist) == FAILUER)
+		if (append_open_dup2(flist) == FAILUER)
 			return (FAILUER);
 	}
 	return (SUCCESS);
 }
 
-int	manage_redirect(t_pipe *info, t_tree *branch)
+int	manage_redirect(t_tree *branch)
 {
 	t_flist	*cr;
 
 	cr = branch->flist;
 	while (cr)
 	{
-		if (manage_redirect_module(info, cr) == FAILUER)
+		if (manage_redirect_module(cr) == FAILUER)
 			return (FAILUER);
 		cr = cr->next;
 	}

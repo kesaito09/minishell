@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 19:21:32 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 20:37:45 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/10 00:29:00 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@
 # include <stdlib.h>
 
 typedef struct s_pipe	t_pipe;
-typedef struct s_pipe	t_pipe;
+typedef struct s_tree	t_tree;
+typedef struct s_flist	t_flist;
+typedef enum e_tree_type	t_tree_type;
 
 void	print_token(t_token *lst);
 void	print_flist(t_flist *flist, int i);

@@ -6,28 +6,20 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:54:04 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 20:39:56 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/10 00:40:55 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+
+
+# include "../../includes/tester.h"
+# include "../../includes/execution.h"
 
 void	print_space(int i)
 {
 	while (i--)
 		write(2, "    ", 4);
 }
-
-//void	print_token(t_token *lst)
-//{
-//	while (lst)
-//	{
-//		ft_putstr_fd(lst->token, 2);
-//		ft_putchar_fd(':', 2);
-//		lst = lst->next;
-//	}
-//	ft_putchar_fd('\n', 2);
-//}
 
 void	print_flist(t_flist *flist, int i)
 {
@@ -107,17 +99,17 @@ void	print_tree_rec(t_tree *branch)
 {
 	static int	i;
 
-	i = 0;
 	print_tree(branch, i);
-	i++;
 	if (branch->left)
 	{
-		ft_putendl_fd("left", 2);
+		print_space(++i);
+		ft_putendl_fd("left------", 2);
 		print_tree_rec(branch->left);
 	}
 	if (branch->right)
 	{
-		ft_putendl_fd("right", 2);
+		print_space(i);
+		ft_putendl_fd("right------", 2);
 		print_tree_rec(branch->right);
 	}
 }

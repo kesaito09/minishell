@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   utils1_make_tree.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:42:39 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/07 07:52:23 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/10 00:40:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parser.h"
+#include "../../includes/execution.h"
 
-t_tree	*tree_new(char **cmd, t_flist *flist, t_type btype)
+t_tree	*tree_new(char **cmd, t_flist *flist, t_tree_type btype)
 {
 	t_tree *node;
 
 	node = (t_tree *)ft_calloc(sizeof(t_tree), 1);
 	if (!node)
-		return (NULL);	
+		return (NULL);
 	node->argv = cmd;
 	node->flist = flist;
 	node->b_type = btype;

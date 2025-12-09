@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 18:25:24 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/10 02:43:34 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,35 +52,52 @@ static int	execve_my_cmd(char **cmd, t_pipe *info)
 	return (SUCCESS);
 }
 
-void	manage_cmd(t_tree *branch, t_pipe *info, pid_t pid)
+int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 {
-	if (pid > 0)
-		pid = fork();
+	pid_t	pid;
+
+	pid = fork();
 	if (pid < 0)
-		return (free_path(branch->argv));
-	if (pid > 0)
-		return (pid_add_back(&(info->plist), pid));
+		return (free_path(branch->argv), FAILUER);
 	if (pid == 0)
 	{
-		if (dup2_stdin_out(info->fd_in[0], info->fd_out[1]) == FAILUER)
-				error_exit(branch->argv, "", 1);
-		if (manage_redirect(info, branch) == FAILUER)
-			error_exit(branch->argv, "", 1);
+		if (info->fd[0] != fd_in)
+			close(info->fd[0]);
+		if (info->fd[1] != fd_out)
+			close(info->fd[1]);
+		if (dup2_stdin_out(fd_in, fd_out) == FAILUER)
+			error_exit(branch->argv, "dup2:", 1);
+		if (manage_redirect(branch) == FAILUER)
+			error_exit(branch->argv, "redirect:", 1);
 		execve_cmd(info->path, info->envp, branch->argv);
-		reset_stdin_out(info);
-		error_exit(branch->argv, "", 1);
+		exit(1);
 	}
+	close(info->fd[1]);
+	return (pid_add_back(&(info->plist), pid), SUCCESS);
 }
 
-void	manage_my_cmd(t_tree *branch, t_pipe *info, pid_t pid)
+int	manage_my_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 {
-	if (manage_redirect(info, branch) == FAILUER)
-		exit(1);
-	if (pid == 0)
-		if (dup2_stdin_out(info->fd_in[0], info->fd_out[1]) == FAILUER)
-				error_exit(branch->argv, "", 1);
+	pid_t	pid;
+
+	pid = 1;
+	if (info->pipe)
+	pid = fork();
+	if (pid < 0)
+		return (free_path(branch->argv), FAILUER);
+	if (info->pipe && pid > 0)
+		return (pid_add_back(&(info->plist), pid)
+	, free_cmd(branch->argv), SUCCESS);
+	if (info->fd[1] != fd_out)
+		close(info->fd[1]);
+	if (info->fd[0] != fd_in)
+			close(info->fd[0]);
+	if (dup2_stdin_out(fd_in, fd_out) == FAILUER || manage_redirect(branch) == FAILUER)
+		return (FAILUER);
 	execve_my_cmd(branch->argv, info);
 	reset_stdin_out(info);
 	free_path(branch->argv);
-	(void)pid;
+	if (!pid)
+		exit(0);
+	return (SUCCESS);
 }

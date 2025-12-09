@@ -6,11 +6,12 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 18:28:17 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/10 01:26:41 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/commands.h"
+#include "../../includes/execution.h"
 
 static int	count_env(char **envp)
 {

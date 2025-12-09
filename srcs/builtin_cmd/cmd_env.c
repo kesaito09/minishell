@@ -6,11 +6,12 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:29:07 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 18:26:12 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/10 01:27:03 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/commands.h"
+#include "../../includes/execution.h"
 
 void	env(char **cmd, t_pipe *info)
 {

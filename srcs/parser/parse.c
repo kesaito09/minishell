@@ -6,10 +6,11 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/09 20:13:07 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/10 00:42:11 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/execution.h"
 #include "../../includes/parser.h"
 
 static int	is_redirect(t_token *cur)
@@ -128,7 +129,7 @@ void	append_argv(t_tree *node, t_token **curr)
 	*curr = (*curr)->next;
 }
 
-t_type	cmd_type(t_token *cur)
+t_tree_type	cmd_type(t_token *cur)
 {
 	if (is_builtin(cur->token))
 		return (MY_COMMAND);
@@ -206,68 +207,68 @@ t_tree	*parse_logical(t_token **cur)
 			return (logical_node);
 		}
 		return (left_node);
-	}
-
-	void	print_lex(char *input, t_token *token)
-	{
-		if (!token)
-		return ;
-		printf("%s\n", input);
-		while (token)
-		{
-			printf(" WORD %s : TYPE ", token->token);
-			printf("%u\n", token->type);
-			token = token->next;
-		}
-	}
-
-	t_tree	*parser(char *input)
-	{
-		t_tree	*ast;
-		t_token	*token_list;
-		t_token	*cur_token;
-
-		ast = NULL;
-		token_list = NULL;
-		if (!input || !*input)
-		return (NULL);
-		lexer(input, &token_list);
-		cur_token = token_list;
-		ast = parse_logical(&cur_token);
-		t_lstclear(&token_list, free);
-		return (ast);
-	}
-
-	void	print_av(t_tree *ast)
-	{
-		int	i;
-
-		if (!ast)
-		return ;
-		if (ast->argv)
-		{
-			i = 0;
-			while (ast->argv[i])
-			{
-				printf("ast%d %s \n", i, ast->argv[i]);
-				i++;
-			}
-			printf("\n");
-		}
-		print_av(ast->left);
-		print_av(ast->right);
-	}
-
-	int	main(void)
-	{
- 	t_tree *ast1;
- 	//t_tree *ast2;
-
- 	ast1 = parser("ls -l && cat -e || echo aaa");
- 	print_tree_rec(ast1);
- 	//ast2 = parser("ls -l | cat -e || wc -l && pwd | cat -e");
- 	//print_av(ast2);
 }
+
+void	print_lex(char *input, t_token *token)
+{
+	if (!token)
+	return ;
+	printf("%s\n", input);
+	while (token)
+	{
+		printf(" WORD %s : TYPE ", token->token);
+		printf("%u\n", token->type);
+		token = token->next;
+	}
+}
+
+t_tree	*parser(char *input)
+{
+	t_tree	*ast;
+	t_token	*token_list;
+	t_token	*cur_token;
+
+	ast = NULL;
+	token_list = NULL;
+	if (!input || !*input)
+	return (NULL);
+	lexer(input, &token_list);
+	cur_token = token_list;
+	ast = parse_logical(&cur_token);
+	t_lstclear(&token_list, free);
+	return (ast);
+}
+
+void	print_av(t_tree *ast)
+{
+	int	i;
+
+	if (!ast)
+	return ;
+	if (ast->argv)
+	{
+		i = 0;
+		while (ast->argv[i])
+		{
+			printf("ast%d %s \n", i, ast->argv[i]);
+			i++;
+		}
+		printf("\n");
+	}
+	print_av(ast->left);
+	print_av(ast->right);
+}
+
+//int	main(void)
+//{
+//t_tree *ast1;
+////t_tree *ast2;
+
+//ast1 = parser("ls -l && cat -e || echo aaa");
+//print_tree_rec(ast1);
+// 	//ast2 = parser("ls -l | cat -e || wc -l && pwd | cat -e");
+// 	//print_av(ast2);
+//}
 
 // t_tree	*parse_pipeline(t_token **cur)
 // {
