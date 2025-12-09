@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 19:21:32 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 19:23:12 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/09 20:37:45 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ typedef struct s_pipe	t_pipe;
 typedef struct s_pipe	t_pipe;
 
 void	print_token(t_token *lst);
-void	print_flist(t_flist *flist);
-void	print_split(char **cmd);
-void	print_tree(t_tree *branch);
+void	print_flist(t_flist *flist, int i);
+void	print_split(char **cmd, int j);
+void	print_tree(t_tree *branch, int i);
 void	print_tree_rec(t_tree *branch);
 
 #endif

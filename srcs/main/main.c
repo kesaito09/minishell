@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 19:30:21 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/09 19:39:10 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,25 @@
 
 
 
-int main(int argc, char **argv, char **envp)
-{
-	char	*line;
-	t_tree	*branch;
-	t_pipe	info;
+//int main(int argc, char **argv, char **envp)
+//{
+//	char	*line;
+//	t_tree	*branch;
+//	t_pipe	info;
 
-	info = correct_info(argc, argv, envp);
-	while (1)
-	{
-		line = readline("minishell$ ");
-		if (!line)
-			return (rl_clear_history(), 0);
-		add_history(line);
-		branch = parser(line);
-		tree_operator(branch, &info, 1);
-		waitpid_plist(info.plist);
-		free(line);
-	}
-}
+//	info = correct_info(argc, argv, envp);
+//	while (1)
+//	{
+//		line = readline("minishell$ ");
+//		if (!line)
+//			return (rl_clear_history(), 0);
+//		add_history(line);
+//		branch = parser(line);
+//		tree_operator(branch, &info, 1);
+//		waitpid_plist(info.plist);
+//		free(line);
+//	}
+//}
 
 // /*tester*/
 
