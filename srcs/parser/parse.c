@@ -231,7 +231,7 @@ t_tree	*parser(char *input)
 	ast = NULL;
 	token_list = NULL;
 	if (!input || !*input)
-	return (NULL);
+		return (NULL);
 	lexer(input, &token_list);
 	cur_token = token_list;
 	ast = parse_logical(&cur_token);
@@ -239,25 +239,25 @@ t_tree	*parser(char *input)
 	return (ast);
 }
 
-void	print_av(t_tree *ast)
-{
-	int	i;
+//void	print_av(t_tree *ast)
+//{
+//	int	i;
 
-	if (!ast)
-	return ;
-	if (ast->argv)
-	{
-		i = 0;
-		while (ast->argv[i])
-		{
-			printf("ast%d %s \n", i, ast->argv[i]);
-			i++;
-		}
-		printf("\n");
-	}
-	print_av(ast->left);
-	print_av(ast->right);
-}
+//	if (!ast)
+//	return ;
+//	if (ast->argv)
+//	{
+//		i = 0;
+//		while (ast->argv[i])
+//		{
+//			printf("ast%d %s \n", i, ast->argv[i]);
+//			i++;
+//		}
+//		printf("\n");
+//	}
+//	print_av(ast->left);
+//	print_av(ast->right);
+//}
 
 //int	main(void)
 //{

@@ -12,12 +12,12 @@
 
 #include "../../includes/execution.h"
 
-void	error_exit(char **path, char *str, int errno)
-{
-	free_path(path);
-	perror(str);
-	exit(errno);
-}
+//void	error_exit(char **path, char *str, int errno)
+//{
+//	free_path(path);
+//	perror(str);
+//	exit(errno);
+//}
 
 //void	wait_exit(pid_t pid[], t_pipe info)
 //{

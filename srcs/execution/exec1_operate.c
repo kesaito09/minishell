@@ -16,6 +16,9 @@ int	tree_operator(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 {
 	if (!branch)
 		return  (FAILUER);
+	if (branch->b_type == CONJUNCTION)
+		if (manage_pipe(branch, info, fd_in, fd_out) == FAILUER)
+			return (FAILUER);
 	if (branch->b_type == PIPE)
 		if (manage_pipe(branch, info, fd_in, fd_out) == FAILUER)
 			return (FAILUER);

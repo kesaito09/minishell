@@ -37,7 +37,7 @@ void	tree_add_right(t_tree **branch, t_tree *node)
 	node->parent = (*branch);
 }
 
-void free_cmd(char **cmd)
+void free_split(char **cmd)
 {
 	int	i;
 
@@ -52,13 +52,13 @@ void free_cmd(char **cmd)
 	free(cmd);
 }
 
-void	free_tree(t_tree *branch)
+void	free_tree_rec(t_tree *branch)
 {
 	if (!branch)
 		return ;
-	free_tree(branch->left);
-	free_tree(branch->right);
+	free_tree_rec(branch->left);
+	free_tree_rec(branch->right);
 	free_flist(branch->flist);
-	free_cmd(branch->argv);
+	free_split(branch->argv);
 	free(branch);
 }

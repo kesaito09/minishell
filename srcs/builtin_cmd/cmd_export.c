@@ -32,7 +32,7 @@ int	export(char **cmd, t_pipe *info)
 	i = count_env(info->envp);
 	tmp = ft_strchr(cmd[1], '=');
 	if (!tmp || tmp == cmd[1])
-		return (free_cmd(cmd), ERROR);
+		return (ERROR);
 	new_env = (char **)ft_calloc(sizeof(char *), i + 2);
 	new_env[i] = ft_strdup(cmd[1]);
 	while (i >= 0)
