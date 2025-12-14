@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/07 19:04:29 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/10 00:35:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 
 # include "minishell.h"
 
-/*struct detail in pipex.h*/
+/*struct detail in execution.h*/
 
 typedef struct s_tree t_tree;
 typedef struct s_flist t_flist;
-typedef enum e_type t_type;
+typedef enum e_tree_type t_tree_type;
 typedef enum e_file_type t_file_type;
+typedef struct s_token t_token;
 
 /*utils1_make_tree*/
-t_tree	*tree_new(char **cmd, t_flist *flist, t_type btype);
+t_tree	*tree_new(char **cmd, t_flist *flist, t_tree_type btype);
 void	tree_add_left(t_tree **branch, t_tree *node);
 void	tree_add_right(t_tree **branch, t_tree *node);
 void 	free_cmd(char **cmd);

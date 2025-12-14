@@ -17,6 +17,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <stdbool.h>
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -26,26 +27,76 @@
 # define FIRST 2
 # define LAST argc - 2
 
-typedef struct s_pipe		t_pipe;
-typedef struct s_pid	t_pidlist;
-typedef struct s_tree		t_tree;
+typedef enum e_tree_type
+{
+	PIPE = 0,
+	CONJUNCTION,
+	DISJUNCTION,
+	COMMAND,
+	MY_COMMAND,
+}					t_tree_type;
+
+typedef enum e_file_type
+{
+	NONE,
+	OUTFILE,
+	APPEND,
+	INFILE,
+	HEARDOC,
+}			t_file_type;
+
+typedef struct 			s_flist
+{
+	t_file_type			f_type;
+	char				*file;
+	struct s_flist	*next;
+}			t_flist;
+
+typedef struct s_tree
+{
+	struct s_tree	*parent;
+	struct s_tree	*left;
+	struct s_tree	*right;
+	char			**argv;
+	char			**assigns;
+	t_flist			*flist;
+	t_tree_type			b_type;
+}					t_tree;
+
+typedef struct s_pidlist
+{
+	int				pid;
+	struct s_pidlist	*next;
+}					t_pidlist;
+
+typedef struct s_pipe
+{
+	int				argc;
+	char			**envp;
+	char			**path;
+	bool			pipe;
+	int				fd[2];
+	t_pidlist		*plist;
+	int				fd_stdin;
+	int				fd_stdout;
+}					t_pipe;
 
 /*exec1_path*/
-t_pipe				correct_info(int argc, char **argv, char **envp);
+t_pipe				correct_info(char **envp);
 void				free_path(char **path);
 
 /*exec2_cmd*/
-void				manage_cmd(t_tree *branch, t_pipe *info, pid_t pid);
-void				manage_my_cmd(t_tree *branch, t_pipe *info, pid_t pid);
+int					manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
+int					manage_my_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
 
 /*exec3_pipe*/
-void				manage_pipe(t_tree *branch, t_pipe *info, pid_t pid);
+int					manage_pipe(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
 
 /*exec4_redirect.c*/
-int					manage_redirect(t_pipe *info, t_tree *branch);
+int					manage_redirect(t_tree *branch);
 
 /*exec5_operate.c*/
-void				tree_operator(t_tree *branch, t_pipe *info, pid_t pid);
+int					tree_operator(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
 
 /*exec_utils1_pid*/
 void				pid_add_back(t_pidlist **plist, pid_t pid);

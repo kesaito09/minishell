@@ -6,10 +6,11 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:49:03 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 19:14:38 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/10 00:39:02 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/execution.h"
 #include "../../includes/parser.h"
 
 t_flist	*flist_new(t_file_type ftype, char *fname)

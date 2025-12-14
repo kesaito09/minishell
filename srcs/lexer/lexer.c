@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/08 03:11:57 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/09 20:00:30 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,15 +174,14 @@ void	lexer(char *input, t_token **token_list)
 	t_token	*eof_node;
 
 	my_lex(input, token_list);
+	if (!*token_list)
+		return ;
 	lst_node = t_lstlast(*token_list);
-	if (lst_node)
-	{
-		eof_node = ft_calloc(1, sizeof(t_token));
-		if (!eof_node)
-			return ;
-		eof_node->type = TOKEN_EOF;
-		lst_node->next = eof_node;
-	}
+	eof_node = t_lstnew(NULL);
+	if (!eof_node)
+		return ;
+	eof_node->type = TOKEN_EOF;
+	lst_node->next = eof_node;
 }
 
 // int	main(void)

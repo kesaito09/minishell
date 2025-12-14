@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 06:33:13 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 17:45:11 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/10 02:06:36 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int	complete_path(char ***path, char **envp)
 	return (SUCCESS);
 }
 
-t_pipe	correct_info(int argc, char **argv, char **envp)
+t_pipe	correct_info(char **envp)
 {
 	t_pipe	info;
 
@@ -80,14 +80,11 @@ t_pipe	correct_info(int argc, char **argv, char **envp)
 	ft_bzero(&info, sizeof(t_pipe));
 	if (complete_path(&(info.path), envp) == FAILUER)
 		error_exit(NULL, "path not found", 2);
-	info.argv = argv;
 	info.envp = envp;
-	info.argc = argc;
 	info.plist = pid_new(getpid());
-	info.fd_out[0] = -1;
-	info.fd_out[1] = -1;
-	info.fd_in[0] = -1;
-	info.fd_in[1] = -1;
+	info.pipe = false;
+	info.fd[0] = -1;
+	info.fd[1] = -1;
 	info.fd_stdout = dup(1);
 	info.fd_stdin = dup(0);
 	return (info);

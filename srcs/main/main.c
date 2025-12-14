@@ -6,11 +6,12 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 19:30:21 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/10 02:15:02 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/readline.h"
+#include "../../includes/execution.h"
 #include "../../includes/minishell.h"
 
 // int	main_stream(char *line)
@@ -33,7 +34,7 @@ int main(int argc, char **argv, char **envp)
 	t_tree	*branch;
 	t_pipe	info;
 
-	info = correct_info(argc, argv, envp);
+	info = correct_info(envp);
 	while (1)
 	{
 		line = readline("minishell$ ");
@@ -41,10 +42,12 @@ int main(int argc, char **argv, char **envp)
 			return (rl_clear_history(), 0);
 		add_history(line);
 		branch = parser(line);
-		tree_operator(branch, &info, 1);
+		tree_operator(branch, &info, 0, 1);
 		waitpid_plist(info.plist);
 		free(line);
 	}
+	(void)argc;
+	(void)argv;
 }
 
 // /*tester*/
