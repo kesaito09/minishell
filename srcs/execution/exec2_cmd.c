@@ -61,7 +61,7 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 		return (FAILUER);
 	if (pid == 0)
 	{
-		close_unused_pipe(int fd_in, int fd_out, int info->fd);
+		close_unused_pipe(fd_in, fd_out, info->fd);
 		if (dup2_stdin_out(fd_in, fd_out) == FAILUER 
 			|| manage_redirect(branch) == FAILUER)
 			return (FAILUER);
