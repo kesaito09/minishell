@@ -30,6 +30,7 @@ static int	execve_cmd(char **path, char **envp, char **cmd)
 		free(full_path);
 		i++;
 	}
+	execve(cmd[0], cmd, envp);
 	return (FAILUER);
 }
 
