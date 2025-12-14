@@ -27,7 +27,8 @@ typedef struct s_token t_token;
 t_tree	*tree_new(char **cmd, t_flist *flist, t_tree_type btype);
 void	tree_add_left(t_tree **branch, t_tree *node);
 void	tree_add_right(t_tree **branch, t_tree *node);
-void 	free_cmd(char **cmd);
+void 	free_split(char **cmd);
+void	free_tree_rec(t_tree *branch);
 
 /*utils2_redirect*/
 t_flist	*flist_new(t_file_type ftype, char *fname);

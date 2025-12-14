@@ -20,7 +20,7 @@ LIBFT = $(LIBFTDIR)/libft.a
 
 LIBDIR = $(LIBFTDIR)
 LDFLAGS = -L $(LIBDIR)
-LDLIBS = -lft -lreadline
+LDLIBS = -lft #-lreadline
 
 MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/builtin_cmd/cmd_pwd.c\

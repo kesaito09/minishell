@@ -65,7 +65,7 @@ static int	complete_path(char ***path, char **envp)
 		tmp = (*path)[i];
 		(*path)[i] = ft_strjoin((*path)[i], "/");
 		if (!(*path)[i])
-			return (free_path(*path), FAILUER);
+			return (FAILUER);
 		free(tmp);
 		i++;
 	}
@@ -79,7 +79,7 @@ t_pipe	correct_info(char **envp)
 
 	ft_bzero(&info, sizeof(t_pipe));
 	if (complete_path(&(info.path), envp) == FAILUER)
-		error_exit(NULL, "path not found", 2);
+		exit(1);
 	info.envp = envp;
 	info.plist = pid_new(getpid());
 	info.pipe = false;

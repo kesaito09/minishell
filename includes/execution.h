@@ -102,6 +102,7 @@ int					tree_operator(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
 void				pid_add_back(t_pidlist **plist, pid_t pid);
 t_pidlist			*pid_new(pid_t pid);
 void				free_pid(t_pidlist *plist);
+void				close_unused_pipe(int fd_in, int fd_out, int pipes[2]);
 void				waitpid_plist(t_pidlist *plist);
 
 /*exec_utils2_error*/
@@ -109,7 +110,7 @@ void				error_exit(char **path, char *str, int errno);
 
 /*exec_utils3_pipe*/
 int					pipe_update(int	fd_in[2], int fd_out[2]);
-int					pipe_terminate(int	fd_in[2], int fd_out[2]);
+//int					pipe_terminate(int	fd_in[2], int fd_out[2]);
 void				close_fd_in_out(int *fd_in, int *fd_out);
 int					dup2_stdin_out(int fd_in, int fd_out);
 int					reset_stdin_out(t_pipe *info);

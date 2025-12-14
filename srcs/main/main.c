@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/readline.h"
+//#include "../../includes/readline.h"
 #include "../../includes/execution.h"
 #include "../../includes/minishell.h"
 
@@ -28,63 +28,42 @@
 
 
 
-int main(int argc, char **argv, char **envp)
-{
-	char	*line;
-	t_tree	*branch;
-	t_pipe	info;
+//int main(int argc, char **argv, char **envp)
+//{
+//	char	*line;
+//	t_tree	*branch;
+//	t_pipe	info;
 
-	info = correct_info(envp);
-	while (1)
-	{
-		line = readline("minishell$ ");
-		if (!line)
-			return (rl_clear_history(), 0);
-		add_history(line);
-		branch = parser(line);
-		tree_operator(branch, &info, 0, 1);
-		waitpid_plist(info.plist);
-		free(line);
-	}
-	(void)argc;
-	(void)argv;
-}
+//	info = correct_info(envp);
+//	while (1)
+//	{
+//		line = readline("minishell$ ");
+//		if (!line)
+//			return (rl_clear_history(), 0);
+//		add_history(line);
+//		branch = parser(line);
+//		tree_operator(branch, &info, 0, 1);
+//		waitpid_plist(info.plist);
+//		free(line);
+//	}
+//	(void)argc;
+//	(void)argv;
+//}
 
 // /*tester*/
 
-// int main(int argc, char **argv, char **envp)
-// {
-// 	t_tree	*tmp;
-// 	t_tree	*branch;
-// 	t_pipe	info;
-// 	t_flist	*flist;
-// 	char	*str;
-// 	char	*null;
-// 	char	**cmd;
+int main(int argc, char **argv, char **envp)
+{
+	t_tree	*branch;
+	t_pipe	info;
 
-// 	null = (char *)NULL;
-// 	flist = flist_new(NONE, null);
-// 	branch = tree_new(&null, flist, PIPE);
-// 	info = correct_info(argc, argv, envp);
-
-// 	str = "ls -l -a -R";
-// 	cmd = ft_split(str, ' ');
-// 	tmp = tree_new(cmd, flist, COMMAND);
-// 	tree_add_left(&branch, tmp);
-
-// 	tmp = tree_new(&null, flist, PIPE);
-// 	tree_add_right(&branch, tmp);
-
-// 	str = "sort -u";
-// 	cmd = ft_split(str, ' ');
-// 	tmp = tree_new(cmd, flist, COMMAND);
-// 	tree_add_left(&(branch->right), tmp);
-
-// 	str = "cat -e";
-// 	cmd = ft_split(str, ' ');
-// 	tmp = tree_new(cmd, flist, COMMAND);
-// 	tree_add_right(&(branch->right), tmp);
-
-// 	tree_operator(branch, &info, 1);
-// 	waitpid_plist(info.plist);
-// }
+	if (argc < 2)
+		return (0);
+	info = correct_info(envp);
+	branch = parser(argv[1]);
+	tree_operator(branch, &info, 0, 1);
+	free_tree_rec(branch);
+	free_split(info.path);
+	waitpid_plist(info.plist);
+	free_pid(info.plist);
+}
