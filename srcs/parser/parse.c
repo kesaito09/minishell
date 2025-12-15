@@ -157,7 +157,6 @@ t_tree	*parse_command(t_token **cur)
 		else
 			append_argv(node, cur);
 	}
-	ft_putendl_fd(node->flist->file, 1);
 	return (node);
 }
 
@@ -236,7 +235,6 @@ t_tree	*parser(char *input)
 	lexer(input, &token_list);
 	cur_token = token_list;
 	ast = parse_logical(&cur_token);
-	ft_putendl_fd(ast->flist->file, 1);
 	t_lstclear(&token_list, free);
 	return (ast);
 }

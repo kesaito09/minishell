@@ -61,10 +61,6 @@ int main(int argc, char **argv, char **envp)
 		return (0);
 	info = correct_info(envp);
 	branch = parser(argv[1]);
-	//ft_putendl_fd(branch->argv[0], 1);
-	//ft_putendl_fd(branch->argv[1], 1);
-	ft_putendl_fd(branch->flist->file, 1);
-	return (0);
 	tree_operator(branch, &info, 0, 1);
 	free_tree_rec(branch);
 	free_split(info.path);

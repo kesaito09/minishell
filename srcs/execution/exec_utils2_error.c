@@ -75,7 +75,7 @@ int		redirect_out_check(char *path)
 
 void	command_error_check(char *cmd, char *path)
 {
-	if (access(path, F_OK) == -1)
+	if (access(path, F_OK) == -1 || ft_strncmp(path, "./", 2))
     {
 		ft_putstr_fd(cmd, 2);
 		ft_putendl_fd(": command not found", 2);
@@ -93,5 +93,4 @@ void	command_error_check(char *cmd, char *path)
 		ft_putendl_fd(": Permission denied", 2);
     	exit(126); 
 	}
-	ft_putendl_fd("something wrong", 2);
 }
