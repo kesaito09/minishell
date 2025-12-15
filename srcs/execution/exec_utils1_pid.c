@@ -58,7 +58,7 @@ void	free_pid(t_pidlist *plist)
 	}
 }
 
-void	waitpid_plist(t_pidlist *plist)
+int	waitpid_plist(t_pidlist *plist)
 {
 	int	status;
 
@@ -69,4 +69,5 @@ void	waitpid_plist(t_pidlist *plist)
 			return ;
 		waitpid(plist->pid, &status, 0);
 	}
+	
 }

@@ -25,7 +25,7 @@ static int	execve_cmd(char **path, char **envp, char **cmd)
 	{
 		full_path = ft_strjoin(path[i], cmd[0]);
 		if (!full_path)
-			return (FAILUER);
+			error_exit("minishell: malloc", 1);
 		execve(full_path, cmd, envp);
 		free(full_path);
 		i++;
@@ -60,14 +60,14 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 
 	pid = fork();
 	if (pid < 0)
-		error_exit("fork:", 1);
+		return (perror("minishell: fork"), FAILUER);
 	if (pid == 0)
 	{
 		close_unused_pipe(fd_in, fd_out, info->fd);
 		if (dup2_stdin_out(fd_in, fd_out) == FAILUER)
-			error_exit("dup2:", 1);
+			error_exit("minishell: dup2", 1);
 		if (manage_redirect(branch) == FAILUER)
-			return (FAILUER);
+			exit(1);
 		if (execve_cmd(info->path, info->envp, branch->argv) == FAILUER)
 			error_exit("command not found", 127);
 	}
