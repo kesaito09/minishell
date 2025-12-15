@@ -31,6 +31,7 @@ static int	execve_cmd(char **path, char **envp, char **cmd)
 		i++;
 	}
 	execve(cmd[0], cmd, envp);
+	command_error_check(cmd[0], cmd[0]);
 	return (FAILUER);
 }
 
@@ -59,15 +60,16 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 
 	pid = fork();
 	if (pid < 0)
-		return (FAILUER);
+		error_exit("fork:", 1);
 	if (pid == 0)
 	{
 		close_unused_pipe(fd_in, fd_out, info->fd);
-		if (dup2_stdin_out(fd_in, fd_out) == FAILUER 
-			|| manage_redirect(branch) == FAILUER)
+		if (dup2_stdin_out(fd_in, fd_out) == FAILUER)
+			error_exit("dup2:", 1);
+		if (manage_redirect(branch) == FAILUER)
 			return (FAILUER);
-		execve_cmd(info->path, info->envp, branch->argv);
-		exit(1);
+		if (execve_cmd(info->path, info->envp, branch->argv) == FAILUER)
+			error_exit("command not found", 127);
 	}
 	return (pid_add_back(&(info->plist), pid), SUCCESS);
 }
@@ -78,7 +80,7 @@ int	manage_my_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 
 	pid = 1;
 	if (info->pipe)
-	pid = fork();
+		pid = fork();
 	if (pid < 0)
 		return (FAILUER);
 	if (info->pipe && pid > 0)

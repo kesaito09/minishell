@@ -21,6 +21,7 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <sys/stat.h>
 
 # define SUCCESS 1
 # define FAILUER -1
@@ -106,7 +107,10 @@ void				close_unused_pipe(int fd_in, int fd_out, int pipes[2]);
 void				waitpid_plist(t_pidlist *plist);
 
 /*exec_utils2_error*/
-void				error_exit(char **path, char *str, int errno);
+void				error_exit(char *str, int errno);
+void				command_error_check(char *cmd, char *path);
+int					redirect_in_check(char *path);
+int					redirect_out_check(char *path);
 
 /*exec_utils3_pipe*/
 int					pipe_update(int	fd_in[2], int fd_out[2]);

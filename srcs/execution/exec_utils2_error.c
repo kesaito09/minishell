@@ -12,68 +12,86 @@
 
 #include "../../includes/execution.h"
 
-//void	error_exit(char **path, char *str, int errno)
-//{
-//	free_path(path);
-//	perror(str);
-//	exit(errno);
-//}
+void	error_exit(char *str, int errno)
+{
+	perror(str);
+	exit(errno);
+}
 
-//void	wait_exit(pid_t pid[], t_pipe info)
-//{
-//	int	i;
-//	int	tmp;
-//	int	status;
+int is_directory(const char *path)
+{
+    struct stat statbuf;
 
-//	status = 0;
-//	tmp = 0;
-//	i = FIRST;
-//	while (i <= info.LAST)
-//	{
-//		waitpid(pid[i], &tmp, 0);
-//		status = WEXITSTATUS(tmp);
-//		i++;
-//	}
-//}
+    if (stat(path, &statbuf) != 0)
+		return (false);
+	if (S_ISDIR(statbuf.st_mode))
+		return (true);
+	return (false);
+}
 
-/*get_lines tester*/
+int		redirect_in_check(char *path)
+{
+	if (access(path, F_OK) == -1)
+	{
+		ft_putstr_fd(path, 2);
+		ft_putendl_fd(": No such file or directory", 2);
+		return (FAILUER);
+	}
+	if (is_directory(path))
+	{
+		ft_putstr_fd(path, 2);
+		ft_putendl_fd(": Is a directory", 2);
+		return (FAILUER);
+	}
+	else if (access(path, X_OK) == -1)
+	{
+		ft_putstr_fd(path, 2);
+		ft_putendl_fd(": Permission denied", 2);
+		return (FAILUER);
+	}
+	return (SUCCESS);
+}
 
-//int	main(int argc, char **argv)
-//{
-//	int		fd;
-//	char	*lines;
+int		redirect_out_check(char *path)
+{
+	if (access(path, F_OK) == -1)
+	{
+		return (SUCCESS);
+	}
+	if (is_directory(path))
+	{
+		ft_putstr_fd(path, 2);
+		ft_putendl_fd(": Is a directory", 2);
+		return (FAILUER);
+	}
+	else if (access(path, X_OK) == -1)
+	{
+		ft_putstr_fd(path, 2);
+		ft_putendl_fd(": Permission denied", 2);
+		return (FAILUER);
+	}
+	return (SUCCESS);
+}
 
-//	if (argc < 2)
-//		return (1);
-//	fd = open(argv[1], O_RDONLY);
-//	lines = get_lines(fd);
-//	ft_putendl_fd(lines, 1);
-//	free(lines);
-//	(void)argc;
-//	return (0);
-//}
-
-//char	*get_lines(int fd)
-//{
-//	char	*line;
-//	char	tmp[101];
-//	char	*fptr;
-//	int		count;
-
-//	line = NULL;
-//	while (1)
-//	{
-//		count = read(fd, tmp, 100);
-//		if (count <= 0)
-//			return (NULL);
-//		tmp[count] = '\0';
-//		fptr = line;
-//		line = ft_strjoin(line, tmp);
-//		free(fptr);
-//		if (!line)
-//			return (NULL);
-//		ft_bzero(tmp, sizeof(char) * 101);
-//		if (count < 100)
-//			return (line);
-//	}
-//}
+void	command_error_check(char *cmd, char *path)
+{
+	if (access(path, F_OK) == -1)
+    {
+		ft_putstr_fd(cmd, 2);
+		ft_putendl_fd(": command not found", 2);
+		exit(127);
+	}
+	if (is_directory(path))
+    {
+		ft_putstr_fd(cmd, 2);
+		ft_putendl_fd(": Is a directory", 2);
+    	exit(126); 
+	}
+	else if (access(path, X_OK) == -1)
+    {
+		ft_putstr_fd(cmd, 2);
+		ft_putendl_fd(": Permission denied", 2);
+    	exit(126); 
+	}
+	ft_putendl_fd("something wrong", 2);
+}
