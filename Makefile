@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2025/12/09 19:23:58 by natakaha         ###   ########.fr        #
+#    Updated: 2025/12/16 21:31:51 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBFT = $(LIBFTDIR)/libft.a
 
 LIBDIR = $(LIBFTDIR)
 LDFLAGS = -L $(LIBDIR)
-LDLIBS = -lft #-lreadline
+LDLIBS = -lft -lreadline
 
 MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/builtin_cmd/cmd_pwd.c\

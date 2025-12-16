@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/15 23:41:10 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/16 21:23:59 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ typedef enum e_token_type
 	TOKEN_APPEND,
 	TOKEN_CONJUNCTIONE,
 	TOKEN_DISJUNCTIONE,
-	TOKEN_SUBSHELL,
+	TOKEN_PARENTHESIS_LEFT,
+	TOKEN_PARENTHESIS_RIGHT,
 	TOKEN_EOF,
 	// リストのヌル文字みたいな意味
 

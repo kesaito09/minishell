@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/16 11:37:31 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/16 21:31:00 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	is_operator(int c)
 {
-	return (c == '|' || c == '<' || c == '>' );
+	return (c == '|' || c == '<' || c == '>' || c == '(' || c == ')');
 }
 
 static int	is_delimiter(int c)
@@ -22,7 +22,7 @@ static int	is_delimiter(int c)
 	return (c == ' ' || c == '\n' || c == '\t');
 }
 
-int		tokenizer(char *input, t_token **token_list)
+void	tokenizer(char *input, t_token **token_list)
 {
 	t_state		state;
 	char		*op;
@@ -75,6 +75,7 @@ int		tokenizer(char *input, t_token **token_list)
 						input += 2;
 						continue ; // 一時的に例外処理にしてる後で直す
 					}
+					
 					else if (!ft_strncmp(input, "||", 2))
 					{
 						op = ft_strdup("||");
@@ -92,6 +93,20 @@ int		tokenizer(char *input, t_token **token_list)
 						add_token(token_list, op, TOKEN_CONJUNCTIONE);
 						input += 2;
 						continue;
+					}
+					else if(!ft_strcmp(input, "("))
+					{
+						op = ft_strdup("(");
+						if (!op)
+							return ;
+						add_token(token_list, op, TOKEN_PARENTHESIS_LEFT);
+					}
+					else if(!ft_strcmp(input, ")"))
+					{
+						op = ft_strdup(")");
+						if (!op)
+							return ;
+						add_token(token_list, op, TOKEN_PARENTHESIS_RIGHT);
 					}
 					else if (!ft_strncmp(input, "|", 1))
 					{
@@ -175,7 +190,7 @@ void	lexer(char *input, t_token **token_list)
 	t_token	*last_node;
 	t_token	*eof_node;
 
-	my_lex(input, token_list);
+	tokenizer(input, token_list);
 	if (!*token_list)
 		return ;
 	last_node = t_lstlast(*token_list);
