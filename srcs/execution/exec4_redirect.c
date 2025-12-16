@@ -54,17 +54,20 @@ static int	manage_redirect_module(t_flist *flist)
 {
 	if (flist->f_type == INFILE)
 	{
-		if (redirect_in_open_dup2(flist) == FAILUER)
+		if (redirect_in_check(flist->file) == FAILUER
+			|| redirect_in_open_dup2(flist) == FAILUER)
 			return (FAILUER);
 	}
 	else if (flist->f_type == OUTFILE)
 	{
-		if (redirect_out_open_dup2(flist) == FAILUER)
+		if (redirect_out_check(flist->file) == FAILUER
+			|| redirect_out_open_dup2(flist) == FAILUER)
 			return (FAILUER);
 	}
 	else if (flist->f_type == APPEND)
 	{
-		if (append_open_dup2(flist) == FAILUER)
+		if (redirect_out_check(flist->file) == FAILUER
+			|| append_open_dup2(flist) == FAILUER)
 			return (FAILUER);
 	}
 	return (SUCCESS);

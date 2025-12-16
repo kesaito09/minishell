@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/10 02:43:34 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/16 09:43:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ static int	execve_cmd(char **path, char **envp, char **cmd)
 	{
 		full_path = ft_strjoin(path[i], cmd[0]);
 		if (!full_path)
-			return (FAILUER);
+			error_exit("minishell: malloc", 1);
 		execve(full_path, cmd, envp);
 		free(full_path);
 		i++;
 	}
+	command_error_check(cmd[0], cmd[0]);
 	execve(cmd[0], cmd, envp);
 	return (FAILUER);
 }
@@ -59,15 +60,17 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 
 	pid = fork();
 	if (pid < 0)
-		return (FAILUER);
+		return (perror("minishell: fork"), FAILUER);
 	if (pid == 0)
 	{
+		setup_signal_child();
 		close_unused_pipe(fd_in, fd_out, info->fd);
-		if (dup2_stdin_out(fd_in, fd_out) == FAILUER 
-			|| manage_redirect(branch) == FAILUER)
-			return (FAILUER);
-		execve_cmd(info->path, info->envp, branch->argv);
-		exit(1);
+		if (dup2_stdin_out(fd_in, fd_out) == FAILUER)
+			error_exit("minishell: dup2", 1);
+		if (manage_redirect(branch) == FAILUER)
+			exit(1);
+		if (execve_cmd(info->path, info->envp, branch->argv) == FAILUER)
+			error_exit("command not found", 127);
 	}
 	return (pid_add_back(&(info->plist), pid), SUCCESS);
 }
@@ -78,13 +81,15 @@ int	manage_my_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 
 	pid = 1;
 	if (info->pipe)
-	pid = fork();
+		pid = fork();
 	if (pid < 0)
 		return (FAILUER);
 	if (info->pipe && pid > 0)
-		return (pid_add_back(&(info->plist), pid), SUCCESS);
+	return (pid_add_back(&(info->plist), pid), SUCCESS);
+	if (info->pipe && pid == 0)
+		setup_signal_child();
 	close_unused_pipe(fd_in, fd_out, info->fd);
-	if (dup2_stdin_out(fd_in, fd_out) == FAILUER 
+	if (dup2_stdin_out(fd_in, fd_out) == FAILUER
 		|| manage_redirect(branch) == FAILUER)
 		return (FAILUER);
 	execve_my_cmd(branch->argv, info);

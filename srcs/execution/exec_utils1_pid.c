@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 03:43:18 by naoki             #+#    #+#             */
-/*   Updated: 2025/12/09 17:16:23 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/16 09:09:29 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,18 @@ void	free_pid(t_pidlist *plist)
 	}
 }
 
-void	waitpid_plist(t_pidlist *plist)
+void	waitpid_plist(t_pidlist **plist)
 {
 	int	status;
 
 	while (1)
 	{
-		plist = plist->next;
-		if (!plist)
-			return ;
-		waitpid(plist->pid, &status, 0);
+		(*plist) = (*plist)->next;
+		if (!*plist)
+			break ;
+		waitpid((*plist)->pid, &status, 0);
 	}
+		free_pid(*plist);
+		*plist = pid_new(1);
+	return ;
 }

@@ -12,6 +12,26 @@
 
 #include "../../includes/execution.h"
 
+int	manage_conjunction(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
+{
+	if (tree_operator(branch->left, info, fd_in, fd_out) == FAILUER)
+		return (FAILUER);
+
+	if (tree_operator(branch->right, info, fd_in, fd_out) == FAILUER)
+		return (FAILUER);
+	return (SUCCESS);
+}
+
+int	manage_disjunction(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
+{
+	if (tree_operator(branch->left, info, fd_in, fd_out) == FAILUER)
+		return (FAILUER);
+	
+	if (tree_operator(branch->right, info, fd_in, fd_out) == FAILUER)
+		return (FAILUER);
+	return (SUCCESS);
+}
+
 int	manage_pipe(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 {
 	int	fd[2];

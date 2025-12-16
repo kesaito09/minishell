@@ -19,7 +19,7 @@ t_flist	*flist_new(t_file_type ftype, char *fname)
 
 	flist = (t_flist *)ft_calloc(sizeof(t_flist), 1);
 	flist->f_type = ftype;
-	flist->file = fname;
+	flist->file = ft_strdup(fname);
 	flist->next = NULL;
 	return (flist);
 }
