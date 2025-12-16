@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/09 17:50:29 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/15 23:41:10 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef enum e_token_type
 	TOKEN_APPEND,
 	TOKEN_CONJUNCTIONE,
 	TOKEN_DISJUNCTIONE,
+	TOKEN_SUBSHELL,
 	TOKEN_EOF,
 	// リストのヌル文字みたいな意味
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/09 20:00:30 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/16 11:37:31 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,21 @@ static int	is_operator(int c)
 	return (c == '|' || c == '<' || c == '>' );
 }
 
-static int	is_ifs(int c)
+static int	is_delimiter(int c)
 {
 	return (c == ' ' || c == '\n' || c == '\t');
 }
 
-void	my_lex(char *input, t_token **token_list)
+int		tokenizer(char *input, t_token **token_list)
 {
 	t_state		state;
 	char		*op;
 	t_char_list	*c_list;
+	int			balance;
 
 	state = STATE_GENERAL;
 	c_list = NULL;
+	balance = 0;
 	while (*input)
 	{
 		if (state == STATE_GENERAL)
@@ -46,7 +48,7 @@ void	my_lex(char *input, t_token **token_list)
 				append_char(&c_list, *input);
 				input++;
 			}
-			else if (is_ifs(*input) || is_operator(*input) || !ft_strncmp(input, "&&", 2))
+			else if (is_delimiter(*input) || is_operator(*input) || !ft_strncmp(input, "&&", 2))
 			{
 				if (c_list)
 				{
