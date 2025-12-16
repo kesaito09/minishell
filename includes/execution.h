@@ -78,6 +78,7 @@ typedef struct s_pipe
 	bool			pipe;
 	int				fd[2];
 	t_pidlist		*plist;
+	int				ecode;
 	int				fd_stdin;
 	int				fd_stdout;
 }					t_pipe;
@@ -92,6 +93,8 @@ int					manage_my_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
 
 /*exec3_pipe*/
 int					manage_pipe(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
+int					manage_conjunction(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
+int					manage_disjunction(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
 
 /*exec4_redirect.c*/
 int					manage_redirect(t_tree *branch);
@@ -104,7 +107,7 @@ void				pid_add_back(t_pidlist **plist, pid_t pid);
 t_pidlist			*pid_new(pid_t pid);
 void				free_pid(t_pidlist *plist);
 void				close_unused_pipe(int fd_in, int fd_out, int pipes[2]);
-void				waitpid_plist(t_pidlist **plist);
+int					waitpid_plist(t_pidlist **plist);
 
 /*exec_utils2_error*/
 void				error_exit(char *str, int errno);

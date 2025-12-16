@@ -6,7 +6,7 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2025/12/16 09:26:02 by natakaha         ###   ########.fr        #
+#    Updated: 2025/12/16 21:50:38 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/builtin_cmd/cmd_export.c\
 			srcs/builtin_cmd/cmd_env.c\
 			srcs/builtin_cmd/cmd_utils_info.c\
+			srcs/builtin_cmd/cmd_utils.c\
 			srcs/execution/exec_utils1_pid.c\
 			srcs/execution/exec_utils2_error.c\
 			srcs/execution/exec_utils3_pipe.c\
@@ -41,9 +42,10 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/lexer/token_list_utils.c\
 			srcs/parser/utils1_make_tree.c\
 			srcs/parser/utils2_redirect.c\
-			srcs/parser/utilas3_parse.c\
-			srcs/parser/getsize.c\
+			srcs/parser/utils3_parse.c\
+			srcs/parser/utils4_heardoc.c\
 			srcs/parser/parse.c\
+			srcs/parser/parse_cmd.c\
 			srcs/main/main.c\
 			srcs/main/signal.c\
 			srcs/main/tester.c\

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/16 09:43:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/16 16:00:25 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	execve_my_cmd(char **cmd, t_pipe *info)
 	if (!ft_strcmp(cmd[0], "export"))
 		export(cmd, info);
 	if (!ft_strcmp(cmd[0], "unset"))
-		echo(cmd);
+		unset(cmd, info);
 	if (!ft_strcmp(cmd[0], "env"))
 		env(cmd, info);
 	if (!ft_strcmp(cmd[0], "exit"))

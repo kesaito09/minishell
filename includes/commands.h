@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 19:20:59 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/16 20:42:26 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,10 @@ void	pwd(char **cmd);
 void	cd(char **cmd);
 void	env(char **cmd, t_pipe *info);
 int		export(char **cmd, t_pipe *info);
+int		unset(char **cmd, t_pipe *info);
+
+int	count_env(char **envp);
+int	ft_argcmp(const char *arg, char *src);
+int	find_arg(const char *arg, char **envp);
 
 #endif

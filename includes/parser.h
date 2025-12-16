@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/10 00:35:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/16 21:55:50 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_H
 
 # include "minishell.h"
+# include <stdbool.h>
 
 /*struct detail in execution.h*/
 
@@ -35,9 +36,16 @@ t_flist	*flist_new(t_file_type ftype, char *fname);
 void	flist_add_back(t_flist **lst, t_flist *new);
 void	free_flist(t_flist *lst);
 
-void	my_lex(char *input, t_token **token_list);
+/*utils3_parse*/
+t_tree_type	cmd_type(t_token *cur);
+char	**ultimate_strjoin(char **argv, char *new);
+
+/*utils4_heardoc*/
+char	*heardoc_check(void);
+
+/*parse_cmd*/
+t_tree	*parse_command(t_token **cur);
+
+/*parse*/
 t_tree	*parser(char *input);
-
-
-
 # endif

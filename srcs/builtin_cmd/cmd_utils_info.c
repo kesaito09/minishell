@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 06:33:13 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/10 02:06:36 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/16 20:45:12 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ static int	complete_path(char ***path, char **envp)
 	}
 	return (SUCCESS);
 }
+
+//char	**dup_split(char **envp)
+//{
+
+//}
 
 t_pipe	correct_info(char **envp)
 {
