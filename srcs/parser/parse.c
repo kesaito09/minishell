@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/16 21:32:30 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:48:19 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,8 @@ t_tree	*parser(char *input)
 	token_list = NULL;
 	if (!input || !*input)
 		return (NULL);
-	lexer(input, &token_list);
+	if (lexer(input, &token_list) == FAILUER)
+		return (NULL);
 	print_lex(input, token_list);
 	cur_token = token_list;
 	ast = parse_logical(&cur_token);

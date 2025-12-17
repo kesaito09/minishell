@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/16 21:23:59 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:21:57 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef enum e_state
 	STATE_GENERAL = 0,
 	STATE_SQUOTE,
 	STATE_DQUOTE,
-	STATE_BSLASH,
 }						t_state;
 
 typedef struct s_token
@@ -68,6 +67,7 @@ void					append_char(t_char_list **list, char c);
 char					*list_to_string(t_char_list **list);
 void					add_token(t_token **token_list, char *token,
 							t_token_type type);
+int						tokenizer(char *input, t_token **token_list);
 t_token					*t_lstnew(char *token);
 size_t					t_lstsize(t_token *lst);
 void					t_lstdelone(t_token *lst, void (*del)(void *));
@@ -85,7 +85,7 @@ t_token_type 			is_token_type(char *c);
 int 					count_section(char *str);
 int						section_len(char *str);
 char					**split_section(char *str);
-void					lexer(char *input, t_token **token_list);
+int 					lexer(char *input, t_token **token_list);
 
 
 # endif
