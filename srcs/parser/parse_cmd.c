@@ -13,12 +13,6 @@
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
 
-static int	is_redirect(t_token *cur)
-{
-	return (cur->type == TOKEN_REDIRECT_IN || cur->type == TOKEN_REDIRECT_OUT
-		|| cur->type == TOKEN_HEREDOC || cur->type == TOKEN_APPEND);
-}
-
 static t_file_type	check_ftype(t_token *cur)
 {
 	if (cur->type == TOKEN_REDIRECT_IN)
@@ -31,54 +25,63 @@ static t_file_type	check_ftype(t_token *cur)
 		return (HEARDOC);
 	return (NONE);
 }
-static void	append_redirect(t_tree *node, t_token **curr)
+static int	append_redirect(t_tree *node, t_token **cur)
 {
 	t_flist		*new_file;
 	t_file_type	ftype;
 	char		*fname;
 
-	ftype = check_ftype(*curr);
-	*curr = (*curr)->next;
-	if ((*curr)->type == TOKEN_EOF)
-		return ;
-	fname = (*curr)->token;
-	new_file = flist_new(ftype, fname);
+	ftype = check_ftype(*cur);
+	*cur = (*cur)->next;
+	if (!(*cur))
+		return (FAILUER);
+	if (ftype == HEARDOC)
+	{
+		fname = heardoc((*cur)->token);
+		new_file = flist_new(ftype, fname);
+	}
+	else
+	{
+		fname = (*cur)->token;
+		new_file = flist_new(ftype, fname);
+	}
+	if (!new_file)
+		return (FAILUER);
 	flist_add_back(&(node->flist), new_file);
-	*curr = (*curr)->next;
+	*cur = (*cur)->next;
+	return (SUCCESS);
 }
 
-static void	append_argv(t_tree *node, t_token **curr)
+static int	append_argv(t_tree *node, t_token **cur)
 {
 	char	**new_argv;
 
-	new_argv = ultimate_strjoin(node->argv, (*curr)->token);
+	new_argv = ultimate_strjoin(node->argv, (*cur)->token);
 	if (!new_argv)
-		return ;
+		return (FAILUER);
 	free_split(node->argv);
 	node->argv = new_argv;
-	*curr = (*curr)->next;
+	*cur = (*cur)->next;
+	return (SUCCESS);
 }
 
 t_tree	*parse_command(t_token **cur)
 {
 	t_tree	*node;
 
-	if ((*cur)->type == TOKEN_PIPE
-		|| (*cur)->type == TOKEN_EOF
-		|| (*cur)->type == TOKEN_CONJUNCTIONE
-		|| (*cur)->type == TOKEN_DISJUNCTIONE)
+	if (!*cur || is_connection(*cur))
 		return (NULL);
 	node = tree_new(NULL, NULL, cmd_type(*cur));
-	while (*cur
-			&& (*cur)->type != TOKEN_PIPE
-			&& (*cur)->type != TOKEN_EOF
-			&& (*cur)->type != TOKEN_CONJUNCTIONE
-			&& (*cur)->type != TOKEN_DISJUNCTIONE)
+	if (!node)
+		return (NULL);
+	while (is_command(*cur))
 	{
 		if (is_redirect(*cur))
-			append_redirect(node, cur);
-		else
-			append_argv(node, cur);
+			if (append_redirect(node, cur) == FAILUER)
+				return (free(node), NULL);
+		if ((*cur) && (*cur)->type == TOKEN_WORD)
+			if (append_argv(node, cur) == FAILUER)
+				return (free(node), NULL);
 	}
 	return (node);
 }

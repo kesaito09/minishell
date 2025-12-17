@@ -12,48 +12,22 @@
 
 #include "../../includes/parser.h"
 
-static int		digit(int i)
-{
-	int	dig;
-
-	dig = 0;
-	while (i)
-	{
-		i /= 10;
-		dig++;
-	}
-	return (dig);
-}
-
-static void	allocate_i(char *num, int i)
-{
-	int	d;
-
-	d = digit(i) - 1;
-	while (i)
-	{
-		num[d] = i % 10 + '0';
-		i /= 10;
-		d--;
-	}
-}
-
-char	*heardoc_check(void)
+static char	*heardoc_check(void)
 {
 	char	*file;
 	char	*def;
 	int		i;
 	char	*num;
 
-	file = NULL;
 	def = ft_strdup(".heardoc_");
+	if (!def)
+		return (NULL);
 	i = 1;
 	while (true)
 	{
-		num = (char *)ft_calloc(sizeof(char), digit(i) + 1);
+		num = ft_itoa(i);
 		if (!num)
 			return (free(def), NULL);
-		allocate_i(num, i);
 		file = ft_strjoin(def, num);
 		free(num);
 		if (!file)
@@ -62,11 +36,41 @@ char	*heardoc_check(void)
 			break ;
 		i++;
 	}
-	free(def);
-	return (file);
+	return (free(def), file);
 }
 
-//int	main(void)
-//{
-//	ft_putendl_fd(heardoc_check(), 1);
-//}
+static bool	write_next_line(char *eof, int fd)
+{
+	char	*line;
+
+	line = readline(">");
+	if (!line)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("warning: ", 2);
+		ft_putstr_fd("hear-document deliminated ", 2);
+		ft_putendl_fd("by end-of-file(wanted 'EOF')", 2);
+		return (false);
+	}
+	if (!ft_strcmp(eof, line))
+		return (false);
+	ft_putendl_fd(line, fd);
+	return (true);
+}
+
+char	*heardoc(char *eof)
+{
+	char	*file;
+	int		fd;
+
+	file = heardoc_check();
+	if (!file)
+		return (NULL);
+	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+		return (NULL);
+	while (write_next_line(eof, fd))
+		;
+	close(fd);
+	return (file);
+}

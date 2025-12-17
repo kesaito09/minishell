@@ -20,7 +20,7 @@ static t_tree	*parse_pipeline(t_token **cur)
 
 	left_node = parse_command(cur);
 	if (!left_node)
-	return (NULL);
+		return (NULL);
 	while (*cur && (*cur)->type == TOKEN_PIPE)
 	{
 		pipe_node = tree_new(NULL, NULL, PIPE);
@@ -44,7 +44,8 @@ static t_tree	*parse_logical(t_token **cur)
 	left_node = parse_pipeline(cur);
 	if (!left_node)
 	return (NULL);
-	while (*cur && ((*cur)->type == TOKEN_CONJUNCTIONE
+	while (*cur 
+			&& ((*cur)->type == TOKEN_CONJUNCTIONE
 			|| (*cur)->type == TOKEN_DISJUNCTIONE))
 		{
 			if ((*cur)->type == TOKEN_CONJUNCTIONE)
@@ -55,7 +56,7 @@ static t_tree	*parse_logical(t_token **cur)
 			*cur = (*cur)->next;
 			logical_node->right = parse_logical(cur);
 			if (!logical_node->right)
-			return (NULL);
+				return (NULL);
 			return (logical_node);
 		}
 		return (left_node);
@@ -71,7 +72,7 @@ t_tree	*parser(char *input)
 	token_list = NULL;
 	if (!input || !*input)
 		return (NULL);
-	lexer(input, &token_list);
+	my_lex(input, &token_list);
 	cur_token = token_list;
 	ast = parse_logical(&cur_token);
 	t_lstclear(&token_list, free);

@@ -41,7 +41,13 @@ t_tree_type	cmd_type(t_token *cur);
 char	**ultimate_strjoin(char **argv, char *new);
 
 /*utils4_heardoc*/
-char	*heardoc_check(void);
+char	*heardoc(char *eof);
+
+/*utils5_is_*/
+bool	is_builtin(char *token);
+bool	is_redirect(t_token *cur);
+bool	is_connection(t_token *cur);
+bool	is_command(t_token *cur);
 
 /*parse_cmd*/
 t_tree	*parse_command(t_token **cur);

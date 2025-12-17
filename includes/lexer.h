@@ -83,7 +83,7 @@ t_token_type 			is_token_type(char *c);
 int 					count_section(char *str);
 int						section_len(char *str);
 char					**split_section(char *str);
-void					lexer(char *input, t_token **token_list);
+void					my_lex(char *input, t_token **token_list);
 
 
 # endif

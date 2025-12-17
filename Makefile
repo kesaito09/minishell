@@ -44,6 +44,7 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/parser/utils2_redirect.c\
 			srcs/parser/utils3_parse.c\
 			srcs/parser/utils4_heardoc.c\
+			srcs/parser/utils5_is_.c\
 			srcs/parser/parse.c\
 			srcs/parser/parse_cmd.c\
 			srcs/main/main.c\

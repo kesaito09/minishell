@@ -13,15 +13,6 @@
 #include "../../includes/parser.h"
 #include "../../includes/execution.h"
 
-static int	is_builtin(char *token)
-{
-	if (!ft_strcmp(token, "cd") || !ft_strcmp(token, "env") || !ft_strcmp(token,
-			"export") || !ft_strcmp(token, "unset") || !ft_strcmp(token, "echo")
-		|| !ft_strcmp(token, "pwd"))
-		return (1);
-	return (0);
-}
-
 t_tree_type	cmd_type(t_token *cur)
 {
 	if (is_builtin(cur->token))
