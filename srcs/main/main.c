@@ -28,8 +28,8 @@ int main(int argc, char **argv, char **envp)
 		if (!line)
 			return (rl_clear_history(), 0);
 		add_history(line);
-		setup_signal_exec();
 		branch = parser(line);
+		setup_signal_exec();
 		tree_operator(branch, &info, 0, 1);
 		free_tree_rec(branch);
 		info.ecode = waitpid_plist(&info.plist);

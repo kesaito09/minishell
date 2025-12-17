@@ -38,7 +38,8 @@ void	free_flist(t_flist *lst);
 
 /*utils3_parse*/
 t_tree_type	cmd_type(t_token *cur);
-char	**ultimate_strjoin(char **argv, char *new);
+int			count_arr_elem(char **s);
+char		**ultimate_strjoin(char **argv, char *new);
 
 /*utils4_heardoc*/
 char	*heardoc(char *eof);

@@ -20,7 +20,7 @@ t_tree_type	cmd_type(t_token *cur)
 	return (COMMAND);
 }
 
-static int	count_arr_elem(char **s)
+int	count_arr_elem(char **s)
 {
 	int	i;
 

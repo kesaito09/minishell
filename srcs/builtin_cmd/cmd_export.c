@@ -13,7 +13,7 @@
 #include "../../includes/commands.h"
 #include "../../includes/execution.h"
 
-static int	replace(const char *arg, char **envp)
+static int	export_replace(const char *arg, char **envp)
 {
 	int	len;
 	int	j;
@@ -27,20 +27,26 @@ static int	replace(const char *arg, char **envp)
 	return (SUCCESS);
 }
 
-static int allocate_split(char **new_env, char **cmd, t_pipe *info)
+static int export_module(char **cmd, t_pipe *info)
 {
-	int	i;
+	int		i;
+	char	**new_env;
 
 	i = 0;
+	new_env = (char **)ft_calloc(sizeof(char *), count_arr_elem(info->envp) + 2);
+	if (!new_env)
+		return (FAILUER);
 	while (info->envp[i])
 	{
 		new_env[i] = ft_strdup(info->envp[i]);
+		if (!new_env[i])
+			return (free_split(new_env), FAILUER);
 		i++;
 	}
 	new_env[i] = ft_strdup(cmd[1]);
-	free_split(info->envp);
 	if (!new_env[i])
-		return (FAILUER);
+		return (free_split(new_env), FAILUER);
+	free_split(info->envp);
 	info->envp = new_env;
 	return (SUCCESS);
 }
@@ -48,32 +54,24 @@ static int allocate_split(char **new_env, char **cmd, t_pipe *info)
 int	export(char **cmd, t_pipe *info)
 {
 	char	*tmp;
-	char	**new_env;
 
 	tmp = ft_strchr(cmd[1], '=');
 	if (!tmp || tmp == cmd[1])
 		return (FAILUER);
 	if (find_arg(cmd[1], info->envp))
-		return (replace(cmd[1], info->envp));
-	new_env = (char **)ft_calloc(sizeof(char *), count_env(info->envp) + 2);
-	if (!new_env)
-		return (FAILUER);
-	if (allocate_split(new_env, cmd, info) == FAILUER)
+		return (export_replace(cmd[1], info->envp));
+	if (export_module(cmd, info) == FAILUER)
 		return (FAILUER);
 	return (SUCCESS);
 }
 
-int	unset(char **cmd, t_pipe *info)
+static int	unset_module(char **cmd, t_pipe *info)
 {
 	char	**new_env;
 	int		i;
 	int		j;
 
-	if (ft_strchr(cmd[1], '='))
-		return ((void)ft_printf("unset: %s: invalid parameter name\n"), FAILUER);
-	if (!find_arg(cmd[1], info->envp))
-		return (FAILUER);
-	new_env = (char **)ft_calloc(sizeof(char *), count_env(info->envp));
+	new_env = (char **)ft_calloc(sizeof(char *), count_arr_elem(info->envp));
 	if (!new_env)
 		return (FAILUER);
 	i = 0;
@@ -84,10 +82,25 @@ int	unset(char **cmd, t_pipe *info)
 			j++;
 		if (!info->envp[j])
 			break ;
-		new_env[i++] = ft_strdup(info->envp[j++]);
+		new_env[i] = ft_strdup(info->envp[j]);
+		if (!new_env[i])
+			return (free_split(new_env), FAILUER);
+		i++;
+		j++;
 	}
-	//free_split(info->envp);
+	free_split(info->envp);
 	info->envp = new_env;
+	return (SUCCESS);
+}
+
+int	unset(char **cmd, t_pipe *info)
+{
+	if (ft_strchr(cmd[1], '='))
+		return ((void)ft_printf("unset: %s: invalid parameter name\n"), FAILUER);
+	if (!find_arg(cmd[1], info->envp))
+		return (FAILUER);
+	if (unset_module(cmd, info) == FAILUER)
+		return (FAILUER);
 	return (SUCCESS);
 }
 

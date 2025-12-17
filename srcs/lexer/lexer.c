@@ -168,21 +168,21 @@ void	my_lex(char *input, t_token **token_list)
 	}
 }
 
-//void	lexer(char *input, t_token **token_list)
-//{
-//	t_token	*last_node;
-//	t_token	*eof_node;
+void	lexer(char *input, t_token **token_list)
+{
+	t_token	*last_node;
+	t_token	*eof_node;
 
-//	my_lex(input, token_list);
-//	if (!*token_list)
-//		return ;
-//	last_node = t_lstlast(*token_list);
-//	eof_node = t_lstnew(NULL);
-//	if (!eof_node)
-//		return ;
-//	eof_node->type = TOKEN_EOF;
-//	last_node->next = eof_node;
-//}
+	my_lex(input, token_list);
+	if (!*token_list)
+		return ;
+	last_node = t_lstlast(*token_list);
+	eof_node = t_lstnew(NULL);
+	if (!eof_node)
+		return ;
+	eof_node->type = TOKEN_EOF;
+	last_node->next = eof_node;
+}
 
 // int	main(void)
 // {

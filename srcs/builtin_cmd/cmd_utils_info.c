@@ -72,10 +72,22 @@ static int	complete_path(char ***path, char **envp)
 	return (SUCCESS);
 }
 
-//char	**dup_split(char **envp)
-//{
+char	**dup_split(char **envp)
+{
+	char	**new_env;
+	int		i;
 
-//}
+	new_env = (char **)ft_calloc(count_arr_elem(envp) + 1, sizeof(char *));
+	if (!new_env)
+		return (NULL);
+	i = 0;
+	while (envp[i])
+	{
+		new_env[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	return (new_env);
+}
 
 t_pipe	correct_info(char **envp)
 {
@@ -85,7 +97,7 @@ t_pipe	correct_info(char **envp)
 	ft_bzero(&info, sizeof(t_pipe));
 	if (complete_path(&(info.path), envp) == FAILUER)
 		exit(1);
-	info.envp = envp;
+	info.envp = dup_split(envp);
 	info.plist = pid_new(getpid());
 	info.pipe = false;
 	info.fd[0] = -1;

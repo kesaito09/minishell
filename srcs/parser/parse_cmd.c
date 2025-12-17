@@ -76,10 +76,13 @@ t_tree	*parse_command(t_token **cur)
 		return (NULL);
 	while (is_command(*cur))
 	{
+		
 		if (is_redirect(*cur))
+		{
 			if (append_redirect(node, cur) == FAILUER)
 				return (free(node), NULL);
-		if ((*cur) && (*cur)->type == TOKEN_WORD)
+		}
+		else if ((*cur) && (*cur)->type == TOKEN_WORD)
 			if (append_argv(node, cur) == FAILUER)
 				return (free(node), NULL);
 	}

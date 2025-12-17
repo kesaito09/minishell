@@ -14,16 +14,6 @@
 #include "../../includes/commands.h"
 #include "../../includes/execution.h"
 
-int	count_env(char **envp)
-{
-	int	i;
-
-	i = 0;
-	while (envp[i])
-		i++;
-	return (i);
-}
-
 int	ft_argcmp(const char *arg, char *src)
 {
 	int	len;
