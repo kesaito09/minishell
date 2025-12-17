@@ -76,7 +76,6 @@ t_tree	*parse_command(t_token **cur)
 		return (NULL);
 	while (is_command(*cur))
 	{
-		
 		if (is_redirect(*cur))
 		{
 			if (append_redirect(node, cur) == FAILUER)

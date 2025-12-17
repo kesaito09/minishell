@@ -21,10 +21,14 @@ int	ft_argcmp(const char *arg, char *src)
 	if (!arg)
 		return (-1);
 	len = ft_strlen(arg);
-	return (ft_strncmp(arg, src, len));
+	if (ft_strncmp(arg, src, len))
+		return (1);
+	if (src[len] != '=')
+		return (1);
+	return (0);
 }
 
-int	find_arg(const char *arg, char **envp)
+bool	find_arg(const char *arg, char **envp)
 {
 	int	i;
 

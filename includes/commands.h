@@ -18,6 +18,7 @@
 
 #include "minishell.h"
 # include <stdlib.h>
+# include <stdbool.h>
 
 typedef struct s_pipe	t_pipe;
 
@@ -28,8 +29,7 @@ void	env(char **cmd, t_pipe *info);
 int		export(char **cmd, t_pipe *info);
 int		unset(char **cmd, t_pipe *info);
 
-int	count_env(char **envp);
-int	ft_argcmp(const char *arg, char *src);
-int	find_arg(const char *arg, char **envp);
+int		ft_argcmp(const char *arg, char *src);
+bool	find_arg(const char *arg, char **envp);
 
 #endif
