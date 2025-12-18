@@ -13,33 +13,44 @@
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
 
-static t_tree	*parse_pipeline(t_token **cur)
+static t_tree	*parse_pipeline_rec(t_token **cur, t_tree *left_node)
 {
 	t_tree	*pipe_node;
-	t_tree	*left_node;
 
-	left_node = parse_command(cur);
 	if (!left_node)
 		return (NULL);
 	if (!*cur || (*cur)->type != TOKEN_PIPE)
 		return (left_node);
 	*cur = (*cur)->next;
-	if (!*cur)
-		return (free_tree_rec(left_node), NULL);
+	if (!*cur)		
+	return (free_tree_rec(left_node), NULL);
 	pipe_node = tree_new(NULL, NULL, PIPE);
 	if (!pipe_node)
 		return (free_tree_rec(left_node), NULL);
 	pipe_node->left = left_node;
 	pipe_node->right = parse_command(cur);
+	if (*cur && (*cur)->type == TOKEN_PIPE)
+		pipe_node = parse_pipeline_rec(cur, pipe_node);
 	if (!pipe_node->right)
 		return (NULL);
 	return (pipe_node);
 }
 
-static t_tree	*parse_logical(t_token **cur, t_tree *left_node)
+static t_tree	*parse_pipeline(t_token **cur)
+{
+	t_tree	*node;
+
+	node = parse_command(cur);
+	node = parse_pipeline_rec(cur, node);
+	return (node);
+}
+
+static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node)
 {
 	t_tree	*logical_node;
 
+	if (!left_node)
+		return (NULL);
 	if (!*cur 
 		|| ((*cur)->type != TOKEN_CONJUNCTIONE
 		&& (*cur)->type != TOKEN_DISJUNCTIONE))
@@ -53,6 +64,10 @@ static t_tree	*parse_logical(t_token **cur, t_tree *left_node)
 	logical_node->left = left_node;
 	*cur = (*cur)->next;
 	logical_node->right = parse_pipeline(cur);
+		if (*cur
+			&& ((*cur)->type != TOKEN_CONJUNCTIONE
+			|| (*cur)->type != TOKEN_DISJUNCTIONE))
+			logical_node = parse_logical_rec(cur, logical_node);
 	if (!logical_node->right)
 		return (NULL);
 	return (logical_node);
@@ -63,14 +78,7 @@ static t_tree	*parse_manage(t_token **cur)
 	t_tree *branch;
 
 	branch = parse_pipeline(cur);
-	if (!branch)
-		return (NULL);
-	while (*cur)
-	{
-		branch = parse_logical(cur, branch);
-		if (!branch)
-			return (NULL);
-	}
+	branch = parse_logical_rec(cur, branch);
 	return (branch);
 }
 

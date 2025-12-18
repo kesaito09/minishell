@@ -41,40 +41,47 @@ char	*value_is(char *arg, char **envp)
 	return (value);
 }
 
-int	count_env(char *token)
+char	*get_arg(char *str)
 {
-	int	i;
-	int	count;
+	int		i;
 
+	if (!str || !*str)
+		return (NULL);
 	i = 0;
-	count = 0;
-	while (token[i])
+	while (str[i])
 	{
-		if (token[i] == '$')
-		{
-			i++;
-			if (ft_strchr("$ \t\n", token[i]))
-				return (-1);
-			count++;
-		}
+		if (strchr("\"\'$", str[i]) && i > 0)
+			break ;
 		i++;
 	}
-	return (count);
+	return (ft_strndup(str, i));
 }
 
-char	*extract_arg(char **token)
+t_token	*arg_node(char *str)
 {
-	char	arg;
+	t_token	*lst;
+	t_token	*node;
+	int		i;
+	char	*token;
 
-	while (*token)
+	i = 0;
+	while (str[i])
 	{
-		
+		token = get_arg(&str[i]);
+		if (!token)
+			return (NULL);
+		i += ft_strlen(token);
+		node = t_lstnew(token);
+		if (!node)
+			return (NULL);
+		t_lstadd_back(&lst, node);
 	}
+	return (lst);
 }
 
 //int main(int ac, char **av)
 //{
 //	if (ac != 2)
 //		return (1);
-//	ft_putnbr_fd(count_env(av[1]), 2);
+//	print_token(arg_node(av[1]));
 //}

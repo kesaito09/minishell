@@ -116,11 +116,11 @@ void	print_tree_rec(t_tree *branch)
 	}
 }
 
-//void	print_token(t_token *cur)
-//{
-//	while (cur)
-//	{
-//		ft_putendl_fd(cur->token, 2);
-//		cur = cur->next;
-//	}
-//}
+void	print_token(t_token *cur)
+{
+	while (cur)
+	{
+		ft_putendl_fd(cur->token, 2);
+		cur = cur->next;
+	}
+}

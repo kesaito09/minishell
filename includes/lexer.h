@@ -71,6 +71,7 @@ size_t					t_lstsize(t_token *lst);
 void					t_lstdelone(t_token *lst, void (*del)(void *));
 void					t_lstclear(t_token **lst, void (*del)(void *));
 t_token					*t_lstlast(t_token *lst);
+void					t_lstadd_back(t_token **lst, t_token *new);
 
 t_char_list				*c_lstlast(t_char_list *lst);
 size_t					c_lstsize(t_char_list *lst);
