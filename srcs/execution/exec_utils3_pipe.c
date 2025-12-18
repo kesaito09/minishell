@@ -35,4 +35,3 @@ int	reset_stdin_out(t_pipe *info)
 {
 	return (dup2_stdin_out(info->fd_stdin, info->fd_stdout));
 }
-

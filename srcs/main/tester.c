@@ -52,6 +52,7 @@ void	print_split(char **cmd, int j)
 		ft_putstr_fd(":", 2);
 		i++;
 	}
+	ft_putchar_fd('\n', 2);
 }
 
 void	print_tree(t_tree *branch, int i)
@@ -67,13 +68,13 @@ void	print_tree(t_tree *branch, int i)
 	if (branch->b_type == CONJUNCTION)
 	{
 		print_space(i);
-		ft_putendl_fd("CONNECTION:[||]", 2);
+		ft_putendl_fd("CONNECTION:[&&]", 2);
 		return ;
 	}
 	if (branch->b_type == DISJUNCTION)
 	{
 		print_space(i);
-		ft_putendl_fd("CONNECTION:[&&]", 2);
+		ft_putendl_fd("CONNECTION:[||]", 2);
 		return ;
 	}
 	if (branch->b_type == MY_COMMAND)
@@ -90,7 +91,8 @@ void	print_tree(t_tree *branch, int i)
 	print_space(i);
 	ft_putendl_fd("ARGV", 2);
 	print_split(branch->argv, i);
-	ft_putendl_fd("|REDIRECT", 2);
+	print_space(i);
+	ft_putendl_fd("REDIRECT", 2);
 	print_flist(branch->flist, i);
 	ft_putchar_fd('\n', 2);
 }
@@ -111,5 +113,14 @@ void	print_tree_rec(t_tree *branch)
 		print_space(i);
 		ft_putendl_fd("right------", 2);
 		print_tree_rec(branch->right);
+	}
+}
+
+void	print_token(t_token *cur)
+{
+	while (cur)
+	{
+		ft_putendl_fd(cur->token, 2);
+		cur = cur->next;
 	}
 }

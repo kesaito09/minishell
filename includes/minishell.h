@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 12:40:22 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/18 10:25:17 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/16 09:43:40 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include "../libft/includes/libft.h"
 # include "commands.h"
 # include "lexer.h"
-// # include "readline.h"
+# include "readline.h"
 # include "parser.h"
 # include "tester.h"
 

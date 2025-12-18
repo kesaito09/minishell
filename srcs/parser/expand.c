@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utilas3_parse.c                                    :+:      :+:    :+:   */
+/*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/09 19:13:11 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 19:13:52 by natakaha         ###   ########.fr       */
+/*   Created: 2025-12-17 15:51:16 by natakaha          #+#    #+#             */
+/*   Updated: 2025-12-17 15:51:16 by natakaha         ###   ########.jp       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/execution.h"
 #include "../../includes/parser.h"
 

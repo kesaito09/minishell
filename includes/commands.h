@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 19:20:59 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/16 20:42:26 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 #include "minishell.h"
 # include <stdlib.h>
+# include <stdbool.h>
 
 typedef struct s_pipe	t_pipe;
 
@@ -26,5 +27,9 @@ void	pwd(char **cmd);
 void	cd(char **cmd);
 void	env(char **cmd, t_pipe *info);
 int		export(char **cmd, t_pipe *info);
+int		unset(char **cmd, t_pipe *info);
+
+int		ft_argcmp(const char *arg, char *src);
+bool	find_arg(const char *arg, char **envp);
 
 #endif

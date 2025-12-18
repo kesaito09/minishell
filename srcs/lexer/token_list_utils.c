@@ -12,18 +12,18 @@
 
 #include "../../includes/lexer.h"
 
-size_t	t_lstsize(t_token *lst)
-{
-	int	len;
+//size_t	t_lstsize(t_token *lst)
+//{
+//	int	len;
 
-	len = 0;
-	while (lst)
-	{
-		len++;
-		lst = lst->next;
-	}
-	return (len);
-}
+//	len = 0;
+//	while (lst)
+//	{
+//		len++;
+//		lst = lst->next;
+//	}
+//	return (len);
+//}
 
 /*lexer用に改造した*/
 t_token	*t_lstnew(char *token)
@@ -69,20 +69,20 @@ void	t_lstclear(t_token **lst, void (*del)(void *))
 	(*lst) = NULL;
 }
 
-// void	t_lstadd_back(t_token **lst, t_token *new)
-// {
-// 	t_token	*current;
+void	t_lstadd_back(t_token **lst, t_token *new)
+{
+	t_token	*current;
 
-// 	if (!*lst)
-// 		*lst = new;
-// 	else
-// 	{
-// 		current = *lst;
-// 		while (current->next)
-// 			current = current->next;
-// 		current->next = new;
-// 	}
-// }
+	if (!*lst)
+		*lst = new;
+	else
+	{
+		current = *lst;
+		while (current->next)
+			current = current->next;
+		current->next = new;
+	}
+}
 
 // void	t_lstadd_front(t_token **lst, t_token *new)
 // {
