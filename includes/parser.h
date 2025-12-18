@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/17 13:09:05 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/18 10:45:01 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_H
 
 # include "minishell.h"
+# include <stdbool.h>
 
 /*struct detail in execution.h*/
 
@@ -29,6 +30,8 @@ void	tree_add_left(t_tree **branch, t_tree *node);
 void	tree_add_right(t_tree **branch, t_tree *node);
 void 	free_split(char **cmd);
 void	free_tree_rec(t_tree *branch);
+int	    count_arr_elem(char **s);
+
 
 /*utils2_redirect*/
 t_flist	*flist_new(t_file_type ftype, char *fname);
@@ -38,5 +41,6 @@ int	    tokenizer(char *input, t_token **token_list);
 t_tree	*parser(char *input);
 
 
+bool	is_builtin(char *token);
 
 # endif

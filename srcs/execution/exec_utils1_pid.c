@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 03:43:18 by naoki             #+#    #+#             */
-/*   Updated: 2025/12/18 10:25:41 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/18 10:31:49 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ void	free_pid(t_pidlist *plist)
 	}
 }
 
-void	waitpid_plist(t_pidlist **plist)
+int	waitpid_plist(t_pidlist **plist)
 {
 	int	status;
 
+	status = 0;
 	while (1)
 	{
 		(*plist) = (*plist)->next;
@@ -69,7 +70,11 @@ void	waitpid_plist(t_pidlist **plist)
 			break ;
 		waitpid((*plist)->pid, &status, 0);
 	}
-		free_pid(*plist);
-		*plist = pid_new(1);
-	return ;
+	free_pid(*plist);
+	*plist = pid_new(1);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (127);
 }

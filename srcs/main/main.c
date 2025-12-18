@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/18 10:25:53 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/18 10:35:19 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@ int main(int argc, char **argv, char **envp)
 		if (!line)
 			return (rl_clear_history(), 0);
 		add_history(line);
-		setup_signal_exec();
 		branch = parser(line);
+		if (!branch)
+			return (rl_clear_history(), 1);	
+		setup_signal_exec();
 		tree_operator(branch, &info, 0, 1);
 		free_tree_rec(branch);
-		waitpid_plist(&info.plist);
+		info.ecode = waitpid_plist(&info.plist);
 		free(line);
 	}
 	free_split(info.path);

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 08:54:42 by naoki             #+#    #+#             */
-/*   Updated: 2025/12/10 02:44:25 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/16 14:00:40 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ int	manage_conjunction(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 {
 	if (tree_operator(branch->left, info, fd_in, fd_out) == FAILUER)
 		return (FAILUER);
-
+	info->ecode = waitpid_plist(&info->plist);
+	if (info->ecode != 0)
+		return (FAILUER);
 	if (tree_operator(branch->right, info, fd_in, fd_out) == FAILUER)
 		return (FAILUER);
 	return (SUCCESS);
@@ -26,7 +28,9 @@ int	manage_disjunction(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 {
 	if (tree_operator(branch->left, info, fd_in, fd_out) == FAILUER)
 		return (FAILUER);
-	
+	info->ecode = waitpid_plist(&info->plist);
+	if (info->ecode == 0)
+		return (SUCCESS);
 	if (tree_operator(branch->right, info, fd_in, fd_out) == FAILUER)
 		return (FAILUER);
 	return (SUCCESS);

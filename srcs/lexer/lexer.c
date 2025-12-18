@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/17 13:54:10 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/18 10:36:08 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	is_delimiter(int c)
 	return (c == ' ' || c == '\n' || c == '\t');
 }
 
-int		tokenizer(char *input, t_token **token_list)
+int	tokenizer(char *input, t_token **token_list)
 {
 	t_state		state;
 	char		*op;
@@ -46,7 +46,8 @@ int		tokenizer(char *input, t_token **token_list)
 				append_char(&c_list, *input);
 				input++;
 			}
-			else if (is_delimiter(*input) || is_operator(*input) || !ft_strncmp(input, "&&", 2))
+			else if (is_delimiter(*input) || is_operator(*input)
+				|| !ft_strncmp(input, "&&", 2))
 			{
 				if (c_list)
 				{
@@ -73,7 +74,6 @@ int		tokenizer(char *input, t_token **token_list)
 						input += 2;
 						continue ; // 一時的に例外処理にしてる後で直す
 					}
-					
 					else if (!ft_strncmp(input, "||", 2))
 					{
 						op = ft_strdup("||");
@@ -81,7 +81,7 @@ int		tokenizer(char *input, t_token **token_list)
 							return (FAILUER);
 						add_token(token_list, op, TOKEN_DISJUNCTIONE);
 						input += 2;
-						continue;
+						continue ;
 					}
 					else if (!ft_strncmp(input, "&&", 2))
 					{
@@ -90,16 +90,16 @@ int		tokenizer(char *input, t_token **token_list)
 							return (FAILUER);
 						add_token(token_list, op, TOKEN_CONJUNCTIONE);
 						input += 2;
-						continue;
+						continue ;
 					}
-					else if(!ft_strncmp(input, "(", 1))
+					else if (!ft_strncmp(input, "(", 1))
 					{
 						op = ft_strdup("(");
 						if (!op)
 							return (FAILUER);
 						add_token(token_list, op, TOKEN_PARENTHESIS_LEFT);
 					}
-					else if(!ft_strncmp(input, ")", 1))
+					else if (!ft_strncmp(input, ")", 1))
 					{
 						op = ft_strdup(")");
 						if (!op)
@@ -139,9 +139,10 @@ int		tokenizer(char *input, t_token **token_list)
 				{
 					if (c_list)
 						c_lstclear(&c_list, free);
-					t_lstclear(token_list, free);	
-					ft_putendl_fd("minishell: syntax error: unclosed back slash", 2);	
-				}		
+					t_lstclear(token_list, free);
+					ft_putendl_fd("minishell: syntax error: unclosed back slash",
+						2);
+				}
 				if (*input)
 				{
 					append_char(&c_list, *input);
@@ -183,25 +184,23 @@ int		tokenizer(char *input, t_token **token_list)
 			}
 		}
 	}
-	
 	if (state == STATE_SQUOTE || state == STATE_DQUOTE)
 	{
 		if (c_list)
 			c_lstclear(&c_list, free);
-		t_lstclear(token_list, free);	
+		t_lstclear(token_list, free);
 		ft_putendl_fd("minishell: syntax error: unclosed quote", 2);
 		return (FAILUER);
 	}
 	if (c_list)
-	{	
+	{
 		add_token(token_list, list_to_string(&c_list), TOKEN_WORD);
-		
 		c_list = NULL;
 	}
 	return (SUCCESS);
 }
 
-int		lexer(char *input, t_token **token_list)
+int	lexer(char *input, t_token **token_list)
 {
 	t_token	*last_node;
 	t_token	*eof_node;
