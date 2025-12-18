@@ -35,6 +35,7 @@ typedef enum e_tree_type
 	DISJUNCTION,
 	COMMAND,
 	MY_COMMAND,
+	SUBSHELL
 }					t_tree_type;
 
 typedef enum e_file_type
@@ -62,6 +63,7 @@ typedef struct s_tree
 	char			**assigns;
 	t_flist			*flist;
 	t_tree_type			b_type;
+
 }					t_tree;
 
 typedef struct s_pidlist

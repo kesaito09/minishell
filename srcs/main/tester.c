@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tester.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:54:04 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/10 00:40:55 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/23 11:42:17 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,15 @@ void	print_tree(t_tree *branch, int i)
 		print_space(i);
 		ft_putendl_fd("CMD", 2);
 	}
+	if (branch ->b_type == SUBSHELL)
+	{
+		print_space(i);
+		ft_putendl_fd("SUBSHELL[()]", 2);
+	}
 	print_space(i);
 	ft_putendl_fd("ARGV", 2);
-	print_split(branch->argv, i);
+	if (branch ->argv)
+		print_split(branch->argv, i);
 	print_space(i);
 	ft_putendl_fd("REDIRECT", 2);
 	print_flist(branch->flist, i);

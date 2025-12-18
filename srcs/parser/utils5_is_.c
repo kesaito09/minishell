@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils4_is_.c                                       :+:      :+:    :+:   */
+/*   utils5_is_.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     #+#  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-12-17 09:41:30 by natakaha          #+#    #+#             */
-/*   Updated: 2025-12-17 09:41:30 by natakaha         ###   ########.jp       */
+/*   Created: 2025/12/17 09:41:30 by natakaha          #+#    #+#             */
+/*   Updated: 2025/11/23 11:09:20 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ bool	is_command(t_token *cur)
 	if (!cur)
 		return (false);
 	if (cur->type == TOKEN_WORD
-		|| is_redirect(cur))
+		|| is_redirect(cur) )
 		return (true);
 	return (false);
 }

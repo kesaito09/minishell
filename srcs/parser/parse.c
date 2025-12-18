@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/23 07:35:18 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/23 10:48:31 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node)
 	return (logical_node);
 }
 
-static t_tree	*parse_manage(t_token **cur)
+
+t_tree	*parse_manage(t_token **cur)
 {
 	t_tree *branch;
 
@@ -102,15 +103,15 @@ t_tree	*parser(char *input)
 	return (ast);
 }
 
-//int	main(int argc, char **argv)
-//{
-//	t_token	*token;
-//	t_tree	*branch;
+int	main(int argc, char **argv)
+{
+	t_token	*token;
+	t_tree	*branch;
 
-//	if (argc < 2)
-//		return (1);
-//	token = NULL;
-//	my_lex(argv[1], &token);
-//	branch = parser(argv[1]);
-//	print_tree_rec(branch);
-//}
+	if (argc < 2)
+		return (1);
+	token = NULL;
+	lexer(argv[1], &token);
+	branch = parser(argv[1]);
+	print_tree_rec(branch);
+}
