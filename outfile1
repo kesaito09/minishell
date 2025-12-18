@@ -1,0 +1,227 @@
+[srcs/main/main.c] mainエントリ
+int main(int argc, char **argv, char **envp)
+{
+    if (argc < 2)
+        return (0);
+    info = correct_info(envp);
+    branch = parser(argv[1]);
+    tree_operator(branch, &info, 0, 1);
+    free_tree_rec(branch);
+    free_split(info.path);
+    waitpid_plist(info.plist);
+    free_pid(info.plist);
+}
+解説:
+- 対話シェルではなく、引数で単一コマンド文字列を受け取って実行する“テスター用”エントリ。実行前に最低限の安全策として「引数がないなら即終了」を入れている。
+- `correct_info(envp)`で実行時コンテキストを初期化。環境変数ポインタ、PATH配列、標準入出力FDのバックアップ、パイプ状態、プロセスIDリストなどをまとめて構造体に詰めることで、後続処理がグローバル変数に頼らず渡された`info`だけで動けるようにしている。
+- `parser(argv[1])`で与えられた文字列をトークン化→AST化し、複数の論理演算子やパイプを含むコマンド列を木構造にする。以降の処理はこの木を基に実行を決めるため、ここでNULLが返ると以降の処理は無意味になるが、テスター仕様のため簡潔に進めている。
+- `tree_operator(branch, &info, 0, 1)`でASTを走査し、再帰的にパイプやビルトイン・外部コマンドを実行する。標準入力0、標準出力1を起点FDとして渡し、内部で必要に応じてパイプを張る。
+- 実行後の後始末は明確に分けられている: `free_tree_rec`でASTノードとその付随資源を解放し、`free_split(info.path)`でPATH配列を破棄、`waitpid_plist`で登録された子プロセス全ての終了を同期的に待ち、最後に`free_pid`でPIDリスト自体を解放。プロセス同期とメモリ解放を順序立てて行い、ゾンビ化やリークを防ぐ設計。
+
+[srcs/builtin_cmd/cmd_utils_info.c] correct_info
+t_pipe	correct_info(char **envp)
+{
+	t_pipe	info;
+
+	ft_bzero(&info, sizeof(t_pipe));
+	if (complete_path(&(info.path), envp) == FAILUER)
+		exit(1);
+	info.envp = envp;
+	info.plist = pid_new(getpid());
+	info.pipe = false;
+	info.fd[0] = -1;
+	info.fd[1] = -1;
+	info.fd_stdout = dup(1);
+	info.fd_stdin = dup(0);
+	return (info);
+}
+解説:
+- `ft_bzero`で構造体を初期化し、未設定フィールドによる未定義動作を防止。以降の処理ではこの構造体を唯一の実行コンテキストとして渡し回す。
+- `complete_path`で環境変数から`PATH`を抽出し、各ディレクトリ末尾に`"/"`を付けた配列を作成。これは`execve`に渡す実行ファイル探索で、文字列連結コストを減らすための前処理。メモリ確保失敗時はシェル継続が困難なため`exit(1)`で即死を選択。
+- `info.envp`に元の環境ポインタを保持することで、子プロセスやビルトインが環境を参照するときに再構築を省く。`pid_new(getpid())`で現在プロセスを先頭ノードとするPIDリストを用意し、後続で生成する子PIDをここにぶら下げて管理する。
+- パイプ有無を示す`info.pipe`をfalseで初期化し、パイプ生成時だけtrueに変更することで、ビルトインを親で走らせるか子で走らせるかの分岐に利用。`info.fd`には最新のパイプFDを、`fd_stdout`/`fd_stdin`には元の標準FDを保存しておき、リダイレクトやパイプ後の復元に使う。
+
+[srcs/parser/parse.c] parser
+t_tree	*parser(char *input)
+{
+	t_tree	*ast;
+	t_token	*token_list;
+	t_token	*cur_token;
+
+	ast = NULL;
+	token_list = NULL;
+	if (!input || !*input)
+		return (NULL);
+	lexer(input, &token_list);
+	cur_token = token_list;
+	ast = parse_logical(&cur_token);
+	t_lstclear(&token_list, free);
+	return (ast);
+}
+解説:
+- 入力がNULLまたは空文字なら即座にNULLを返し、以降の解析・実行を抑止。これにより空入力での不要な処理やセグフォを避ける。
+- `lexer`が文字列をトークン列（単語、演算子、リダイレクトなど）に分解し、そのリスト先頭を`cur_token`として再帰下降パーサに渡す。`parse_logical`は論理AND/ORを含む文法の最上位として定義されており、内部でパイプ→単一コマンドへと優先順位順に降りていく。
+- パースが終わったらトークンリストを`t_lstclear`で解放し、ASTだけを残す。以降の実行フェーズはASTを基盤にするため、ここでトークンを捨てても問題ない。
+
+[srcs/execution/exec1_operate.c] tree_operator
+int	tree_operator(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
+{
+	if (!branch)
+		return  (FAILUER);
+	if (branch->b_type == CONJUNCTION)
+		if (manage_pipe(branch, info, fd_in, fd_out) == FAILUER)
+			return (FAILUER);
+	if (branch->b_type == PIPE)
+		if (manage_pipe(branch, info, fd_in, fd_out) == FAILUER)
+			return (FAILUER);
+	if (branch->b_type == COMMAND)
+		if (manage_cmd(branch, info, fd_in, fd_out) == FAILUER)
+			return (FAILUER);
+	if (branch->b_type == MY_COMMAND)
+		if (manage_my_cmd(branch, info, fd_in, fd_out) == FAILUER)
+			return (FAILUER);
+	return (SUCCESS);
+}
+解説:
+- ASTノードを種別で振り分ける中心ルータ。ここでエラーを検知すると上位再帰にFAILUERを返し、以降の処理を打ち切る安全策を取っている。
+- `CONJUNCTION`と`PIPE`が同じ`manage_pipe`に流れており、現在の実装では論理AND/ORもパイプ扱いになっている（今後の拡張余地を示唆）。`COMMAND`は外部プログラム起動、`MY_COMMAND`はビルトイン実行を担当し、FDの受け渡しは引数`fd_in`/`fd_out`で行う。
+- 再帰的に呼び出されるため、パイプの左右やサブノードを辿って木全体を走査・実行する役割も兼ねている。
+
+[srcs/execution/exec3_pipe.c] manage_pipe
+int	manage_pipe(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
+{
+	int	fd[2];
+
+	info->pipe = true;
+	if (pipe(fd) == FAILUER)
+		return (perror("minishell:pipe"), FAILUER);
+	info->fd[0] = fd[0];
+	info->fd[1] = fd[1];
+	if (tree_operator(branch->left, info, fd_in, fd[1]) == FAILUER)
+		return (FAILUER);
+	close(fd[1]);
+	if (tree_operator(branch->right, info, fd[0], fd_out) == FAILUER)
+		return (FAILUER);
+	return (SUCCESS);
+}
+解説:
+- `pipe(fd)`はカーネルに匿名パイプ(一方向のバイトストリーム)を要求し、`fd[0]`が読み取り端、`fd[1]`が書き込み端として返る。プロセスが複数あるときは、親子間でこのFDを共有することで標準入出力をつなげられる。
+- パイプが存在する場合、ビルトインも子プロセスで実行する必要があるため`info->pipe = true`に設定する。これにより後続`manage_my_cmd`の分岐が子プロセス生成モードになる。
+- 左ノードは`fd_in`→`fd[1]`に書くよう実行し、右ノードは`fd[0]`→`fd_out`を読むよう実行する。再帰的に繋げることで`cmd1 | cmd2 | cmd3`のような多段パイプも自動的に構築される。
+- 左側実行後、親が`fd[1]`を閉じないと右側がEOFを検知できずハングする。パイプの端点を`info->fd`に記録しておき、子プロセス側で「自分が使わない端」を閉じるための情報源にする。
+
+[srcs/execution/exec2_cmd.c] manage_cmd
+int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid < 0)
+		return (FAILUER);
+	if (pid == 0)
+	{
+		close_unused_pipe(fd_in, fd_out, info->fd);
+		if (dup2_stdin_out(fd_in, fd_out) == FAILUER
+			|| manage_redirect(branch) == FAILUER)
+			return (FAILUER);
+		execve_cmd(info->path, info->envp, branch->argv);
+		exit(1);
+	}
+	return (pid_add_back(&(info->plist), pid), SUCCESS);
+}
+解説:
+- `fork`は親プロセスのアドレス空間をコピーして子を生成し、親には子PIDを、子には0を返す。エラー時は負値。外部コマンドは親が落ちないよう必ず子で実行する。
+- 子プロセス側ではパイプの不要端を閉じる（全プロセスが両端を持ち続けるとEOFが届かず行き詰まるため）。`dup2_stdin_out`は`dup2`システムコールを使って`fd_in`/`fd_out`をそれぞれSTDIN(0)/STDOUT(1)に複製し、プロセスが以後標準入出力を透過的に使えるようにする。元FDは自動で閉じられないので、ヘルパが適切に処理している前提。
+- リダイレクトは`manage_redirect`で実際に`open`→`dup2`→`close`の流れを適用し、コマンド実行前にI/Oを所望のファイルへ差し替える。どこかで失敗したら子は即FAILUERを返して終了し、親にエラーを知らせる。
+- `execve_cmd`は`execve`システムコールをラップし、PATH上の実行ファイル探索を行う。`execve`が成功すると子プロセスのメモリは新プログラムに置き換わり、呼び出し元には戻らない。ここで`exit(1)`を置いているのは、探索に失敗した場合や`execve`が戻った場合の安全弁。
+- 親プロセスは`pid_add_back`でPIDをリスト登録するだけで実行を継続し、待機は後段`waitpid_plist`で一括処理。これにより複数子プロセスを並列起動できる。
+
+[srcs/execution/exec2_cmd.c] manage_my_cmd
+int	manage_my_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
+{
+	pid_t	pid;
+
+	pid = 1;
+	if (info->pipe)
+		pid = fork();
+	if (pid < 0)
+		return (FAILUER);
+	if (info->pipe && pid > 0)
+		return (pid_add_back(&(info->plist), pid), SUCCESS);
+	close_unused_pipe(fd_in, fd_out, info->fd);
+	if (dup2_stdin_out(fd_in, fd_out) == FAILUER
+		|| manage_redirect(branch) == FAILUER)
+		return (FAILUER);
+	execve_my_cmd(branch->argv, info);
+	reset_stdin_out(info);
+	if (!pid)
+		exit(0);
+	return (SUCCESS);
+}
+解説:
+- ビルトインは本来親で実行しないとシェル内部状態（カレントディレクトリや環境変数）が反映されないが、パイプが絡むと親がブロックするため子実行が必要。この折衷として「パイプありなら子を作って実行、なしなら親で直実行」という二段構えにしている。
+- `dup2`によるFD付け替えは外部コマンドと同様。パイプ経由で受け渡すときは、子・親それぞれが「自分が使わないパイプ端」を閉じてEOF伝播を正しく行う必要がある。これを怠るとパイプが閉じず、待ちが発生する。
+- `reset_stdin_out`は親がビルトインを実行した場合にのみ必要となる後処理で、`dup2`で保存しておいた`fd_stdin`/`fd_stdout`を標準入出力に戻す。これにより一度のリダイレクトが後続コマンドへ汚染を広げることを防ぐ。
+- 子で実行した場合、`execve_my_cmd`終了後に`exit(0)`で確実にプロセスを終了させ、親が`waitpid`で回収できるようにする。親で実行した場合は`exit`を呼ばずに戻るため、シェルプロセスは生き続ける。
+
+[srcs/parser/utils1_make_tree.c] free_tree_rec / free_split
+void	free_split(char **cmd)
+{
+	int	i;
+
+	if (!cmd  || !*cmd)
+		return ;
+	i = 0;
+	while (cmd[i])
+	{
+		free(cmd[i]);
+		i++;
+	}
+	free(cmd);
+}
+
+void	free_tree_rec(t_tree *branch)
+{
+	if (!branch)
+		return ;
+	free_tree_rec(branch->left);
+	free_tree_rec(branch->right);
+	free_flist(branch->flist);
+	free_split(branch->argv);
+	free(branch);
+}
+解説:
+- `free_split`は二重ポインタの配列を安全に解放するユーティリティ。NULLや空配列を早期リターンで弾き、各要素と配列本体を順に解放することで、コマンド引数配列などのリークを防止する。
+- `free_tree_rec`は後順（左右→親）でASTを辿って解放する再帰関数。子ノードを先に解放してから自身のファイルリスト・argv配列・ノード本体を解放することで、ツリー全体を漏れなく片付ける。
+
+[srcs/execution/exec_utils1_pid.c] waitpid_plist / free_pid
+void	waitpid_plist(t_pidlist *plist)
+{
+	int	status;
+
+	while (1)
+	{
+		plist = plist->next;
+		if (!plist)
+			return ;
+		waitpid(plist->pid, &status, 0);
+	}
+}
+
+void	free_pid(t_pidlist *plist)
+{
+	t_pidlist	*tmp;
+
+	if (!plist)
+		return ;
+	tmp = plist;
+	while (plist)
+	{
+		tmp = tmp->next;
+		free(plist);
+		plist = tmp;
+	}
+}
+解説:
+- `waitpid`は指定したPIDの子プロセス終了を待ち、ステータスを取得するシステムコール。ここでは番兵（親自身）を飛ばして、生成した子すべてを順に待つことでゾンビプロセス化（終了済みの子を親が回収しない状態）を防いでいる。パイプで複数子を並列に起動しているため、一括で同期を取る位置としてこの関数が使われる。
+- `free_pid`はPIDリストを辿って各ノードを解放し、プロセス管理用メモリのリークを防ぐ。`waitpid_plist`の後で呼ぶことで、生存している子がいないことを前提に安全に解放できる。

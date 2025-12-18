@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/10 00:35:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:09:05 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ void	free_tree_rec(t_tree *branch);
 t_flist	*flist_new(t_file_type ftype, char *fname);
 void	flist_add_back(t_flist **lst, t_flist *new);
 void	free_flist(t_flist *lst);
-
-void	my_lex(char *input, t_token **token_list);
+int	    tokenizer(char *input, t_token **token_list);
 t_tree	*parser(char *input);
 
 
