@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/23 07:31:38 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/19 14:25:56 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,167 +22,229 @@ static int	is_delimiter(int c)
 	return (c == ' ' || c == '\n' || c == '\t');
 }
 
+static int	hundle_consective_op1(t_token **token_list, char **input)
+{
+	char	*op;
+
+	if (!ft_strncmp(*input, "<<", 2))
+	{
+		op = ft_strdup("<<");
+		if (!op)
+			return (FAILUER);
+		add_token(token_list, op, TOKEN_HEREDOC);
+		(*input) += 2;
+	}
+	else if (!ft_strncmp(*input, ">>", 2))
+	{
+		op = ft_strdup(">>");
+		if (!op)
+			return (FAILUER);
+		add_token(token_list, op, TOKEN_APPEND);
+		(*input) += 2;
+	}
+	return (SUCCESS);
+}
+
+static int	hundle_consective_op2(t_token **token_list, char **input)
+{
+	char	*op;
+
+	if (!ft_strncmp(*input, "||", 2))
+	{
+		op = ft_strdup("||");
+		if (!op)
+			return (FAILUER);
+		add_token(token_list, op, TOKEN_DISJUNCTIONE);
+		(*input) += 2;
+	}
+	else if (!ft_strncmp(*input, "&&", 2))
+	{
+		op = ft_strdup("&&");
+		if (!op)
+			return (FAILUER);
+		add_token(token_list, op, TOKEN_CONJUNCTIONE);
+		(*input) += 2;
+	}
+	return (SUCCESS);
+}
+
+static int	hundle_single_op1(t_token **token_list, char **input)
+{
+	char	*op;
+
+	if (!ft_strncmp(*input, "(", 1))
+	{
+		op = ft_strdup("(");
+		if (!op)
+			return (FAILUER);
+		add_token(token_list, op, TOKEN_PARENTHESIS_LEFT);
+	}
+	else if (!ft_strncmp(*input, ")", 1))
+	{
+		op = ft_strdup(")");
+		if (!op)
+			return (FAILUER);
+		add_token(token_list, op, TOKEN_PARENTHESIS_RIGHT);
+	}
+	else if (!ft_strncmp(*input, "|", 1))
+	{
+		op = ft_strdup("|");
+		if (!op)
+			return (FAILUER);
+		add_token(token_list, op, TOKEN_PIPE);
+	}
+	(*input)++;
+	return (SUCCESS);
+}
+
+static int	hundle_single_op2(t_token **token_list, char **input)
+{
+	char	*op;
+
+	if (!ft_strncmp(*input, ">", 1))
+	{
+		op = ft_strdup(">");
+		if (!op)
+			return (FAILUER);
+		add_token(token_list, op, TOKEN_REDIRECT_OUT);
+	}
+	else if (!ft_strncmp(*input, "<", 1))
+	{
+		op = ft_strdup("<");
+		if (!op)
+			return (FAILUER);
+		add_token(token_list, op, TOKEN_REDIRECT_IN);
+	}
+	(*input)++;
+	return (SUCCESS);
+}
+
+int	manage_operater(t_token **token_list, char **input)
+{
+	if (hundle_consective_op1(token_list, input) == FAILUER)
+		return (FAILUER);
+	if (hundle_consective_op2(token_list, input) == FAILUER)
+		return (FAILUER);
+	if (hundle_single_op1(token_list, input) == FAILUER)
+		return (FAILUER);
+	if (hundle_single_op2(token_list, input) == FAILUER)
+		return (FAILUER);
+	return (SUCCESS);
+}
+
+static void	hundle_quote(char **input, t_state *state, t_char_list *c_list)
+{
+	if (**input == '\'')
+	{
+		*state = STATE_SQUOTE;
+		append_char(&c_list, **input);
+		(*input)++;
+	}
+	else if (**input == '"')
+	{
+		*state = STATE_DQUOTE;
+		append_char(&c_list, **input);
+		(*input)++;
+	}
+}
+
+int	manage_state_general(t_token **token_list, char **input, t_state *state,
+		t_char_list **c_list)
+{
+	hundle_quote(input, state, *c_list);
+	if (is_delimiter(**input) || is_operator(**input) || !ft_strncmp(*input,
+			"&&", 2))
+	{
+		if (*c_list)
+		{
+			add_token(token_list, list_to_string(c_list), TOKEN_WORD);
+			*c_list = NULL;
+		}
+		if (is_operator(**input) || !ft_strncmp(*input, "&&", 2))
+		{
+			if (manage_operater(token_list, input) == FAILUER)
+				return (FAILUER); // malloc失敗だけ
+		}
+		else
+			(*input)++;
+	}
+	else
+	{
+		append_char(c_list, **input);
+		(*input)++;
+	}
+	return (SUCCESS);
+}
+
+int	manage_state_squote(char **input, t_state *state, t_char_list **c_list)
+{
+	if (**input == '\'')
+	{
+		*state = STATE_GENERAL;
+		if (append_char(c_list, **input) == FAILUER)
+			return (FAILUER);
+		(*input)++;
+	}
+	else
+	{
+		if (append_char(c_list, **input) == FAILUER)
+			return (FAILUER);
+		(*input)++;
+	}
+	return (SUCCESS);
+}
+
+int	manage_state_dquote(char **input, t_state *state, t_char_list **c_list)
+{
+	if (**input == '"')
+	{
+		*state = STATE_GENERAL;
+		if (append_char(c_list, **input) == FAILUER)
+			return (FAILUER);
+		(*input)++;
+	}
+	else
+	{
+		if (append_char(c_list, **input) == FAILUER)
+			return (FAILUER);
+		(*input)++;
+	}
+	return (SUCCESS);
+}
+
+int	manage_state_transition(t_token **token_list, char **input, t_state *state,
+		t_char_list **c_list)
+{
+	if (*state == STATE_GENERAL)
+	{
+		if (manage_state_general(token_list, input, state, c_list) == FAILUER)
+			return (FAILUER);
+	}
+	else if (*state == STATE_SQUOTE)
+	{
+		if (manage_state_squote(input, state, c_list) == FAILUER)
+			return (FAILUER);
+	}
+	else if (*state == STATE_DQUOTE)
+	{
+		if (manage_state_dquote(input, state, c_list) == FAILUER)
+			return (FAILUER);
+	}
+	return (SUCCESS);
+}
+
 int	tokenizer(char *input, t_token **token_list)
 {
 	t_state		state;
-	char		*op;
 	t_char_list	*c_list;
 
 	state = STATE_GENERAL;
 	c_list = NULL;
 	while (*input)
 	{
-		if (state == STATE_GENERAL)
-		{
-			if (*input == '\'')
-			{
-				state = STATE_SQUOTE;
-				append_char(&c_list, *input);
-				input++;
-			}
-			else if (*input == '"')
-			{
-				state = STATE_DQUOTE;
-				append_char(&c_list, *input);
-				input++;
-			}
-			else if (is_delimiter(*input) || is_operator(*input)
-				|| !ft_strncmp(input, "&&", 2))
-			{
-				if (c_list)
-				{
-					add_token(token_list, list_to_string(&c_list), TOKEN_WORD);
-					c_list = NULL;
-				}
-				if (is_operator(*input) || !ft_strncmp(input, "&&", 2))
-				{
-					if (!ft_strncmp(input, "<<", 2))
-					{
-						op = ft_strdup("<<");
-						if (!op)
-							return (FAILUER);
-						add_token(token_list, op, TOKEN_HEREDOC);
-						input += 2;
-						continue ;
-					}
-					else if (!ft_strncmp(input, ">>", 2))
-					{
-						op = ft_strdup(">>");
-						if (!op)
-							return (FAILUER);
-						add_token(token_list, op, TOKEN_APPEND);
-						input += 2;
-						continue ; // 一時的に例外処理にしてる後で直す
-					}
-					else if (!ft_strncmp(input, "||", 2))
-					{
-						op = ft_strdup("||");
-						if (!op)
-							return (FAILUER);
-						add_token(token_list, op, TOKEN_DISJUNCTIONE);
-						input += 2;
-						continue ;
-					}
-					else if (!ft_strncmp(input, "&&", 2))
-					{
-						op = ft_strdup("&&");
-						if (!op)
-							return (FAILUER);
-						add_token(token_list, op, TOKEN_CONJUNCTIONE);
-						input += 2;
-						continue ;
-					}
-					else if (!ft_strncmp(input, "(", 1))
-					{
-						op = ft_strdup("(");
-						if (!op)
-							return (FAILUER);
-						add_token(token_list, op, TOKEN_PARENTHESIS_LEFT);
-					}
-					else if (!ft_strncmp(input, ")", 1))
-					{
-						op = ft_strdup(")");
-						if (!op)
-							return (FAILUER);
-						add_token(token_list, op, TOKEN_PARENTHESIS_RIGHT);
-					}
-					else if (!ft_strncmp(input, "|", 1))
-					{
-						op = ft_strdup("|");
-						if (!op)
-							return (FAILUER);
-						add_token(token_list, op, TOKEN_PIPE);
-					}
-					else if (!ft_strncmp(input, ">", 1))
-					{
-						op = ft_strdup(">");
-						if (!op)
-							return (FAILUER);
-						add_token(token_list, op, TOKEN_REDIRECT_OUT);
-					}
-					else if (!ft_strncmp(input, "<", 1))
-					{
-						op = ft_strdup("<");
-						if (!op)
-							return (FAILUER);
-						add_token(token_list, op, TOKEN_REDIRECT_IN);
-					}
-					input++;
-				}
-				else
-					input++;
-			}
-			else if (*input == '\\')
-			{
-				input++;
-				if (!*input)
-				{
-					if (c_list)
-						c_lstclear(&c_list, free);
-					t_lstclear(token_list, free);
-					ft_putendl_fd("minishell: syntax error: unclosed back slash",
-						2);
-				}
-				if (*input)
-				{
-					append_char(&c_list, *input);
-					input++;
-				}
-			}
-			else
-			{
-				append_char(&c_list, *input);
-				input++;
-			}
-		}
-		else if (state == STATE_SQUOTE)
-		{
-			if (*input == '\'')
-			{
-				state = STATE_GENERAL;
-				append_char(&c_list, *input);
-				input++;
-			}
-			else
-			{
-				append_char(&c_list, *input);
-				input++;
-			}
-		}
-		else if (state == STATE_DQUOTE)
-		{
-			if (*input == '"')
-			{
-				state = STATE_GENERAL;
-				append_char(&c_list, *input);
-				input++;
-			}
-			else
-			{
-				append_char(&c_list, *input);
-				input++;
-			}
-		}
+		if (manage_state_transition(token_list, &input, &state,
+				&c_list) == FAILUER)
+			return (FAILUER);
 	}
 	if (state == STATE_SQUOTE || state == STATE_DQUOTE)
 	{
@@ -217,7 +279,6 @@ int	lexer(char *input, t_token **token_list)
 	last_node->next = eof_node;
 	return (SUCCESS);
 }
-
 
 // int	main(void)
 // {

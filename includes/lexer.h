@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/23 07:37:19 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/19 14:04:11 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ typedef struct s_lexer
 
 void					buff_add_buck(t_char_list **char_list,
 							t_char_list *new_char_list);
-void					append_char(t_char_list **list, char c);
+int 					append_char(t_char_list **list, char c);
 char					*list_to_string(t_char_list **list);
-void					add_token(t_token **token_list, char *token,
+int 					add_token(t_token **token_list, char *token,
 							t_token_type type);
 t_token					*t_lstnew(char *token);
 size_t					t_lstsize(t_token *lst);
