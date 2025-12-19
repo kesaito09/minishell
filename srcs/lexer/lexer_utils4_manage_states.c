@@ -1,16 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils5_manage_states.c                       :+:      :+:    :+:   */
+/*   lexer_utils4_manage_states.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/19 16:14:22 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:33:26 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
+
+static void	manage_quote(char **input, t_state *state, t_char_list *c_list)
+{
+	if (**input == '\'')
+	{
+		*state = STATE_SQUOTE;
+		append_char(&c_list, **input);
+		(*input)++;
+	}
+	else if (**input == '"')
+	{
+		*state = STATE_DQUOTE;
+		append_char(&c_list, **input);
+		(*input)++;
+	}
+}
 
 static int	manage_state_general(t_token **token_list, char **input,
 		t_state *state, t_char_list **c_list)

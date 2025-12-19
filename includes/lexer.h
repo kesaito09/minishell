@@ -6,14 +6,14 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/19 14:04:11 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:36:09 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-#include "minishell.h"
+# include "minishell.h"
 
 typedef enum e_token_type
 {
@@ -39,7 +39,6 @@ typedef enum e_state
 	STATE_DQUOTE,
 }						t_state;
 
-
 typedef struct s_token
 {
 	char				*token;
@@ -62,33 +61,37 @@ typedef struct s_lexer
 
 }						t_lexer;
 
+/*lexer_utils1_token*/
 void					buff_add_buck(t_char_list **char_list,
 							t_char_list *new_char_list);
-int 					append_char(t_char_list **list, char c);
+int						append_char(t_char_list **list, char c);
 char					*list_to_string(t_char_list **list);
-int 					add_token(t_token **token_list, char *token,
+int						add_token(t_token **token_list, char *token,
 							t_token_type type);
+
+/*lexer_utils2_list_helpers*/
 t_token					*t_lstnew(char *token);
-size_t					t_lstsize(t_token *lst);
 void					t_lstdelone(t_token *lst, void (*del)(void *));
 void					t_lstclear(t_token **lst, void (*del)(void *));
 t_token					*t_lstlast(t_token *lst);
 void					t_lstadd_back(t_token **lst, t_token *new);
 
+/*lexer_utils3_charlist*/
 t_char_list				*c_lstlast(t_char_list *lst);
 size_t					c_lstsize(t_char_list *lst);
 void					c_lstclear(t_char_list **lst, void (*del)(void *));
-int 					lexer(char *input, t_token **token_list);
 
+/*lexer_utils4_manage_states*/
+int						manage_state_transition(t_token **token_list,
+							char **input, t_state *state, t_char_list **c_list);
 
-/*batakaha_test*/
-t_state					is_quote(char c);
-int						quote_len(char *str);
-t_token_type 			is_token_type(char *c);
-int 					count_section(char *str);
-int						section_len(char *str);
-char					**split_section(char *str);
+/*lexer_utils5_manage_operaters*/
+int						manage_operater(t_token **token_list, char **input);
 
+/*lexer_utils6_helpers*/
+int						is_operator(int c);
+int						is_delimiter(int c);
 
-
-# endif
+/*lexer*/
+int						lexer(char *input, t_token **token_list);
+#endif

@@ -6,21 +6,11 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/19 16:18:10 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:24:12 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
-
-static int	is_operator(int c)
-{
-	return (c == '|' || c == '<' || c == '>' || c == '(' || c == ')');
-}
-
-static int	is_delimiter(int c)
-{
-	return (c == ' ' || c == '\n' || c == '\t');
-}
 
 int	tokenizer(char *input, t_token **token_list)
 {

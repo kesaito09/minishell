@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2025/12/16 21:50:38 by natakaha         ###   ########.fr        #
+#    Updated: 2025/12/19 16:24:32 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,10 +36,13 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/execution/exec2_cmd.c\
 			srcs/execution/exec3_pipe.c\
 			srcs/execution/exec4_redirect.c\
-			srcs/lexer/charlist.c\
-			srcs/lexer/lexer_utils.c\
 			srcs/lexer/lexer.c\
-			srcs/lexer/token_list_utils.c\
+			srcs/lexer/lexer_utils1_token.c\
+			srcs/lexer/lexer_utils2_list_helpers.c\
+			srcs/lexer/lexer_utils3_charlist.c\
+			srcs/lexer/lexer_utils4_manage_states.c\
+			srcs/lexer/lexer_utils5_manage_operaters.c\
+			srcs/lexer/lexer_utils6_helpers.c\
 			srcs/parser/utils1_make_tree.c\
 			srcs/parser/utils2_redirect.c\
 			srcs/parser/utils3_parse.c\
