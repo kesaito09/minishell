@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*   lexer_utils1_token.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:25:00 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/19 14:14:41 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/19 19:23:48 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*list_to_string(t_char_list **list)
 		current = current->next;
 	}
 	c_lstclear(list, free);
+	*list = NULL;
 	return (str);
 }
 
@@ -81,6 +82,8 @@ int		add_token(t_token **token_list, char *token, t_token_type type)
 	t_token	*last;
 	t_token	*new_token;
 
+	if (!token)
+		return (FAILUER);
 	if (!token_list)
 		return (SUCCESS);//ここは成功にすべきかもしれない
 	new_token = malloc(sizeof(t_token));

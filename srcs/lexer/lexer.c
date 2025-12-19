@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/19 16:24:12 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/19 19:12:00 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,6 @@ int	tokenizer(char *input, t_token **token_list)
 		t_lstclear(token_list, free);
 		ft_putendl_fd("minishell: syntax error: unclosed quote", 2);
 		return (FAILUER);
-	}
-	if (c_list)
-	{
-		add_token(token_list, list_to_string(&c_list), TOKEN_WORD);
-		c_list = NULL;
 	}
 	return (SUCCESS);
 }

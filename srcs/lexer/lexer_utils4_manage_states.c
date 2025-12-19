@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils4_manage_states.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/19 16:33:26 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/19 19:26:20 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,21 @@ static int	manage_state_general(t_token **token_list, char **input,
 			"&&", 2))
 	{
 		if (*c_list)
-		{
-			add_token(token_list, list_to_string(c_list), TOKEN_WORD);
-			*c_list = NULL;
-		}
+			if (add_token(token_list, list_to_string(c_list), TOKEN_WORD) == FAILUER)
+				return (FAILUER);
 		if (is_operator(**input) || !ft_strncmp(*input, "&&", 2))
-		{
 			if (manage_operater(token_list, input) == FAILUER)
-				return (FAILUER); // malloc失敗だけ
-		}
-		else
+				return (FAILUER);
+		if (is_delimiter(**input))
 			(*input)++;
 	}
 	else
 	{
 		append_char(c_list, **input);
 		(*input)++;
+		if (**input == '\0')
+			if (add_token(token_list, list_to_string(c_list), TOKEN_WORD) == FAILUER)
+				return (FAILUER);
 	}
 	return (SUCCESS);
 }
