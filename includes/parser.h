@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/23 10:47:33 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/20 04:47:45 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef enum e_file_type t_file_type;
 typedef struct s_token t_token;
 
 /*utils1_make_tree*/
-t_tree	*tree_new(char **cmd, t_flist *flist, t_tree_type btype);
+t_tree	*tree_new(t_tree_type btype);
 void	tree_add_left(t_tree **branch, t_tree *node);
 void	tree_add_right(t_tree **branch, t_tree *node);
 void 	free_split(char **cmd);
@@ -50,9 +50,14 @@ bool	is_redirect(t_token *cur);
 bool	is_connection(t_token *cur);
 bool	is_command(t_token *cur);
 
+/*utils7_arglist*/
+int		append_token(t_tree *branch, t_token **cur);
+char	**token_argv(t_token **node);
+
 /*parse_cmd*/
 t_tree	*parse_command(t_token **cur);
 t_tree	*parse_manage(t_token **cur);
+t_token	*argv_token(char **argv);
 
 
 /*parse*/

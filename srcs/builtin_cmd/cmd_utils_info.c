@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 06:33:13 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/16 20:45:12 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/20 04:48:30 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ t_pipe	correct_info(char **envp)
 	ft_bzero(&info, sizeof(t_pipe));
 	if (complete_path(&(info.path), envp) == FAILUER)
 		exit(1);
-	info.envp = dup_split(envp);
-	info.plist = pid_new(getpid());
+	info.envp = argv_token(envp);
+	info.plist = NULL;
 	info.pipe = false;
 	info.fd[0] = -1;
 	info.fd[1] = -1;

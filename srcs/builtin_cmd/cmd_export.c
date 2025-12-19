@@ -6,102 +6,90 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/16 20:44:41 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/20 06:28:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/commands.h"
 #include "../../includes/execution.h"
 
-static int	export_replace(const char *arg, char **envp)
+int	strchr_len(const char *arg, char c)
+{
+	char *ptr;
+
+	ptr = ft_strchr(arg, c);
+	return ((int)(ptr - arg));
+}
+
+int	ft_argcmp(const char *arg, const char *env)
 {
 	int	len;
-	int	j;
 
-	len = (ft_strchr(arg, '=') - arg);
-	j = 0;
-	while (ft_strncmp(arg, envp[j], len))
-		j++;
-	free(envp[j]);
-	envp[j] = ft_strdup(arg);
-	return (SUCCESS);
+	if (!arg)
+		return (-1);
+	len = strchr_len(arg, '=');
+	if (len < 0)
+		return (FAILUER);
+	if (ft_strncmp(arg, env, len))
+		return (1);
+	if (env[len] != '=')
+		return (1);
+	return (0);
 }
 
-static int export_module(char **cmd, t_pipe *info)
+int	cmd_check(t_token *cmd)
 {
-	int		i;
-	char	**new_env;
+	t_token *env;
 
-	i = 0;
-	new_env = (char **)ft_calloc(sizeof(char *), count_arr_elem(info->envp) + 2);
-	if (!new_env)
+	env = cmd->next;
+	if (!env)
 		return (FAILUER);
-	while (info->envp[i])
+	if (strchr_len(env->token, '=') == 0)
 	{
-		new_env[i] = ft_strdup(info->envp[i]);
-		if (!new_env[i])
-			return (free_split(new_env), FAILUER);
-		i++;
+		ft_putstr("minishell$: export: '", 2);
+		ft_putstr(env->token, 2);
+		ft_putendl_fd("': not a valid identifier", 2);
+		return (FAILUER);
 	}
-	new_env[i] = ft_strdup(cmd[1]);
-	if (!new_env[i])
-		return (free_split(new_env), FAILUER);
-	free_split(info->envp);
-	info->envp = new_env;
-	return (SUCCESS);
-}
-
-int	export(char **cmd, t_pipe *info)
-{
-	char	*tmp;
-
-	tmp = ft_strchr(cmd[1], '=');
-	if (!tmp || tmp == cmd[1])
-		return (FAILUER);
-	if (find_arg(cmd[1], info->envp))
-		return (export_replace(cmd[1], info->envp));
-	if (export_module(cmd, info) == FAILUER)
+	if (!strchr(env->token, '='))
 		return (FAILUER);
 	return (SUCCESS);
 }
 
-static int	unset_module(char **cmd, t_pipe *info)
+int	export(t_token *cmd, t_pipe *info)
 {
-	char	**new_env;
-	int		i;
-	int		j;
+	t_token	*env;
+	char	*arg;
 
-	new_env = (char **)ft_calloc(sizeof(char *), count_arr_elem(info->envp));
-	if (!new_env)
+	if (cmd_check(cmd) == FAILUER)
 		return (FAILUER);
-	i = 0;
-	j = 0;
-	while(info->envp[j])
+	arg = ft_strdup(cmd->next->token);
+	if (!arg)
+		return (FAILUER);
+	env = info->envp;
+	while (env)
 	{
-		if (!ft_argcmp(cmd[1], info->envp[j]))
-			j++;
-		if (!info->envp[j])
-			break ;
-		new_env[i] = ft_strdup(info->envp[j]);
-		if (!new_env[i])
-			return (free_split(new_env), FAILUER);
-		i++;
-		j++;
+		if (!ft_argcmp(arg, env->token))
+		{
+			free(env->token);
+			env->token = arg;
+			return (SUCCESS);
+		}
+		env = env->next;
 	}
-	free_split(info->envp);
-	info->envp = new_env;
-	return (SUCCESS);
+	env = t_lstnew(arg);
+	if (!env)
+		return (free(arg), FAILUER);
+	t_lstadd_back(&(info->envp), env);
+	(void)cmd;
 }
 
-int	unset(char **cmd, t_pipe *info)
+int	unset(t_token *cmd, t_pipe *info)
 {
-	if (ft_strchr(cmd[1], '='))
-		return ((void)ft_printf("unset: %s: invalid parameter name\n"), FAILUER);
-	if (!find_arg(cmd[1], info->envp))
-		return (FAILUER);
-	if (unset_module(cmd, info) == FAILUER)
-		return (FAILUER);
-	return (SUCCESS);
+	t_token	*tmp;
+	char	*key;
+
+
 }
 
 //int main(int ac, char **av)

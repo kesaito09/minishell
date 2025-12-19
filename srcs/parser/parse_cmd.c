@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/23 11:37:01 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/20 04:08:17 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,32 +52,32 @@ static int	append_redirect(t_tree *node, t_token **cur)
 	return (SUCCESS);
 }
 
-static int	append_argv(t_tree *node, t_token **cur)
+//static int	append_argv(t_tree *node, t_token **cur)
+//{
+//	char	**new_argv;
+
+//	new_argv = ultimate_strjoin(node->argv, (*cur)->token);
+//	if (!new_argv)
+//		return (FAILUER);
+//	free_split(node->argv);
+//	node->argv = new_argv;
+//	*cur = (*cur)->next;
+//	return (SUCCESS);
+//}
+
+static t_tree	*parse_subshell(t_token **cur)
 {
-	char	**new_argv;
-
-	new_argv = ultimate_strjoin(node->argv, (*cur)->token);
-	if (!new_argv)
-		return (FAILUER);
-	free_split(node->argv);
-	node->argv = new_argv;
-	*cur = (*cur)->next;
-	return (SUCCESS);
-}
-
-static t_tree	*manage_subshell(t_token **cur)
-{	
 	t_tree *subshell_node;
 
 	(*cur) = (*cur) ->next;
 	if (!(*cur))
-		return (NULL);	
-	subshell_node = tree_new(NULL, NULL, SUBSHELL);
+		return (NULL);
+	subshell_node = tree_new(SUBSHELL);
 	if (!subshell_node)
 		return (NULL);
 	subshell_node ->left = parse_manage(cur);
 	if ((*cur) ->type != TOKEN_PARENTHESIS_RIGHT)
-		return (NULL);//error mese-ji
+		return (NULL);
 	(*cur) = (*cur) ->next;
 	return (subshell_node);
 }
@@ -89,8 +89,8 @@ t_tree	*parse_command(t_token **cur)
 	if (!*cur || is_connection(*cur))
 		return (NULL);
 	if ((*cur) && ((*cur) ->type == TOKEN_PARENTHESIS_LEFT))
-		return (manage_subshell(cur));
-	node = tree_new(NULL, NULL, cmd_type(*cur));
+		return (parse_subshell(cur));
+	node = tree_new(cmd_type(*cur));
 	if (!node)
 		return (NULL);
 	while (is_command(*cur))
@@ -102,7 +102,7 @@ t_tree	*parse_command(t_token **cur)
 		}
 		else if ( (*cur) && (*cur) ->type == TOKEN_WORD)
 		{
-			if (append_argv(node, cur) == FAILUER)
+			if (append_token(node, cur) == FAILUER)
 				return (free(node), NULL);
 		}
 	}

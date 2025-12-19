@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 03:43:18 by naoki             #+#    #+#             */
-/*   Updated: 2025/12/16 10:26:55 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/19 22:16:52 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,17 @@ void	free_pid(t_pidlist *plist)
 int	waitpid_plist(t_pidlist **plist)
 {
 	int	status;
+	t_pidlist	*tmp;
 
 	status = 0;
-	while (1)
+	tmp = *plist;
+	while (*plist)
 	{
-		(*plist) = (*plist)->next;
-		if (!*plist)
-			break ;
 		waitpid((*plist)->pid, &status, 0);
+		(*plist) = (*plist)->next;
 	}
-	free_pid(*plist);
-	*plist = pid_new(1);
+	free_pid(tmp);
+	*plist = NULL;
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))

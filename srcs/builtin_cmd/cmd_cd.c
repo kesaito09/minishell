@@ -6,16 +6,19 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 01:23:57 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 18:17:45 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/20 05:07:20 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/commands.h"
 #include "../../includes/execution.h"
 
-void	cd(char **cmd)
+void	cd(t_token *node)
 {
-	if (chdir(cmd[1]))
+	char	*cd_;
+
+	cd_ = node->next->token;
+	if (chdir(cd_))
 		return ;
 }
 

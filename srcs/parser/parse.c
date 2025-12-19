@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/19 19:41:35 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/20 04:08:33 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_tree	*parse_pipeline_rec(t_token **cur, t_tree *left_node)
 	*cur = (*cur)->next;
 	if (!*cur)
 	return (free_tree_rec(left_node), NULL);
-	pipe_node = tree_new(NULL, NULL, PIPE);
+	pipe_node = tree_new(PIPE);
 	if (!pipe_node)
 		return (free_tree_rec(left_node), NULL);
 	pipe_node->left = left_node;
@@ -56,9 +56,9 @@ static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node)
 		&& (*cur)->type != TOKEN_DISJUNCTIONE))
 		return (left_node);
 	if ((*cur)->type == TOKEN_CONJUNCTIONE)
-		logical_node = tree_new(NULL, NULL, CONJUNCTION);
+		logical_node = tree_new(CONJUNCTION);
 	else
-		logical_node = tree_new(NULL, NULL, DISJUNCTION);
+		logical_node = tree_new(DISJUNCTION);
 	if (!logical_node)
 		return (free_tree_rec(left_node), NULL);
 	logical_node->left = left_node;
@@ -103,17 +103,20 @@ t_tree	*parser(char *input)
 	return (ast);
 }
 
-int	main(int argc, char **argv)
-{
-	t_token	*token;
-	t_tree	*branch;
+//int	main(int argc, char **argv)
+//{
+//	t_token	*token;
+//	t_tree	*branch;
+//	char	**cmds;
 
-	if (argc < 2)
-		return (1);
-	token = tokenizer(argv[1]);
-	if (!token)
-		return (1);
-	print_token(token);
-	branch = parser(argv[1]);
-	visualize_tree(branch, argv[1]);
-}
+//	if (argc < 2)
+//		return (1);
+//	token = tokenizer(argv[1]);
+//	if (!token)
+//		return (1);
+	//print_token(token);
+	//branch = parser(argv[1]);
+	//cmds = token_argv(&(branch->left->arg_list));
+	//print_split(cmds);
+	//print_flist(branch->left->flist);
+//}

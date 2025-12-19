@@ -54,13 +54,13 @@ typedef struct 			s_flist
 	struct s_flist	*next;
 }			t_flist;
 
+typedef struct s_token	t_token;
+
 typedef struct s_tree
 {
-	struct s_tree	*parent;
 	struct s_tree	*left;
 	struct s_tree	*right;
-	char			**argv;
-	char			**assigns;
+	t_token			*arg_list;
 	t_flist			*flist;
 	t_tree_type			b_type;
 
@@ -74,8 +74,7 @@ typedef struct s_pidlist
 
 typedef struct s_pipe
 {
-	int				argc;
-	char			**envp;
+	t_token			*envp;
 	char			**path;
 	bool			pipe;
 	int				fd[2];
@@ -95,6 +94,7 @@ int					manage_my_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
 
 /*exec3_pipe*/
 int					manage_pipe(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
+int					manage_subshell(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
 int					manage_conjunction(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
 int					manage_disjunction(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
 
