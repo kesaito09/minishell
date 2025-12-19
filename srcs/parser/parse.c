@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/19 14:53:41 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/19 19:41:35 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static t_tree	*parse_pipeline_rec(t_token **cur, t_tree *left_node)
 	if (!*cur || (*cur)->type != TOKEN_PIPE)
 		return (left_node);
 	*cur = (*cur)->next;
-	if (!*cur)		
+	if (!*cur)
 	return (free_tree_rec(left_node), NULL);
 	pipe_node = tree_new(NULL, NULL, PIPE);
 	if (!pipe_node)
@@ -51,7 +51,7 @@ static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node)
 
 	if (!left_node)
 		return (NULL);
-	if (!*cur 
+	if (!*cur
 		|| ((*cur)->type != TOKEN_CONJUNCTIONE
 		&& (*cur)->type != TOKEN_DISJUNCTIONE))
 		return (left_node);
@@ -90,12 +90,12 @@ t_tree	*parser(char *input)
 	t_token	*tmp;
 
 	ast = NULL;
-	token_list = NULL;
 	if (!input || !*input)
 		return (NULL);
-	if (lexer(input, &token_list) == FAILUER)
+	token_list = tokenizer(input);
+	if (!token_list)
 		return (NULL);
-	if (!token_list)	
+	if (!token_list)
 		return (NULL);
 	tmp = token_list;
 	ast = parse_manage(&token_list);
@@ -110,8 +110,9 @@ int	main(int argc, char **argv)
 
 	if (argc < 2)
 		return (1);
-	token = NULL;
-	lexer(argv[1], &token);
+	token = tokenizer(argv[1]);
+	if (!token)
+		return (1);
 	print_token(token);
 	branch = parser(argv[1]);
 	visualize_tree(branch, argv[1]);
