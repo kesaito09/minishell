@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/19 14:25:56 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/19 15:46:41 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static int	hundle_single_op1(t_token **token_list, char **input)
 		if (!op)
 			return (FAILUER);
 		add_token(token_list, op, TOKEN_PARENTHESIS_LEFT);
+		(*input)++;
 	}
 	else if (!ft_strncmp(*input, ")", 1))
 	{
@@ -85,6 +86,7 @@ static int	hundle_single_op1(t_token **token_list, char **input)
 		if (!op)
 			return (FAILUER);
 		add_token(token_list, op, TOKEN_PARENTHESIS_RIGHT);
+		(*input)++;
 	}
 	else if (!ft_strncmp(*input, "|", 1))
 	{
@@ -92,8 +94,8 @@ static int	hundle_single_op1(t_token **token_list, char **input)
 		if (!op)
 			return (FAILUER);
 		add_token(token_list, op, TOKEN_PIPE);
+		(*input)++;
 	}
-	(*input)++;
 	return (SUCCESS);
 }
 
@@ -107,6 +109,7 @@ static int	hundle_single_op2(t_token **token_list, char **input)
 		if (!op)
 			return (FAILUER);
 		add_token(token_list, op, TOKEN_REDIRECT_OUT);
+		(*input)++;
 	}
 	else if (!ft_strncmp(*input, "<", 1))
 	{
@@ -114,8 +117,8 @@ static int	hundle_single_op2(t_token **token_list, char **input)
 		if (!op)
 			return (FAILUER);
 		add_token(token_list, op, TOKEN_REDIRECT_IN);
+		(*input)++;
 	}
-	(*input)++;
 	return (SUCCESS);
 }
 
@@ -132,7 +135,7 @@ int	manage_operater(t_token **token_list, char **input)
 	return (SUCCESS);
 }
 
-static void	hundle_quote(char **input, t_state *state, t_char_list *c_list)
+static void	manage_quote(char **input, t_state *state, t_char_list *c_list)
 {
 	if (**input == '\'')
 	{
@@ -151,7 +154,7 @@ static void	hundle_quote(char **input, t_state *state, t_char_list *c_list)
 int	manage_state_general(t_token **token_list, char **input, t_state *state,
 		t_char_list **c_list)
 {
-	hundle_quote(input, state, *c_list);
+	manage_quote(input, state, *c_list);
 	if (is_delimiter(**input) || is_operator(**input) || !ft_strncmp(*input,
 			"&&", 2))
 	{

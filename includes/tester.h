@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tester.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 19:21:32 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/10 00:29:00 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/19 14:50:43 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,7 @@ void	print_flist(t_flist *flist, int i);
 void	print_split(char **cmd, int j);
 void	print_tree(t_tree *branch, int i);
 void	print_tree_rec(t_tree *branch);
+void visualize_tree(t_tree *root, char *argv1);
+
 
 #endif

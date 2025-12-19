@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:54:04 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/23 11:42:17 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/19 14:50:37 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,4 +129,73 @@ void	print_token(t_token *cur)
 		ft_putendl_fd(cur->token, 2);
 		cur = cur->next;
 	}
+}
+
+#include <stdio.h>
+#include <stdbool.h>
+
+// リダイレクトの型に応じた記号を返すヘルパー
+const char *get_redir_symbol(t_file_type type)
+{
+    if (type == INFILE) return "<";
+    if (type == OUTFILE) return ">";
+    if (type == APPEND) return ">>";
+    if (type == HEARDOC) return "<<";
+    return "?";
+}
+
+void print_ast(t_tree *node, char *prefix, bool is_left)
+{
+    if (!node)
+        return;
+
+    // 現在のノードのラベル表示
+    printf("%s%s", prefix, is_left ? "├── " : "└── ");
+    
+    if (node->b_type == PIPE) printf("[PIPE (|)]\n");
+    else if (node->b_type == CONJUNCTION) printf("[AND (&&)]\n");
+    else if (node->b_type == DISJUNCTION) printf("[OR (||)]\n");
+    else if (node->b_type == SUBSHELL) printf("[SUBSHELL ( )]\n");
+    else if (node->b_type == COMMAND || node->b_type == MY_COMMAND)
+    {
+        printf("[CMD: ");
+        if (node->argv && node->argv[0])
+            for (int j = 0; node->argv[j]; j++)
+                printf("%s%s", node->argv[j], node->argv[j+1] ? " " : "");
+        printf("]\n");
+    }
+
+    // 次の階層のためのインデント文字列を準備
+    char new_prefix[256];
+    snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, is_left ? "│   " : "    ");
+
+    // リダイレクト情報があれば表示
+    t_flist *curr_file = node->flist;
+    while (curr_file)
+    {
+        printf("%s├── [REDIR: %s %s]\n", new_prefix, 
+               get_redir_symbol(curr_file ->f_type), curr_file ->file);
+        curr_file = curr_file->next;
+    }
+
+    // 枝の再帰
+    if (node->b_type == SUBSHELL)
+        print_ast(node->left, new_prefix, false);
+    else
+    {
+        if (node->left)
+            print_ast(node->left, new_prefix, true);
+        if (node->right)
+            print_ast(node->right, new_prefix, false);
+    }
+}
+
+// 呼び出し用関数
+void visualize_tree(t_tree *root, char *argv1)
+{
+    if (!root) return;
+    printf("--- %s ---\n",argv1);
+    // ルートはインデントなし、is_leftはfalseで開始
+    print_ast(root, "", false);
+    printf("-------------------------\n");
 }

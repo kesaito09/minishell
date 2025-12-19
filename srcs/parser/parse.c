@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/19 14:27:03 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/19 14:53:41 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int	main(int argc, char **argv)
 		return (1);
 	token = NULL;
 	lexer(argv[1], &token);
+	print_token(token);
 	branch = parser(argv[1]);
-	print_tree_rec(branch);
+	visualize_tree(branch, argv[1]);
 }
