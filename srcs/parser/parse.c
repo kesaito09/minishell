@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/19 19:41:35 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/20 02:18:50 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,17 @@ t_tree	*parser(char *input)
 	return (ast);
 }
 
-int	main(int argc, char **argv)
-{
-	t_token	*token;
-	t_tree	*branch;
+// int	main(int argc, char **argv)
+// {
+// 	t_token	*token;
+// 	t_tree	*branch;
 
-	if (argc < 2)
-		return (1);
-	token = tokenizer(argv[1]);
-	if (!token)
-		return (1);
-	print_token(token);
-	branch = parser(argv[1]);
-	visualize_tree(branch, argv[1]);
-}
+// 	if (argc < 2)
+// 		return (1);
+// 	token = tokenizer(argv[1]);
+// 	if (!token)
+// 		return (1);
+// 	print_token(token);
+// 	branch = parser(argv[1]);
+// 	visualize_tree(branch, argv[1]);
+// }

@@ -6,7 +6,7 @@
 #    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2025/12/19 16:24:32 by kesaitou         ###   ########.fr        #
+#    Updated: 2025/12/20 04:14:04 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/execution/exec2_cmd.c\
 			srcs/execution/exec3_pipe.c\
 			srcs/execution/exec4_redirect.c\
+			srcs/execution/exec_utils7_expand_wildcard.c\
 			srcs/lexer/lexer.c\
 			srcs/lexer/lexer_utils1_token.c\
 			srcs/lexer/lexer_utils2_list_helpers.c\

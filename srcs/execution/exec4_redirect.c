@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec4_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 20:42:50 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/10 01:32:43 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/19 23:47:13 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
