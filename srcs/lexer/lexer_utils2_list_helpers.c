@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:23:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/09 20:02:26 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:03:31 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
-//size_t	t_lstsize(t_token *lst)
+// size_t	t_lstsize(t_token *lst)
 //{
 //	int	len;
 
@@ -25,7 +25,6 @@
 //	return (len);
 //}
 
-/*lexer用に改造した*/
 t_token	*t_lstnew(char *token)
 {
 	t_token	*new_elem;
@@ -33,7 +32,7 @@ t_token	*t_lstnew(char *token)
 	new_elem = ft_calloc(sizeof(t_token), 1);
 	if (!new_elem)
 		return (NULL);
-	new_elem ->type = TOKEN_EOF;
+	new_elem->type = TOKEN_EOF;
 	new_elem->token = token;
 	new_elem->next = NULL;
 	return (new_elem);
@@ -45,7 +44,6 @@ t_token	*t_lstlast(t_token *lst)
 		lst = lst->next;
 	return (lst);
 }
-
 
 void	t_lstdelone(t_token *lst, void (*del)(void *))
 {
