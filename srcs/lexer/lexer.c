@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/19 15:46:41 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/19 15:56:51 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@ static int	is_delimiter(int c)
 	return (c == ' ' || c == '\n' || c == '\t');
 }
 
-static int	hundle_consective_op1(t_token **token_list, char **input)
+static int	hundle_consective_op1(t_token **token_list, char **input, char *op)
 {
-	char	*op;
-
 	if (!ft_strncmp(*input, "<<", 2))
 	{
 		op = ft_strdup("<<");
@@ -45,10 +43,8 @@ static int	hundle_consective_op1(t_token **token_list, char **input)
 	return (SUCCESS);
 }
 
-static int	hundle_consective_op2(t_token **token_list, char **input)
+static int	hundle_consective_op2(t_token **token_list, char **input, char *op)
 {
-	char	*op;
-
 	if (!ft_strncmp(*input, "||", 2))
 	{
 		op = ft_strdup("||");
@@ -68,10 +64,8 @@ static int	hundle_consective_op2(t_token **token_list, char **input)
 	return (SUCCESS);
 }
 
-static int	hundle_single_op1(t_token **token_list, char **input)
+static int	hundle_single_op1(t_token **token_list, char **input, char *op)
 {
-	char	*op;
-
 	if (!ft_strncmp(*input, "(", 1))
 	{
 		op = ft_strdup("(");
@@ -99,10 +93,8 @@ static int	hundle_single_op1(t_token **token_list, char **input)
 	return (SUCCESS);
 }
 
-static int	hundle_single_op2(t_token **token_list, char **input)
+static int	hundle_single_op2(t_token **token_list, char **input, char *op)
 {
-	char	*op;
-
 	if (!ft_strncmp(*input, ">", 1))
 	{
 		op = ft_strdup(">");
@@ -124,13 +116,16 @@ static int	hundle_single_op2(t_token **token_list, char **input)
 
 int	manage_operater(t_token **token_list, char **input)
 {
-	if (hundle_consective_op1(token_list, input) == FAILUER)
+	char	*op;
+
+	op = NULL;
+	if (hundle_consective_op1(token_list, input, op) == FAILUER)
 		return (FAILUER);
-	if (hundle_consective_op2(token_list, input) == FAILUER)
+	if (hundle_consective_op2(token_list, input, op) == FAILUER)
 		return (FAILUER);
-	if (hundle_single_op1(token_list, input) == FAILUER)
+	if (hundle_single_op1(token_list, input, op) == FAILUER)
 		return (FAILUER);
-	if (hundle_single_op2(token_list, input) == FAILUER)
+	if (hundle_single_op2(token_list, input, op) == FAILUER)
 		return (FAILUER);
 	return (SUCCESS);
 }
