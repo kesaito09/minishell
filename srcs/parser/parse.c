@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/20 04:08:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/20 12:25:37 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,20 +103,28 @@ t_tree	*parser(char *input)
 	return (ast);
 }
 
+/*tester*/
+
+//void	print_token(t_token *node)
+//{
+//	while (node)
+//	{
+//		ft_putendl_fd(node->token, 2);
+//		node = node->next;
+//	}
+//}
+
 //int	main(int argc, char **argv)
 //{
 //	t_token	*token;
 //	t_tree	*branch;
-//	char	**cmds;
 
 //	if (argc < 2)
 //		return (1);
 //	token = tokenizer(argv[1]);
 //	if (!token)
 //		return (1);
-	//print_token(token);
-	//branch = parser(argv[1]);
-	//cmds = token_argv(&(branch->left->arg_list));
-	//print_split(cmds);
-	//print_flist(branch->left->flist);
+//	branch = parser(argv[1]);
+//	print_token(branch->file_list);
+//	print_token(branch->arg_list);
 //}

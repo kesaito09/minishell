@@ -6,64 +6,69 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/20 04:08:17 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/20 12:41:34 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
 
-static t_file_type	check_ftype(t_token *cur)
-{
-	if (cur->type == TOKEN_REDIRECT_IN)
-		return (INFILE);
-	if (cur->type == TOKEN_REDIRECT_OUT)
-		return (OUTFILE);
-	if (cur->type == TOKEN_APPEND)
-		return (APPEND);
-	if (cur->type == TOKEN_HEREDOC)
-		return (HEARDOC);
-	return (NONE);
-}
-static int	append_redirect(t_tree *node, t_token **cur)
-{
-	t_flist		*new_file;
-	t_file_type	ftype;
-	char		*fname;
 
-	ftype = check_ftype(*cur);
+static t_token	*treat_heardoc(char *token)
+{
+	char	*fname;
+	t_token	*new_file;
+
+	fname = heardoc(token);
+	if (!fname)
+			return (NULL);
+	new_file = t_lstnew(fname);
+	if (!new_file)
+		return (free(fname), NULL);
+	new_file->type = TOKEN_HEREDOC;
+	return (new_file);
+}
+
+static	t_token	*f_lstnew(char *token, t_token_type type)
+{
+	char	*fname;
+	t_token	*new_file;
+
+	fname = ft_strdup(token);
+	if (!fname)
+		return (NULL);
+	new_file = t_lstnew(fname);
+	if (!new_file)
+		return (free(fname), NULL);
+	new_file->type = type;
+	return (new_file);
+}
+
+static int	append_redirect(t_tree *branch, t_token **cur)
+{
+	t_token			*new_file;
+	t_token_type	ftype;
+
+	ftype = (*cur)->type;
 	*cur = (*cur)->next;
 	if (!(*cur))
 		return (FAILUER);
-	if (ftype == HEARDOC)
+	if (ftype == TOKEN_HEREDOC)
 	{
-		fname = heardoc((*cur)->token);
-		new_file = flist_new(ftype, fname);
+		new_file = treat_heardoc((*cur)->token);
+		if (!new_file)
+			return (FAILUER);
 	}
 	else
 	{
-		fname = (*cur)->token;
-		new_file = flist_new(ftype, fname);
+		new_file = f_lstnew((*cur)->token, ftype);
+		if (!new_file)
+			return (FAILUER);
 	}
-	if (!new_file)
-		return (FAILUER);
-	flist_add_back(&(node->flist), new_file);
+	t_lstadd_back(&(branch->file_list), new_file);
 	*cur = (*cur)->next;
 	return (SUCCESS);
 }
-
-//static int	append_argv(t_tree *node, t_token **cur)
-//{
-//	char	**new_argv;
-
-//	new_argv = ultimate_strjoin(node->argv, (*cur)->token);
-//	if (!new_argv)
-//		return (FAILUER);
-//	free_split(node->argv);
-//	node->argv = new_argv;
-//	*cur = (*cur)->next;
-//	return (SUCCESS);
-//}
 
 static t_tree	*parse_subshell(t_token **cur)
 {

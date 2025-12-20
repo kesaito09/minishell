@@ -38,22 +38,6 @@ typedef enum e_tree_type
 	SUBSHELL
 }					t_tree_type;
 
-typedef enum e_file_type
-{
-	NONE,
-	OUTFILE,
-	APPEND,
-	INFILE,
-	HEARDOC,
-}			t_file_type;
-
-typedef struct 			s_flist
-{
-	t_file_type			f_type;
-	char				*file;
-	struct s_flist	*next;
-}			t_flist;
-
 typedef struct s_token	t_token;
 
 typedef struct s_tree
@@ -61,7 +45,7 @@ typedef struct s_tree
 	struct s_tree	*left;
 	struct s_tree	*right;
 	t_token			*arg_list;
-	t_flist			*flist;
+	t_token			*file_list;
 	t_tree_type			b_type;
 
 }					t_tree;
