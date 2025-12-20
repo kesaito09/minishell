@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/20 05:00:11 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/20 11:36:27 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ static int	execve_my_cmd(t_token *node, t_pipe *info)
 	if (!ft_strcmp(node->token, "cd"))
 		cd(node);
 	if (!ft_strcmp(node->token, "pwd"))
-		pwd(node);
+		pwd();
 	if (!ft_strcmp(node->token, "export"))
 		export(node, info);
 	if (!ft_strcmp(node->token, "unset"))
 		unset(node, info);
 	if (!ft_strcmp(node->token, "env"))
-		env(node, info);
+		env(info);
 	if (!ft_strcmp(node->token, "exit"))
 		echo(node);
 	return (SUCCESS);
@@ -74,8 +74,8 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 		cmd = token_argv(branch->arg_list);
 		env = token_argv(info->envp);
 		if (!cmd || !env)
-			return (FAILUER);
-		if (execve_cmd(info->path, info->envp, cmd) == FAILUER)
+			return (free_split(cmd), free_split(env), FAILUER);
+		if (execve_cmd(info->path, env, cmd) == FAILUER)
 			error_exit("command not found", 127);
 	}
 	return (pid_add_back(&(info->plist), pid), SUCCESS);

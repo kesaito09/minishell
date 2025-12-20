@@ -6,14 +6,14 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:29:07 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/20 05:22:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/20 11:30:21 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/commands.h"
 #include "../../includes/execution.h"
 
-int	env(t_token *node, t_pipe *info)
+void	env(t_pipe *info)
 {
 	t_token	*tmp;
 
@@ -25,5 +25,4 @@ int	env(t_token *node, t_pipe *info)
 		ft_putendl_fd(tmp->token, 1);
 		tmp = tmp->next;
 	}
-	(void)node;
 }

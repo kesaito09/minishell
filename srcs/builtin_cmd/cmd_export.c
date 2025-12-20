@@ -6,55 +6,12 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/20 06:28:08 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/20 11:40:40 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/commands.h"
 #include "../../includes/execution.h"
-
-int	strchr_len(const char *arg, char c)
-{
-	char *ptr;
-
-	ptr = ft_strchr(arg, c);
-	return ((int)(ptr - arg));
-}
-
-int	ft_argcmp(const char *arg, const char *env)
-{
-	int	len;
-
-	if (!arg)
-		return (-1);
-	len = strchr_len(arg, '=');
-	if (len < 0)
-		return (FAILUER);
-	if (ft_strncmp(arg, env, len))
-		return (1);
-	if (env[len] != '=')
-		return (1);
-	return (0);
-}
-
-int	cmd_check(t_token *cmd)
-{
-	t_token *env;
-
-	env = cmd->next;
-	if (!env)
-		return (FAILUER);
-	if (strchr_len(env->token, '=') == 0)
-	{
-		ft_putstr("minishell$: export: '", 2);
-		ft_putstr(env->token, 2);
-		ft_putendl_fd("': not a valid identifier", 2);
-		return (FAILUER);
-	}
-	if (!strchr(env->token, '='))
-		return (FAILUER);
-	return (SUCCESS);
-}
 
 int	export(t_token *cmd, t_pipe *info)
 {
@@ -81,15 +38,47 @@ int	export(t_token *cmd, t_pipe *info)
 	if (!env)
 		return (free(arg), FAILUER);
 	t_lstadd_back(&(info->envp), env);
-	(void)cmd;
+	return (SUCCESS);
+}
+
+void	unset_module(t_pipe *info, char *key)
+{
+	t_token	*node;
+	t_token	*tmp;
+
+	node = info->envp;
+	tmp = NULL;
+	while (node)
+	{
+		if (!ft_argcmp(key, node->token))
+		{
+			if (tmp)
+				tmp->next = node->next;
+			else
+				info->envp = node->next;
+			free(node->token);
+			free(node);
+			return ;
+		}
+		tmp = node;
+		node = node->next;
+	}
 }
 
 int	unset(t_token *cmd, t_pipe *info)
 {
-	t_token	*tmp;
 	char	*key;
 
-
+	key = cmd->next->token;
+	if (ft_strchr(key, '='))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(key, 2);
+		ft_putendl_fd(": invalid parameter name", 2);
+		return (FAILUER);
+	}
+	unset_module(info, key);
+	return (SUCCESS);
 }
 
 //int main(int ac, char **av)

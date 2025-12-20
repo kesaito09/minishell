@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/16 20:42:26 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/20 11:33:02 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,16 @@
 # include <stdbool.h>
 
 typedef struct s_pipe	t_pipe;
+typedef struct s_token	t_token;
 
-void	echo(char **cmd);
-void	pwd(char **cmd);
-void	cd(char **cmd);
-void	env(char **cmd, t_pipe *info);
-int		export(char **cmd, t_pipe *info);
-int		unset(char **cmd, t_pipe *info);
+int		echo(t_token *node);
+void	pwd(void);
+void	cd(t_token *node);
+void	env(t_pipe *info);
+int		export(t_token *node, t_pipe *info);
+int		unset(t_token *node, t_pipe *info);
 
-int		ft_argcmp(const char *arg, char *src);
-bool	find_arg(const char *arg, char **envp);
+int		ft_argcmp(const char *arg, const char *env);
+int		cmd_check(t_token *cmd);
 
 #endif

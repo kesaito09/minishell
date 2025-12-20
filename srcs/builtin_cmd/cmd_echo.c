@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:49:23 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/20 05:15:25 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/20 11:38:01 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	echo_(t_token *node)
 		ft_putstr_fd(tmp->token, 1);
 		tmp = tmp->next;
 		if (!tmp)
-			return (SUCCESS);
+			break ;
 		ft_putchar_fd(' ', 1);
 	}
 	ft_putchar_fd('\n', 1);
