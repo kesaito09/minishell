@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/20 05:49:14 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/20 09:30:07 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,8 @@ int	match_char(char *wild_card_name, char *d_name)
 	while (*wild_card_name)
 	{
 		len = strchr_len(wild_card_name, '*');
-		if (!ft_strnstr(wild_card_name, d_name, len))
-			return (FAILUER);
-		wild_card_name += (len + 1);
-
-		
-		
-		
+		if (!ft_strncmp(wild_card_name, d_name, len))
+			return (SUCCESS);
 		
 	}
 }
@@ -85,5 +80,21 @@ t_token	*tolken_dir(char *wild_card_name)
 // //                unsigned char  d_type;      /* Type of file; not supported
 // //                                               by all filesystem types */
 // //                char           d_name[256]; /* Null-terminated filename */
+
+// M*kef*
+
+/*
+	Makefile
+	*
+	M   *   i   *
+	seg1   seg2 
+	M		i
+
+
+
+
+
+
+*/
 
 // */
