@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:29:07 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/20 11:30:21 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/20 12:50:37 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	env(t_pipe *info)
 		return ;
 	while (tmp)
 	{
-		ft_putendl_fd(tmp->token, 1);
+		if (tmp->type == 0)
+			ft_putendl_fd(tmp->token, 1);
 		tmp = tmp->next;
 	}
 }
