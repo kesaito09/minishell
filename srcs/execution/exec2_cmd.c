@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/20 11:36:27 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/22 17:30:09 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 			error_exit("minishell: dup2", 1);
 		if (manage_redirect(branch) == FAILUER)
 			exit(1);
+		
 		cmd = token_argv(branch->arg_list);
 		env = token_argv(info->envp);
 		if (!cmd || !env)

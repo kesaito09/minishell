@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/23 14:37:15 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/22 16:45:36 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,59 +91,23 @@ t_token	*token_dir(char *wild_card_name)
 	return (token_list);
 }
 
-// void	print_token2(t_token *node)
-// {
-// 	while (node)
-// 	{
-// 		ft_putendl_fd(node->token, 2);
-// 		node = node->next;
-// 	}
-// }
+void	print_token2(t_token *node)
+{
+	while (node)
+	{
+		ft_putendl_fd(node->token, 2);
+		node = node->next;
+	}
+}
 
-// int main(void)
-// {
-// 	t_token *token_list = token_dir("*");
-// 	t_token	*token_list2 = token_dir(".*");
+int main(void)
+{
+	t_token *token_list = token_dir("*");
+	t_token	*token_list2 = token_dir(".*");
 
-// 	print_token2(token_list);
-// 	printf("\n");
-// 	print_token2(token_list2);
-// }
-
-// /*
-
-// .       inode 22343,    d_type  4
-// ..      inode 12815876, d_type  4
-// .git    inode 4289828,  d_type  4
-// libft   inode 8722694,  d_type  4
-// .vscode inode 18846,    d_type  4
-// Makefile        inode 18709,    d_type  8
-// includes        inode 4318662,  d_type  4
-// srcs    inode 8606477,  d_type  4
-// minishell       inode 31658,    d_type  8
-
-// // struct dirent {
-// //                ino_t          d_ino;       /* Inode number */
-// //                off_t          d_off;       /* Not an offset; see below */
-// //                unsigned short d_reclen;    /* Length of this record */
-// //                unsigned char  d_type;      /* Type of file; not supported
-// //                                               by all filesystem types */
-// //                char           d_name[256]; /* Null-terminated filename */
-
-// M*kef*
-
-/*
-	Makefile
-	*
-	M   *   i   *
-	seg1   seg2
-	M		i
+	print_token2(token_list);
+	printf("\n");
+	print_token2(token_list2);
+}
 
 
-
-
-
-
-*/
-
-// */
