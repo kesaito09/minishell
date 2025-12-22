@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils4_manage_states.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/20 05:48:19 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:01:33 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static int	manage_state_general(t_token **token_list, char **input,
 		t_state *state, t_char_list **c_list)
 {
 	manage_quote(input, state, *c_list);
+	if (*state != STATE_GENERAL)
+		return (SUCCESS);	
 	if (is_delimiter(**input) || is_operator(**input) || !ft_strncmp(*input,
 			"&&", 2))
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/20 12:25:37 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/23 16:53:55 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,16 @@ t_tree	*parse_manage(t_token **cur)
 	return (branch);
 }
 
+// void	print_token(t_token *node)
+// {
+// 	while (node)
+// 	{
+// 		ft_putendl_fd(node->token, 2);
+// 		ft_putnbr_fd(node ->type, 2);
+// 		node = node->next;
+// 	}
+// }
+
 t_tree	*parser(char *input)
 {
 	t_tree	*ast;
@@ -97,6 +107,7 @@ t_tree	*parser(char *input)
 		return (NULL);
 	if (!token_list)
 		return (NULL);
+	// print_token(token_list);
 	tmp = token_list;
 	ast = parse_manage(&token_list);
 	t_lstclear(&tmp, free);
@@ -105,14 +116,7 @@ t_tree	*parser(char *input)
 
 /*tester*/
 
-//void	print_token(t_token *node)
-//{
-//	while (node)
-//	{
-//		ft_putendl_fd(node->token, 2);
-//		node = node->next;
-//	}
-//}
+
 
 //int	main(int argc, char **argv)
 //{
