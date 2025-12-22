@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   expand1_expand_args.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/23 21:15:10 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/22 17:47:33 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
 
-static int is_delimiter_variables(int c)
+static bool is_delimiter_variables(int c)
 {
 	if (c == '_' || ft_isalnum(c))
-		return (0);
-	return (1);
+		return (false);
+	return (true);
 }
 
-static	int count_varibles(char *av)
+static int count_varibles(char *av)
 {
 	int	len;
 
@@ -165,5 +165,5 @@ int	*expand_variables(t_token **token_list)
 		cur_list = cur_list ->next;
 	}
 	return (SUCCESS);
-	
+
 }
