@@ -6,21 +6,21 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/22 18:27:45 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/22 18:37:46 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
 
-static int	is_delimiter_variables(int c)
+static bool is_delimiter_variables(int c)
 {
 	if (c == '_' || ft_isalnum(c))
-		return (0);
-	return (1);
+		return (false);
+	return (true);
 }
 
-static int	count_varibles(char *av)
+static int count_varibles(char *av)
 {
 	int	len;
 
