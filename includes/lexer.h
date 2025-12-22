@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/22 17:32:45 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/22 19:38:47 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef enum e_token_type
 	TOKEN_DISJUNCTIONE,
 	TOKEN_PARENTHESIS_LEFT,
 	TOKEN_PARENTHESIS_RIGHT,
+	TOKEN_ENVP,
 }						t_token_type;
 
 typedef enum e_state

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec3_pipe.c                                       :+:      :+:    :+:   */
+/*   exec3_ligical.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 08:54:42 by naoki             #+#    #+#             */
-/*   Updated: 2025/12/19 22:10:57 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/22 18:00:40 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,3 +68,4 @@ int	manage_pipe(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 		return (FAILUER);
 	return (SUCCESS);
 }
+

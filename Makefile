@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2025/11/23 13:50:50 by kesaitou         ###   ########.fr        #
+#    Updated: 2025/12/22 20:38:16 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,10 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/execution/exec_utils1_pid.c\
 			srcs/execution/exec_utils2_error.c\
 			srcs/execution/exec_utils3_pipe.c\
+			srcs/execution/exec_utils4_env.c\
 			srcs/execution/exec1_operate.c\
 			srcs/execution/exec2_cmd.c\
-			srcs/execution/exec3_pipe.c\
+			srcs/execution/exec3_logical.c\
 			srcs/execution/exec4_redirect.c\
 			srcs/lexer/lexer.c\
 			srcs/lexer/lexer_utils1_token.c\
@@ -44,16 +45,13 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/lexer/lexer_utils5_manage_operaters.c\
 			srcs/lexer/lexer_utils6_helpers.c\
 			srcs/parser/utils1_make_tree.c\
-			srcs/parser/utils2_redirect.c\
 			srcs/parser/utils3_parse.c\
 			srcs/parser/utils4_heardoc.c\
 			srcs/parser/utils5_is_.c\
-			srcs/parser/utils6_expand.c\
 			srcs/parser/utils7_arglist.c\
 			srcs/parser/parse.c\
 			srcs/parser/parse_cmd.c\
 			srcs/parser/expand3_wildcard.c\
-			srcs/parser/expand.c\
 			srcs/main/main.c\
 			srcs/main/signal.c\
 

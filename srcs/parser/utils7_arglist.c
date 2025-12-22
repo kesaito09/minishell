@@ -6,34 +6,12 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 02:58:10 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/22 17:34:59 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/22 20:47:30 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
-
-int	append_token(t_tree *branch, t_token **cur)
-{
-	char	*copy;
-	t_token	*node;
-
-	copy = ft_strdup((*cur)->token);
-	if (!copy)
-		return (FAILUER);
-	node = t_lstnew(copy);
-	if (!node)
-		return (free(copy), FAILUER);
-	if (ft_strchr(copy,'='))
-	{
-		node->type = ENVP;
-		t_lstadd_front(&(branch->arg_list), node);
-	}
-	else
-		t_lstadd_back(&(branch->arg_list), node);
-	*cur = (*cur)->next;
-	return (SUCCESS);
-}
 
 char	**token_argv(t_token *node)
 {
@@ -62,17 +40,13 @@ t_token	*argv_token(char **argv)
 {
 	t_token *node;
 	t_token *lst;
-	char *token;
 	int i;
 
 	i = 0;
 	lst = NULL;
 	while (argv[i])
 	{
-		token = ft_strdup(argv[i]);
-		if (!token)
-			return (t_lstclear(&lst, free), NULL);
-		node = t_lstnew(token);
+		node = f_lstnew(argv[i], TOKEN_WORD);
 		if (!node)
 			return (t_lstclear(&lst, free), NULL);
 		t_lstadd_back(&lst, node);
@@ -80,26 +54,3 @@ t_token	*argv_token(char **argv)
 	}
 	return (lst);
 }
-
-//void	print_split(char **cmd)
-//{
-//	int	i;
-
-//	i = 0;
-//	while (cmd[i])
-//		ft_putendl_fd(cmd[i++], 2);
-//}
-
-//int	main(int ac, char **av, char **en)
-//{
-//	char	**cmd;
-//	t_token	*node;
-
-//	node = argv_token(en);
-//	cmd = token_argv(&node);
-//	print_split(cmd);
-//	(void)ac;
-//	(void)av;
-//	(void)node;
-//	(void)cmd;
-//}

@@ -47,6 +47,7 @@ typedef struct s_tree
 	struct s_tree	*right;
 	t_token			*arg_list;
 	t_token			*file_list;
+	t_token			*env_list;
 	t_tree_type			b_type;
 
 }					t_tree;
@@ -82,6 +83,7 @@ int					manage_pipe(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
 int					manage_subshell(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
 int					manage_conjunction(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
 int					manage_disjunction(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
+int					manage_envp(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
 
 /*exec4_redirect.c*/
 int					manage_redirect(t_tree *branch);
@@ -108,5 +110,8 @@ void				close_fd_in_out(int *fd_in, int *fd_out);
 int					dup2_stdin_out(int fd_in, int fd_out);
 int					reset_stdin_out(t_pipe *info);
 
+/*utils4_env*/
+bool				has_cmd(t_token *args);
+int					local_env(t_token *env, t_pipe *info);
 
 #endif

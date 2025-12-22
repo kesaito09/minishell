@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:42:39 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/20 12:00:39 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/22 20:25:01 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ void	free_tree_rec(t_tree *branch)
 	free_tree_rec(branch->right);
 	t_lstclear(&(branch->arg_list), free);
 	t_lstclear(&(branch->file_list), free);
+	t_lstclear(&(branch->env_list), free);
 	free(branch);
 }
