@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/22 17:49:58 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/22 18:15:45 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,16 @@ static int	count_varibles(char *av)
 	return (len);
 }
 
-int search_variable(char *key, t_token *envp)
+int	search_variable(char *key, t_token *envp)
 {
 	while (envp)
 	{
-		if (!ft_strcmp(key, envp ->token))
+		if (!ft_strcmp(key, envp->token))
 			return (SUCCESS);
-		envp = envp ->next;
+		envp = envp->next;
 	}
 	return (FAILUER);
 }
-
-
-
 
 int	hundle_expand_var(char **new_argv, char **cur_argv, t_token *envp)
 {
@@ -55,11 +52,11 @@ int	hundle_expand_var(char **new_argv, char **cur_argv, t_token *envp)
 	tmp = ft_strndup(*cur_argv, var_name_len);
 	if (!tmp)
 		return (FAILUER);
-	if (search_variable(tmp, envp) == FAILU
-		tmp = ft_strdup("");
+	if (search_variable(tmp, envp) == FAILUER)
+		var = ft_strdup("");
 	else
-		tmp = ft_strdup(var);
-	if (!tmp)
+		var = ft_strdup(envp->token);
+	if (!var)
 		return (FAILUER);
 	joined = ft_strjoin(*new_argv, tmp);
 	if (!joined)
@@ -96,7 +93,8 @@ static void	manage_state_squote(char **cur_argv, t_state *state)
 	return ;
 }
 
-int	manage_state_dquote(char **new_argv, char **cur_argv, t_state *state)
+int	manage_state_dquote(char **new_argv, char **cur_argv, t_state *state,
+		t_token *envp)
 {
 	if (**cur_argv == '"')
 	{
@@ -107,7 +105,7 @@ int	manage_state_dquote(char **new_argv, char **cur_argv, t_state *state)
 	if (**cur_argv == '$')
 	{
 		(*cur_argv)++;
-		if (hundle_expand_var(new_argv, cur_argv, NULL) == FAILUER)
+		if (hundle_expand_var(new_argv, cur_argv, envp) == FAILUER)
 			return (FAILUER);
 	}
 	else
@@ -116,7 +114,7 @@ int	manage_state_dquote(char **new_argv, char **cur_argv, t_state *state)
 }
 
 int	manage_state_general_expander(char **new_argv, char **cur_argv,
-		t_state *state)
+		t_state *state, t_token *envp)
 {
 	manage_quote_expander(cur_argv, state);
 	if (state != STATE_GENERAL)
@@ -124,7 +122,7 @@ int	manage_state_general_expander(char **new_argv, char **cur_argv,
 	if (**cur_argv == '$')
 	{
 		(*cur_argv)++;
-		if (hundle_expand_var(new_argv, cur_argv, NULL) == FAILUER)
+		if (hundle_expand_var(new_argv, cur_argv, envp) == FAILUER)
 			return (FAILUER);
 	}
 	else
@@ -147,25 +145,25 @@ int	manage_state_transition_expander(t_token **cur_list, t_token *envp)
 	{
 		if (state == STATE_GENERAL)
 		{
-			if (manage_state_general_expander(cur_list, &cur_argv,
-					state) == FAILUER)
+			if (manage_state_general_expander(&new_argv, &cur_argv, state,
+					envp) == FAILUER)
 				return (FAILUER);
 		}
 		else if (state == STATE_DQUOTE)
 		{
-			if (manage_state_dquote(cur_list, &cur_argv, &state) == FAILUER)
+			if (manage_state_dquote(&new_argv, &cur_argv, &state,
+					envp) == FAILUER)
 				return (FAILUER);
 		}
 		else if (state == STATE_SQUOTE)
-			manage_state_squote(cur_list, cur_argv);
+			manage_state_squote(cur_argv, &state);
 	}
 	free((*cur_list)->token);
 	(*cur_list)->token = new_argv;
 	return (SUCCESS);
 }
 
-
-int	*expand_variables(t_token **token_list, t_token	*envp)
+int	*expand_variables(t_token **token_list, t_token *envp)
 {
 	t_token	*cur_list;
 
@@ -174,7 +172,7 @@ int	*expand_variables(t_token **token_list, t_token	*envp)
 	cur_list = *token_list;
 	while (cur_list)
 	{
-		if (manage_state_transition_expander(&cur_list) == FAILUER)
+		if (manage_state_transition_expander(&cur_list, envp) == FAILUER)
 			return (FAILUER);
 		cur_list = cur_list->next;
 	}
