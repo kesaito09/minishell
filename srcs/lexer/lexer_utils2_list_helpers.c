@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:23:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/20 04:28:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/22 17:32:03 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ void	t_lstadd_back(t_token **lst, t_token *new)
 	}
 }
 
-// void	t_lstadd_front(t_token **lst, t_token *new)
-// {
-// 	new->next = (*lst);
-// 	(*lst) = new;
-// }
+void	t_lstadd_front(t_token **lst, t_token *new)
+{
+ 	new->next = (*lst);
+ 	(*lst) = new;
+}

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 12:26:37 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/19 21:51:49 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/22 17:38:59 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ int	tree_operator(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 			return (FAILUER);
 	if (branch->b_type == PIPE)
 		if (manage_pipe(branch, info, fd_in, fd_out) == FAILUER)
+			return (FAILUER);
+	if (branch->b_type == ENVP)
+		if (manage_envp(branch, info, fd_in, fd_out) == FAILUER)
 			return (FAILUER);
 	if (branch->b_type == COMMAND)
 		if (manage_cmd(branch, info, fd_in, fd_out) == FAILUER)

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 02:58:10 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/20 12:20:38 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/22 17:34:59 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,13 @@ int	append_token(t_tree *branch, t_token **cur)
 	node = t_lstnew(copy);
 	if (!node)
 		return (free(copy), FAILUER);
-	t_lstadd_back(&(branch->arg_list), node);
+	if (ft_strchr(copy,'='))
+	{
+		node->type = ENVP;
+		t_lstadd_front(&(branch->arg_list), node);
+	}
+	else
+		t_lstadd_back(&(branch->arg_list), node);
 	*cur = (*cur)->next;
 	return (SUCCESS);
 }

@@ -35,7 +35,8 @@ typedef enum e_tree_type
 	DISJUNCTION,
 	COMMAND,
 	MY_COMMAND,
-	SUBSHELL
+	SUBSHELL,
+	ENVP
 }					t_tree_type;
 
 typedef struct s_token	t_token;

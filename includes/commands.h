@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/20 11:33:02 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/22 17:30:26 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ int		unset(t_token *node, t_pipe *info);
 
 int		ft_argcmp(const char *arg, const char *env);
 int		cmd_check(t_token *cmd);
+int		strchr_len(const char *arg, char c);
 
 #endif
