@@ -6,7 +6,7 @@
 #    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2025/11/23 13:50:50 by kesaitou         ###   ########.fr        #
+#    Updated: 2025/12/22 18:23:17 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,9 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/parser/parse.c\
 			srcs/parser/parse_cmd.c\
 			srcs/parser/expand3_wildcard.c\
+			srcs/expander/expand1_expand_variables.c\
+			srcs/expander/expand2_expand_ifs.c\
+			srcs/expander/expand3_wildcard.c\
 			srcs/parser/expand.c\
 			srcs/main/main.c\
 			srcs/main/signal.c\
