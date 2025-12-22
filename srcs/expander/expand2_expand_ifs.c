@@ -6,13 +6,12 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 18:16:52 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/22 18:31:51 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/22 20:20:20 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
-
 
 
 
@@ -79,17 +78,14 @@ int	manage_state_general_expander(char **new_argv, char **cur_argv,
 	return (SUCCESS);
 }
 
-int	manage_state_transition_expander(t_token **cur_list, t_token *envp)
+int	manage_state_transition_expander_ifs(t_token **cur_list, t_token *envp)
 {
 	char	*cur_argv;
 	char	*new_argv;
 	t_state	state;
 
-	if (!ft_strchr((*cur_list)->token, '$'))
-		return (SUCCESS);
 	state = STATE_GENERAL;
 	cur_argv = (*cur_list)->token;
-	new_argv = ft_strdup("");
 	while (*cur_argv)
 	{
 		if (state == STATE_GENERAL)
@@ -113,18 +109,8 @@ int	manage_state_transition_expander(t_token **cur_list, t_token *envp)
 }
 
 
-
-
-
-
-
-
-int	expand_ifs(t_token **token_list)
+t_token	*field_spliting(char *cur_argv)
 {
-	
-	
-	
-	
 	
 	
 	
@@ -134,6 +120,22 @@ int	expand_ifs(t_token **token_list)
 	
 }
 
+int	*expand_ifs(t_token **argv_list)
+{
+	t_token	*cur_list;
+
+	if (!argv_list)
+		return (FAILUER);
+	cur_list = *argv_list;
+	while (cur_list)
+	{
+		if (manage_state_transition_expander(&cur_list) == FAILUER)
+			return (FAILUER);
+		cur_list = cur_list->next;
+	}
+	return (SUCCESS);
+}
+
 /*
 	IFSやること
 	シングルクォート、なにもしない
@@ -141,11 +143,19 @@ int	expand_ifs(t_token **token_list)
 	ダブルクォート、　展開する
 	通常　、展開する
 
+	VAR=a b c d e f g
 
+	"$VAR"
+	'$VAR'
+		$VAR
 
+		ls -l "$VAR"/
+	tokne_listをつくっていく
+
+	ls -l "$VAR"
+	t_lstnewでIFSで区切られた文字列をトークンとして連結する
 
 
 
 
 */
-

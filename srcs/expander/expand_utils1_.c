@@ -1,41 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_utils1_manage_states.c                      :+:      :+:    :+:   */
+/*   expand_utils1_.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 18:27:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/22 18:29:46 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/22 19:40:35 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
 
-// void	manage_quote_expander(char **cur_argv, t_state *state)
-// {
-// 	if (**cur_argv == '\'')
-// 	{
-// 		*state = STATE_SQUOTE;
-// 		(*cur_argv)++;
-// 	}
-// 	else if (**cur_argv == '"')
-// 	{
-// 		*state = STATE_DQUOTE;
-// 		(*cur_argv)++;
-// 	}
-// }
+bool	is_delimiter_variables(int c)
+{
+	if (c == '_' || ft_isalnum(c))
+		return (false);
+	return (true);
+}
 
-// void	manage_state_squote(char **cur_argv, t_state *state)
-// {
-// 	if (**cur_argv == '\'')
-// 	{
-// 		*state = STATE_GENERAL;
-// 		(*cur_argv)++;
-// 		return ;
-// 	}
-// 	(*cur_argv)++;
-// 	return ;
-// }
+int	count_varibles(char *av)
+{
+	int len;
 
+	len = 0;
+	while (*av && is_delimiter_variables(*av))
+		len++;
+	return (len);
+}

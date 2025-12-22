@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/23 13:41:43 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/22 20:29:17 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,13 @@ t_token	*argv_token(char **argv);
 
 /*parse*/
 t_tree	*parser(char *input);
+
+/*expander*/
+bool is_delimiter_variables(int c);
+int count_varibles(char *av);
+int	*expand_variables(t_token **token_list, t_token *envp);
+int	*expand_ifs(t_token **argv_list);
+
+
+
 # endif
