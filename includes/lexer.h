@@ -14,6 +14,7 @@
 # define LEXER_H
 
 # include "minishell.h"
+#include <stdbool.h>
 
 typedef enum e_token_type
 {
@@ -40,7 +41,9 @@ typedef struct s_token
 {
 	char				*token;
 	t_token_type		type;
+	t_token				*arg_list;
 	struct s_token		*next;
+	
 }						t_token;
 
 typedef struct s_char_list
