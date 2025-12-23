@@ -13,15 +13,15 @@
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
 
-int	search_variable(char *key, t_token *envp)
+t_token	*search_variable(char *key, t_token *envp)
 {
 	while (envp)
 	{
 		if (!ft_strcmp(key, envp->token))
-			return (SUCCESS);
+			return (envp);
 		envp = envp->next;
 	}
-	return (FAILUER);
+	return (NULL);
 }
 
 int	hundle_expand_var(char **new_argv, char **cur_argv, t_token *envp)
@@ -29,24 +29,24 @@ int	hundle_expand_var(char **new_argv, char **cur_argv, t_token *envp)
 	char	*var;
 	char	*tmp;
 	char	*joined;
-	int		var_name_len;
+	t_token	*val_ptr;
 
-	var_name_len = count_varibles(*cur_argv);
-	tmp = ft_strndup(*cur_argv, var_name_len);
+	tmp = ft_strndup(*cur_argv, count_varibles(*cur_argv));
 	if (!tmp)
 		return (FAILUER);
-	if (search_variable(tmp, envp) == FAILUER)
-		var = ft_strdup("");
+	val_ptr = search_variable(tmp, envp);
+	if (!val_ptr)
+		var = ft_strdup("");	
 	else
-		var = ft_strdup(envp->token);
+		var = ft_strdup(val_ptr-> token);
 	if (!var)
-		return (FAILUER);
+		return (free(tmp), FAILUER);
 	joined = ft_strjoin(*new_argv, tmp);
 	if (!joined)
 		return (free(tmp), FAILUER);
 	free(*new_argv);
 	*new_argv = joined;
-	(*cur_argv) += var_name_len;
+	(*cur_argv) += count_varibles(*cur_argv);
 	return (free(tmp), SUCCESS);
 }
 
@@ -128,7 +128,7 @@ int	manage_state_transition_expander(t_token **cur_list, t_token *envp)
 	{
 		if (state == STATE_GENERAL)
 		{
-			if (manage_state_general_expander(&new_argv, &cur_argv, state,
+			if (manage_state_general_expander(&new_argv, &cur_argv, &state,
 					envp) == FAILUER)
 				return (FAILUER);
 		}
@@ -139,25 +139,20 @@ int	manage_state_transition_expander(t_token **cur_list, t_token *envp)
 				return (FAILUER);
 		}
 		else if (state == STATE_SQUOTE)
-			manage_state_squote(cur_argv, &state);
+			manage_state_squote(&cur_argv, &state);
 	}
 	free((*cur_list)->token);
 	(*cur_list)->token = new_argv;
 	return (SUCCESS);
 }
 
-int	*expand_variables(t_token **token_list, t_token *envp)
+int	expand_variables(t_token **token_list, t_token *envp)
 {
 	t_token	*cur_list;
 
 	if (!token_list)
 		return (FAILUER);
-	cur_list = *token_list;
-	while (cur_list)
-	{
-		if (manage_state_transition_expander(&cur_list, envp) == FAILUER)
-			return (FAILUER);
-		cur_list = cur_list->next;
-	}
+	if (manage_state_transition_expander(token_list, envp) == FAILUER)
+		return (FAILUER);
 	return (SUCCESS);
 }

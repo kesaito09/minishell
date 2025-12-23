@@ -91,6 +91,11 @@ t_token	*token_dir(char *wild_card_name)
 	return (token_list);
 }
 
+int		pathname_expantion()
+{
+	
+}
+
 void	print_token2(t_token *node)
 {
 	while (node)

@@ -35,3 +35,28 @@ int expander(t_token **token_list, t_token	*envp)
 	
 		
 }
+
+/*
+	トークン自体はレキサーで区切られる
+	t_token *arglistにコマンドトークンが連結されていて、それを変数展開し、その結果を分割する
+	あるコマンドノードのarglistに繋がってるすべてのリストに対して、
+	変数が存在すれば展開、分割、パス展開、クォート除去処理をする
+	
+
+	VAR1="-l"
+	VAR2=file3
+	[ls $VAR1 file1 file2 $VAR2]
+
+	それぞれのトークンに対してexpander処理をすえ
+	[ls]
+	[$VAR1]
+	[file1]
+	[file2]
+	[$VAR2]
+
+
+
+
+
+
+*/

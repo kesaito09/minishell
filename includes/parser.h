@@ -69,8 +69,10 @@ t_tree	*parser(char *input);
 /*expander*/
 bool is_delimiter_variables(int c);
 int count_varibles(char *av);
-int	*expand_variables(t_token **token_list, t_token *envp);
-int	*expand_ifs(t_token **argv_list);
+int	expand_variables(t_token **token_list, t_token *envp);
+int	field_spliting(t_token **token_list, t_token *envp);
+t_token	*search_variable(char *key, t_token *envp);
+
 
 
 

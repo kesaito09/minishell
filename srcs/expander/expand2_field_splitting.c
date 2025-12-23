@@ -15,7 +15,7 @@
 
 
 
-void	manage_quote_expander(char **cur_argv, t_state *state)
+void	hundle_quote_field_splitting(char **cur_argv, t_state *state)
 {
 	if (**cur_argv == '\'')
 	{
@@ -29,7 +29,7 @@ void	manage_quote_expander(char **cur_argv, t_state *state)
 	}
 }
 
-void	manage_state_squote(char **cur_argv, t_state *state)
+void	manage_state_squote_field_splitting(char **cur_argv, t_state *state)
 {
 	if (**cur_argv == '\'')
 	{
@@ -41,7 +41,7 @@ void	manage_state_squote(char **cur_argv, t_state *state)
 	return ;
 }
 
-int	manage_state_dquote(char **new_argv, char **cur_argv, t_state *state,
+int	manage_state_dquote_field_splitting(char **cur_argv, t_state *state,
 		t_token *envp)
 {
 	if (**cur_argv == '"')
@@ -50,38 +50,24 @@ int	manage_state_dquote(char **new_argv, char **cur_argv, t_state *state,
 		(*cur_argv)++;
 		return (SUCCESS);
 	}
-	if (**cur_argv == '$')
-	{
-		(*cur_argv)++;
-		if (hundle_expand_var(new_argv, cur_argv, envp) == FAILUER)
-			return (FAILUER);
-	}
 	else
 		(*cur_argv)++;
 	return (SUCCESS);
 }
 
-int	manage_state_general_expander(char **new_argv, char **cur_argv,
+static void	manage_state_general_field_splitting(char **cur_argv,
 		t_state *state, t_token *envp)
 {
-	manage_quote_expander(cur_argv, state);
+	hundle_quote_field_splitting(cur_argv, state);
 	if (state != STATE_GENERAL)
-		return (SUCCESS);
-	if (**cur_argv == '$')
-	{
-		(*cur_argv)++;
-		if (hundle_expand_var(new_argv, cur_argv, envp) == FAILUER)
-			return (FAILUER);
-	}
-	else
-		(*cur_argv)++;
-	return (SUCCESS);
+		return ;
+	(*cur_argv)++;
+	return ;
 }
 
-int	manage_state_transition_expander_ifs(t_token **cur_list, t_token *envp)
+int	manage_state_transition_field_splitting(t_token **cur_list, t_token *envp)
 {
 	char	*cur_argv;
-	char	*new_argv;
 	t_state	state;
 
 	state = STATE_GENERAL;
@@ -90,49 +76,29 @@ int	manage_state_transition_expander_ifs(t_token **cur_list, t_token *envp)
 	{
 		if (state == STATE_GENERAL)
 		{
-			if (manage_state_general_expander(&new_argv, &cur_argv, state,
-					envp) == FAILUER)
-				return (FAILUER);
+			manage_state_general_field_splitting(&cur_argv, &state,
+					envp);
 		}
 		else if (state == STATE_DQUOTE)
 		{
-			if (manage_state_dquote(&new_argv, &cur_argv, &state,
+			if (manage_state_dquote_field_splitting(&cur_argv, &state,
 					envp) == FAILUER)
 				return (FAILUER);
 		}
 		else if (state == STATE_SQUOTE)
-			manage_state_squote(cur_argv, &state);
+			manage_state_squote_field_splitting(cur_argv, &state);
 	}
-	free((*cur_list)->token);
-	(*cur_list)->token = new_argv;
 	return (SUCCESS);
 }
 
 
-t_token	*field_spliting(char *cur_argv)
-{
-	
-	
-	
-	
-	
-	
-	
-}
 
-int	*expand_ifs(t_token **argv_list)
+int	field_spliting(t_token **token_list, t_token *envp)
 {
-	t_token	*cur_list;
-
-	if (!argv_list)
+	if (!token_list)
 		return (FAILUER);
-	cur_list = *argv_list;
-	while (cur_list)
-	{
-		if (manage_state_transition_expander(&cur_list) == FAILUER)
+	if (manage_state_transition_expander_ifs(token_list, envp) == FAILUER)
 			return (FAILUER);
-		cur_list = cur_list->next;
-	}
 	return (SUCCESS);
 }
 

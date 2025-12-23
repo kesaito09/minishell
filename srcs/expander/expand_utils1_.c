@@ -29,3 +29,14 @@ int	count_varibles(char *av)
 		len++;
 	return (len);
 }
+
+t_token	*search_variable(char *key, t_token *envp)
+{
+	while (envp)
+	{
+		if (!ft_strcmp(key, envp->token))
+			return (envp);
+		envp = envp->next;
+	}
+	return (NULL);
+}

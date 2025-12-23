@@ -52,11 +52,11 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/parser/utils7_arglist.c\
 			srcs/parser/parse.c\
 			srcs/parser/parse_cmd.c\
-			srcs/parser/expand3_wildcard.c\
 			srcs/expander/expand1_expand_variables.c\
-			srcs/expander/expand2_expand_ifs.c\
+			srcs/expander/expand2_field_splitting.c\
 			srcs/expander/expand3_wildcard.c\
-			srcs/parser/expand.c\
+			srcs/expander/expand4_quote_removal.c\
+			srcs/expander/expand_utils1_.c\
 			srcs/main/main.c\
 			srcs/main/signal.c\
 
