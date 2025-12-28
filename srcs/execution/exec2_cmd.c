@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/22 20:51:06 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/28 16:13:26 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	execve_my_cmd(t_token *node, t_pipe *info)
 	if (!ft_strcmp(node->token, "unset"))
 		unset(node, info);
 	if (!ft_strcmp(node->token, "env"))
-		env(info);
+		env(node, info);
 	if (!ft_strcmp(node->token, "exit"))
 		echo(node);
 	return (SUCCESS);
@@ -65,7 +65,7 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 		return (perror("minishell: fork"), FAILUER);
 	if (pid == 0)
 	{
-		setup_signal_child();
+		//setup_signal_child();
 		close_unused_pipe(fd_in, fd_out, info->fd);
 		if (dup2_stdin_out(fd_in, fd_out) == FAILUER)
 			error_exit("minishell: dup2", 1);
@@ -86,8 +86,8 @@ int	manage_envp(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 {
 	t_token	*env;
 
-	env = branch->arg_list;
-	if (has_cmd(env))
+	env = branch->env_list;
+	if (branch->arg_list)
 		manage_cmd(branch, info, fd_in, fd_out);
 	else
 		local_env(env, info);
@@ -105,8 +105,8 @@ int	manage_my_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 		return (FAILUER);
 	if (info->pipe && pid > 0)
 		return (pid_add_back(&(info->plist), pid), SUCCESS);
-	if (info->pipe && pid == 0)
-		setup_signal_child();
+	//if (info->pipe && pid == 0)
+	//	setup_signal_child();
 	close_unused_pipe(fd_in, fd_out, info->fd);
 	if (dup2_stdin_out(fd_in, fd_out) == FAILUER
 		|| manage_redirect(branch) == FAILUER)

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 02:13:45 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/09 17:16:23 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/28 16:38:27 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,6 @@ int		redirect_in_check(char *path)
 		ft_putendl_fd(": Is a directory", 2);
 		return (FAILUER);
 	}
-	else if (access(path, X_OK) == -1)
-	{
-		ft_putstr_fd(path, 2);
-		ft_putendl_fd(": Permission denied", 2);
-		return (FAILUER);
-	}
 	return (SUCCESS);
 }
 
@@ -62,12 +56,6 @@ int		redirect_out_check(char *path)
 	{
 		ft_putstr_fd(path, 2);
 		ft_putendl_fd(": Is a directory", 2);
-		return (FAILUER);
-	}
-	else if (access(path, X_OK) == -1)
-	{
-		ft_putstr_fd(path, 2);
-		ft_putendl_fd(": Permission denied", 2);
 		return (FAILUER);
 	}
 	return (SUCCESS);
@@ -85,12 +73,12 @@ void	command_error_check(char *cmd, char *path)
     {
 		ft_putstr_fd(cmd, 2);
 		ft_putendl_fd(": Is a directory", 2);
-    	exit(126); 
+    	exit(126);
 	}
 	else if (access(path, X_OK) == -1)
     {
 		ft_putstr_fd(cmd, 2);
 		ft_putendl_fd(": Permission denied", 2);
-    	exit(126); 
+    	exit(126);
 	}
 }

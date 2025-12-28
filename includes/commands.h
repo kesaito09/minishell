@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/22 17:30:26 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/28 16:16:46 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_token	t_token;
 int		echo(t_token *node);
 void	pwd(void);
 void	cd(t_token *node);
-void	env(t_pipe *info);
+void	env(t_token *node, t_pipe *info);
 int		export(t_token *node, t_pipe *info);
 int		unset(t_token *node, t_pipe *info);
 
