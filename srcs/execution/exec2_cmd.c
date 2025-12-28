@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/28 16:13:26 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/28 19:58:24 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,15 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 		return (perror("minishell: fork"), FAILUER);
 	if (pid == 0)
 	{
-		//setup_signal_child();
+		setup_signal_child();
 		close_unused_pipe(fd_in, fd_out, info->fd);
 		if (dup2_stdin_out(fd_in, fd_out) == FAILUER)
 			error_exit("minishell: dup2", 1);
 		if (manage_redirect(branch) == FAILUER)
 			exit(1);
 		t_lstadd_back(&info->envp, branch->env_list);
+		if (expand_variables(&branch->arg_list, info->envp) == FAILUER)
+			return (FAILUER);
 		cmd = token_argv(branch->arg_list);
 		env = token_argv(info->envp);
 		if (!cmd || !env)
@@ -105,11 +107,13 @@ int	manage_my_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 		return (FAILUER);
 	if (info->pipe && pid > 0)
 		return (pid_add_back(&(info->plist), pid), SUCCESS);
-	//if (info->pipe && pid == 0)
-	//	setup_signal_child();
+	if (info->pipe && pid == 0)
+		setup_signal_child();
 	close_unused_pipe(fd_in, fd_out, info->fd);
 	if (dup2_stdin_out(fd_in, fd_out) == FAILUER
 		|| manage_redirect(branch) == FAILUER)
+		return (FAILUER);
+	if (expand_variables(&branch->arg_list, info->envp) == FAILUER)
 		return (FAILUER);
 	execve_my_cmd(branch->arg_list, info);
 	reset_stdin_out(info);
