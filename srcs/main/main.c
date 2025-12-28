@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/28 17:01:21 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/28 17:23:00 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int main(int argc, char **argv, char **envp)
 	t_tree	*branch;
 	t_pipe	info;
 
-	info = correct_info(envp);
+	info = collect_info(envp);
 	while (1)
 	{
 		setup_signal_prompt();

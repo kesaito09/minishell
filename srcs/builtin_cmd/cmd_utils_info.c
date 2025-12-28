@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 06:33:13 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/20 04:48:30 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/28 17:23:25 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	**dup_split(char **envp)
 	return (new_env);
 }
 
-t_pipe	correct_info(char **envp)
+t_pipe	collect_info(char **envp)
 {
 	t_pipe	info;
 

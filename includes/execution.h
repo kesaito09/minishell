@@ -71,7 +71,7 @@ typedef struct s_pipe
 }					t_pipe;
 
 /*exec1_path*/
-t_pipe				correct_info(char **envp);
+t_pipe				collect_info(char **envp);
 void				free_path(char **path);
 
 /*exec2_cmd*/
