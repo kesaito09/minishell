@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/16 16:00:25 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/28 19:58:24 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,30 @@ static int	execve_cmd(char **path, char **envp, char **cmd)
 	return (FAILUER);
 }
 
-static int	execve_my_cmd(char **cmd, t_pipe *info)
+static int	execve_my_cmd(t_token *node, t_pipe *info)
 {
-	if (!ft_strcmp(cmd[0], "echo"))
-		echo(cmd);
-	if (!ft_strcmp(cmd[0], "cd"))
-		cd(cmd);
-	if (!ft_strcmp(cmd[0], "pwd"))
-		pwd(cmd);
-	if (!ft_strcmp(cmd[0], "export"))
-		export(cmd, info);
-	if (!ft_strcmp(cmd[0], "unset"))
-		unset(cmd, info);
-	if (!ft_strcmp(cmd[0], "env"))
-		env(cmd, info);
-	if (!ft_strcmp(cmd[0], "exit"))
-		echo(cmd);
+	if (!ft_strcmp(node->token, "echo"))
+		echo(node);
+	if (!ft_strcmp(node->token, "cd"))
+		cd(node);
+	if (!ft_strcmp(node->token, "pwd"))
+		pwd();
+	if (!ft_strcmp(node->token, "export"))
+		export(node, info);
+	if (!ft_strcmp(node->token, "unset"))
+		unset(node, info);
+	if (!ft_strcmp(node->token, "env"))
+		env(node, info);
+	if (!ft_strcmp(node->token, "exit"))
+		echo(node);
 	return (SUCCESS);
 }
 
 int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 {
 	pid_t	pid;
+	char	**cmd;
+	char	**env;
 
 	pid = fork();
 	if (pid < 0)
@@ -69,10 +71,29 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 			error_exit("minishell: dup2", 1);
 		if (manage_redirect(branch) == FAILUER)
 			exit(1);
-		if (execve_cmd(info->path, info->envp, branch->argv) == FAILUER)
+		t_lstadd_back(&info->envp, branch->env_list);
+		if (expand_variables(&branch->arg_list, info->envp) == FAILUER)
+			return (FAILUER);
+		cmd = token_argv(branch->arg_list);
+		env = token_argv(info->envp);
+		if (!cmd || !env)
+			return (free_split(cmd), free_split(env), FAILUER);
+		if (execve_cmd(info->path, env, cmd) == FAILUER)
 			error_exit("command not found", 127);
 	}
 	return (pid_add_back(&(info->plist), pid), SUCCESS);
+}
+
+int	manage_envp(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
+{
+	t_token	*env;
+
+	env = branch->env_list;
+	if (branch->arg_list)
+		manage_cmd(branch, info, fd_in, fd_out);
+	else
+		local_env(env, info);
+	return (SUCCESS);
 }
 
 int	manage_my_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
@@ -85,14 +106,16 @@ int	manage_my_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 	if (pid < 0)
 		return (FAILUER);
 	if (info->pipe && pid > 0)
-	return (pid_add_back(&(info->plist), pid), SUCCESS);
+		return (pid_add_back(&(info->plist), pid), SUCCESS);
 	if (info->pipe && pid == 0)
 		setup_signal_child();
 	close_unused_pipe(fd_in, fd_out, info->fd);
 	if (dup2_stdin_out(fd_in, fd_out) == FAILUER
 		|| manage_redirect(branch) == FAILUER)
 		return (FAILUER);
-	execve_my_cmd(branch->argv, info);
+	if (expand_variables(&branch->arg_list, info->envp) == FAILUER)
+		return (FAILUER);
+	execve_my_cmd(branch->arg_list, info);
 	reset_stdin_out(info);
 	if (!pid)
 		exit(0);

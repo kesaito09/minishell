@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/19 19:41:35 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/23 16:53:55 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_tree	*parse_pipeline_rec(t_token **cur, t_tree *left_node)
 	*cur = (*cur)->next;
 	if (!*cur)
 	return (free_tree_rec(left_node), NULL);
-	pipe_node = tree_new(NULL, NULL, PIPE);
+	pipe_node = tree_new(PIPE);
 	if (!pipe_node)
 		return (free_tree_rec(left_node), NULL);
 	pipe_node->left = left_node;
@@ -56,9 +56,9 @@ static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node)
 		&& (*cur)->type != TOKEN_DISJUNCTIONE))
 		return (left_node);
 	if ((*cur)->type == TOKEN_CONJUNCTIONE)
-		logical_node = tree_new(NULL, NULL, CONJUNCTION);
+		logical_node = tree_new(CONJUNCTION);
 	else
-		logical_node = tree_new(NULL, NULL, DISJUNCTION);
+		logical_node = tree_new(DISJUNCTION);
 	if (!logical_node)
 		return (free_tree_rec(left_node), NULL);
 	logical_node->left = left_node;
@@ -83,6 +83,16 @@ t_tree	*parse_manage(t_token **cur)
 	return (branch);
 }
 
+// void	print_token(t_token *node)
+// {
+// 	while (node)
+// 	{
+// 		ft_putendl_fd(node->token, 2);
+// 		ft_putnbr_fd(node ->type, 2);
+// 		node = node->next;
+// 	}
+// }
+
 t_tree	*parser(char *input)
 {
 	t_tree	*ast;
@@ -97,23 +107,28 @@ t_tree	*parser(char *input)
 		return (NULL);
 	if (!token_list)
 		return (NULL);
+	// print_token(token_list);
 	tmp = token_list;
 	ast = parse_manage(&token_list);
 	t_lstclear(&tmp, free);
 	return (ast);
 }
 
-int	main(int argc, char **argv)
-{
-	t_token	*token;
-	t_tree	*branch;
+/*tester*/
 
-	if (argc < 2)
-		return (1);
-	token = tokenizer(argv[1]);
-	if (!token)
-		return (1);
-	print_token(token);
-	branch = parser(argv[1]);
-	visualize_tree(branch, argv[1]);
-}
+
+
+//int	main(int argc, char **argv)
+//{
+//	t_token	*token;
+//	t_tree	*branch;
+
+//	if (argc < 2)
+//		return (1);
+//	token = tokenizer(argv[1]);
+//	if (!token)
+//		return (1);
+//	branch = parser(argv[1]);
+//	print_token(branch->file_list);
+//	print_token(branch->arg_list);
+//}

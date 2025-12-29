@@ -1,35 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_env.c                                          :+:      :+:    :+:   */
+/*   exec_utils4_env.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/06 06:29:07 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/28 16:19:08 by natakaha         ###   ########.fr       */
+/*   Created: 2025/12/22 18:12:49 by natakaha          #+#    #+#             */
+/*   Updated: 2025/12/28 16:11:42 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/commands.h"
 #include "../../includes/execution.h"
 
-void	env(t_token *node, t_pipe *info)
+bool	has_cmd(t_token *args)
 {
 	t_token	*tmp;
 
-	tmp = info->envp;
-	if (node->next && !ft_strcmp(node->next->token, "-a"))
-		while (tmp)
-		{
-			ft_putendl_fd(tmp->token, 1);
-			tmp = tmp->next;
-		}
-	if (!tmp)
-		return ;
+	tmp = args;
 	while (tmp)
 	{
-		if (tmp->type == 0)
-			ft_putendl_fd(tmp->token, 1);
+		if (tmp->type == COMMAND)
+			return (true);
 		tmp = tmp->next;
 	}
+	return (false);
+}
+
+int	local_env(t_token *env, t_pipe *info)
+{
+	t_token	*tmp;
+	char	*copy;
+
+	while (env)
+	{
+		copy = ft_strdup(env->token);
+		if (!copy)
+			return (FAILUER);
+		tmp = t_lstnew(copy);
+		if (!tmp)
+			return (FAILUER);
+		tmp->type = 1;
+		t_lstadd_front(&(info->envp), tmp);
+		env = env->next;
+	}
+	return (FAILUER);
 }

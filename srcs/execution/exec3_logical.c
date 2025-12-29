@@ -1,16 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec3_pipe.c                                       :+:      :+:    :+:   */
+/*   exec3_ligical.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 08:54:42 by naoki             #+#    #+#             */
-/*   Updated: 2025/12/16 14:00:40 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/22 18:00:40 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
+
+int	manage_subshell(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
+{
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid < 0)
+	return (FAILUER);
+	if (pid > 0)
+		return (pid_add_back(&(info->plist), pid), SUCCESS);
+	tree_operator(branch->left, info, fd_in, fd_out);
+	status = waitpid_plist(&info->plist);
+	exit(status);
+	return (SUCCESS);
+}
 
 int	manage_conjunction(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 {
@@ -52,3 +68,4 @@ int	manage_pipe(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 		return (FAILUER);
 	return (SUCCESS);
 }
+
