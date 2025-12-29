@@ -10,21 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execution.h"
-
-bool	has_cmd(t_token *args)
-{
-	t_token	*tmp;
-
-	tmp = args;
-	while (tmp)
-	{
-		if (tmp->type == COMMAND)
-			return (true);
-		tmp = tmp->next;
-	}
-	return (false);
-}
+#include "../../includes/execution.h" 
 
 int	local_env(t_token *env, t_pipe *info)
 {
