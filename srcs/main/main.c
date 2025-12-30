@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/28 17:23:00 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/30 13:00:07 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../includes/execution.h"
 #include "../../includes/minishell.h"
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_tree	*branch;
@@ -28,7 +28,7 @@ int main(int argc, char **argv, char **envp)
 		if (!line)
 			return (rl_clear_history(), 0);
 		add_history(line);
-		branch = parser(line);
+		branch = parser(line, &info);
 		setup_signal_exec();
 		tree_operator(branch, &info, 0, 1);
 		free_tree_rec(branch);

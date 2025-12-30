@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/28 19:59:42 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/30 12:52:16 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,35 +107,43 @@ int	manage_state_transition_expander(t_token **cur_list, t_token *envp)
 {
 	char	*token;
 	char	*new;
-	t_state	state;
 
 	if (!ft_strchr((*cur_list)->token, '$'))
 		return (SUCCESS);
-	state = STATE_GENERAL;
 	token = (*cur_list)->token;
+	new = expand_str(token, envp);
+	free(token);
+	(*cur_list)->token = new;
+	return (SUCCESS);
+}
+
+char	*expand_str(char *str, t_token *envp)
+{
+	t_state	state;
+	char	*new;
+
 	new = ft_strdup("");
 	if (!new)
-		return (FAILUER);
-	while (*token)
+		return (NULL);
+	state = STATE_GENERAL;
+	while (*str)
 	{
 		if (state == STATE_GENERAL)
 		{
-			if (manage_state_general_expander(&new, &token, &state,
+			if (manage_state_general_expander(&new, &str, &state,
 					envp) == FAILUER)
-				return (FAILUER);
+				return (NULL);
 		}
 		else if (state == STATE_DQUOTE)
 		{
-			if (manage_state_dquote(&new, &token, &state,
+			if (manage_state_dquote(&new, &str, &state,
 					envp) == FAILUER)
-				return (FAILUER);
+				return (NULL);
 		}
 		else if (state == STATE_SQUOTE)
-			manage_state_squote(&token, &state);
+			manage_state_squote(&str, &state);
 	}
-	free((*cur_list)->token);
-	(*cur_list)->token = new;
-	return (SUCCESS);
+	return (new);
 }
 
 int	expand_variables(t_token **token_list, t_token *envp)

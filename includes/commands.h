@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/28 16:16:46 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/30 13:27:27 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define SUCCESS 1
 # define FAILUER -1
 
-#include "minishell.h"
+# include "minishell.h"
 # include <stdlib.h>
 # include <stdbool.h>
 
@@ -31,6 +31,7 @@ int		export(t_token *node, t_pipe *info);
 int		unset(t_token *node, t_pipe *info);
 
 int		ft_argcmp(const char *arg, const char *env);
+int		ft_keycmp(const char *arg, const char *env);
 int		cmd_check(t_token *cmd);
 int		strchr_len(const char *arg, char c);
 

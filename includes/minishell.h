@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 12:40:22 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/28 18:51:51 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/30 12:29:35 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,9 @@
 # include "readline.h"
 # include "parser.h"
 # include "expander.h"
+
+# define SUCCESS 1
+# define FAILUER -1
+# define END 0
 
 #endif

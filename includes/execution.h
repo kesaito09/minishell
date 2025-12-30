@@ -23,11 +23,6 @@
 # include <unistd.h>
 # include <sys/stat.h>
 
-# define SUCCESS 1
-# define FAILUER -1
-# define FIRST 2
-# define LAST argc - 2
-
 typedef enum e_tree_type
 {
 	PIPE = 0,

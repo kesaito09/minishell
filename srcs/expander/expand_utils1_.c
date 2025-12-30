@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils1_.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 18:27:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/30 08:03:01 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/30 13:27:40 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_token	*search_variable(char *key, t_token *envp)
 {
 	while (envp)
 	{
-		if (!ft_argcmp(key, envp->token))
+		if (!ft_keycmp(key, envp->token))
 			return (envp);
 		envp = envp->next;
 	}
