@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/22 19:38:47 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/30 08:21:41 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LEXER_H
 
 # include "minishell.h"
+#include <stdbool.h>
 
 typedef enum e_token_type
 {
@@ -41,6 +42,8 @@ typedef struct s_token
 {
 	char				*token;
 	t_token_type		type;
+	struct s_token		*sub_token;
+	bool				expanded;
 	struct s_token		*next;
 }						t_token;
 
