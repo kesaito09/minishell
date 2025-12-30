@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/23 16:53:55 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/30 12:25:42 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
 
-static t_tree	*parse_pipeline_rec(t_token **cur, t_tree *left_node)
+static t_tree	*parse_pipeline_rec(t_token **cur, t_tree *left_node, t_token *envp)
 {
 	t_tree	*pipe_node;
 
@@ -23,29 +23,29 @@ static t_tree	*parse_pipeline_rec(t_token **cur, t_tree *left_node)
 		return (left_node);
 	*cur = (*cur)->next;
 	if (!*cur)
-	return (free_tree_rec(left_node), NULL);
+		return (free_tree_rec(left_node), NULL);
 	pipe_node = tree_new(PIPE);
 	if (!pipe_node)
 		return (free_tree_rec(left_node), NULL);
 	pipe_node->left = left_node;
-	pipe_node->right = parse_command(cur);
+	pipe_node->right = parse_command(cur, envp);
 	if (*cur && (*cur)->type == TOKEN_PIPE)
-		pipe_node = parse_pipeline_rec(cur, pipe_node);
+		pipe_node = parse_pipeline_rec(cur, pipe_node, envp);
 	if (!pipe_node->right)
 		return (NULL);
 	return (pipe_node);
 }
 
-static t_tree	*parse_pipeline(t_token **cur)
+static t_tree	*parse_pipeline(t_token **cur, t_token *envp)
 {
 	t_tree	*node;
 
-	node = parse_command(cur);
-	node = parse_pipeline_rec(cur, node);
+	node = parse_command(cur, envp);
+	node = parse_pipeline_rec(cur, node, envp);
 	return (node);
 }
 
-static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node)
+static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node, t_token *envp)
 {
 	t_tree	*logical_node;
 
@@ -53,7 +53,7 @@ static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node)
 		return (NULL);
 	if (!*cur
 		|| ((*cur)->type != TOKEN_CONJUNCTIONE
-		&& (*cur)->type != TOKEN_DISJUNCTIONE))
+			&& (*cur)->type != TOKEN_DISJUNCTIONE))
 		return (left_node);
 	if ((*cur)->type == TOKEN_CONJUNCTIONE)
 		logical_node = tree_new(CONJUNCTION);
@@ -63,23 +63,23 @@ static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node)
 		return (free_tree_rec(left_node), NULL);
 	logical_node->left = left_node;
 	*cur = (*cur)->next;
-	logical_node->right = parse_pipeline(cur);
-		if (*cur
-			&& ((*cur)->type != TOKEN_CONJUNCTIONE
+	logical_node->right = parse_pipeline(cur, envp);
+	if (*cur
+		&& ((*cur)->type != TOKEN_CONJUNCTIONE
 			|| (*cur)->type != TOKEN_DISJUNCTIONE))
-			logical_node = parse_logical_rec(cur, logical_node);
+		logical_node = parse_logical_rec(cur, logical_node, envp);
 	if (!logical_node->right)
 		return (NULL);
 	return (logical_node);
 }
 
 
-t_tree	*parse_manage(t_token **cur)
+t_tree	*parse_manage(t_token **cur, t_token *envp)
 {
-	t_tree *branch;
+	t_tree	*branch;
 
-	branch = parse_pipeline(cur);
-	branch = parse_logical_rec(cur, branch);
+	branch = parse_pipeline(cur, envp);
+	branch = parse_logical_rec(cur, branch, envp);
 	return (branch);
 }
 
@@ -93,7 +93,7 @@ t_tree	*parse_manage(t_token **cur)
 // 	}
 // }
 
-t_tree	*parser(char *input)
+t_tree	*parser(char *input, t_pipe *info)
 {
 	t_tree	*ast;
 	t_token	*token_list;
@@ -107,9 +107,8 @@ t_tree	*parser(char *input)
 		return (NULL);
 	if (!token_list)
 		return (NULL);
-	// print_token(token_list);
 	tmp = token_list;
-	ast = parse_manage(&token_list);
+	ast = parse_manage(&token_list, info->envp);
 	t_lstclear(&tmp, free);
 	return (ast);
 }

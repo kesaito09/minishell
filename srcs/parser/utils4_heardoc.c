@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/16 21:34:48 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/30 12:33:21 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@ static char	*heardoc_check(void)
 	return (free(def), file);
 }
 
-static bool	write_next_line(char *eof, int fd)
+static int	write_next_line(char *eof, int fd, t_token *envp)
 {
 	char	*line;
+	char	*expand;
 
 	line = readline(">");
 	if (!line)
@@ -50,18 +51,24 @@ static bool	write_next_line(char *eof, int fd)
 		ft_putstr_fd("warning: ", 2);
 		ft_putstr_fd("hear-document deliminated ", 2);
 		ft_putendl_fd("by end-of-file(wanted 'EOF')", 2);
-		return (false);
+		return (END);
 	}
-	if (!ft_strcmp(eof, line))
-		return (false);
-	ft_putendl_fd(line, fd);
-	return (true);
+	expand = expand_str(line, envp);
+	free(line);
+	if (!expand)
+		return (FAILUER);
+	if (!ft_strcmp(eof, expand))
+		return (FAILUER);
+	ft_putendl_fd(expand, fd);
+	free(expand);
+	return (SUCCESS);
 }
 
-char	*heardoc(char *eof)
+char	*heardoc(char *eof, t_token *envp)
 {
 	char	*file;
 	int		fd;
+	int		flag;
 
 	file = heardoc_check();
 	if (!file)
@@ -69,8 +76,14 @@ char	*heardoc(char *eof)
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		return (NULL);
-	while (write_next_line(eof, fd))
-		;
+	while (true)
+	{
+		flag = write_next_line(eof, fd, envp);
+		if (flag == FAILUER)
+			return (close(fd), free(file), NULL);
+		if (flag == END)
+			break ;
+	}
 	close(fd);
 	return (file);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/30 08:52:27 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/30 12:39:17 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	append_list(t_token **list, t_token **cur)
 	return (SUCCESS);
 }
 
-int	append_redirect(t_token **file_list, t_token **cur)
+int	append_redirect(t_token **file_list, t_token **cur, t_token *envp)
 {
 	t_token			*new_file;
 	t_token_type	ftype;
@@ -51,7 +51,7 @@ int	append_redirect(t_token **file_list, t_token **cur)
 	if (!(*cur))
 		return (FAILUER);
 	if (ftype == TOKEN_HEREDOC)
-		fname = heardoc((*cur)->token);
+		fname = heardoc((*cur)->token, envp);
 	else
 		fname = ft_strdup((*cur)->token);
 	if (!fname)
@@ -63,37 +63,38 @@ int	append_redirect(t_token **file_list, t_token **cur)
 	return (SUCCESS);
 }
 
-static t_tree	*parse_subshell(t_token **cur)
+static t_tree	*parse_subshell(t_token **cur, t_token *envp)
 {
-	t_tree *subshell_node;
+	t_tree	*subshell_node;
 
-	(*cur) = (*cur) ->next;
+	(*cur) = (*cur)->next;
 	if (!(*cur))
 		return (NULL);
 	subshell_node = tree_new(SUBSHELL);
 	if (!subshell_node)
 		return (NULL);
-	subshell_node ->left = parse_manage(cur);
-	if ((*cur) ->type != TOKEN_PARENTHESIS_RIGHT)
+	subshell_node->left = parse_manage(cur, envp);
+	if ((*cur)->type != TOKEN_PARENTHESIS_RIGHT)
 		return (NULL);
-	(*cur) = (*cur) ->next;
+	(*cur) = (*cur)->next;
 	return (subshell_node);
 }
 
-int	manage_append(t_tree *node, t_token **cur)
+int	manage_append(t_tree *node, t_token **cur, t_token *envp)
 {
 	if (is_redirect(*cur))
 	{
-		if (append_redirect(&node->file_list, cur) == FAILUER)
+		if (append_redirect(&node->file_list, cur, envp) == FAILUER)
 			return (free(node), FAILUER);
 	}
-	else if ( (*cur) && (*cur)->type == TOKEN_WORD && ft_strchr((*cur)->token, '='))
+	else if ((*cur) && (*cur)->type == TOKEN_WORD
+		&& ft_strchr((*cur)->token, '='))
 	{
 		node->b_type = ENVP;
 		if (append_list(&node->env_list, cur) == FAILUER)
 			return (free(node), FAILUER);
 	}
-	else if ( (*cur) && (*cur)->type == TOKEN_WORD)
+	else if ((*cur) && (*cur)->type == TOKEN_WORD)
 	{
 		if (append_list(&node->arg_list, cur) == FAILUER)
 			return (free(node), FAILUER);
@@ -101,19 +102,19 @@ int	manage_append(t_tree *node, t_token **cur)
 	return (SUCCESS);
 }
 
-t_tree	*parse_command(t_token **cur)
+t_tree	*parse_command(t_token **cur, t_token *envp)
 {
 	t_tree	*node;
 
 	if (!*cur || is_connection(*cur))
 		return (NULL);
-	if ((*cur) && ((*cur) ->type == TOKEN_PARENTHESIS_LEFT))
-		return (parse_subshell(cur));
+	if ((*cur) && ((*cur)->type == TOKEN_PARENTHESIS_LEFT))
+		return (parse_subshell(cur, envp));
 	node = tree_new(cmd_type(*cur));
 	if (!node)
 		return (NULL);
 	while (is_command(*cur))
-		if (manage_append(node, cur) == FAILUER)
+		if (manage_append(node, cur, envp) == FAILUER)
 			return (free_tree_rec(node), NULL);
 	return (node);
 }

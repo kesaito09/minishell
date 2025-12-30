@@ -6,24 +6,25 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 09:18:46 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/16 09:51:35 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/30 12:56:26 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/readline.h"
 
-static void handle_sigint_prompt(int sig)
+static void	handle_sigint_prompt(int sig)
 {
-    (void)sig;
-    write(1, "\n", 1);
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
+	(void)sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-void setup_signal_prompt(void)
+void	setup_signal_prompt(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
+
 	sa.sa_handler = handle_sigint_prompt;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;

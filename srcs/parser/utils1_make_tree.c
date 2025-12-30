@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:42:39 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/22 20:25:01 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/30 13:04:05 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_tree	*tree_new(t_tree_type btype)
 {
-	t_tree *node;
+	t_tree	*node;
 
 	node = (t_tree *)ft_calloc(sizeof(t_tree), 1);
 	if (!node)

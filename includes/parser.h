@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/22 20:35:42 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/30 12:36:02 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int			count_arr_elem(char **s);
 char		**ultimate_strjoin(char **argv, char *new);
 
 /*utils4_heardoc*/
-char	*heardoc(char *eof);
+char	*heardoc(char *eof, t_token *envp);
 
 /*utils5_is_*/
 bool	is_builtin(char *token);
@@ -61,12 +61,12 @@ char	**token_cmd(t_token *node, t_pipe *info);
 t_token	*argv_token(char **argv);
 
 /*parse_cmd*/
-t_tree	*parse_command(t_token **cur);
-t_tree	*parse_manage(t_token **cur);
+t_tree	*parse_command(t_token **cur, t_token *envp);
+t_tree	*parse_manage(t_token **cur, t_token *envp);
 t_token	*argv_token(char **argv);
 t_token	*f_lstnew(char *token, t_token_type type);
 
 
 /*parse*/
-t_tree	*parser(char *input);
+t_tree	*parser(char *input, t_pipe *info);
 # endif
