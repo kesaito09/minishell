@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/22 20:44:40 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/30 08:52:27 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static t_tree	*parse_subshell(t_token **cur)
 	(*cur) = (*cur) ->next;
 	return (subshell_node);
 }
+
 int	manage_append(t_tree *node, t_token **cur)
 {
 	if (is_redirect(*cur))
