@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/01 03:07:52 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 03:35:29 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ typedef struct s_token
 {
 	char				*token;
 	t_token_type		type;
-	bool				expanded;
-	struct s_token		*sub_token;
 	struct s_token		*next;
 }						t_token;
 

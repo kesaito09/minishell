@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand3_wildcard.c                                 :+:      :+:    :+:   */
+/*   expand2_path_name.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/31 06:03:49 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 03:45:25 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,15 @@ t_token	*token_dir(char *wild_card_name)
 	return (token_list);
 }
 
-// int		pathname_expantion()
+// int		pathname_expantion(t_token **token_list)
 // {
 
+	
+	
+	
+	
+	
+	
 // }
 
 //void	print_token2(t_token *node)

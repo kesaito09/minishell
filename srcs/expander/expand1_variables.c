@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/01 03:21:08 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 03:46:35 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,21 +176,20 @@ int	manage_state_transition_expander(t_token **cur_list, t_token *envp)
 	return (SUCCESS);
 }
 
-int	expand_variables(t_token **arg_list, t_token *envp)
+int	expander(t_token **token_list, t_token *envp)
 {
 	t_token	*tmp;
 
-	if (!arg_list)
+	if (!token_list)
 		return (FAILUER);
-	tmp = *arg_list;
+	tmp = *token_list;
 	while (tmp)
 	{
-		tmp ->expanded = true;
 		if (manage_state_transition_expander(&tmp, envp) == FAILUER)
 			return (FAILUER);
-		ft_putnbr_fd(tmp ->expanded, 2);
-		// printf("%d\n",tmp ->expanded);
+		
 		tmp = tmp->next;
 	}
 	return (SUCCESS);
 }
+

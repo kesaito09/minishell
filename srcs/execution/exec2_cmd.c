@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/28 19:58:24 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/01 03:47:06 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 		if (manage_redirect(branch) == FAILUER)
 			exit(1);
 		t_lstadd_back(&info->envp, branch->env_list);
-		if (expand_variables(&branch->arg_list, info->envp) == FAILUER)
+		if (expander(&branch->arg_list, info->envp) == FAILUER)
 			return (FAILUER);
 		cmd = token_argv(branch->arg_list);
 		env = token_argv(info->envp);
@@ -113,7 +113,7 @@ int	manage_my_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 	if (dup2_stdin_out(fd_in, fd_out) == FAILUER
 		|| manage_redirect(branch) == FAILUER)
 		return (FAILUER);
-	if (expand_variables(&branch->arg_list, info->envp) == FAILUER)
+	if (expander(&branch->arg_list, info->envp) == FAILUER)
 		return (FAILUER);
 	execve_my_cmd(branch->arg_list, info);
 	reset_stdin_out(info);
