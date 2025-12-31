@@ -1,21 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils6_helpers.c                             :+:      :+:    :+:   */
+/*   lexer_utils6_is.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/21 01:09:14 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 07:24:25 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	is_operator(int c)
+#include "../../includes/lexer.h"
+
+bool	is_operator(char *str)
 {
-	return (c == '|' || c == '<' || c == '>' || c == '(' || c == ')');
+	if (*str == '|' || *str == '<' || *str == '>' || *str == '(' || *str == ')')
+		return (true);
+	if (!ft_strncmp(str, "&&", 2))
+		return (true);
+	return (false);
 }
 
-int	is_delimiter(int c)
+bool	is_delimiter(int c)
 {
 	return (c == ' ' || c == '\n' || c == '\t');
+}
+
+bool	can_be_splitted(char *str)
+{
+	if (is_delimiter(*str))
+		return (true);
+	if (is_operator(str))
+		return (true);
+	if (!ft_strncmp(str, "&&", 2))
+		return (true);
+	return (false);
 }

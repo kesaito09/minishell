@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/01 03:35:29 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 07:18:32 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ typedef enum e_token_type
 
 typedef enum e_state
 {
-	STATE_GENERAL = 0,
-	STATE_SQUOTE,
-	STATE_DQUOTE,
+	STATE_GENERAL = 'g',
+	STATE_SQUOTE = '\'',
+	STATE_DQUOTE = '"',
 }						t_state;
 
 typedef struct s_token
@@ -72,17 +72,20 @@ void					t_lstadd_front(t_token **lst, t_token *new);
 t_char_list				*c_lstlast(t_char_list *lst);
 size_t					c_lstsize(t_char_list *lst);
 void					c_lstclear(t_char_list **lst, void (*del)(void *));
+int						add_commit_token(t_token **token_list,
+							t_char_list **c_lsit, t_token_type type);
 
 /*lexer_utils4_manage_states*/
 int						manage_state_transition(t_token **token_list,
-							char **input, t_state *state, t_char_list **c_list);
+							char **input, int *state, t_char_list **c_list);
 
 /*lexer_utils5_manage_operaters*/
 int						manage_operater(t_token **token_list, char **input);
 
-/*lexer_utils6_helpers*/
-int						is_operator(int c);
-int						is_delimiter(int c);
+/*lexer_utils6_is*/
+bool					is_operator(char *str);
+bool					is_delimiter(int c);
+bool					can_be_splitted(char *str);
 
 /*lexer*/
 t_token					*tokenizer(char *input);

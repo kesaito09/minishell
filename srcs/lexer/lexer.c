@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/01 01:47:45 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 07:17:38 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_token	*tokenizer(char *input)
 {
-	t_state		state;
+	int			state;
 	t_char_list	*c_list;
 	t_token		*token_list;
 

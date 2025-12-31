@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 18:27:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/01 01:40:46 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 05:26:44 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,8 @@ int	count_varibles(char *av)
 	int len;
 
 	len = 0;
-	while (*av && is_delimiter_variables(*av))
-	{
-		av++;
+	while (av[len] && is_delimiter_variables(av[len]))
 		len++;
-	}
 	return (len);
 }
 

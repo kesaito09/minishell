@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   char_list_utils.c                                  :+:      :+:    :+:   */
+/*   lexer_utils3_char_list.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:30:23 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/02 23:23:05 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 06:36:22 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,15 @@ void	c_lstclear(t_char_list **lst, void (*del)(void *))
 		current = next;
 	}
 	(*lst) = NULL;
+}
+
+int	add_commit_token(t_token **token_list, t_char_list **c_lsit, t_token_type type)
+{
+	char *token;
+
+	token = list_to_string(c_lsit);
+	if (!token)
+		return (FAILUER);
+	add_token(token_list, token, type);
+	return (SUCCESS);
 }

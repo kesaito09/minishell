@@ -6,120 +6,82 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/01 02:39:01 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 07:23:32 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
-static void	manage_quote(char **input, t_state *state, t_char_list **c_list)
+static int	state_check(int state, char *input, t_char_list **c_list)
 {
-	if (**input == '\'')
+	char	new_state;
+	
+	if (*input == STATE_SQUOTE || *input == STATE_DQUOTE)
 	{
-		*state = STATE_SQUOTE;
-		append_char(c_list, **input);
-		(*input)++;
+		if (state == *input)
+		{
+			append_char(c_list, *input);
+			new_state = STATE_GENERAL;
+		}
+		else if (state == STATE_GENERAL)
+			new_state = *input;
+		else
+			new_state = state;
+		return (new_state);
 	}
-	else if (**input == '"')
-	{
-		*state = STATE_DQUOTE;
-		append_char(c_list, **input);
-		(*input)++;
-	}
+	return (state);
 }
 
 static int	manage_state_general(t_token **token_list, char **input,
-		t_state *state, t_char_list **c_list)
+		t_char_list **c_list)
 {
-	manage_quote(input, state, c_list);
-	if (*state != STATE_GENERAL)
-		return (SUCCESS);
-	if (is_delimiter(**input) || is_operator(**input) || !ft_strncmp(*input,
-		"&&", 2))
+	if (can_be_splitted(*input))
 	{
 		if (*c_list)
-			if (add_token(token_list, list_to_string(c_list), TOKEN_WORD) == FAILUER)
+		{
+			if (add_commit_token(token_list, c_list, TOKEN_WORD) == FAILUER)
 				return (FAILUER);
-		if (is_operator(**input) || !ft_strncmp(*input, "&&", 2))
+		}
+		if (is_operator(*input))
+		{
 			if (manage_operater(token_list, input) == FAILUER)
 				return (FAILUER);
-		if (is_delimiter(**input))
-			(*input)++;
-	}
-	else
-	{
-		append_char(c_list, **input);
-		(*input)++;
-		if (**input == '\0')
-			if (add_token(token_list, list_to_string(c_list), TOKEN_WORD) == FAILUER)
-				return (FAILUER);
-	}
-	return (SUCCESS);
-}
-
-static int	manage_state_squote(t_token **token_list, char **input, t_state *state,
-		t_char_list **c_list)
-{
-	if (**input == '\'')
-	{
-		*state = STATE_GENERAL;
-		if (append_char(c_list, **input) == FAILUER)
-			return (FAILUER);
-		(*input)++;
-		if (**input == '\0')
-			if (add_token(token_list, list_to_string(c_list), TOKEN_WORD) == FAILUER)
-				return (FAILUER);
+			else if (is_delimiter(**input))
+				(*input)++;
+		}
 	}
 	else
 	{
 		if (append_char(c_list, **input) == FAILUER)
 			return (FAILUER);
 		(*input)++;
-		
 	}
 	return (SUCCESS);
 }
 
-static int	manage_state_dquote(t_token	**token_list, char **input, t_state *state,
+static int	manage_state_quote(t_token	**token_list, char **input, 
 		t_char_list **c_list)
 {
-	if (**input == '"')
-	{
-		*state = STATE_GENERAL;
-		if (append_char(c_list, **input) == FAILUER)
-			return (FAILUER);
-		(*input)++;
-		if (**input == '\0')
-			if (add_token(token_list, list_to_string(c_list), TOKEN_WORD) == FAILUER)
-				return (FAILUER);
-	}
-	else
-	{
-		if (append_char(c_list, **input) == FAILUER)
-			return (FAILUER);
-		(*input)++;
-		
-	}
+	if (append_char(c_list, **input) == FAILUER)
+		return (FAILUER);
+	(*input)++;
+	(void)token_list;
 	return (SUCCESS);
 }
 
-int	manage_state_transition(t_token **token_list, char **input, t_state *state,
+int	manage_state_transition(t_token **token_list, char **input, int *state,
 		t_char_list **c_list)
-{
+{	
+	int	flag;
+	
+	*state = state_check(*state, *input, c_list);
 	if (*state == STATE_GENERAL)
-	{
-		if (manage_state_general(token_list, input, state, c_list) == FAILUER)
-			return (FAILUER);
-	}
-	if (*state == STATE_SQUOTE)
-	{
-		if (manage_state_squote(token_list, input, state, c_list) == FAILUER)
-			return (FAILUER);
-	}
-	if (*state == STATE_DQUOTE)
-	{
-		if (manage_state_dquote(token_list, input, state, c_list) == FAILUER)
-			return (FAILUER);
-	}
+		flag = manage_state_general(token_list, input, c_list);
+	else
+		flag = manage_state_quote(token_list, input, c_list);
+	if (flag == FAILUER)
+		return (FAILUER);
+	if (**input == '\0')
+		return (add_commit_token(token_list, c_list, TOKEN_WORD));
 	return (SUCCESS);
 }

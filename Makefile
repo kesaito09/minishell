@@ -6,7 +6,7 @@
 #    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/01 03:39:28 by kesaitou         ###   ########.fr        #
+#    Updated: 2026/01/01 03:57:41 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,10 +40,10 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/lexer/lexer.c\
 			srcs/lexer/lexer_utils1_token.c\
 			srcs/lexer/lexer_utils2_list_helpers.c\
-			srcs/lexer/lexer_utils3_charlist.c\
+			srcs/lexer/lexer_utils3_char_list.c\
 			srcs/lexer/lexer_utils4_manage_states.c\
 			srcs/lexer/lexer_utils5_manage_operaters.c\
-			srcs/lexer/lexer_utils6_helpers.c\
+			srcs/lexer/lexer_utils6_is.c\
 			srcs/parser/utils1_make_tree.c\
 			srcs/parser/utils3_parse.c\
 			srcs/parser/utils4_heardoc.c\
@@ -51,8 +51,8 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/parser/utils7_arglist.c\
 			srcs/parser/parse.c\
 			srcs/parser/parse_cmd.c\
-			srcs/expander/expand1_variables.c\
-			srcs/expander/expand2_path_name.c\
+			srcs/expander/expand1_variables_expantion.c\
+			srcs/expander/expand2_path_name_expantion.c\
 			srcs/expander/expand_utils1_.c\
 			srcs/main/main.c\
 			srcs/main/signal.c\

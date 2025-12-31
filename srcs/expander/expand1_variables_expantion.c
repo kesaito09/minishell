@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/01 03:46:35 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 03:50:01 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int	manage_state_general_expander(char **new_argv, t_token **cur_list,
 	return (SUCCESS);
 }
 
-int	manage_state_transition_expander(t_token **cur_list, t_token *envp)
+int	manage_state_transition_variable(t_token **cur_list, t_token *envp)
 {
 	char	*new_argv;
 	char	*old;
@@ -185,7 +185,7 @@ int	expander(t_token **token_list, t_token *envp)
 	tmp = *token_list;
 	while (tmp)
 	{
-		if (manage_state_transition_expander(&tmp, envp) == FAILUER)
+		if (manage_state_transition_variable(&tmp, envp) == FAILUER)
 			return (FAILUER);
 		
 		tmp = tmp->next;
