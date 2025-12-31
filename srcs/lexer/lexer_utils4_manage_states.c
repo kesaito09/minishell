@@ -6,25 +6,26 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/01 07:23:32 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 07:34:46 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
-static int	state_check(int state, char *input, t_char_list **c_list)
+static int	state_check(int state, char **input, t_char_list **c_list)
 {
 	char	new_state;
 	
-	if (*input == STATE_SQUOTE || *input == STATE_DQUOTE)
+	if (**input == STATE_SQUOTE || **input == STATE_DQUOTE)
 	{
-		if (state == *input)
+		if (state == **input)
 		{
-			append_char(c_list, *input);
+			append_char(c_list, **input);
+			(*input)++;
 			new_state = STATE_GENERAL;
 		}
 		else if (state == STATE_GENERAL)
-			new_state = *input;
+			new_state = **input;
 		else
 			new_state = state;
 		return (new_state);
@@ -74,7 +75,7 @@ int	manage_state_transition(t_token **token_list, char **input, int *state,
 {	
 	int	flag;
 	
-	*state = state_check(*state, *input, c_list);
+	*state = state_check(*state, input, c_list);
 	if (*state == STATE_GENERAL)
 		flag = manage_state_general(token_list, input, c_list);
 	else
