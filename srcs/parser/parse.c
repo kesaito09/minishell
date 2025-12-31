@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/31 21:42:06 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 02:21:34 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,15 @@ t_tree	*parse_manage(t_token **cur)
 	return (branch);
 }
 
-void	print_token(t_token *node)
-{
-	while (node)
-	{
-		ft_putendl_fd(node->token, 2);
-		ft_putnbr_fd(node ->type, 2);
-		node = node->next;
-	}
-}
+// void	print_token(t_token *node)
+// {
+// 	while (node)
+// 	{
+// 		ft_putendl_fd(node->token, 2);
+// 		ft_putnbr_fd(node ->type, 2);
+// 		node = node->next;
+// 	}
+// }
 
 t_tree	*parser(char *input)
 {
@@ -105,8 +105,6 @@ t_tree	*parser(char *input)
 	token_list = tokenizer(input);
 	if (!token_list)
 		return (NULL);
-	if (!token_list)
-		return (NULL);
 	tmp = token_list;
 	ast = parse_manage(&token_list);
 	t_lstclear(&tmp, free);
@@ -117,17 +115,17 @@ t_tree	*parser(char *input)
 
 
 
-int	main(int argc, char **argv)
-{
-	t_token	*token;
-	t_tree	*branch;
+// int	main(int argc, char **argv)
+// {
+// 	t_token	*token;
+// 	t_tree	*branch;
 
-	if (argc < 2)
-		return (1);
-	token = tokenizer(argv[1]);
-	if (!token)
-		return (1);
-	branch = parser(argv[1]);
-	print_token(branch->file_list);
-	print_token(branch->arg_list);
-}
+// 	if (argc < 2)
+// 		return (1);
+// 	token = tokenizer(argv[1]);
+// 	if (!token)
+// 		return (1);
+// 	branch = parser(argv[1]);
+// 	print_token(branch->file_list);
+// 	print_token(branch->arg_list);
+// }

@@ -6,24 +6,24 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/31 21:52:44 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 02:39:01 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
-static void	manage_quote(char **input, t_state *state, t_char_list *c_list)
+static void	manage_quote(char **input, t_state *state, t_char_list **c_list)
 {
 	if (**input == '\'')
 	{
 		*state = STATE_SQUOTE;
-		append_char(&c_list, **input);
+		append_char(c_list, **input);
 		(*input)++;
 	}
 	else if (**input == '"')
 	{
 		*state = STATE_DQUOTE;
-		append_char(&c_list, **input);
+		append_char(c_list, **input);
 		(*input)++;
 	}
 }
@@ -31,11 +31,11 @@ static void	manage_quote(char **input, t_state *state, t_char_list *c_list)
 static int	manage_state_general(t_token **token_list, char **input,
 		t_state *state, t_char_list **c_list)
 {
-	manage_quote(input, state, *c_list);
+	manage_quote(input, state, c_list);
 	if (*state != STATE_GENERAL)
 		return (SUCCESS);
 	if (is_delimiter(**input) || is_operator(**input) || !ft_strncmp(*input,
-			"&&", 2))
+		"&&", 2))
 	{
 		if (*c_list)
 			if (add_token(token_list, list_to_string(c_list), TOKEN_WORD) == FAILUER)
@@ -57,7 +57,7 @@ static int	manage_state_general(t_token **token_list, char **input,
 	return (SUCCESS);
 }
 
-static int	manage_state_squote(char **input, t_state *state,
+static int	manage_state_squote(t_token **token_list, char **input, t_state *state,
 		t_char_list **c_list)
 {
 	if (**input == '\'')
@@ -66,17 +66,21 @@ static int	manage_state_squote(char **input, t_state *state,
 		if (append_char(c_list, **input) == FAILUER)
 			return (FAILUER);
 		(*input)++;
+		if (**input == '\0')
+			if (add_token(token_list, list_to_string(c_list), TOKEN_WORD) == FAILUER)
+				return (FAILUER);
 	}
 	else
 	{
 		if (append_char(c_list, **input) == FAILUER)
 			return (FAILUER);
 		(*input)++;
+		
 	}
 	return (SUCCESS);
 }
 
-static int	manage_state_dquote(char **input, t_state *state,
+static int	manage_state_dquote(t_token	**token_list, char **input, t_state *state,
 		t_char_list **c_list)
 {
 	if (**input == '"')
@@ -85,12 +89,16 @@ static int	manage_state_dquote(char **input, t_state *state,
 		if (append_char(c_list, **input) == FAILUER)
 			return (FAILUER);
 		(*input)++;
+		if (**input == '\0')
+			if (add_token(token_list, list_to_string(c_list), TOKEN_WORD) == FAILUER)
+				return (FAILUER);
 	}
 	else
 	{
 		if (append_char(c_list, **input) == FAILUER)
 			return (FAILUER);
 		(*input)++;
+		
 	}
 	return (SUCCESS);
 }
@@ -105,12 +113,12 @@ int	manage_state_transition(t_token **token_list, char **input, t_state *state,
 	}
 	if (*state == STATE_SQUOTE)
 	{
-		if (manage_state_squote(input, state, c_list) == FAILUER)
+		if (manage_state_squote(token_list, input, state, c_list) == FAILUER)
 			return (FAILUER);
 	}
 	if (*state == STATE_DQUOTE)
 	{
-		if (manage_state_dquote(input, state, c_list) == FAILUER)
+		if (manage_state_dquote(token_list, input, state, c_list) == FAILUER)
 			return (FAILUER);
 	}
 	return (SUCCESS);

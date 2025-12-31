@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils1_token.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:25:00 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/20 03:27:13 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/01 02:26:09 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,19 @@ int	append_char(t_char_list **list, char c)
 	}
 	return (SUCCESS);
 }
+// /*tester*/
+
+// void	print_charlist(t_char_list *list)
+// {
+// 	while (list)
+// 	{
+// 		ft_putchar_fd(list->c, 2);
+// 		if (!list->next)
+// 			ft_putchar_fd('\n', 2);
+// 		list = list->next;
+// 	}
+// }
+
 
 char	*list_to_string(t_char_list **list)
 {
@@ -59,7 +72,7 @@ char	*list_to_string(t_char_list **list)
 	t_char_list	*current;
 	int			list_size;
 	size_t		i;
-
+	
 	list_size = c_lstsize(*list);
 	str = ft_calloc(list_size + 1, sizeof(char));
 	if (!str)
