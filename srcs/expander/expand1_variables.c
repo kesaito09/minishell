@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/01 02:55:13 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 03:21:08 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ int	manage_state_dquote(char **new_argv, t_token **cur_list, t_state *state,
 		((*cur_list)->token)++;
 		if (hundle_expand_var(new_argv, &((*cur_list)->token), envp) == FAILUER)
 			return (FAILUER);
-		(*cur_list)->expanded = true;
 	}
 	else
 	{
@@ -177,19 +176,19 @@ int	manage_state_transition_expander(t_token **cur_list, t_token *envp)
 	return (SUCCESS);
 }
 
-int	expand_variables(t_token **token_list, t_token *envp)
+int	expand_variables(t_token **arg_list, t_token *envp)
 {
 	t_token	*tmp;
 
-	if (!token_list)
+	if (!arg_list)
 		return (FAILUER);
-	tmp = *token_list;
+	tmp = *arg_list;
 	while (tmp)
 	{
-		tmp ->expanded = false;
+		tmp ->expanded = true;
 		if (manage_state_transition_expander(&tmp, envp) == FAILUER)
 			return (FAILUER);
-		// ft_putendl_fd("!!!!!!!!!!!!!!!!!",2);
+		ft_putnbr_fd(tmp ->expanded, 2);
 		// printf("%d\n",tmp ->expanded);
 		tmp = tmp->next;
 	}

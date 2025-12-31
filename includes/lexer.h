@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/30 12:25:41 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 03:07:52 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LEXER_H
 
 # include "minishell.h"
-#include <stdbool.h>
+# include <stdbool.h>
 
 typedef enum e_token_type
 {
@@ -43,6 +43,7 @@ typedef struct s_token
 	char				*token;
 	t_token_type		type;
 	bool				expanded;
+	struct s_token		*sub_token;
 	struct s_token		*next;
 }						t_token;
 
@@ -86,5 +87,5 @@ int						is_operator(int c);
 int						is_delimiter(int c);
 
 /*lexer*/
-t_token				*tokenizer(char *input);
+t_token					*tokenizer(char *input);
 #endif
