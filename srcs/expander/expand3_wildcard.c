@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand3_wildcard.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/28 20:07:09 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/31 06:03:49 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ t_token	*token_dir(char *wild_card_name)
 	return (token_list);
 }
 
-//int		pathname_expantion()
-//{
+// int		pathname_expantion()
+// {
 
-//}
+// }
 
 //void	print_token2(t_token *node)
 //{

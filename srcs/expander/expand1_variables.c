@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand1_variables.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/28 19:59:42 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/31 06:07:09 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,84 +54,83 @@ t_state	manage_quote_expander(char **cur_argv)
 	return (STATE_GENERAL);
 }
 
-void	manage_state_squote(char **cur_argv, t_state *state)
+void	manage_state_squote(t_token **cur_list, t_state *state)
 {
-	if (**cur_argv == '\'')
+	if (*((*cur_list) ->token) == '\'')
 	{
 		*state = STATE_GENERAL;
-		(*cur_argv)++;
+		((*cur_list) ->token)++;
 		return ;
 	}
-	(*cur_argv)++;
+	((*cur_list) ->token)++;
 	return ;
 }
 
-int	manage_state_dquote(char **new_argv, char **cur_argv, t_state *state,
+int	manage_state_dquote(char **new_argv, t_token **cur_list, t_state *state,
 		t_token *envp)
 {
-	if (**cur_argv == '"')
+	if (*((*cur_list) ->token) == '"')
 	{
 		*state = STATE_GENERAL;
-		(*cur_argv)++;
+		((*cur_list) ->token)++;
 		return (SUCCESS);
 	}
-	if (**cur_argv == '$')
+	if (*((*cur_list) ->token) == '$')
 	{
-		(*cur_argv)++;
-		if (hundle_expand_var(new_argv, cur_argv, envp) == FAILUER)
+		((*cur_list) ->token)++;
+		if (hundle_expand_var(new_argv, &((*cur_list) ->token), envp) == FAILUER)
 			return (FAILUER);
+		(*cur_list) ->expanded = true;
 	}
 	else
-		(*cur_argv)++;
+		((*cur_list) ->token)++;
 	return (SUCCESS);
 }
 
-int	manage_state_general_expander(char **new_argv, char **cur_argv,
+int	manage_state_general_expander(char **new_argv, t_token **cur_list,
 		t_state *state, t_token *envp)
 {
-	*state = manage_quote_expander(cur_argv);
+	*state = manage_quote_expander(&(*cur_list) ->token);
 	if (*state != STATE_GENERAL)
 		return (SUCCESS);
-	if (**cur_argv == '$')
+	if (*((*cur_list) ->token))
 	{
-		(*cur_argv)++;
-		if (hundle_expand_var(new_argv, cur_argv, envp) == FAILUER)
+		((*cur_list) ->token)++;
+		if (hundle_expand_var(new_argv, &((*cur_list) ->token), envp) == FAILUER)
 			return (FAILUER);
 	}
 	else
-		(*cur_argv)++;
+		((*cur_list) ->token)++;
 	return (SUCCESS);
 }
 
 int	manage_state_transition_expander(t_token **cur_list, t_token *envp)
 {
-	char	*token;
 	char	*new;
 	t_state	state;
 
 	if (!ft_strchr((*cur_list)->token, '$'))
 		return (SUCCESS);
 	state = STATE_GENERAL;
-	token = (*cur_list)->token;
 	new = ft_strdup("");
 	if (!new)
 		return (FAILUER);
-	while (*token)
+	while (*(*cur_list)->token)
 	{
 		if (state == STATE_GENERAL)
 		{
-			if (manage_state_general_expander(&new, &token, &state,
+			if (manage_state_general_expander(&new, cur_list, &state,
 					envp) == FAILUER)
 				return (FAILUER);
 		}
 		else if (state == STATE_DQUOTE)
 		{
-			if (manage_state_dquote(&new, &token, &state,
+			if (manage_state_dquote(&new, cur_list, &state,
 					envp) == FAILUER)
 				return (FAILUER);
 		}
 		else if (state == STATE_SQUOTE)
-			manage_state_squote(&token, &state);
+			manage_state_squote(cur_list, &state);
 	}
 	free((*cur_list)->token);
 	(*cur_list)->token = new;

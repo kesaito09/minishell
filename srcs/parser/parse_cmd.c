@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/30 08:52:27 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/30 13:04:14 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,9 @@ t_tree	*parse_command(t_token **cur)
 	if (!node)
 		return (NULL);
 	while (is_command(*cur))
+	{
 		if (manage_append(node, cur) == FAILUER)
 			return (free_tree_rec(node), NULL);
+	}
 	return (node);
 }
