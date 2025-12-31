@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/23 17:01:33 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/12/31 21:52:44 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	manage_state_general(t_token **token_list, char **input,
 {
 	manage_quote(input, state, *c_list);
 	if (*state != STATE_GENERAL)
-		return (SUCCESS);	
+		return (SUCCESS);
 	if (is_delimiter(**input) || is_operator(**input) || !ft_strncmp(*input,
 			"&&", 2))
 	{
@@ -103,12 +103,12 @@ int	manage_state_transition(t_token **token_list, char **input, t_state *state,
 		if (manage_state_general(token_list, input, state, c_list) == FAILUER)
 			return (FAILUER);
 	}
-	else if (*state == STATE_SQUOTE)
+	if (*state == STATE_SQUOTE)
 	{
 		if (manage_state_squote(input, state, c_list) == FAILUER)
 			return (FAILUER);
 	}
-	else if (*state == STATE_DQUOTE)
+	if (*state == STATE_DQUOTE)
 	{
 		if (manage_state_dquote(input, state, c_list) == FAILUER)
 			return (FAILUER);

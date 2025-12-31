@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/19 19:39:13 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/12/31 21:35:17 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_token	*tokenizer(char *input)
 	return (token_list);
 }
 
-//int	lexer(char *input, t_token **token_list)
+// int	lexer(char *input, t_token **token_list)
 //{
 //	t_token	*last_node;
 //	t_token	*eof_node;
