@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/01 07:34:46 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 07:58:19 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static int	state_check(int state, char **input, t_char_list **c_list)
 	{
 		if (state == **input)
 		{
-			append_char(c_list, **input);
+			if (append_char(c_list, **input) == FAILUER)
+				return (FAILUER);
 			(*input)++;
 			new_state = STATE_GENERAL;
 		}
@@ -61,10 +62,12 @@ static int	manage_state_general(t_token **token_list, char **input,
 }
 
 static int	manage_state_quote(t_token	**token_list, char **input, 
-		t_char_list **c_list)
+		int *state, t_char_list **c_list)	
 {
 	if (append_char(c_list, **input) == FAILUER)
 		return (FAILUER);
+	if (**input == *state)
+		*state = STATE_GENERAL;
 	(*input)++;
 	(void)token_list;
 	return (SUCCESS);
@@ -74,12 +77,13 @@ int	manage_state_transition(t_token **token_list, char **input, int *state,
 		t_char_list **c_list)
 {	
 	int	flag;
+	int	new;
 	
-	*state = state_check(*state, input, c_list);
+	new = state_check(*state, input, c_list);
 	if (*state == STATE_GENERAL)
 		flag = manage_state_general(token_list, input, c_list);
 	else
-		flag = manage_state_quote(token_list, input, c_list);
+		flag = manage_state_quote(token_list, input, state, c_list);
 	if (flag == FAILUER)
 		return (FAILUER);
 	if (**input == '\0')
