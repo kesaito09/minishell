@@ -49,9 +49,9 @@ typedef struct s_tree
 
 typedef struct s_pidlist
 {
-	int				pid;
+	int					pid;
 	struct s_pidlist	*next;
-}					t_pidlist;
+}						t_pidlist;
 
 typedef struct s_pipe
 {
