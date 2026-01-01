@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand1_variables.c                                :+:      :+:    :+:   */
+/*   expand1_variables_expantion.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/01 03:50:01 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 09:10:54 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,42 +138,62 @@ int	manage_state_general_expander(char **new_argv, t_token **cur_list,
 	return (SUCCESS);
 }
 
-int	manage_state_transition_variable(t_token **cur_list, t_token *envp)
+int	state_transition_variable(char **new_argv, t_token **cur_list, t_state *state, t_token *envp)
 {
-	char	*new_argv;
 	char	*old;
-	t_state	state;
 
-	if (!ft_strchr((*cur_list)->token, '$'))
-		return (SUCCESS);
 	old = (*cur_list)->token;
-	state = STATE_GENERAL;
-	new_argv = ft_strdup("");
-	if (!new_argv)
-		return (FAILUER);
 	while (*(*cur_list)->token)
 	{
 		if (state == STATE_GENERAL)
 		{
-			if (manage_state_general_expander(&new_argv, cur_list, &state,
+			if (manage_state_general_expander(new_argv, cur_list, state,
 					envp) == FAILUER)
 				return (FAILUER);
 		}
 		else if (state == STATE_DQUOTE)
 		{
-			if (manage_state_dquote(&new_argv, cur_list, &state,
+			if (manage_state_dquote(new_argv, cur_list, state,
 					envp) == FAILUER)
 				return (FAILUER);
 		}
 		else if (state == STATE_SQUOTE)
 		{
-			if (manage_state_squote(cur_list, &new_argv, &state) == FAILUER)
+			if (manage_state_squote(cur_list, new_argv, state) == FAILUER)
 				return (FAILUER);
 		}
 	}
 	free(old);
-	(*cur_list)->token = new_argv;
+	(*cur_list)->token = *new_argv;
 	return (SUCCESS);
+}
+
+int		variables_expantion(t_token **cur_list, t_token *envp)
+{
+
+	char	*new_argv;
+	t_state	state;
+
+	if (!ft_strchr((*cur_list)->token, '$'))
+		return (SUCCESS);
+	state = STATE_GENERAL;
+	new_argv = ft_strdup("");
+	if (!new_argv)
+		return (FAILUER);
+	if (state_transition_variable(&new_argv, cur_list, &state, envp) == FAILUER)
+		return (FAILUER);	
+	return (SUCCESS);
+}
+
+int		pathname_expantion(t_token **token_list)
+{
+	
+	
+	
+	
+	
+	
+	
 }
 
 int	expander(t_token **token_list, t_token *envp)
@@ -185,9 +205,10 @@ int	expander(t_token **token_list, t_token *envp)
 	tmp = *token_list;
 	while (tmp)
 	{
-		if (manage_state_transition_variable(&tmp, envp) == FAILUER)
+		if (variables_expantion(&tmp, envp) == FAILUER)
 			return (FAILUER);
-		
+		if (pathname_expantion(&tmp) == FAILUER)
+			return (FAILUER);		
 		tmp = tmp->next;
 	}
 	return (SUCCESS);

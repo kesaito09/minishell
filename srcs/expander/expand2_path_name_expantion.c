@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/01 07:30:49 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/01 08:54:33 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ t_token	*token_dir(char *wild_card_name)
 	return (token_list);
 }
 
-// int		pathname_expantion(t_token **token_list)
-// {
+int		pathname_expantion(t_token **token_list)
+{
 	
 	
 	
@@ -100,7 +100,7 @@ t_token	*token_dir(char *wild_card_name)
 	
 	
 	
-// }
+}
 
 //void	print_token2(t_token *node)
 //{
