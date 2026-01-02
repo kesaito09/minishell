@@ -3,28 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils4_manage_states.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/02 12:57:47 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/02 15:14:00 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
-static int	state_check(int state, char **input, t_char_list **c_list)
+static int	state_check(int state, char **input)
 {
-	char	new_state;
-	
+	char		new_state;
+	static int	flag = false;
+
+	if (flag == true)
+	{
+		flag = false;
+		state = STATE_GENERAL;
+	}
 	if (**input == STATE_SQUOTE || **input == STATE_DQUOTE)
 	{
 		if (state == **input)
-		{
-			if (append_char(c_list, **input) == FAILUER)
-				return (FAILUER);
-			(*input)++;
-			new_state = STATE_GENERAL;
-		}
+			flag = true;
 		else if (state == STATE_GENERAL)
 			new_state = **input;
 		else
@@ -51,6 +52,8 @@ static int	manage_state_general(t_token **token_list, char **input,
 			else if (is_delimiter(**input))
 				(*input)++;
 		}
+		else
+			(*input)++;
 	}
 	else
 	{
@@ -61,13 +64,11 @@ static int	manage_state_general(t_token **token_list, char **input,
 	return (SUCCESS);
 }
 
-static int	manage_state_quote(t_token	**token_list, char **input, 
-		int *state, t_char_list **c_list)	
+static int	manage_state_quote(t_token	**token_list, char **input,
+		t_char_list **c_list)
 {
 	if (append_char(c_list, **input) == FAILUER)
 		return (FAILUER);
-	if (**input == *state)
-		*state = STATE_GENERAL;
 	(*input)++;
 	(void)token_list;
 	return (SUCCESS);
@@ -75,14 +76,14 @@ static int	manage_state_quote(t_token	**token_list, char **input,
 
 int	manage_state_transition(t_token **token_list, char **input, int *state,
 		t_char_list **c_list)
-{	
+{
 	int	flag;
-	
-	*state = state_check(*state, input, c_list);
+
+	*state = state_check(*state, input);
 	if (*state == STATE_GENERAL)
 		flag = manage_state_general(token_list, input, c_list);
 	else
-		flag = manage_state_quote(token_list, input, state, c_list);
+		flag = manage_state_quote(token_list, input, c_list);
 	if (flag == FAILUER)
 		return (FAILUER);
 	if (**input == '\0')
