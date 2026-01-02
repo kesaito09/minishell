@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/02 17:54:55 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/02 19:45:05 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,17 @@ bool	is_sub_token(t_token_type type)
 		|| type == TOKEN_WORD)
 		return (true);
 	return (false);	
+}
+
+bool	can_be_comitted(char *str)
+{
+	if (is_delimiter_variables(*str))
+	{
+		/* code */
+	}
+	
+	
+	
+	
+	
 }

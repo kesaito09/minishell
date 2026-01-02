@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/02 16:31:47 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/02 18:30:10 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,29 @@ int		init_clist(t_clist **c_list)
 	(*c_list) ->token_clist = NULL;
 }
 
+void	init_state(t_state_tab *state)
+{
+	state ->s_main = STATE_GENERAL;
+	state ->s_sub = STATE_GENERAL;
+}
 
 t_token	*tokenizer(char *input)
 {
-	int			state;
+	t_state_tab	state;
 	t_clist		*c_list;
 	t_token		*token_list;
 
-	state = STATE_GENERAL;
 	token_list = NULL;
 	token_list ->sub_token = NULL;
 	init_clist(&c_list);
+	init_state(&state);
 	while (*input)
 	{
 		if (manage_state_transition(&token_list, &input, &state,
 				&c_list) == FAILUER)
 			return (NULL);
 	}
-	if (state == STATE_SQUOTE || state == STATE_DQUOTE)
+	if (state.s_main == STATE_SQUOTE || state.s_sub == STATE_DQUOTE)
 	{
 		if (c_list ->token_clist)
 			c_lstclear(&(c_list ->token_clist), free);

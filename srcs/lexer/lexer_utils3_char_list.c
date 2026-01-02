@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:30:23 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/02 17:54:37 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/02 19:14:04 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	c_lstclear(t_char_list **lst, void (*del)(void *))
 	(*lst) = NULL;
 }
 
-int	add_commit_token(t_token **token_list, t_clist **c_list, t_token_type type)
+int	commit_token(t_token **token_list, t_clist **c_list, t_token_type type)
 {
 	char	*token;
 

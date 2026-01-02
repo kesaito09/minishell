@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/02 17:45:53 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/02 20:12:58 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,20 @@ static int	state_check(int state, char **input)
 	return (state);
 }
 
+int			manage_sub_token(t_token **token_list, char **input, t_clist **c_list, t_state_tab *state)
+{
+	if (state ->s_sub == SUB_TOKEN_DOLLAR && is_delimiter_variables(**input))
+	{
+		if (commit_token(token_list, c_list, SUB_TOKEN_DOLLAR) == FAILUER)
+			return (FAILUER);
+	}
+	if (**input == '$')
+		state ->s_sub = SUB_TOKEN_DOLLAR;
+	return (SUCCESS);
+}
+
 static int	manage_state_general(t_token **token_list, char **input,
-		t_clist **c_list)
+		t_clist **c_list, t_state_tab *state)
 {
 	if (can_be_splitted(*input))
 	{
@@ -54,10 +66,14 @@ static int	manage_state_general(t_token **token_list, char **input,
 		}
 		else
 			(*input)++;
+		if (state ->s_sub == SUB_TOKEN_DOLLAR)
+			state ->s_sub = SUB_TOKEN_GENERAL;	
 	}
 	else
 	{
-		if (append_char(&((*c_list) ->token_clist) , **input) == FAILUER)
+		if (manage_sub_token(token_list, input, c_list, state) == FAILUER)
+			return (FAILUER);		
+		if (manage_append_char(c_list, **input) == FAILUER)
 			return (FAILUER);
 		(*input)++;
 	}
@@ -67,26 +83,33 @@ static int	manage_state_general(t_token **token_list, char **input,
 static int	manage_state_quote(t_token	**token_list, char **input,
 		t_clist **c_list)
 {
-	if (append_char(&((*c_list) ->token_clist), **input) == FAILUER)
+	if (manage_append_char(c_list, **input) == FAILUER)
 		return (FAILUER);
 	(*input)++;
 	(void)token_list;
 	return (SUCCESS);
 }
 
-int	manage_state_transition(t_token **token_list, char **input, int *state,
+int	manage_state_transition(t_token **token_list, char **input, t_state_tab *state,
 		t_clist **c_list)
 {
 	int	flag;
+	int new;
 
-	*state = state_check(*state, input);
-	if (*state == STATE_GENERAL)
+	new = state_check(state ->s_main, input);
+	if (state ->s_main != new)
+	{
+		/* code */
+	}
+	
+	if (state ->s_main == STATE_GENERAL)
 		flag = manage_state_general(token_list, input, c_list);
 	else
 		flag = manage_state_quote(token_list, input, c_list);
 	if (flag == FAILUER)
 		return (FAILUER);
 	if (**input == '\0')
-		return (add_commit_token(token_list, &((*c_list) ->token_clist) , TOKEN_WORD));
+		return (commit_token(token_list, &((*c_list) ->token_clist) , TOKEN_WORD));
 	return (SUCCESS);
+	
 }
