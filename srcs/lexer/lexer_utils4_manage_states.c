@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/01 09:16:32 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/02 12:57:47 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,8 @@ int	manage_state_transition(t_token **token_list, char **input, int *state,
 		t_char_list **c_list)
 {	
 	int	flag;
-	int	new;
 	
-	new = state_check(*state, input, c_list);
+	*state = state_check(*state, input, c_list);
 	if (*state == STATE_GENERAL)
 		flag = manage_state_general(token_list, input, c_list);
 	else

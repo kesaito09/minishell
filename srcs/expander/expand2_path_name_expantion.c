@@ -6,20 +6,20 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/01 08:54:33 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/02 13:48:08 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/parser.h"
 
-void skip_star(char **wild_card_name)
+void skip_star(char **input)
 {
-	while (**wild_card_name && **wild_card_name == '*')
-		(*wild_card_name)++;
+	while (**input && **input == '*')
+		(*input)++;
 }
 
-int	match_char(char *wild_card_name, char *d_name)
+int	match_char(char *input, char *d_name)
 {
 	char	*start;
 	char	*match;
@@ -27,43 +27,43 @@ int	match_char(char *wild_card_name, char *d_name)
 	start = NULL;
 	while (*d_name)
 	{
-		if (*wild_card_name == '*')
+		if (*input == '*')
 		{
-			skip_star(&wild_card_name);
-			if (!*wild_card_name)
+			skip_star(&input);
+			if (!*input)
 				break;
-			start = wild_card_name;
+			start = input;
 			match = d_name;
 		}
-		if (*wild_card_name != *d_name)
+		if (*input != *d_name)
 		{
 			if (!start)
 				return (FAILUER);
-			wild_card_name = start;
+			input = start;
 			d_name = (match++);
 		}
         else
         {
-            wild_card_name++;
+            input++;
             d_name++;
         }
 	}
-	skip_star(&wild_card_name);
-	if (!*wild_card_name)
+	skip_star(&input);
+	if (!*input)
 		return (SUCCESS);
 	return (FAILUER);
 }
 
-int check_hidden_file(char *wild_card_name)
+int check_hidden_file(char *input)
 {
-	if (!wild_card_name)
+	if (!input)
 		return (FAILUER);
-	if (wild_card_name[0] == '.')
+	if (input[0] == '.')
 		return (SUCCESS);
 	return (FAILUER);
 }
 
-t_token	*token_dir(char *wild_card_name)
+t_token	*token_dir(char *input)
 {
 	DIR		*dp;
 	t_token	*token_list;
@@ -78,9 +78,9 @@ t_token	*token_dir(char *wild_card_name)
 		dent = readdir(dp);
 		if (!dent)
 			break ;
-		if (!ft_strncmp(dent->d_name, "..", 2) || (check_hidden_file(wild_card_name) == FAILUER && !ft_strncmp(dent ->d_name, ".", 1)))
+		if (!ft_strncmp(dent->d_name, "..", 2) || (check_hidden_file(input) == FAILUER && !ft_strncmp(dent ->d_name, ".", 1)))
 			continue ;
-		if (match_char(wild_card_name, dent ->d_name) == FAILUER)
+		if (match_char(input, dent ->d_name) == FAILUER)
 			continue ;
 		token = t_lstnew(dent->d_name);
 		if (!token)
@@ -91,8 +91,8 @@ t_token	*token_dir(char *wild_card_name)
 	return (token_list);
 }
 
-int		pathname_expantion(t_token **token_list)
-{
+// int		pathname_expantion(t_token **token_list)
+// {
 	
 	
 	
@@ -100,7 +100,7 @@ int		pathname_expantion(t_token **token_list)
 	
 	
 	
-}
+// }
 
 //void	print_token2(t_token *node)
 //{
