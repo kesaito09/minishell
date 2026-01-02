@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:25:00 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/01 02:26:09 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/02 16:04:40 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*list_to_string(t_char_list **list)
 	return (str);
 }
 
-int		add_token(t_token **token_list, char *token, t_token_type type)
+int		add_token(t_token **token_list, t_token *sub_token_list, char *token, t_token_type type)
 {
 	t_token	*new_token;
 
@@ -104,6 +104,7 @@ int		add_token(t_token **token_list, char *token, t_token_type type)
 	new_token->next = NULL;
 	new_token->token = token;
 	new_token->type = type;
+	new_token ->sub_token = sub_token_list;
 	if (!*token_list)
 		*token_list = new_token;
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils4_manage_states.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/02 15:14:00 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/02 16:45:01 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ static int	state_check(int state, char **input)
 }
 
 static int	manage_state_general(t_token **token_list, char **input,
-		t_char_list **c_list)
+		t_clist **c_list)
 {
 	if (can_be_splitted(*input))
 	{
 		if (*c_list)
 		{
-			if (add_commit_token(token_list, c_list, TOKEN_WORD) == FAILUER)
+			if (add_commit_token(token_list, &((*c_list) ->token_clist) , TOKEN_WORD) == FAILUER)
 				return (FAILUER);
 		}
 		if (is_operator(*input))
@@ -57,7 +57,7 @@ static int	manage_state_general(t_token **token_list, char **input,
 	}
 	else
 	{
-		if (append_char(c_list, **input) == FAILUER)
+		if (append_char(&((*c_list) ->token_clist) , **input) == FAILUER)
 			return (FAILUER);
 		(*input)++;
 	}
@@ -65,9 +65,9 @@ static int	manage_state_general(t_token **token_list, char **input,
 }
 
 static int	manage_state_quote(t_token	**token_list, char **input,
-		t_char_list **c_list)
+		t_clist **c_list)
 {
-	if (append_char(c_list, **input) == FAILUER)
+	if (append_char(&((*c_list) ->token_clist), **input) == FAILUER)
 		return (FAILUER);
 	(*input)++;
 	(void)token_list;
@@ -75,7 +75,7 @@ static int	manage_state_quote(t_token	**token_list, char **input,
 }
 
 int	manage_state_transition(t_token **token_list, char **input, int *state,
-		t_char_list **c_list)
+		t_clist **c_list)
 {
 	int	flag;
 
@@ -87,6 +87,6 @@ int	manage_state_transition(t_token **token_list, char **input, int *state,
 	if (flag == FAILUER)
 		return (FAILUER);
 	if (**input == '\0')
-		return (add_commit_token(token_list, c_list, TOKEN_WORD));
+		return (add_commit_token(token_list, &((*c_list) ->token_clist) , TOKEN_WORD));
 	return (SUCCESS);
 }

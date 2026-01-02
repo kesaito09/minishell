@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/01 07:18:32 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/02 16:27:29 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ typedef enum e_token_type
 	TOKEN_ENVP,
 }						t_token_type;
 
+typedef	enum e_sub_token_state
+{
+	GENERAL,
+	SINGLE_QUOTED,
+	DOUBLE_QUOTED,
+	DOLLAR,
+}						t_sub_token_state;
+
 typedef enum e_state
 {
 	STATE_GENERAL = 'g',
@@ -42,6 +50,7 @@ typedef struct s_token
 {
 	char				*token;
 	t_token_type		type;
+	struct s_token		*sub_token;
 	struct s_token		*next;
 }						t_token;
 
@@ -50,6 +59,13 @@ typedef struct s_char_list
 	char				c;
 	struct s_char_list	*next;
 }						t_char_list;
+
+typedef struct s_clist
+{
+	t_char_list			*token_clist;
+	t_char_list			*sub_clist;
+}t_clist;
+
 
 /*lexer_utils1_token*/
 void					buff_add_buck(t_char_list **char_list,
@@ -89,4 +105,8 @@ bool					can_be_splitted(char *str);
 
 /*lexer*/
 t_token					*tokenizer(char *input);
+
+/*debug*/
+void	print_token_ke(t_token *token_list);
+
 #endif
