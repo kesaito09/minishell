@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils6_is.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/02 14:44:58 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/02 17:54:55 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,15 @@ bool	can_be_splitted(char *str)
 	if (!ft_strncmp(str, "&&", 2))
 		return (true);
 	return (false);
+}
+
+bool	is_sub_token(t_token_type type)
+{
+	if (type == SUB_TOKEN_GENERAL 
+		|| type == SUB_TOKEN_SQUOTE 
+		|| type == SUB_TOKEN_DQUOTE 
+		|| type == SUB_TOKEN_DOLLAR
+		|| type == TOKEN_WORD)
+		return (true);
+	return (false);	
 }

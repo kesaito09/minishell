@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/02 16:27:29 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/02 17:52:50 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,19 @@ typedef enum e_token_type
 	TOKEN_PARENTHESIS_LEFT,
 	TOKEN_PARENTHESIS_RIGHT,
 	TOKEN_ENVP,
-}						t_token_type;
+	SUB_TOKEN_GENERAL,
+	SUB_TOKEN_SQUOTE,
+	SUB_TOKEN_DQUOTE,
+	SUB_TOKEN_DOLLAR,
 
-typedef	enum e_sub_token_state
-{
-	GENERAL,
-	SINGLE_QUOTED,
-	DOUBLE_QUOTED,
-	DOLLAR,
-}						t_sub_token_state;
+}						t_token_type;
 
 typedef enum e_state
 {
 	STATE_GENERAL = 'g',
 	STATE_SQUOTE = '\'',
 	STATE_DQUOTE = '"',
+	DOLLAR = '$',
 }						t_state;
 
 typedef struct s_token
@@ -102,6 +100,8 @@ int						manage_operater(t_token **token_list, char **input);
 bool					is_operator(char *str);
 bool					is_delimiter(int c);
 bool					can_be_splitted(char *str);
+bool					is_sub_token(t_token_type type);
+
 
 /*lexer*/
 t_token					*tokenizer(char *input);

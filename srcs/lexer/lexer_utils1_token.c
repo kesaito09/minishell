@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:25:00 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/02 16:04:40 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/02 17:38:39 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,18 @@ int	append_char(t_char_list **list, char c)
 	}
 	return (SUCCESS);
 }
+
+int manage_append_char(t_clist **c_list, char c)
+{
+
+	
+	
+	
+	
+	
+}
+
+
 // /*tester*/
 
 // void	print_charlist(t_char_list *list)
@@ -90,27 +102,25 @@ char	*list_to_string(t_char_list **list)
 	return (str);
 }
 
-int		add_token(t_token **token_list, t_token *sub_token_list, char *token, t_token_type type)
+int		add_token(t_token **token_list, char *token, t_token_type type)
 {
 	t_token	*new_token;
 
 	if (!token)
 		return (FAILUER);
-	if (!token_list)
-		return (SUCCESS);//ここは成功にすべきかもしれない
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 		return (FAILUER);
 	new_token->next = NULL;
 	new_token->token = token;
 	new_token->type = type;
-	new_token ->sub_token = sub_token_list;
 	if (!*token_list)
 		*token_list = new_token;
 	else
 		t_lstadd_back(token_list, new_token);
 	return (SUCCESS);
 }
+
 
 // t_token	*lstmap(t_token *lst, void *(*f)(void *),
 // 		void (*del)(void *))
