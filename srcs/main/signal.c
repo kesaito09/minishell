@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 09:18:46 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/30 12:56:26 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/03 19:32:13 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,30 +33,32 @@ void	setup_signal_prompt(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-static void	new_line(int sig)
-{
-	write(1, "\n", 1);
-	(void)sig;
-}
+//static void	new_line(int sig)
+//{
+//	write(1, "\n", 1);
+//	(void)sig;
+//}
 
-void setup_signal_exec(void)
+void	setup_signal_exec(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
-	sa.sa_handler = new_line;
+	sa.sa_handler = SIG_IGN;
 	sigaction(SIGINT, &sa, NULL);
+	sa.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-void setup_signal_child(void)
+void	setup_signal_child(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sa.sa_handler = SIG_DFL;
 	sigaction(SIGINT, &sa, NULL);
+	sa.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sa, NULL);
 }

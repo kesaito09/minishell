@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/03 05:43:16 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/03 19:40:28 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	minishell_atty(t_pipe *info)
 		flag = tree_operator(branch, info, 0, 1);
 		free_tree_rec(branch);
 		info->ecode = waitpid_plist(&info->plist);
+		if (info->ecode >= 127)
+			ft_putchar_fd('\n', 2);
 		info->pipe = false;
 	}
 	return (flag);
