@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/03 07:14:53 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/03 09:05:26 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	manage_sub_token(t_token **token_list, char **input,
 		t_clist **c_list, t_state_tab *state)
 {
 	(void)token_list;
-	if (state->s_sub == STATE_DOLLER && is_delimiter_variables(**input))
+	if (state->s_sub == STATE_DOLLER && !is_delimiter_variables(**input))
 	{
-		if (commit_token(token_list, c_list, SUB_TOKEN_DOLLAR) == FAILUER)
+		if (commit_subtoken_wrapper(token_list, c_list, SUB_TOKEN_DOLLAR) == FAILUER)
 			return (FAILUER);
 		state->s_sub = state->s_main;
 	}
@@ -40,7 +40,7 @@ int	manage_sub_token(t_token **token_list, char **input,
 	{
 		if (state->s_sub != STATE_DOLLER && (*c_list)->sub_clist)
 		{
-			if (commit_token(token_list, c_list,
+			if (commit_subtoken_wrapper(token_list, c_list,
 					what_subtype(state)) == FAILUER)
 				return (FAILUER);
 		}
@@ -106,11 +106,11 @@ int	hundle_quote(t_token **token_list, char **input,
 		return (SUCCESS);
 	if (state->s_sub == STATE_DOLLER)
 	{
-		if (commit_token(token_list, c_list, SUB_TOKEN_DOLLAR) == FAILUER)
+		if (commit_subtoken_wrapper(token_list, c_list, SUB_TOKEN_DOLLAR) == FAILUER)
 			return (FAILUER);
 		state->s_sub = state->s_main;
 	}
-	if (commit_token(token_list, c_list, what_subtype(state)) == FAILUER)
+	if (commit_subtoken_wrapper(token_list, c_list, what_subtype(state)) == FAILUER)
 		return (FAILUER);
 	state->s_main = new;
 	state->s_sub = new;

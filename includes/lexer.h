@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/03 07:13:29 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/03 09:03:44 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ t_token					*tokenizer(char *input);
 int	state_check(int state, char **input);
 int	commit_word_token(t_token **token_list, t_clist **c_list,
 		t_state_tab *state);
+int	commit_subtoken_wrapper(t_token **token_list,
+		t_clist **c_list, t_token_type type);
 
 
 /*debug*/

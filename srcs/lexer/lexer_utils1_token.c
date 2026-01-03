@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:25:00 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/03 07:18:14 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/03 09:36:54 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int		add_token(t_token **token_list, char *token, t_token_type type)
 	new_token->next = NULL;
 	new_token->token = token;
 	new_token->type = type;
+	new_token ->sub_token = NULL;
 	if (!*token_list)
 		*token_list = new_token;
 	else

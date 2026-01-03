@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/03 07:29:16 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/03 08:45:08 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,27 @@ t_tree	*parse_manage(t_token **cur)
 	return (branch);
 }
 
-// void	print_token(t_token *node)
-// {
-// 	while (node)
-// 	{
-// 		ft_putendl_fd(node->token, 2);
-// 		ft_putnbr_fd(node ->type, 2);
-// 		node = node->next;
-// 	}
-// }
+#include <stdio.h>
+static void	print_subtokens(t_token *node, int depth)
+{
+	while (node)
+	{
+		fprintf(stderr, "%*sSUB: %s -- TYPE: %d\n",
+			depth * 2, "", node->token, node->type);
+		node = node->next;
+	}
+}
+
+void	print_tokens(t_token *node)
+{
+	while (node)
+	{
+		fprintf(stderr, "TOK: %s -- TYPE: %d\n", node->token, node->type);
+		if (node->sub_token)
+			print_subtokens(node->sub_token, 1);
+		node = node->next;
+	}
+}
 
 t_tree	*parser(char *input)
 {
@@ -105,7 +117,7 @@ t_tree	*parser(char *input)
 	token_list = tokenizer(input);
 	if (!token_list)
 		return (NULL);
-	// print_token_ke(token_list);
+	print_tokens(token_list);
 	tmp = token_list;
 	ast = parse_manage(&token_list);
 	t_lstclear(&tmp, free);
