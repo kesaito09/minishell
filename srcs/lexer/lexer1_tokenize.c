@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   lexer1_tokenize.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/02 18:30:10 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/03 07:28:25 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
-int		init_clist(t_clist **c_list)
+t_clist	*init_clist(void)
 {
-	(*c_list) ->sub_clist = NULL;
-	(*c_list) ->token_clist = NULL;
+	t_clist *new_clist;
+
+	new_clist = malloc(sizeof(t_clist));
+	if (!new_clist)
+		return (NULL);		
+	new_clist->sub_clist = NULL;
+	new_clist->token_clist = NULL;
+	new_clist->sub_tokens = NULL;
+	return (new_clist);
 }
 
 void	init_state(t_state_tab *state)
 {
-	state ->s_main = STATE_GENERAL;
-	state ->s_sub = STATE_GENERAL;
+	state->s_main = STATE_GENERAL;
+	state->s_sub = STATE_GENERAL;
 }
 
 t_token	*tokenizer(char *input)
@@ -31,8 +38,9 @@ t_token	*tokenizer(char *input)
 	t_token		*token_list;
 
 	token_list = NULL;
-	token_list ->sub_token = NULL;
-	init_clist(&c_list);
+	c_list = init_clist();
+	if (!c_list)
+		return (NULL);
 	init_state(&state);
 	while (*input)
 	{
@@ -40,7 +48,7 @@ t_token	*tokenizer(char *input)
 				&c_list) == FAILUER)
 			return (NULL);
 	}
-	if (state.s_main == STATE_SQUOTE || state.s_sub == STATE_DQUOTE)
+	if (state.s_main == STATE_SQUOTE || state.s_main == STATE_DQUOTE)
 	{
 		if (c_list ->token_clist)
 			c_lstclear(&(c_list ->token_clist), free);

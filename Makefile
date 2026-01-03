@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/02 14:55:04 by natakaha         ###   ########.fr        #
+#    Updated: 2026/01/03 07:11:20 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,13 +37,14 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/execution/exec2_cmd.c\
 			srcs/execution/exec3_logical.c\
 			srcs/execution/exec4_redirect.c\
-			srcs/lexer/lexer.c\
+			srcs/lexer/lexer1_tokenize.c\
+			srcs/lexer/lexer2_manage_states.c\
+			srcs/lexer/lexer3_manage_operaters.c\
+			srcs/lexer/lexer4_subtoken.c\
 			srcs/lexer/lexer_utils1_token.c\
-			srcs/lexer/lexer_utils2_list_helpers.c\
-			srcs/lexer/lexer_utils3_char_list.c\
-			srcs/lexer/lexer_utils4_manage_states.c\
-			srcs/lexer/lexer_utils5_manage_operaters.c\
-			srcs/lexer/lexer_utils6_is.c\
+			srcs/lexer/lexer_utils2_tlist.c\
+			srcs/lexer/lexer_utils3_clist.c\
+			srcs/lexer/lexer_utils4_is.c\
 			srcs/parser/utils1_make_tree.c\
 			srcs/parser/utils3_parse.c\
 			srcs/parser/utils4_heardoc.c\

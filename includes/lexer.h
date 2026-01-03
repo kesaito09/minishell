@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/02 19:14:15 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/03 07:13:29 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,9 @@ typedef struct s_clist
 {
 	t_char_list			*token_clist;
 	t_char_list			*sub_clist;
-}t_clist;
+	t_token				*sub_tokens;
+}	t_clist;
+
 
 
 /*lexer_utils1_token*/
@@ -95,7 +97,7 @@ t_char_list				*c_lstlast(t_char_list *lst);
 size_t					c_lstsize(t_char_list *lst);
 void					c_lstclear(t_char_list **lst, void (*del)(void *));
 int						commit_token(t_token **token_list,
-							t_char_list **c_lsit, t_token_type type);
+							t_clist **c_lsit, t_token_type type);
 
 /*lexer_utils4_manage_states*/
 // int						manage_state_transition(t_token **token_list,
@@ -111,10 +113,16 @@ bool					is_operator(char *str);
 bool					is_delimiter(int c);
 bool					can_be_splitted(char *str);
 bool					is_sub_token(t_token_type type);
+t_token_type	what_subtype(t_state_tab *state);
+
 
 
 /*lexer*/
 t_token					*tokenizer(char *input);
+int	state_check(int state, char **input);
+int	commit_word_token(t_token **token_list, t_clist **c_list,
+		t_state_tab *state);
+
 
 /*debug*/
 void	print_token_ke(t_token *token_list);

@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/02 15:45:22 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/03 07:29:16 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_tree	*parser(char *input)
 	token_list = tokenizer(input);
 	if (!token_list)
 		return (NULL);
-	print_token_ke(token_list);
+	// print_token_ke(token_list);
 	tmp = token_list;
 	ast = parse_manage(&token_list);
 	t_lstclear(&tmp, free);

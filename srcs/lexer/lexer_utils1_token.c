@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:25:00 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/02 19:09:39 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/03 07:18:14 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,12 @@ static int	append_char(t_char_list **list, char c)
 
 int manage_append_char(t_clist **c_list, char c)
 {
-	if (append_char((*c_list) ->sub_clist, c) == FAILUER)
+	if (append_char(&((*c_list) ->sub_clist), c) == FAILUER)
 		return (FAILUER);
-	if (append_char((*c_list) ->token_clist, c) == FAILUER)
+	if (append_char(&((*c_list) ->token_clist), c) == FAILUER)
 		return (FAILUER);
 	return (SUCCESS);
 }
-
-
-// /*tester*/
-
-// void	print_charlist(t_char_list *list)
-// {
-// 	while (list)
-// 	{
-// 		ft_putchar_fd(list->c, 2);
-// 		if (!list->next)
-// 			ft_putchar_fd('\n', 2);
-// 		list = list->next;
-// 	}
-// }
-
 
 char	*list_to_string(t_char_list **list)
 {
