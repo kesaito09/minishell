@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 03:43:18 by naoki             #+#    #+#             */
-/*   Updated: 2025/12/19 22:16:52 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/03 19:44:07 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ int	waitpid_plist(t_pidlist **plist)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
+	{
+		ft_putchar_fd('\n', 2);
 		return (128 + WTERMSIG(status));
+	}
 	return (127);
 }
