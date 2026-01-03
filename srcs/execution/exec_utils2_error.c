@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 02:13:45 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/28 16:38:27 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/03 05:40:25 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	error_exit(char *str, int errno)
 	exit(errno);
 }
 
-int is_directory(const char *path)
+int	is_directory(const char *path)
 {
     struct stat statbuf;
 
@@ -29,7 +29,7 @@ int is_directory(const char *path)
 	return (false);
 }
 
-int		redirect_in_check(char *path)
+int	redirect_in_check(char *path)
 {
 	if (access(path, F_OK) == -1)
 	{
@@ -46,7 +46,7 @@ int		redirect_in_check(char *path)
 	return (SUCCESS);
 }
 
-int		redirect_out_check(char *path)
+int	redirect_out_check(char *path)
 {
 	if (access(path, F_OK) == -1)
 	{
