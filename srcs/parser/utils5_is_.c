@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils5_is_.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 09:41:30 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/23 11:09:20 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/05 08:18:01 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@ bool	is_builtin(char *token)
 {
 	if (!token)
 		return (false);
-	if (!ft_strcmp(token, "cd") 
+	if (!ft_strcmp(token, "cd")
 		|| !ft_strcmp(token, "env") 
-		|| !ft_strcmp(token, "export") 
-		|| !ft_strcmp(token, "unset") 
+		|| !ft_strcmp(token, "export")
+		|| !ft_strcmp(token, "unset")
 		|| !ft_strcmp(token, "echo")
+		|| !ft_strcmp(token, "exit")
 		|| !ft_strcmp(token, "pwd"))
 		return (true);
 	return (false);

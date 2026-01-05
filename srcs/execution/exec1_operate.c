@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 12:26:37 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/28 16:10:59 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/05 08:29:41 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	tree_operator(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 {
 	if (!branch)
-		return  (FAILUER);
+		return (FAILUER);
 	if (branch->b_type == SUBSHELL)
 		if (manage_subshell(branch, info, fd_in, fd_out) == FAILUER)
 			return (FAILUER);

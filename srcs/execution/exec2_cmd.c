@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/28 19:58:24 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/05 08:29:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,18 @@ static int	execve_cmd(char **path, char **envp, char **cmd)
 	{
 		full_path = ft_strjoin(path[i], cmd[0]);
 		if (!full_path)
-			error_exit("minishell: malloc", 1);
+			error_exit("malloc", 1);
 		execve(full_path, cmd, envp);
 		free(full_path);
 		i++;
 	}
 	command_error_check(cmd[0], cmd[0]);
 	execve(cmd[0], cmd, envp);
+	error_exit("command not found", 127);
 	return (FAILUER);
 }
 
-static int	execve_my_cmd(t_token *node, t_pipe *info)
+static int	execve_my_cmd(t_token *node, t_pipe *info, t_tree *branch)
 {
 	if (!ft_strcmp(node->token, "echo"))
 		echo(node);
@@ -50,7 +51,7 @@ static int	execve_my_cmd(t_token *node, t_pipe *info)
 	if (!ft_strcmp(node->token, "env"))
 		env(node, info);
 	if (!ft_strcmp(node->token, "exit"))
-		echo(node);
+		builtin_exit(branch, info);
 	return (SUCCESS);
 }
 
@@ -62,26 +63,23 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 
 	pid = fork();
 	if (pid < 0)
-		return (perror("minishell: fork"), FAILUER);
-	if (pid == 0)
-	{
-		setup_signal_child();
-		close_unused_pipe(fd_in, fd_out, info->fd);
-		if (dup2_stdin_out(fd_in, fd_out) == FAILUER)
-			error_exit("minishell: dup2", 1);
-		if (manage_redirect(branch) == FAILUER)
-			exit(1);
-		t_lstadd_back(&info->envp, branch->env_list);
-		if (expand_variables(&branch->arg_list, info->envp) == FAILUER)
-			return (FAILUER);
-		cmd = token_argv(branch->arg_list);
-		env = token_argv(info->envp);
-		if (!cmd || !env)
-			return (free_split(cmd), free_split(env), FAILUER);
-		if (execve_cmd(info->path, env, cmd) == FAILUER)
-			error_exit("command not found", 127);
-	}
-	return (pid_add_back(&(info->plist), pid), SUCCESS);
+		return (perror("fork"), FAILUER);
+	if (pid > 0)
+		return (pid_add_back(&(info->plist), pid), SUCCESS);
+	setup_signal_child();
+	close_unused_pipe(fd_in, fd_out, info->fd);
+	if (dup2_stdin_out(fd_in, fd_out) == FAILUER)
+		error_exit("dup2", 1);
+	if (manage_redirect(branch) == FAILUER
+		|| expand_variables(&branch->arg_list, info->envp) == FAILUER)
+		exit(1);
+	t_lstadd_back(&info->envp, branch->env_list);
+	cmd = token_argv(branch->arg_list);
+	env = token_argv(info->envp);
+	if (!cmd || !env)
+		return (free_split(cmd), free_split(env), FAILUER);
+	execve_cmd(info->path, env, cmd);
+	return (FAILUER);
 }
 
 int	manage_envp(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
@@ -92,7 +90,8 @@ int	manage_envp(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 	if (branch->arg_list)
 		manage_cmd(branch, info, fd_in, fd_out);
 	else
-		local_env(env, info);
+		if (local_env(env, info) == FAILUER)
+			return (FAILUER);
 	return (SUCCESS);
 }
 
@@ -104,18 +103,17 @@ int	manage_my_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 	if (info->pipe)
 		pid = fork();
 	if (pid < 0)
-		return (FAILUER);
+		return (perror("fork"), FAILUER);
 	if (info->pipe && pid > 0)
 		return (pid_add_back(&(info->plist), pid), SUCCESS);
 	if (info->pipe && pid == 0)
 		setup_signal_child();
 	close_unused_pipe(fd_in, fd_out, info->fd);
 	if (dup2_stdin_out(fd_in, fd_out) == FAILUER
-		|| manage_redirect(branch) == FAILUER)
+		|| manage_redirect(branch) == FAILUER
+		|| expand_variables(&branch->arg_list, info->envp) == FAILUER)
 		return (FAILUER);
-	if (expand_variables(&branch->arg_list, info->envp) == FAILUER)
-		return (FAILUER);
-	execve_my_cmd(branch->arg_list, info);
+	execve_my_cmd(branch->arg_list, info, branch);
 	reset_stdin_out(info);
 	if (!pid)
 		exit(0);

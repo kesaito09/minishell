@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:25:00 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/20 03:27:13 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/02 15:18:19 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*list_to_string(t_char_list **list)
 	return (str);
 }
 
-int		add_token(t_token **token_list, char *token, t_token_type type)
+int	add_token(t_token **token_list, char *token, t_token_type type)
 {
 	t_token	*new_token;
 
