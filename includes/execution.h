@@ -84,7 +84,8 @@ int					manage_envp(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
 int					manage_redirect(t_tree *branch);
 
 /*exec5_operate.c*/
-int					tree_operator(t_tree *branch, t_pipe *info, int fd_in, int fd_out);
+int					tree_operator(t_tree *branch,
+						t_pipe *info, int fd_in, int fd_out);
 
 /*exec_utils1_pid*/
 void				pid_add_back(t_pidlist **plist, pid_t pid);
@@ -94,13 +95,12 @@ void				close_unused_pipe(int fd_in, int fd_out, int pipes[2]);
 int					waitpid_plist(t_pidlist **plist);
 
 /*exec_utils2_error*/
-void				error_exit(char *str, int errno);
 void				command_error_check(char *cmd, char *path);
 int					redirect_in_check(char *path);
 int					redirect_out_check(char *path);
 
 /*exec_utils3_pipe*/
-int					pipe_update(int	fd_in[2], int fd_out[2]);
+int					pipe_update(int fd_in[2], int fd_out[2]);
 void				close_fd_in_out(int *fd_in, int *fd_out);
 int					dup2_stdin_out(int fd_in, int fd_out);
 int					reset_stdin_out(t_pipe *info);

@@ -6,7 +6,7 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/03 05:39:59 by natakaha         ###   ########.fr        #
+#    Updated: 2026/01/05 08:13:15 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/builtin_cmd/cmd_cd.c\
 			srcs/builtin_cmd/cmd_export.c\
 			srcs/builtin_cmd/cmd_env.c\
+			srcs/builtin_cmd/cmd_exit.c\
 			srcs/builtin_cmd/cmd_utils_info.c\
 			srcs/builtin_cmd/cmd_utils.c\
 			srcs/execution/exec_utils1_pid.c\
@@ -57,7 +58,6 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/main/main.c\
 			srcs/main/signal.c\
 			srcs/main/error.c\
-
 
 MAND_OBJS = $(MAND_SRCS:.c=.o)
 

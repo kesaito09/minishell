@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   cmd_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/03 05:43:42 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/05 07:14:52 by natakaha         ###   ########.fr       */
+/*   Created: 2026/01/05 08:08:01 by natakaha          #+#    #+#             */
+/*   Updated: 2026/01/05 08:14:53 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
 #include "../../includes/commands.h"
+#include "../../includes/execution.h"
 
-void	error_exit(char *str, int errno)
+void	builtin_exit(t_tree *branch, t_pipe *info)
 {
-	perror(str);
-	exit(errno);
+	free_tree_rec(branch);
+	free_split(info->path);
+	t_lstclear(&info->envp, free);
+	exit(0);
 }
-
