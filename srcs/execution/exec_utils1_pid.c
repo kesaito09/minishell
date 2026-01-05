@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 03:43:18 by naoki             #+#    #+#             */
-/*   Updated: 2026/01/05 06:26:12 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/05 08:42:26 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int	waitpid_plist(t_pidlist **plist)
 	int			status;
 	t_pidlist	*tmp;
 
+	if (!*plist)
+		return (0);
 	status = 0;
 	tmp = *plist;
 	while (*plist)

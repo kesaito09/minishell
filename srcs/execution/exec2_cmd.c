@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/05 08:16:17 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/05 08:29:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ int	manage_envp(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 	if (branch->arg_list)
 		manage_cmd(branch, info, fd_in, fd_out);
 	else
-		local_env(env, info);
+		if (local_env(env, info) == FAILUER)
+			return (FAILUER);
 	return (SUCCESS);
 }
 

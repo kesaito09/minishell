@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 08:54:42 by naoki             #+#    #+#             */
-/*   Updated: 2026/01/05 07:16:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/05 08:28:20 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	manage_subshell(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 
 	pid = fork();
 	if (pid < 0)
-		return (FAILUER);
+		return (perror("fork"), FAILUER);
 	if (pid > 0)
 		return (pid_add_back(&(info->plist), pid), SUCCESS);
 	tree_operator(branch->left, info, fd_in, fd_out);
@@ -58,7 +58,7 @@ int	manage_pipe(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 
 	info->pipe = true;
 	if (pipe(fd) == FAILUER)
-		return (perror("minishell:pipe"), FAILUER);
+		return (perror("pipe"), FAILUER);
 	info->fd[0] = fd[0];
 	info->fd[1] = fd[1];
 	if (tree_operator(branch->left, info, fd_in, fd[1]) == FAILUER)
