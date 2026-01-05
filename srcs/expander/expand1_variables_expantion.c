@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/05 23:50:05 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/05 23:56:32 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,7 @@ static char *expand_sub_token(char *sub_token, t_token *envp)
 	char	*joined;
 	int		len;
 
-	new_str = ft_strdup("");
-	if (!new_str)
-		return (NULL);
+	new_str = NULL;
 	while (*sub_token)
 	{
 		len = strchr_len(sub_token, '$');
