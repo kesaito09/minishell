@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 18:27:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/03 16:23:52 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/05 23:39:28 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,3 +49,12 @@ char	*value_dup(char	*env)
 	i++;
 	return (ft_strdup(env + i));
 }
+
+bool		is_dollar(t_token_type type)
+{
+	if (type == SUB_TOKEN_DOLLAR || type == SUB_TOKEN_DOLLAR_DQUOTE)
+		return (true);
+	return (false);
+}
+
+

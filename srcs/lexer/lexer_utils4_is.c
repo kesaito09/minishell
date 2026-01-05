@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/03 23:53:25 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:19:10 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ bool	can_be_splitted(char *str)
 
 bool	is_sub_token(t_token_type type)
 {
-	if (type == SUB_TOKEN_GENERAL 
+	if (type == SUB_TOKEN_GENERAL
 		|| type == SUB_TOKEN_SQUOTE
 		|| type == SUB_TOKEN_DQUOTE
-		|| type == SUB_TOKEN_DOLLAR)
+		|| type == SUB_TOKEN_DOLLAR
+		|| type == SUB_TOKEN_DOLLAR_DQUOTE)
 		return (true);
 	return (false);
 }
@@ -53,8 +54,10 @@ t_token_type	what_type(int state)
 		return (SUB_TOKEN_SQUOTE);
 	if (state == STATE_DQUOTE)
 		return (SUB_TOKEN_DQUOTE);
+	if (state == STATE_DOLLER)
+		return (SUB_TOKEN_DOLLAR);
 	if (state == STATE_DOLLER_DQUOTE)
-		return (SUB_TOKEN_DOLLAR_DQUOTE);	
+		return (SUB_TOKEN_DOLLAR_DQUOTE);
 	return (SUB_TOKEN_GENERAL);
 }
 

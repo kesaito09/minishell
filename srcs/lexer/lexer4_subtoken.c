@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 06:22:25 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/04 00:03:10 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:39:44 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	commit_token(t_token **token_list, t_clist **c_list, t_token_type type)
 		token = list_to_string(&((*c_list) ->sub_clist));
 		if (!token)
 			return (FAILUER);
-		if (!*token)
-			return (SUCCESS);
+		if (token[0] == '\0')
+			return (free(token), SUCCESS);
 		add_token(&((*c_list) ->sub_tokens), token, type);
 	}
 	if (type == TOKEN_WORD && (*c_list) ->token_clist)
@@ -60,11 +60,19 @@ int	commit_subtoken_wrapper(t_token **token_list,
 int	commit_word_token(t_token **token_list, t_clist **c_list,
 		t_state_tab *state)
 {
+	t_token_type subtype;
+
 	if (state->s_sub == STATE_DOLLER || state ->s_sub == STATE_DOLLER_DQUOTE)
 	{
 		if (commit_subtoken_wrapper(token_list, c_list, what_type(state ->s_sub)) == FAILUER)
 			return (FAILUER);
 		state->s_sub = state->s_main;
+	}
+	else
+	{
+		subtype = what_type(state->s_main);
+		if (commit_subtoken_wrapper(token_list, c_list, subtype) == FAILUER)
+			return (FAILUER);
 	}
 	if (commit_token(token_list, c_list, TOKEN_WORD) == FAILUER)
 		return (FAILUER);

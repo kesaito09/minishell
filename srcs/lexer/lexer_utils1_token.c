@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:25:00 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/03 09:36:54 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/05 10:58:56 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ char	*list_to_string(t_char_list **list)
 	i = 0;
 	while (current)
 	{
-		str[i] = current->c;
-		i++;
+		str[i++] = current->c;
 		current = current->next;
 	}
 	c_lstclear(list, free);

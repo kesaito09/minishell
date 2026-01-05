@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/01 03:53:31 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/05 14:25:38 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int							count_varibles(char *av);
 t_token						*search_variable(char *key, t_token *envp);
 int							expander(t_token **token_list, t_token *envp);
 char						*value_dup(char *env);
+bool		is_dollar(t_token_type type);
+
 
 /*expand2_path_name_expantion*/
 int							pathname_expantion(t_token **token_list);
