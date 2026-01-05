@@ -6,19 +6,13 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 18:27:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/01 05:26:44 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/03 16:23:52 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/expander.h"
 
-bool	is_delimiter_variables(int c)
-{
-	if (c == '_' || ft_isalnum(c))
-		return (true);
-	return (false);
-}
 
 int	count_varibles(char *av)
 {

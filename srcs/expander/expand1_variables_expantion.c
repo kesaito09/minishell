@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/02 13:11:05 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/03 11:05:15 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,16 +185,7 @@ int		variables_expantion(t_token **cur_list, t_token *envp)
 	return (SUCCESS);
 }
 
-// int		pathname_expantion(t_token **token_list)
-// {
-	
-	
-	
-	
-	
-	
-	
-// }
+
 
 int	expander(t_token **token_list, t_token *envp)
 {
@@ -214,3 +205,54 @@ int	expander(t_token **token_list, t_token *envp)
 	return (SUCCESS);
 }
 
+/*
+
+	SUB_TOKEN_GENERAL 11,
+	SUB_TOKEN_SQUOTE  12,
+	SUB_TOKEN_DQUOTE  13,
+	SUB_TOKEN_DOLLAR  14,
+	
+ echo a$HOME b
+TOK: echo -- TYPE: 0
+  SUB: echo -- TYPE: 11
+TOK: a$HOME -- TYPE: 0
+  SUB: a -- TYPE: 11
+  SUB: $HOME -- TYPE: 14
+TOK: b -- TYPE: 0
+  SUB: b -- TYPE: 11
+a/home/dev b
+minishell$ echo $HOME$PATH$HOME
+TOK: echo -- TYPE: 0
+  SUB: echo -- TYPE: 11
+TOK: $HOME$PATH$HOME -- TYPE: 0
+  SUB: $HOME -- TYPE: 14
+  SUB: $PATH -- TYPE: 14
+  SUB: $HOME -- TYPE: 14
+/home/dev/home/dev/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand:/home/dev/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli:/home/dev/.vscode-server/cli/servers/Stable-994fd12f8d3a5aa16f17d42c041e5809167e845a/server/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin/home/dev
+minishell$ echo "a$HOME b$PATH"
+TOK: echo -- TYPE: 0
+  SUB: echo -- TYPE: 11
+TOK: a$HOME b$PATH -- TYPE: 0
+  SUB: a -- TYPE: 13
+  SUB: $HOME -- TYPE: 14
+  SUB:  b -- TYPE: 13
+  SUB: $PATH -- TYPE: 14
+a/home/dev b/home/dev/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand:/home/dev/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli:/home/dev/.vscode-server/cli/servers/Stable-994fd12f8d3a5aa16f17d42c041e5809167e845a/server/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+minishell$ echo '$HOME$PATH'
+TOK: echo -- TYPE: 0
+  SUB: echo -- TYPE: 11
+TOK: $HOME$PATH -- TYPE: 0
+  SUB: $HOME$PATH -- TYPE: 12
+/home/dev/home/dev/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand:/home/dev/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli:/home/dev/.vscode-server/cli/servers/Stable-994fd12f8d3a5aa16f17d42c041e5809167e845a/server/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+minishell$ echo aa"$HOME"bb
+TOK: echo -- TYPE: 0
+  SUB: echo -- TYPE: 11
+TOK: aa$HOMEbb -- TYPE: 0
+  SUB: aa -- TYPE: 11
+  SUB: $HOME -- TYPE: 14
+  SUB: bb -- TYPE: 11
+aa
+
+
+
+*/

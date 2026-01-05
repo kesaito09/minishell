@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/03 09:05:26 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/03 23:59:13 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,10 @@ int	state_check(int state, char **input)
 int	manage_sub_token(t_token **token_list, char **input,
 		t_clist **c_list, t_state_tab *state)
 {
-	(void)token_list;
-	if (state->s_sub == STATE_DOLLER && !is_delimiter_variables(**input))
+	if ((state->s_sub == STATE_DOLLER || state ->s_sub == STATE_DOLLER_DQUOTE) && is_delimiter_variables(**input))
 	{
-		if (commit_subtoken_wrapper(token_list, c_list, SUB_TOKEN_DOLLAR) == FAILUER)
-			return (FAILUER);
+		if (commit_subtoken_wrapper(token_list, c_list, what_type(state ->s_sub)) == FAILUER)
+			return (FAILUER);		
 		state->s_sub = state->s_main;
 	}
 	if (**input == '$' && state->s_main != STATE_SQUOTE)
@@ -41,10 +40,13 @@ int	manage_sub_token(t_token **token_list, char **input,
 		if (state->s_sub != STATE_DOLLER && (*c_list)->sub_clist)
 		{
 			if (commit_subtoken_wrapper(token_list, c_list,
-					what_subtype(state)) == FAILUER)
+					what_type(state ->s_main)) == FAILUER)
 				return (FAILUER);
 		}
-		state->s_sub = STATE_DOLLER;
+		if (state ->s_main == STATE_DQUOTE)
+			state ->s_sub = STATE_DOLLER_DQUOTE;
+		else		
+			state->s_sub = STATE_DOLLER;
 	}
 	return (SUCCESS);
 }
@@ -69,7 +71,7 @@ static int	manage_state_general(t_token **token_list, char **input,
 		}
 		else
 			(*input)++;
-		if (state->s_sub == STATE_DOLLER)
+		if (state->s_sub == STATE_DOLLER || state ->s_sub == STATE_DOLLER_DQUOTE)
 			state->s_sub = STATE_GENERAL;
 	}
 	else
@@ -104,13 +106,13 @@ int	hundle_quote(t_token **token_list, char **input,
 	new = state_check(state->s_main, input);
 	if ((**input != '\'' && **input != '"') || new == state->s_main)
 		return (SUCCESS);
-	if (state->s_sub == STATE_DOLLER)
+	if (state->s_sub == STATE_DOLLER || state ->s_sub == STATE_DOLLER_DQUOTE)
 	{
-		if (commit_subtoken_wrapper(token_list, c_list, SUB_TOKEN_DOLLAR) == FAILUER)
+		if (commit_subtoken_wrapper(token_list, c_list, what_type(state ->s_sub)) == FAILUER)
 			return (FAILUER);
 		state->s_sub = state->s_main;
 	}
-	if (commit_subtoken_wrapper(token_list, c_list, what_subtype(state)) == FAILUER)
+	if (commit_subtoken_wrapper(token_list, c_list, what_type(state ->s_main)) == FAILUER)
 		return (FAILUER);
 	state->s_main = new;
 	state->s_sub = new;

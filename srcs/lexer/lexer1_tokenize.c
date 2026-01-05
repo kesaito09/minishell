@@ -6,24 +6,11 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/03 07:28:25 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/03 19:39:21 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
-
-t_clist	*init_clist(void)
-{
-	t_clist *new_clist;
-
-	new_clist = malloc(sizeof(t_clist));
-	if (!new_clist)
-		return (NULL);		
-	new_clist->sub_clist = NULL;
-	new_clist->token_clist = NULL;
-	new_clist->sub_tokens = NULL;
-	return (new_clist);
-}
 
 void	init_state(t_state_tab *state)
 {
@@ -38,7 +25,7 @@ t_token	*tokenizer(char *input)
 	t_token		*token_list;
 
 	token_list = NULL;
-	c_list = init_clist();
+	c_list = ft_calloc(1, sizeof(t_clist));
 	if (!c_list)
 		return (NULL);
 	init_state(&state);

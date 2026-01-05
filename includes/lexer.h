@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/03 09:03:44 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/03 23:53:57 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef enum e_token_type
 	SUB_TOKEN_SQUOTE,
 	SUB_TOKEN_DQUOTE,
 	SUB_TOKEN_DOLLAR,
+	SUB_TOKEN_DOLLAR_DQUOTE,
 
 }						t_token_type;
 
@@ -42,6 +43,7 @@ typedef enum e_state
 	STATE_SQUOTE = '\'',
 	STATE_DQUOTE = '"',
 	STATE_DOLLER = '$',
+	STATE_DOLLER_DQUOTE = 'd',
 }						t_state;
 
 typedef	struct s_state_tab
@@ -113,7 +115,7 @@ bool					is_operator(char *str);
 bool					is_delimiter(int c);
 bool					can_be_splitted(char *str);
 bool					is_sub_token(t_token_type type);
-t_token_type	what_subtype(t_state_tab *state);
+t_token_type			what_type(int state);
 
 
 
