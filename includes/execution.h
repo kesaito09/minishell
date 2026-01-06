@@ -114,4 +114,6 @@ int					reset_stdin_out(t_pipe *info);
 bool				has_cmd(t_token *args);
 int					local_env(t_token *env, t_pipe *info);
 
+void	print_tokens(t_token *node);
+
 #endif

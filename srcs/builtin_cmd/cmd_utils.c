@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:07:56 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/28 19:25:35 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/06 00:16:48 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,6 @@
 #include "../../includes/commands.h"
 #include "../../includes/execution.h"
 
-int	strchr_len(const char *arg, char c)
-{
-	char *ptr;
-
-	ptr = ft_strchr(arg, c);
-	return ((int)(ptr - arg));
-}
 
 int	ft_argcmp(const char *arg, const char *env)
 {
@@ -28,7 +21,7 @@ int	ft_argcmp(const char *arg, const char *env)
 
 	if (!arg)
 		return (-1);
-	len = strchr_len(arg, '=');
+	len = strchr_len((char *)arg, '=');
 	if (len < 0)
 		len = ft_strlen(arg);
 	if (ft_strncmp(arg, env, len))

@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/05 14:25:38 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/06 01:33:06 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ typedef struct s_flist		t_flist;
 typedef enum e_tree_type	t_tree_type;
 typedef enum e_file_type	t_file_type;
 typedef struct s_token		t_token;
+
+#define PASS 0
 
 /*expand1_variable_expantion*/
 bool						is_delimiter_variables(int c);

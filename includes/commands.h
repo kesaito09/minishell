@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/28 16:16:46 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/06 00:11:13 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		unset(t_token *node, t_pipe *info);
 
 int		ft_argcmp(const char *arg, const char *env);
 int		cmd_check(t_token *cmd);
-int		strchr_len(const char *arg, char c);
+int     strchr_len(char *str, int c);
+
 
 #endif

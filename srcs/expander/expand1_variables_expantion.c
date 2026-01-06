@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/05 23:56:32 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/06 01:57:07 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int strchr_len(char *str, int c)
 	return ((int)(ptr - str));
 }
 
-int	hundle_expand_var(char *str, t_token *envp)
+char	*expand_var(char *str, t_token *envp)
 {
 	char	*var;
 	char	*tmp;
@@ -34,6 +34,14 @@ int	hundle_expand_var(char *str, t_token *envp)
 	if (!tmp)
 		return (NULL);
 	val_ptr = search_variable(tmp, envp);
+	ft_putstr_fd("KEY=", 2);
+	ft_putendl_fd(tmp, 2);
+	if (val_ptr)
+	{
+		ft_putstr_fd("ENV=", 2);
+		ft_putendl_fd(val_ptr->token, 2);
+	}
+
 	if (!val_ptr)
 		var = ft_strdup("");
 	else
@@ -54,8 +62,8 @@ static char *sub_token_dup(char *sub_token, t_token *envp, int *len)
 	}
 	else if (*len == 0)
 	{
-		sub_token_parts = hundle_expand_var(sub_token, envp);
-		*len = count_varibles(sub_token);
+		sub_token_parts = expand_var(sub_token + 1, envp);
+		*len = count_varibles(sub_token + 1) + 1;
 	}
 	else
 		sub_token_parts = ft_strndup(sub_token, *len);
@@ -69,15 +77,14 @@ static char *join_sub_token(t_token *sub_token)
 	char	*joined;
 	char	*new_str;
 
-	new_str = NULL;
+	new_str = ft_strdup("");
 	while (sub_token)
 	{
 		joined = ft_strjoin(new_str, (sub_token) ->token);
 		if (!joined)
-			return (FAILUER);
+			return (NULL);
 		free(new_str);
 		new_str = joined;
-		free(joined);
 		(sub_token) = (sub_token) ->next;
 	}
 	return (new_str);
@@ -90,7 +97,7 @@ static char *expand_sub_token(char *sub_token, t_token *envp)
 	char	*joined;
 	int		len;
 
-	new_str = NULL;
+	new_str = ft_strdup("");
 	while (*sub_token)
 	{
 		len = strchr_len(sub_token, '$');
@@ -103,53 +110,69 @@ static char *expand_sub_token(char *sub_token, t_token *envp)
 		free(new_str);
 		new_str = joined;
 		sub_token += len;
-		free(joined);
 	}
 	return (new_str);
 }
 
-static int *manage_expand_sub_token(t_token **sub_token, t_token *envp)
+static int replace_sub_token(t_token **sub_token, t_token *envp)
 {
 	char	*new_sub_token;
 	t_token *tmp;
+	int		flag;
 
+	flag = PASS;
 	tmp = *sub_token;
 	while (tmp)
 	{
+		ft_putstr_fd("SUB type=", 2);
+	ft_putnbr_fd(tmp->type, 2);	
+	ft_putstr_fd(" tok=[", 2);
+	ft_putstr_fd(tmp->token, 2);
+	ft_putendl_fd("]", 2);
+
 		if (!is_dollar(tmp ->type))
+		{
+			tmp = tmp ->next;
 			continue;
-		new_sub_token = expand_sub_token(tmp ->sub_token, envp);
+		}
+		flag = SUCCESS;
+		ft_putendl_fd("dollor",2);
+		new_sub_token = expand_sub_token(tmp ->token, envp);
 		if (!new_sub_token)
 			return (FAILUER);
-		free(tmp ->sub_token);
-		tmp ->sub_token = new_sub_token;
+		free(tmp ->token);
+		tmp ->token = new_sub_token;
 		tmp = tmp ->next;
 	}
-	return (SUCCESS);
-	
+	return (flag);
 }
 
-static int		replace_token(t_token **token_list, t_token *envp)
+static int	expand_token(t_token **token_list, t_token *envp)
 {
 	t_token *tmp;
 	char	*new_token;
-	
+	int		flag;
+
 	tmp = *token_list;
 	while (tmp)
 	{
-		if (manage_expand_sub_token(&(tmp ->sub_token), envp) == FAILUER)
-			return (FAILUER);
+		flag = replace_sub_token(&(tmp ->sub_token), envp);
+		if (flag == FAILUER)
+			return (ft_putendl_fd("dollor",2),FAILUER);
+		if (flag == PASS)
+		{
+					ft_putendl_fd("path",2);
+			tmp = tmp ->next;
+			continue;
+		}
 		new_token = join_sub_token(tmp ->sub_token);
 		if (!new_token)
 			return (FAILUER);
-		free(tmp ->token);	
+		free(tmp ->token);
 		tmp ->token = new_token;
 		tmp = tmp->next;
 	}
-	
-	
-	
-	
+	return (SUCCESS);
 }
 
 
@@ -157,9 +180,8 @@ static int		replace_token(t_token **token_list, t_token *envp)
 int	expander(t_token **token_list, t_token *envp)
 {
 
-	if (manage_expantion(token_list, envp) == FAILUER)
+	if (expand_token(token_list, envp) == FAILUER)
 			return (FAILUER);
-
 	
 	return (SUCCESS);
 }
