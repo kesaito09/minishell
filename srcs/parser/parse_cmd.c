@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/30 13:04:14 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/06 13:59:36 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	append_list(t_token **list, t_token **cur)
 {
 	t_token	*node;
 
+	print_tokens(*cur);
+	ft_putendl_fd("parse",2);
 	node = f_lstnew((*cur)->token, TOKEN_WORD);
 	if (!node)
 		return (FAILUER);
@@ -63,6 +65,27 @@ int	append_redirect(t_token **file_list, t_token **cur)
 	return (SUCCESS);
 }
 
+t_token *token_word_last(t_token *cur)
+{	
+	while (cur && cur ->type == TOKEN_WORD && cur ->next ->type == TOKEN_WORD)
+		cur = cur ->next;
+	return (cur);
+}
+
+
+int	replace_token_with_tree(t_tree *node, t_token **cur)
+{
+	t_token *word_last;
+
+	if (!(*cur) && (*cur)->type == TOKEN_WORD)
+		return (FAILUER);
+	node = *cur;
+	word_last = token_word_last(*cur);
+	word_last ->next = NULL;
+	*cur = word_last ->next;
+}
+
+
 static t_tree	*parse_subshell(t_token **cur)
 {
 	t_tree *subshell_node;
@@ -70,30 +93,27 @@ static t_tree	*parse_subshell(t_token **cur)
 	(*cur) = (*cur) ->next;
 	if (!(*cur))
 		return (NULL);
+	//かっこ閉じてない(error出す)
 	subshell_node = tree_new(SUBSHELL);
 	if (!subshell_node)
 		return (NULL);
 	subshell_node ->left = parse_manage(cur);
 	if ((*cur) ->type != TOKEN_PARENTHESIS_RIGHT)
 		return (NULL);
+	//かっこ閉じてない
 	(*cur) = (*cur) ->next;
 	return (subshell_node);
 }
 
 int	manage_append(t_tree *node, t_token **cur)
 {
-	if (is_redirect(*cur))
-	{
-		if (append_redirect(&node->file_list, cur) == FAILUER)
-			return (free(node), FAILUER);
-	}
-	else if ( (*cur) && (*cur)->type == TOKEN_WORD && ft_strchr((*cur)->token, '='))
+	if ((*cur) && (*cur)->type == TOKEN_WORD && ft_strchr((*cur)->token, '='))
 	{
 		node->b_type = ENVP;
 		if (append_list(&node->env_list, cur) == FAILUER)
 			return (free(node), FAILUER);
 	}
-	else if ( (*cur) && (*cur)->type == TOKEN_WORD)
+	else if ((*cur) && (*cur)->type == TOKEN_WORD)
 	{
 		if (append_list(&node->arg_list, cur) == FAILUER)
 			return (free(node), FAILUER);
@@ -107,6 +127,7 @@ t_tree	*parse_command(t_token **cur)
 
 	if (!*cur || is_connection(*cur))
 		return (NULL);
+	//演算子が来たら構文エラーを出力する（やる
 	if ((*cur) && ((*cur) ->type == TOKEN_PARENTHESIS_LEFT))
 		return (parse_subshell(cur));
 	node = tree_new(cmd_type(*cur));
