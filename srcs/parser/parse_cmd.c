@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 20:28:27 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 03:52:52 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,16 @@ int	append_last_node(t_token **lst, t_token *new_lst)
 	return (SUCCESS);
 }
 
-int	repoint_word_to_tree(t_tree *node, t_token **cur)
+int	repoint_word_to_list(t_token **list, t_token **cur)
 {
 	t_token	*word_head;
-	t_token	*word_last;
 
 	if (((*cur)->type != TOKEN_WORD))
 		return (FAILUER);
 	word_head = (*cur);
-	word_last = token_word_last(*cur);
-	*cur = word_last ->next;
-	word_last ->next = NULL;
-	if (append_last_node(&node ->arg_list, word_head) == FAILUER)
+	*cur = (*cur)->next;
+	word_head->next = NULL;
+	if (append_last_node(list, word_head) == FAILUER)
 		return (FAILUER);
 	return (SUCCESS);
 }
@@ -109,7 +107,7 @@ int	repoint_redirect_to_tree(t_tree *node, t_token **cur)
 	word ->type = op ->type;
 	next = word ->next;
 	word ->next = NULL;
-	if (append_last_node(&node ->file_list, word) == FAILUER)
+	if (append_last_node(&node->file_list, word) == FAILUER)
 		return (FAILUER);
 	op ->next = NULL;
 	//free opする
@@ -141,10 +139,16 @@ static t_tree	*parse_subshell(t_token **cur, t_token *envp)
 
 int	manage_repoint(t_tree *node, t_token **cur)
 {
-	if ((*cur) && (*cur)->type == TOKEN_WORD)
+	if (is_valid_arg((*cur)->token))
 	{
-		if (repoint_word_to_tree(node, cur) == FAILUER)
-			return (FAILUER);
+		node->b_type = ENVP;
+		if (repoint_word_to_list(&node->env_list, cur) == FAILUER)
+			return (free(node), FAILUER);
+	}
+	else if ((*cur) && (*cur)->type == TOKEN_WORD)
+	{
+		if (repoint_word_to_list(&node->arg_list, cur) == FAILUER)
+			return (free(node), FAILUER);
 	}
 	else if ((*cur) && is_redirect(*cur))
 	{
@@ -161,7 +165,7 @@ t_tree	*parse_command(t_token **cur, t_token *envp)
 	if (!*cur || is_connection(*cur))
 		return (NULL);
 	//演算子が来たら構文エラーを出力する（やる
-	if ((*cur) && ((*cur) ->type == TOKEN_PARENTHESIS_LEFT))
+	if ((*cur) && ((*cur)->type == TOKEN_PARENTHESIS_LEFT))
 		return (parse_subshell(cur, envp));
 	node = tree_new(cmd_type(*cur));
 	if (!node)

@@ -6,21 +6,21 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 17:13:36 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 20:01:55 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/commands.h"
 #include "../../includes/execution.h"
 
-int	export(t_token *cmd, t_pipe *info)
+int	export_module(t_token *cmd, t_pipe *info)
 {
 	t_token	*env;
 	char	*arg;
 
-	if (cmd_check(cmd) == FAILUER)
+	if (is_valid_arg(cmd->token) == FAILUER)
 		return (FAILUER);
-	arg = ft_strdup(cmd->next->token);
+	arg = ft_strdup(cmd->token);
 	if (!arg)
 		return (FAILUER);
 	env = info->envp;
@@ -41,6 +41,19 @@ int	export(t_token *cmd, t_pipe *info)
 	return (SUCCESS);
 }
 
+int	export(t_token *cmd, t_pipe *info)
+{
+	if (ft_strcmp(cmd->token, "export"))
+		return (false);
+	cmd = cmd->next;
+	while (cmd)
+	{
+		export_module(cmd, info);
+		cmd = cmd->next;
+	}
+	return (SUCCESS);
+}
+
 void	unset_module(t_pipe *info, char *key)
 {
 	t_token	*node;
@@ -50,7 +63,7 @@ void	unset_module(t_pipe *info, char *key)
 	tmp = NULL;
 	while (node)
 	{
-		if (!ft_argcmp(key, node->token))
+		if (!ft_keycmp(key, node->token))
 		{
 			if (tmp)
 				tmp->next = node->next;
@@ -67,17 +80,21 @@ void	unset_module(t_pipe *info, char *key)
 
 int	unset(t_token *cmd, t_pipe *info)
 {
-	char	*key;
+	t_token	*key;
 
-	key = cmd->next->token;
-	if (ft_strchr(key, '='))
+	key = cmd->next;
+	while (key)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(key, 2);
-		ft_putendl_fd(": invalid parameter name", 2);
-		return (FAILUER);
+		if (ft_strchr(key->token, '='))
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(key->token, 2);
+			ft_putendl_fd(": invalid parameter name", 2);
+			return (FAILUER);
+		}
+		unset_module(info, key->token);
+		key = key->next;
 	}
-	unset_module(info, key);
 	return (SUCCESS);
 }
 
