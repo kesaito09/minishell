@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 03:11:49 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/07 04:52:54 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	repoint_word_to_tree(t_tree *node, t_token **cur)
 	t_token *word_head;
 	t_token *word_last;
 
-	if (!((*cur) && is_command(*cur)))
+	if (((*cur) ->type != TOKEN_WORD))
 		return (FAILUER);
 	word_head = (*cur);
 	word_last = token_word_last(*cur);
@@ -110,20 +110,27 @@ int	repoint_word_to_tree(t_tree *node, t_token **cur)
 
 int	repoint_redirect_to_tree(t_tree *node, t_token **cur)
 {
-	t_token_type	ftype;
-	t_token			*head;
+	t_token			*op;
+	t_token			*word;
+	t_token			*next;
 	
-	
-	if (!((*cur) && is_redirect(*cur)))
+	if (!(is_redirect(*cur)))
 		return (FAILUER);
-	ftype = (*cur) ->type;
-	*cur = (*cur) ->next;
-	(*cur) ->type = ftype; //(ここのtypeがWORD以外なら構文エラー出すべき？)
-	head = (*cur);
-	(*cur) = (*cur) ->next;
-	head ->next = NULL;
-	if (append_last_node(&node ->file_list, head) == FAILUER)
+	op = (*cur);
+	word = op ->next;
+	if (!word || word ->type != TOKEN_WORD)
+	{
+		ft_putendl_fd("minishell: syntax error near unexpected token", 2);
 		return (FAILUER);
+	}
+	word ->type = op ->type;
+	next = word ->next;
+	word ->next = NULL;
+	if (append_last_node(&node ->file_list, word) == FAILUER)
+		return (FAILUER);
+	op ->next = NULL;
+	//free opする
+	(*cur) = next;
 	return (SUCCESS);
 }
 
@@ -132,6 +139,8 @@ static t_tree	*parse_subshell(t_token **cur)
 {
 	t_tree *subshell_node;
 
+	if (!cur)
+		return (NULL);	
 	(*cur) = (*cur) ->next;
 	if (!(*cur))
 		return (NULL);

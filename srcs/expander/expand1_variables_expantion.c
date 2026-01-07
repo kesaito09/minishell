@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/06 01:57:07 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/07 04:56:26 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,19 +124,12 @@ static int replace_sub_token(t_token **sub_token, t_token *envp)
 	tmp = *sub_token;
 	while (tmp)
 	{
-		ft_putstr_fd("SUB type=", 2);
-	ft_putnbr_fd(tmp->type, 2);	
-	ft_putstr_fd(" tok=[", 2);
-	ft_putstr_fd(tmp->token, 2);
-	ft_putendl_fd("]", 2);
-
 		if (!is_dollar(tmp ->type))
 		{
 			tmp = tmp ->next;
 			continue;
 		}
 		flag = SUCCESS;
-		ft_putendl_fd("dollor",2);
 		new_sub_token = expand_sub_token(tmp ->token, envp);
 		if (!new_sub_token)
 			return (FAILUER);
@@ -158,10 +151,9 @@ static int	expand_token(t_token **token_list, t_token *envp)
 	{
 		flag = replace_sub_token(&(tmp ->sub_token), envp);
 		if (flag == FAILUER)
-			return (ft_putendl_fd("dollor",2),FAILUER);
+			return (FAILUER);
 		if (flag == PASS)
 		{
-					ft_putendl_fd("path",2);
 			tmp = tmp ->next;
 			continue;
 		}
@@ -182,7 +174,8 @@ int	expander(t_token **token_list, t_token *envp)
 
 	if (expand_token(token_list, envp) == FAILUER)
 			return (FAILUER);
-	
+	ft_putendl_fd("expander2",2 );//ここまでは動いてる
+
 	return (SUCCESS);
 }
 
