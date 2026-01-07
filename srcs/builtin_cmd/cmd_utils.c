@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:07:56 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/30 13:26:59 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 17:26:11 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,32 @@
 
 int	strchr_len(const char *arg, char c)
 {
-	char *ptr;
+	char	*ptr;
 
 	ptr = ft_strchr(arg, c);
+	if (!ptr)
+		return (-1);
 	return ((int)(ptr - arg));
+}
+
+int	is_valid_arg(const char *arg)
+{
+	int	i;
+	int	len;
+
+	len = strchr_len(arg, '=');
+	if (len < 0)
+		return (false);
+	if (!ft_isalpha(arg[0]) && arg[0] != '_')
+		return (false);
+	i = 1;
+	while (i < len)
+	{
+		if (!is_delimiter_variables(arg[i]))
+			return (false);
+		i++;
+	}
+	return (true);
 }
 
 int	ft_argcmp(const char *arg, const char *env)
@@ -30,7 +52,7 @@ int	ft_argcmp(const char *arg, const char *env)
 		return (-1);
 	len = strchr_len(arg, '=');
 	if (len < 0)
-		len = ft_strlen(arg);
+		ft_strlen(arg);
 	if (ft_strncmp(arg, env, len))
 		return (1);
 	if (env[len] != '=')
@@ -38,23 +60,23 @@ int	ft_argcmp(const char *arg, const char *env)
 	return (0);
 }
 
-int	ft_keycmp(const char *arg, const char *env)
-{
-	int	len;
+//int	ft_keycmp(const char *arg, const char *env)
+//{
+//	int	len;
 
-	if (!arg)
-		return (-1);
-	len = ft_strlen(arg);
-	if (ft_strncmp(arg, env, len))
-		return (1);
-	if (env[len] != '=')
-		return (1);
-	return (0);
-}
+//	if (!arg)
+//		return (-1);
+//	len = ft_strlen(arg);
+//	if (ft_strncmp(arg, env, len))
+//		return (1);
+//	if (env[len] != '=')
+//		return (1);
+//	return (0);
+//}
 
 int	cmd_check(t_token *cmd)
 {
-	t_token *env;
+	t_token	*env;
 
 	env = cmd->next;
 	if (!env)
@@ -66,7 +88,7 @@ int	cmd_check(t_token *cmd)
 		ft_putendl_fd("': not a valid identifier", 2);
 		return (FAILUER);
 	}
-	if (!strchr(env->token, '='))
+	if (!ft_strchr(env->token, '='))
 		return (FAILUER);
 	return (SUCCESS);
 }

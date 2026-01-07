@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:42:39 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/30 13:04:05 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 16:47:55 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ void	tree_add_right(t_tree **branch, t_tree *node)
 	(*branch)->right = node;
 }
 
-void free_split(char **cmd)
+void	free_split(char **cmd)
 {
 	int	i;
 
-	if (!cmd  || !*cmd)
+	if (!cmd || !*cmd)
 		return ;
 	i = 0;
 	while (cmd[i])

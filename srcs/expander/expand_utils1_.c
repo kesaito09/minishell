@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 18:27:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/30 13:27:40 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 17:00:05 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	is_delimiter_variables(int c)
 
 int	count_varibles(char *av)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (*av && is_delimiter_variables(*av))
@@ -33,16 +33,16 @@ int	count_varibles(char *av)
 	return (len);
 }
 
-t_token	*search_variable(char *key, t_token *envp)
-{
-	while (envp)
-	{
-		if (!ft_keycmp(key, envp->token))
-			return (envp);
-		envp = envp->next;
-	}
-	return (NULL);
-}
+//t_token	*search_variable(char *key, t_token *envp)
+//{
+//	while (envp)
+//	{
+//		if (!ft_keycmp(key, envp->token))
+//			return (envp);
+//		envp = envp->next;
+//	}
+//	return (NULL);
+//}
 
 char	*value_dup(char	*env)
 {
