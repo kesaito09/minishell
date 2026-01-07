@@ -6,14 +6,15 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/30 12:25:42 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 18:04:18 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
 
-static t_tree	*parse_pipeline_rec(t_token **cur, t_tree *left_node, t_token *envp)
+static t_tree	*parse_pipeline_rec(t_token **cur, t_tree *left_node,
+		t_token *envp)
 {
 	t_tree	*pipe_node;
 
@@ -45,14 +46,14 @@ static t_tree	*parse_pipeline(t_token **cur, t_token *envp)
 	return (node);
 }
 
-static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node, t_token *envp)
+static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node,
+		t_token *envp)
 {
 	t_tree	*logical_node;
 
 	if (!left_node)
 		return (NULL);
-	if (!*cur
-		|| ((*cur)->type != TOKEN_CONJUNCTIONE
+	if (!*cur || ((*cur)->type != TOKEN_CONJUNCTIONE
 			&& (*cur)->type != TOKEN_DISJUNCTIONE))
 		return (left_node);
 	if ((*cur)->type == TOKEN_CONJUNCTIONE)
@@ -64,15 +65,13 @@ static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node, t_token *envp
 	logical_node->left = left_node;
 	*cur = (*cur)->next;
 	logical_node->right = parse_pipeline(cur, envp);
-	if (*cur
-		&& ((*cur)->type != TOKEN_CONJUNCTIONE
+	if (*cur && ((*cur)->type != TOKEN_CONJUNCTIONE
 			|| (*cur)->type != TOKEN_DISJUNCTIONE))
 		logical_node = parse_logical_rec(cur, logical_node, envp);
 	if (!logical_node->right)
 		return (NULL);
 	return (logical_node);
 }
-
 
 t_tree	*parse_manage(t_token **cur, t_token *envp)
 {
@@ -82,16 +81,6 @@ t_tree	*parse_manage(t_token **cur, t_token *envp)
 	branch = parse_logical_rec(cur, branch, envp);
 	return (branch);
 }
-
-// void	print_token(t_token *node)
-// {
-// 	while (node)
-// 	{
-// 		ft_putendl_fd(node->token, 2);
-// 		ft_putnbr_fd(node ->type, 2);
-// 		node = node->next;
-// 	}
-// }
 
 t_tree	*parser(char *input, t_pipe *info)
 {
@@ -115,19 +104,17 @@ t_tree	*parser(char *input, t_pipe *info)
 
 /*tester*/
 
+// int	main(int argc, char **argv)
+// {
+// 	t_token	*token;
+// 	t_tree	*branch;
 
-
-//int	main(int argc, char **argv)
-//{
-//	t_token	*token;
-//	t_tree	*branch;
-
-//	if (argc < 2)
-//		return (1);
-//	token = tokenizer(argv[1]);
-//	if (!token)
-//		return (1);
-//	branch = parser(argv[1]);
-//	print_token(branch->file_list);
-//	print_token(branch->arg_list);
-//}
+// 	if (argc < 2)
+// 		return (1);
+// 	token = tokenizer(argv[1]);
+// 	if (!token)
+// 		return (1);
+// 	branch = parser(argv[1]);
+// 	print_token(branch->file_list);
+// 	print_token(branch->arg_list);
+// }

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 17:14:03 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 17:53:07 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	builtin_exit(t_tree *branch, t_pipe *info);
 int		ft_argcmp(const char *arg, const char *env);
 int		ft_keycmp(const char *arg, const char *env);
 int		cmd_check(t_token *cmd);
-int		strchr_len(const char *arg, char c);
+int		strchr_len(char *str, int c);
+
 
 #endif

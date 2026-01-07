@@ -6,7 +6,7 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/05 08:13:15 by natakaha         ###   ########.fr        #
+#    Updated: 2026/01/07 17:52:14 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,13 +38,14 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/execution/exec2_cmd.c\
 			srcs/execution/exec3_logical.c\
 			srcs/execution/exec4_redirect.c\
-			srcs/lexer/lexer.c\
+			srcs/lexer/lexer1_tokenize.c\
+			srcs/lexer/lexer2_manage_states.c\
+			srcs/lexer/lexer3_manage_operaters.c\
+			srcs/lexer/lexer4_subtoken.c\
 			srcs/lexer/lexer_utils1_token.c\
-			srcs/lexer/lexer_utils2_list_helpers.c\
-			srcs/lexer/lexer_utils3_charlist.c\
-			srcs/lexer/lexer_utils4_manage_states.c\
-			srcs/lexer/lexer_utils5_manage_operaters.c\
-			srcs/lexer/lexer_utils6_helpers.c\
+			srcs/lexer/lexer_utils2_tlist.c\
+			srcs/lexer/lexer_utils3_clist.c\
+			srcs/lexer/lexer_utils4_is.c\
 			srcs/parser/utils1_make_tree.c\
 			srcs/parser/utils3_parse.c\
 			srcs/parser/utils4_heardoc.c\
@@ -52,8 +53,8 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/parser/utils7_arglist.c\
 			srcs/parser/parse.c\
 			srcs/parser/parse_cmd.c\
-			srcs/expander/expand1_variables.c\
-			srcs/expander/expand3_wildcard.c\
+			srcs/expander/expand1_variables_expantion.c\
+			srcs/expander/expand2_path_name_expantion.c\
 			srcs/expander/expand_utils1_.c\
 			srcs/main/main.c\
 			srcs/main/signal.c\
@@ -81,8 +82,7 @@ clean:
 	$(MAKE) -C $(LIBFTDIR) clean
 
 fclean: clean
-	rm -f $(NAME)
-	$(MAKE) -C $(LIBFTDIR) fclean
+	rm -f $(NAME) $(LIBFT)
 
 re: fclean all
 

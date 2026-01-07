@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 09:41:30 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/05 08:18:01 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 18:04:27 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	is_builtin(char *token)
 	if (!token)
 		return (false);
 	if (!ft_strcmp(token, "cd")
-		|| !ft_strcmp(token, "env") 
+		|| !ft_strcmp(token, "env")
 		|| !ft_strcmp(token, "export")
 		|| !ft_strcmp(token, "unset")
 		|| !ft_strcmp(token, "echo")
@@ -31,9 +31,9 @@ bool	is_redirect(t_token *cur)
 {
 	if (!cur)
 		return (false);
-	if (cur->type == TOKEN_REDIRECT_IN 
+	if (cur->type == TOKEN_REDIRECT_IN
 		|| cur->type == TOKEN_REDIRECT_OUT
-		|| cur->type == TOKEN_HEREDOC 
+		|| cur->type == TOKEN_HEREDOC
 		|| cur->type == TOKEN_APPEND)
 		return (true);
 	return (false);
@@ -43,7 +43,7 @@ bool	is_connection(t_token *cur)
 {
 	if (!cur)
 		return (false);
-	if (cur->type == TOKEN_CONJUNCTIONE 
+	if (cur->type == TOKEN_CONJUNCTIONE
 		|| cur->type == TOKEN_DISJUNCTIONE
 		|| cur->type == TOKEN_PIPE)
 		return (true);
@@ -55,7 +55,7 @@ bool	is_command(t_token *cur)
 	if (!cur)
 		return (false);
 	if (cur->type == TOKEN_WORD
-		|| is_redirect(cur) )
+		|| is_redirect(cur))
 		return (true);
 	return (false);
 }

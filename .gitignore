@@ -1,0 +1,9 @@
+*.o
+minishell
+a.out
+.hear*
+.vscode/*
+
+
+
+

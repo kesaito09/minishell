@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:25:00 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/02 15:18:19 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 17:55:43 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	buff_add_buck(t_char_list **char_list, t_char_list *new_char_list)
 	}
 }
 
-int	append_char(t_char_list **list, char c)
+static int	append_char(t_char_list **list, char c)
 {
 	t_char_list	*new_node;
 	t_char_list	*temp;
@@ -53,6 +53,15 @@ int	append_char(t_char_list **list, char c)
 	return (SUCCESS);
 }
 
+int	manage_append_char(t_clist **c_list, char c)
+{
+	if (append_char(&((*c_list)->sub_clist), c) == FAILUER)
+		return (FAILUER);
+	if (append_char(&((*c_list)->token_clist), c) == FAILUER)
+		return (FAILUER);
+	return (SUCCESS);
+}
+
 char	*list_to_string(t_char_list **list)
 {
 	char		*str;
@@ -68,8 +77,7 @@ char	*list_to_string(t_char_list **list)
 	i = 0;
 	while (current)
 	{
-		str[i] = current->c;
-		i++;
+		str[i++] = current->c;
 		current = current->next;
 	}
 	c_lstclear(list, free);
@@ -83,20 +91,20 @@ int	add_token(t_token **token_list, char *token, t_token_type type)
 
 	if (!token)
 		return (FAILUER);
-	if (!token_list)
-		return (SUCCESS);//ここは成功にすべきかもしれない
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 		return (FAILUER);
 	new_token->next = NULL;
 	new_token->token = token;
 	new_token->type = type;
+	new_token ->sub_token = NULL;
 	if (!*token_list)
 		*token_list = new_token;
 	else
 		t_lstadd_back(token_list, new_token);
 	return (SUCCESS);
 }
+
 
 // t_token	*lstmap(t_token *lst, void *(*f)(void *),
 // 		void (*del)(void *))

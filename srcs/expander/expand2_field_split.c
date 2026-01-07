@@ -1,21 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils6_helpers.c                             :+:      :+:    :+:   */
+/*   expand2_field_split.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/19 16:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/21 01:09:14 by kesaitou         ###   ########.fr       */
+/*   Created: 2026/01/07 17:15:22 by kesaitou          #+#    #+#             */
+/*   Updated: 2026/01/07 17:16:37 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	is_operator(int c)
+#include "../../includes/execution.h"
+#include "../../includes/expander.h"
+
+
+
+
+
+
+int		field_spliting()
 {
-	return (c == '|' || c == '<' || c == '>' || c == '(' || c == ')');
+	
+	
+	
+	
+	
+	
+	
 }
 
-int	is_delimiter(int c)
-{
-	return (c == ' ' || c == '\n' || c == '\t');
-}

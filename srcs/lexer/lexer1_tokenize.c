@@ -1,36 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   lexer1_tokenize.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/19 19:39:13 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/03 19:39:21 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
+void	init_state(t_state_tab *state)
+{
+	state->s_main = STATE_GENERAL;
+	state->s_sub = STATE_GENERAL;
+}
+
 t_token	*tokenizer(char *input)
 {
-	t_state		state;
-	t_char_list	*c_list;
+	t_state_tab	state;
+	t_clist		*c_list;
 	t_token		*token_list;
 
-	state = STATE_GENERAL;
-	c_list = NULL;
 	token_list = NULL;
+	c_list = ft_calloc(1, sizeof(t_clist));
+	if (!c_list)
+		return (NULL);
+	init_state(&state);
 	while (*input)
 	{
 		if (manage_state_transition(&token_list, &input, &state,
 				&c_list) == FAILUER)
 			return (NULL);
 	}
-	if (state == STATE_SQUOTE || state == STATE_DQUOTE)
+	if (state.s_main == STATE_SQUOTE || state.s_main == STATE_DQUOTE)
 	{
-		if (c_list)
-			c_lstclear(&c_list, free);
+		if (c_list ->token_clist)
+			c_lstclear(&(c_list ->token_clist), free);
 		t_lstclear(&token_list, free);
 		ft_putendl_fd("minishell: syntax error: unclosed quote", 2);
 		return (NULL);
@@ -38,7 +46,7 @@ t_token	*tokenizer(char *input)
 	return (token_list);
 }
 
-//int	lexer(char *input, t_token **token_list)
+// int	lexer(char *input, t_token **token_list)
 //{
 //	t_token	*last_node;
 //	t_token	*eof_node;
@@ -55,6 +63,27 @@ t_token	*tokenizer(char *input)
 //	last_node->next = eof_node;
 //	return (SUCCESS);
 //}
+
+
+/*debug*/
+
+void	print_token_ke(t_token *token_list)
+{
+	while (token_list)
+	{
+		ft_putendl_fd(token_list ->token, 2);
+		if (token_list ->type == TOKEN_WORD)
+			ft_putendl_fd("WORD", 2);		
+		else
+			ft_putendl_fd("OP", 2);
+		token_list =  token_list ->next;
+	}
+	
+}
+
+
+
+
 
 // int	main(void)
 // {

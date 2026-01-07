@@ -6,7 +6,11 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
+<<<<<<< .merge_file_R3Qnzu
 /*   Updated: 2025/12/30 12:39:17 by natakaha         ###   ########.fr       */
+=======
+/*   Updated: 2026/01/07 16:16:51 by kesaitou         ###   ########.fr       */
+>>>>>>> .merge_file_ASoqLI
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +36,8 @@ int	append_list(t_token **list, t_token **cur)
 {
 	t_token	*node;
 
+	print_tokens(*cur);
+	ft_putendl_fd("parse",2);
 	node = f_lstnew((*cur)->token, TOKEN_WORD);
 	if (!node)
 		return (FAILUER);
@@ -63,40 +69,104 @@ int	append_redirect(t_token **file_list, t_token **cur, t_token *envp)
 	return (SUCCESS);
 }
 
-static t_tree	*parse_subshell(t_token **cur, t_token *envp)
+t_token	*token_word_last(t_token *cur)
+{
+	while (cur
+		&& cur ->type == TOKEN_WORD
+		&& cur ->next
+		&& cur ->next ->type == TOKEN_WORD)
+		cur = cur ->next;
+	return (cur);
+	//TOKEN_WORD以外ならエラーを出すべきかも
+}
+
+int	append_last_node(t_token **lst, t_token *new_lst)
+{
+	if (!lst || !new_lst)
+		return (FAILUER);
+	if (!*lst)
+	{
+		*lst = new_lst;
+		return (SUCCESS);
+	}
+	t_lstadd_back(lst, new_lst);
+	return (SUCCESS);
+}
+
+int	repoint_word_to_tree(t_tree *node, t_token **cur)
+{
+	t_token	*word_head;
+	t_token	*word_last;
+
+	if (((*cur)->type != TOKEN_WORD))
+		return (FAILUER);
+	word_head = (*cur);
+	word_last = token_word_last(*cur);
+	*cur = word_last ->next;
+	word_last ->next = NULL;
+	if (append_last_node(&node ->arg_list, word_head) == FAILUER)
+		return (FAILUER);
+	return (SUCCESS);
+}
+
+int	repoint_redirect_to_tree(t_tree *node, t_token **cur)
+{
+	t_token			*op;
+	t_token			*word;
+	t_token			*next;
+
+	if (!(is_redirect(*cur)))
+		return (FAILUER);
+	op = (*cur);
+	word = op ->next;
+	if (!word || word ->type != TOKEN_WORD)
+	{
+		ft_putendl_fd("minishell: syntax error near unexpected token", 2);
+		return (FAILUER);
+	}
+	word ->type = op ->type;
+	next = word ->next;
+	word ->next = NULL;
+	if (append_last_node(&node ->file_list, word) == FAILUER)
+		return (FAILUER);
+	op ->next = NULL;
+	//free opする
+	(*cur) = next;
+	return (SUCCESS);
+}
+
+
+static t_tree	*parse_subshell(t_token **cur)
 {
 	t_tree	*subshell_node;
 
-	(*cur) = (*cur)->next;
+	if (!cur)
+		return (NULL);
+	(*cur) = (*cur) ->next;
 	if (!(*cur))
 		return (NULL);
+	//かっこ閉じてない(error出す)
 	subshell_node = tree_new(SUBSHELL);
 	if (!subshell_node)
 		return (NULL);
 	subshell_node->left = parse_manage(cur, envp);
 	if ((*cur)->type != TOKEN_PARENTHESIS_RIGHT)
 		return (NULL);
-	(*cur) = (*cur)->next;
+	//かっこ閉じてない
+	(*cur) = (*cur) ->next;
 	return (subshell_node);
 }
 
-int	manage_append(t_tree *node, t_token **cur, t_token *envp)
+int	manage_repoint(t_tree *node, t_token **cur)
 {
-	if (is_redirect(*cur))
+	if ((*cur) && (*cur)->type == TOKEN_WORD)
 	{
-		if (append_redirect(&node->file_list, cur, envp) == FAILUER)
+		if (repoint_word_to_tree(node, cur) == FAILUER)
 			return (free(node), FAILUER);
 	}
-	else if ((*cur) && (*cur)->type == TOKEN_WORD
-		&& ft_strchr((*cur)->token, '='))
+	else if ((*cur) && is_redirect(*cur))
 	{
-		node->b_type = ENVP;
-		if (append_list(&node->env_list, cur) == FAILUER)
-			return (free(node), FAILUER);
-	}
-	else if ((*cur) && (*cur)->type == TOKEN_WORD)
-	{
-		if (append_list(&node->arg_list, cur) == FAILUER)
+		if (repoint_redirect_to_tree(node, cur) == FAILUER)
 			return (free(node), FAILUER);
 	}
 	return (SUCCESS);
@@ -108,13 +178,16 @@ t_tree	*parse_command(t_token **cur, t_token *envp)
 
 	if (!*cur || is_connection(*cur))
 		return (NULL);
-	if ((*cur) && ((*cur)->type == TOKEN_PARENTHESIS_LEFT))
-		return (parse_subshell(cur, envp));
+	//演算子が来たら構文エラーを出力する（やる
+	if ((*cur) && ((*cur) ->type == TOKEN_PARENTHESIS_LEFT))
+		return (parse_subshell(cur));
 	node = tree_new(cmd_type(*cur));
 	if (!node)
 		return (NULL);
 	while (is_command(*cur))
-		if (manage_append(node, cur, envp) == FAILUER)
+	{
+		if (manage_repoint(node, cur) == FAILUER)
 			return (free_tree_rec(node), NULL);
+	}
 	return (node);
 }
