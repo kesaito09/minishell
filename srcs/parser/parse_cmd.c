@@ -6,11 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-<<<<<<< .merge_file_R3Qnzu
-/*   Updated: 2025/12/30 12:39:17 by natakaha         ###   ########.fr       */
-=======
-/*   Updated: 2026/01/07 16:16:51 by kesaitou         ###   ########.fr       */
->>>>>>> .merge_file_ASoqLI
+/*   Updated: 2026/01/07 18:37:13 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +26,6 @@ t_token	*f_lstnew(char *token, t_token_type type)
 		return (free(fname), NULL);
 	new_file->type = type;
 	return (new_file);
-}
-
-int	append_list(t_token **list, t_token **cur)
-{
-	t_token	*node;
-
-	print_tokens(*cur);
-	ft_putendl_fd("parse",2);
-	node = f_lstnew((*cur)->token, TOKEN_WORD);
-	if (!node)
-		return (FAILUER);
-	t_lstadd_back(list, node);
-	*cur = (*cur)->next;
-	return (SUCCESS);
 }
 
 int	append_redirect(t_token **file_list, t_token **cur, t_token *envp)
@@ -136,13 +118,13 @@ int	repoint_redirect_to_tree(t_tree *node, t_token **cur)
 }
 
 
-static t_tree	*parse_subshell(t_token **cur)
+static t_tree	*parse_subshell(t_token **cur, t_token *envp)
 {
 	t_tree	*subshell_node;
 
 	if (!cur)
 		return (NULL);
-	(*cur) = (*cur) ->next;
+	(*cur) = (*cur)->next;
 	if (!(*cur))
 		return (NULL);
 	//かっこ閉じてない(error出す)
@@ -153,7 +135,7 @@ static t_tree	*parse_subshell(t_token **cur)
 	if ((*cur)->type != TOKEN_PARENTHESIS_RIGHT)
 		return (NULL);
 	//かっこ閉じてない
-	(*cur) = (*cur) ->next;
+	(*cur) = (*cur)->next;
 	return (subshell_node);
 }
 
@@ -180,7 +162,7 @@ t_tree	*parse_command(t_token **cur, t_token *envp)
 		return (NULL);
 	//演算子が来たら構文エラーを出力する（やる
 	if ((*cur) && ((*cur) ->type == TOKEN_PARENTHESIS_LEFT))
-		return (parse_subshell(cur));
+		return (parse_subshell(cur, envp));
 	node = tree_new(cmd_type(*cur));
 	if (!node)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 02:13:45 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/05 07:31:47 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 18:43:05 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ int	redirect_in_check(char *path)
 int	redirect_out_check(char *path)
 {
 	if (access(path, F_OK) == -1)
-	{
-		return (FAILUER);
-	}
+		return (SUCCESS);
 	if (access(path, W_OK) == -1)
 	{
 		ft_putstr_fd(path, 2);

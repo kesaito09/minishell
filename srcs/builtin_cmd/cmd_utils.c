@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:07:56 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 17:53:37 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 18:15:00 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,7 @@
 #include "../../includes/commands.h"
 #include "../../includes/execution.h"
 
-int	strchr_len(const char *arg, char c)
-{
-	char	*ptr;
-
-	ptr = ft_strchr(arg, c);
-	if (!ptr)
-		return (-1);
-	return ((int)(ptr - arg));
-}
-
-int	is_valid_arg(const char *arg)
+int	is_valid_arg(char *arg)
 {
 	int	i;
 	int	len;

@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-<<<<<<< .merge_file_iP4tJU
-/*   Updated: 2026/01/07 16:42:58 by natakaha         ###   ########.fr       */
-=======
-/*   Updated: 2026/01/07 16:20:27 by kesaitou         ###   ########.fr       */
->>>>>>> .merge_file_z45c6b
+/*   Updated: 2026/01/07 18:22:01 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +71,8 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 	if (dup2_stdin_out(fd_in, fd_out) == FAILUER)
 		error_exit("dup2", 1);
 	if (manage_redirect(branch) == FAILUER
-		|| expand_variables(&branch->arg_list, info->envp) == FAILUER
-		|| expand_variables(&branch->file_list, info->envp) == FAILUER)
+		|| expander(&branch->arg_list, info->envp) == FAILUER
+		|| expander(&branch->file_list, info->envp) == FAILUER)
 		exit(1);
 	t_lstadd_back(&info->envp, branch->env_list);
 	cmd = token_argv(branch->arg_list);
@@ -115,16 +111,9 @@ int	manage_my_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 		setup_signal_child();
 	close_unused_pipe(fd_in, fd_out, info->fd);
 	if (dup2_stdin_out(fd_in, fd_out) == FAILUER
-<<<<<<< .merge_file_iP4tJU
 		|| manage_redirect(branch) == FAILUER
-		|| expand_variables(&branch->arg_list, info->envp) == FAILUER
-		|| expand_variables(&branch->file_list, info->envp) == FAILUER)
-=======
-		|| manage_redirect(branch) == FAILUER)
-		return (FAILUER);
-	print_tokens(branch ->arg_list);
-	if (expander(&branch->arg_list, info->envp) == FAILUER)
->>>>>>> .merge_file_z45c6b
+		|| expander(&branch->arg_list, info->envp) == FAILUER
+		|| expander(&branch->file_list, info->envp) == FAILUER)
 		return (FAILUER);
 	execve_my_cmd(branch->arg_list, info, branch);
 	reset_stdin_out(info);

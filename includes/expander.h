@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 17:52:48 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 18:25:02 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ typedef struct s_token		t_token;
 
 bool						is_delimiter_variables(int c);
 int							count_varibles(char *av);
-int							expand_variables(t_token **token_list,
+int							expander(t_token **token_list,
 								t_token *envp);
 int							field_spliting(t_token **token_list, t_token *envp);
 t_token						*search_variable(char *key, t_token *envp);
-int							expand_variables(t_token **token_list,
+int							expander(t_token **token_list,
 								t_token *envp);
 char						*value_dup(char *env);
-char						*expand_str(char *str, t_token *envp);
+char						*expand_var(char *str, t_token *envp);
 typedef struct dirent		t_dirent;
 typedef struct s_tree		t_tree;
 typedef struct s_flist		t_flist;
@@ -52,5 +52,6 @@ bool						is_dollar(t_token_type type);
 
 /*expand2_path_name_expantion*/
 int							pathname_expantion(t_token **token_list);
+int							strchr_len(char *str, int c);
 
 #endif

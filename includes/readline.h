@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:37:30 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/05 08:44:56 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 18:07:40 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <bits/sigaction.h>
+
+typedef struct s_pipe	t_pipe;
 
 void	setup_signal_prompt(void);
 void	setup_signal_exec(void);

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/30 12:33:21 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 18:25:47 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	write_next_line(char *eof, int fd, t_token *envp)
 		ft_putendl_fd("by end-of-file(wanted 'EOF')", 2);
 		return (END);
 	}
-	expand = expand_str(line, envp);
+	expand = expand_var(line, envp);
 	free(line);
 	if (!expand)
 		return (FAILUER);

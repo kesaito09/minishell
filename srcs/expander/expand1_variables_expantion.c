@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   expand1_variables_expantion.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 17:20:19 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/07 18:21:07 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/expander.h"
 
-
-int strchr_len(char *str, int c)
+int	strchr_len(char *str, int c)
 {
-	char *ptr;
+	char	*ptr;
 
 	ptr = ft_strchr(str, c);
 	if (!ptr)
@@ -43,13 +42,13 @@ char	*expand_var(char *str, t_token *envp)
 	return (free(tmp), var);
 }
 
-static char *sub_token_dup(char *sub_token, t_token *envp, int *len)
+static char	*sub_token_dup(char *sub_token, t_token *envp, int *len)
 {
 	char	*sub_token_parts;
 
 	if (*len == -1)
 	{
-		sub_token_parts = ft_strdup(sub_token);	
+		sub_token_parts = ft_strdup(sub_token);
 		*len = strchr_len(sub_token, '\0');
 	}
 	else if (*len == 0)
@@ -60,11 +59,11 @@ static char *sub_token_dup(char *sub_token, t_token *envp, int *len)
 	else
 		sub_token_parts = ft_strndup(sub_token, *len);
 	if (!sub_token_parts)
-			return (NULL);
+		return (NULL);
 	return (sub_token_parts);
 }
 
-static char *join_sub_token(t_token *sub_token)
+static char	*join_sub_token(t_token *sub_token)
 {
 	char	*joined;
 	char	*new_str;
@@ -72,18 +71,18 @@ static char *join_sub_token(t_token *sub_token)
 	new_str = ft_strdup("");
 	while (sub_token)
 	{
-		joined = ft_strjoin(new_str, (sub_token) ->token);
+		joined = ft_strjoin(new_str, (sub_token)->token);
 		if (!joined)
 			return (NULL);
 		free(new_str);
 		new_str = joined;
-		(sub_token) = (sub_token) ->next;
+		(sub_token) = (sub_token)->next;
 	}
 	return (new_str);
 }
 
-static char *expand_sub_token(char *sub_token, t_token *envp)
-{	
+static char	*expand_sub_token(char *sub_token, t_token *envp)
+{
 	char	*new_str;
 	char	*parts;
 	char	*joined;
@@ -106,68 +105,63 @@ static char *expand_sub_token(char *sub_token, t_token *envp)
 	return (new_str);
 }
 
-static int replace_sub_token(t_token **sub_token, t_token *envp)
+static int	replace_sub_token(t_token **sub_token, t_token *envp)
 {
 	char	*new_sub_token;
-	t_token *tmp;
+	t_token	*tmp;
 	int		flag;
 
 	flag = PASS;
 	tmp = *sub_token;
 	while (tmp)
 	{
-		if (!is_dollar(tmp ->type))
+		if (!is_dollar(tmp->type))
 		{
-			tmp = tmp ->next;
-			continue;
+			tmp = tmp->next;
+			continue ;
 		}
 		flag = SUCCESS;
-		new_sub_token = expand_sub_token(tmp ->token, envp);
+		new_sub_token = expand_sub_token(tmp->token, envp);
 		if (!new_sub_token)
 			return (FAILUER);
-		free(tmp ->token);
-		tmp ->token = new_sub_token;
-		tmp = tmp ->next;
+		free(tmp->token);
+		tmp->token = new_sub_token;
+		tmp = tmp->next;
 	}
 	return (flag);
 }
 
 int	expand_token(t_token **token_list, t_token *envp)
 {
-	t_token *tmp;
+	t_token	*tmp;
 	char	*new_token;
 	int		flag;
 
 	tmp = *token_list;
 	while (tmp)
 	{
-		flag = replace_sub_token(&(tmp ->sub_token), envp);
+		flag = replace_sub_token(&(tmp->sub_token), envp);
 		if (flag == FAILUER)
 			return (FAILUER);
 		if (flag == PASS)
 		{
-			tmp = tmp ->next;
-			continue;
+			tmp = tmp->next;
+			continue ;
 		}
-		new_token = join_sub_token(tmp ->sub_token);
+		new_token = join_sub_token(tmp->sub_token);
 		if (!new_token)
 			return (FAILUER);
-		free(tmp ->token);
-		tmp ->token = new_token;
+		free(tmp->token);
+		tmp->token = new_token;
 		tmp = tmp->next;
 	}
 	return (SUCCESS);
 }
 
-
-
 int	expander(t_token **token_list, t_token *envp)
 {
-
 	if (expand_token(token_list, envp) == FAILUER)
-			return (FAILUER);
-	
-
+		return (FAILUER);
 	return (SUCCESS);
 }
 
@@ -177,7 +171,7 @@ int	expander(t_token **token_list, t_token *envp)
 	SUB_TOKEN_SQUOTE  12,
 	SUB_TOKEN_DQUOTE  13,
 	SUB_TOKEN_DOLLAR  14,
-	
+
  echo a$HOME b
 TOK: echo -- TYPE: 0
   SUB: echo -- TYPE: 11
