@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:07:56 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 17:26:11 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 17:31:46 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,19 @@ int	ft_argcmp(const char *arg, const char *env)
 	return (0);
 }
 
-//int	ft_keycmp(const char *arg, const char *env)
-//{
-//	int	len;
+int	ft_keycmp(const char *arg, const char *env)
+{
+	int	len;
 
-//	if (!arg)
-//		return (-1);
-//	len = ft_strlen(arg);
-//	if (ft_strncmp(arg, env, len))
-//		return (1);
-//	if (env[len] != '=')
-//		return (1);
-//	return (0);
-//}
+	if (!arg)
+		return (-1);
+	len = ft_strlen(arg);
+	if (ft_strncmp(arg, env, len))
+		return (1);
+	if (env[len] != '=')
+		return (1);
+	return (0);
+}
 
 int	cmd_check(t_token *cmd)
 {
