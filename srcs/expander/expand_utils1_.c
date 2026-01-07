@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils1_.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 18:27:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/07 18:28:36 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 03:27:28 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/expander.h"
-
 
 int	count_varibles(char *av)
 {
@@ -35,7 +34,7 @@ t_token	*search_variable(char *key, t_token *envp)
 	return (NULL);
 }
 
-char	*value_dup(char	*env)
+char	*value_dup(char *env)
 {
 	int	i;
 
@@ -57,4 +56,10 @@ bool	is_dollar(t_token_type type)
 	return (false);
 }
 
+bool	is_ifs(char *ifs, int c)
+{
+	if (ft_strchr(ifs, c))
+		return (true);
+	return (false);
+}
 

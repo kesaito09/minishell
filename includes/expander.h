@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 18:25:02 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 03:26:58 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ typedef struct s_token		t_token;
 
 # define PASS 0
 
+int	expand_token(t_token **token_list, t_token *envp);
+
+
 /*expand1_variable_expantion*/
 bool						is_delimiter_variables(int c);
 int							count_varibles(char *av);
@@ -53,5 +56,13 @@ bool						is_dollar(t_token_type type);
 /*expand2_path_name_expantion*/
 int							pathname_expantion(t_token **token_list);
 int							strchr_len(char *str, int c);
+
+
+
+/*expand_utils*/
+bool	is_ifs(char *ifs, int c);
+int		ft_strchr_set(char *str, char *set);
+char	*setup_ifs(t_token *envp);
+
 
 #endif

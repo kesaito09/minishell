@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/07 17:52:14 by natakaha         ###   ########.fr        #
+#    Updated: 2026/01/08 03:25:59 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,8 +54,11 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/parser/parse.c\
 			srcs/parser/parse_cmd.c\
 			srcs/expander/expand1_variables_expantion.c\
-			srcs/expander/expand2_path_name_expantion.c\
+			srcs/expander/expand2_field_split.c\
+			srcs/expander/expand3_path_name_expantion.c\
 			srcs/expander/expand_utils1_.c\
+			srcs/expander/expand_utils2_helper.c\
+			srcs/expander/expander.c\
 			srcs/main/main.c\
 			srcs/main/signal.c\
 			srcs/main/error.c\

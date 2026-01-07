@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand1_variables_expantion.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 18:21:07 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 21:36:31 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ char	*expand_var(char *str, t_token *envp)
 		var = ft_strdup("");
 	else
 		var = value_dup(val_ptr->token);
-	if (!var)
-		return (free(tmp), NULL);
-	return (free(tmp), var);
+	free(tmp);
+	return (var);
 }
 
 static char	*sub_token_dup(char *sub_token, t_token *envp, int *len)
@@ -158,12 +157,12 @@ int	expand_token(t_token **token_list, t_token *envp)
 	return (SUCCESS);
 }
 
-int	expander(t_token **token_list, t_token *envp)
-{
-	if (expand_token(token_list, envp) == FAILUER)
-		return (FAILUER);
-	return (SUCCESS);
-}
+// int	expander(t_token **token_list, t_token *envp)
+// {
+// 	if (expand_token(token_list, envp) == FAILUER)
+// 		return (FAILUER);
+// 	return (SUCCESS);
+// }
 
 /*
 

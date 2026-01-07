@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand2_path_name_expantion.c                      :+:      :+:    :+:   */
+/*   expand3_path_name_expantion.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/02 13:48:08 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 01:37:38 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,23 +102,23 @@ t_token	*token_dir(char *input)
 	
 // }
 
-//void	print_token2(t_token *node)
-//{
-//	while (node)
-//	{
-//		ft_putendl_fd(node->token, 2);
-//		node = node->next;
-//	}
-//}
+// void	print_token2(t_token *node)
+// {
+// 	while (node)
+// 	{
+// 		ft_putendl_fd(node->token, 2);
+// 		node = node->next;
+// 	}
+// }
 
-//int main(void)
-//{
-//	t_token *token_list = token_dir("*");
-//	t_token	*token_list2 = token_dir(".*");
+// int main(void)
+// {
+// 	t_token *token_list = token_dir("*Ma*f**l");
+// 	t_token	*token_list2 = token_dir(".*");
 
-//	print_token2(token_list);
-//	printf("\n");
-//	print_token2(token_list2);
-//}
+// 	print_token2(token_list);
+// 	printf("\n");
+// 	print_token2(token_list2);
+// }
 
 

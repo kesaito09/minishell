@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 18:37:13 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 20:28:27 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,12 +144,12 @@ int	manage_repoint(t_tree *node, t_token **cur)
 	if ((*cur) && (*cur)->type == TOKEN_WORD)
 	{
 		if (repoint_word_to_tree(node, cur) == FAILUER)
-			return (free(node), FAILUER);
+			return (FAILUER);
 	}
 	else if ((*cur) && is_redirect(*cur))
 	{
 		if (repoint_redirect_to_tree(node, cur) == FAILUER)
-			return (free(node), FAILUER);
+			return (FAILUER);
 	}
 	return (SUCCESS);
 }
