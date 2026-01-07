@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 18:21:07 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 20:55:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ char	*expand_var(char *str, t_token *envp)
 		var = ft_strdup("");
 	else
 		var = value_dup(val_ptr->token);
+	free(tmp);
 	if (!var)
-		return (free(tmp), NULL);
-	return (free(tmp), var);
+		return (NULL);
+	return (var);
 }
 
 static char	*sub_token_dup(char *sub_token, t_token *envp, int *len)
