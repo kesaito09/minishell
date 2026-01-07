@@ -6,13 +6,20 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:07:56 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 18:15:00 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 20:05:54 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../includes/commands.h"
 #include "../../includes/execution.h"
+
+void	invalid_message(char *arg)
+{
+	ft_putstr_fd("minishell: export: '", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
+}
 
 int	is_valid_arg(char *arg)
 {
@@ -23,12 +30,12 @@ int	is_valid_arg(char *arg)
 	if (len < 0)
 		return (false);
 	if (!ft_isalpha(arg[0]) && arg[0] != '_')
-		return (false);
+		return (invalid_message(arg), false);
 	i = 1;
 	while (i < len)
 	{
-		if (!is_delimiter_variables(arg[i]))
-			return (false);
+		if (is_delimiter_variables(arg[i]))
+			return (invalid_message(arg), false);
 		i++;
 	}
 	return (true);
@@ -64,21 +71,21 @@ int	ft_keycmp(const char *arg, const char *env)
 	return (0);
 }
 
-int	cmd_check(t_token *cmd)
-{
-	t_token	*env;
+//int	cmd_check(t_token *cmd)
+//{
+//	t_token	*env;
 
-	env = cmd->next;
-	if (!env)
-		return (FAILUER);
-	if (strchr_len(env->token, '=') == 0)
-	{
-		ft_putstr_fd("minishell: export: '", 2);
-		ft_putstr_fd(env->token, 2);
-		ft_putendl_fd("': not a valid identifier", 2);
-		return (FAILUER);
-	}
-	if (!ft_strchr(env->token, '='))
-		return (FAILUER);
-	return (SUCCESS);
-}
+//	env = cmd->next;
+//	if (!env)
+//		return (FAILUER);
+//	if (strchr_len(env->token, '=') == 0)
+//	{
+//		ft_putstr_fd("minishell: export: '", 2);
+//		ft_putstr_fd(env->token, 2);
+//		ft_putendl_fd("': not a valid identifier", 2);
+//		return (FAILUER);
+//	}
+//	if (!ft_strchr(env->token, '='))
+//		return (FAILUER);
+//	return (SUCCESS);
+//}
