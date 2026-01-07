@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/22 20:35:42 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 00:17:31 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ bool	is_builtin(char *token);
 bool	is_redirect(t_token *cur);
 bool	is_connection(t_token *cur);
 bool	is_command(t_token *cur);
+
 
 /*utils7_arglist*/
 int		append_token(t_token *arg_list, t_token **cur);

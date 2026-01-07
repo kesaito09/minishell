@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/06 13:59:36 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/07 03:11:49 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,22 +67,64 @@ int	append_redirect(t_token **file_list, t_token **cur)
 
 t_token *token_word_last(t_token *cur)
 {	
-	while (cur && cur ->type == TOKEN_WORD && cur ->next ->type == TOKEN_WORD)
+	while (cur 
+		&&  cur ->type == TOKEN_WORD
+		&& cur ->next 
+		&& cur ->next ->type == TOKEN_WORD)
 		cur = cur ->next;
 	return (cur);
+	//TOKEN_WORD以外ならエラーを出すべきかも
 }
 
-
-int	replace_token_with_tree(t_tree *node, t_token **cur)
+int	append_last_node(t_token **lst, t_token *new_lst)
 {
+	t_token	*last;
+
+	if (!lst || !new_lst)
+		return (FAILUER);
+	if (!*lst)
+	{
+		*lst = new_lst;
+		return (SUCCESS);
+	}
+	last = t_lstlast(*lst);
+	last->next = new_lst;
+	return (SUCCESS);
+}
+
+int	repoint_word_to_tree(t_tree *node, t_token **cur)
+{
+	t_token *word_head;
 	t_token *word_last;
 
-	if (!(*cur) && (*cur)->type == TOKEN_WORD)
+	if (!((*cur) && is_command(*cur)))
 		return (FAILUER);
-	node = *cur;
+	word_head = (*cur);
 	word_last = token_word_last(*cur);
-	word_last ->next = NULL;
 	*cur = word_last ->next;
+	word_last ->next = NULL;
+	if (append_last_node(&node ->arg_list, word_head) == FAILUER)
+		return (FAILUER);
+	return (SUCCESS);
+}
+
+int	repoint_redirect_to_tree(t_tree *node, t_token **cur)
+{
+	t_token_type	ftype;
+	t_token			*head;
+	
+	
+	if (!((*cur) && is_redirect(*cur)))
+		return (FAILUER);
+	ftype = (*cur) ->type;
+	*cur = (*cur) ->next;
+	(*cur) ->type = ftype; //(ここのtypeがWORD以外なら構文エラー出すべき？)
+	head = (*cur);
+	(*cur) = (*cur) ->next;
+	head ->next = NULL;
+	if (append_last_node(&node ->file_list, head) == FAILUER)
+		return (FAILUER);
+	return (SUCCESS);
 }
 
 
@@ -105,18 +147,17 @@ static t_tree	*parse_subshell(t_token **cur)
 	return (subshell_node);
 }
 
-int	manage_append(t_tree *node, t_token **cur)
+int	manage_repoint(t_tree *node, t_token **cur)
 {
-	if ((*cur) && (*cur)->type == TOKEN_WORD && ft_strchr((*cur)->token, '='))
+	if ((*cur) && (*cur)->type == TOKEN_WORD)
 	{
-		node->b_type = ENVP;
-		if (append_list(&node->env_list, cur) == FAILUER)
+		if (repoint_word_to_tree(node, cur) == FAILUER)
 			return (free(node), FAILUER);
 	}
-	else if ((*cur) && (*cur)->type == TOKEN_WORD)
+	else if ((*cur) && is_redirect(*cur))
 	{
-		if (append_list(&node->arg_list, cur) == FAILUER)
-			return (free(node), FAILUER);
+		if (repoint_redirect_to_tree(node, cur) == FAILUER)
+			return (free(node), FAILUER);		
 	}
 	return (SUCCESS);
 }
@@ -135,7 +176,7 @@ t_tree	*parse_command(t_token **cur)
 		return (NULL);
 	while (is_command(*cur))
 	{
-		if (manage_append(node, cur) == FAILUER)
+		if (manage_repoint(node, cur) == FAILUER)
 			return (free_tree_rec(node), NULL);
 	}
 	return (node);
