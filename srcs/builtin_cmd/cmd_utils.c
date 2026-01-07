@@ -6,14 +6,13 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:07:56 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/06 00:16:48 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/07 16:32:10 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../includes/commands.h"
 #include "../../includes/execution.h"
-
 
 int	ft_argcmp(const char *arg, const char *env)
 {

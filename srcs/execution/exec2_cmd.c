@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/06 11:18:38 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/07 16:20:27 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 		if (manage_redirect(branch) == FAILUER)
 			exit(1);
 		t_lstadd_back(&info->envp, branch->env_list);
-		// print_tokens(branch ->arg_list);
+		print_tokens(branch ->arg_list);
 		if (expander(&branch->arg_list, info->envp) == FAILUER)
 			return (FAILUER);
 		cmd = token_argv(branch->arg_list);

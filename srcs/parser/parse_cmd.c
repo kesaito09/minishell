@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 04:52:54 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/07 16:16:51 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ t_token *token_word_last(t_token *cur)
 
 int	append_last_node(t_token **lst, t_token *new_lst)
 {
-	t_token	*last;
-
 	if (!lst || !new_lst)
 		return (FAILUER);
 	if (!*lst)
@@ -87,8 +85,7 @@ int	append_last_node(t_token **lst, t_token *new_lst)
 		*lst = new_lst;
 		return (SUCCESS);
 	}
-	last = t_lstlast(*lst);
-	last->next = new_lst;
+	t_lstadd_back(lst, new_lst);
 	return (SUCCESS);
 }
 

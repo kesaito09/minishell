@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 04:56:26 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/07 17:20:19 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,6 @@ char	*expand_var(char *str, t_token *envp)
 	if (!tmp)
 		return (NULL);
 	val_ptr = search_variable(tmp, envp);
-	ft_putstr_fd("KEY=", 2);
-	ft_putendl_fd(tmp, 2);
-	if (val_ptr)
-	{
-		ft_putstr_fd("ENV=", 2);
-		ft_putendl_fd(val_ptr->token, 2);
-	}
-
 	if (!val_ptr)
 		var = ft_strdup("");
 	else
@@ -140,7 +132,7 @@ static int replace_sub_token(t_token **sub_token, t_token *envp)
 	return (flag);
 }
 
-static int	expand_token(t_token **token_list, t_token *envp)
+int	expand_token(t_token **token_list, t_token *envp)
 {
 	t_token *tmp;
 	char	*new_token;
@@ -174,7 +166,7 @@ int	expander(t_token **token_list, t_token *envp)
 
 	if (expand_token(token_list, envp) == FAILUER)
 			return (FAILUER);
-	ft_putendl_fd("expander2",2 );//ここまでは動いてる
+	
 
 	return (SUCCESS);
 }
