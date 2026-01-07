@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/07 19:49:40 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 04:20:29 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int						add_token(t_token **token_list, char *token,
 
 /*lexer_utils2_list_helpers*/
 size_t					t_lstsize(t_token *lst);
-t_token					*t_lstnew(char *token);
+t_token					*t_lstnew(char *token, t_token_type type);
 void					t_lstdelone(t_token *lst, void (*del)(void *));
 void					t_lstclear(t_token **lst, void (*del)(void *));
 t_token					*t_lstlast(t_token *lst);

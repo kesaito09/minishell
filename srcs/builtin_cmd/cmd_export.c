@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_export.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 20:01:55 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 04:22:04 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	export_module(t_token *cmd, t_pipe *info)
 		}
 		env = env->next;
 	}
-	env = t_lstnew(arg);
+	env = t_lstnew(arg, 0);
 	if (!env)
 		return (free(arg), FAILUER);
 	t_lstadd_back(&(info->envp), env);

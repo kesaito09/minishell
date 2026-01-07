@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 03:48:06 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 04:13:52 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	skip_set(char **str, char *set)
 		(*str)++;
 }
 
+
 t_token	*string_to_tlist(char *sub_token, char *set)
 {
 	t_token	*new_tlist;
@@ -60,7 +61,7 @@ t_token	*string_to_tlist(char *sub_token, char *set)
 			new_token = ft_strndup(sub_token, len);
 		if (!new_token)
 			return (FAILUER);
-					
+		t_lstnew
 		
 		
 	}
@@ -82,7 +83,7 @@ t_token	*split_to_tlist(t_token *token, char *set)
 {
 	while (token)
 	{
-		if (token->sub_token->type != SUB_TOKEN_GENERAL)
+		if (token->sub_token->type != SUB_TOKEN_DOLLAR)
 		{
 			token = token->next;
 			continue ;

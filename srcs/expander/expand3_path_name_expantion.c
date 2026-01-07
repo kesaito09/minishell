@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 03:52:02 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 04:20:53 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_token	*token_dir(char *input)
 			|| !match_char(input, dent->d_name)
 			|| (!check_hidden_file(input) && !ft_strncmp(dent->d_name, ".", 1)))
 			continue ;
-		token = t_lstnew(dent->d_name);
+		token = t_lstnew(dent->d_name, 0);
 		if (!token)
 			return (NULL);
 		t_lstadd_back(&token_list, token);

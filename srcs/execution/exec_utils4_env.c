@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils4_env.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 18:12:49 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/28 16:11:42 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 04:22:19 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	local_env(t_token *env, t_pipe *info)
 		copy = ft_strdup(env->token);
 		if (!copy)
 			return (FAILUER);
-		tmp = t_lstnew(copy);
+		tmp = t_lstnew(copy, 0);
 		if (!tmp)
 			return (FAILUER);
 		tmp->type = 1;

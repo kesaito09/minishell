@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils2_list_helpers.c                        :+:      :+:    :+:   */
+/*   lexer_utils2_tlist.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:23:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/22 17:32:03 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 04:31:00 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@ size_t	t_lstsize(t_token *lst)
 	return (len);
 }
 
-t_token	*t_lstnew(char *token)
+t_token	*t_lstnew(char *token, t_token_type type)
 {
 	t_token	*new_elem;
 
+	(void)type;
 	new_elem = ft_calloc(sizeof(t_token), 1);
 	if (!new_elem)
 		return (NULL);

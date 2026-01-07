@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 19:38:09 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/07 20:29:32 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 04:18:55 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,5 @@ int	expander(t_token **token_list, t_token *envp)
 {
 	if (expand_token(token_list, envp) == FAILUER)
 		return (FAILUER);
-	print_token(*token_list);
 	return (SUCCESS);
 }

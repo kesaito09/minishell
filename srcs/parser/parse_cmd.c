@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/08 03:52:52 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 04:26:37 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_token	*f_lstnew(char *token, t_token_type type)
 	fname = ft_strdup(token);
 	if (!fname)
 		return (NULL);
-	new_file = t_lstnew(fname);
+	new_file = t_lstnew(fname, 0);
 	if (!new_file)
 		return (free(fname), NULL);
 	new_file->type = type;
