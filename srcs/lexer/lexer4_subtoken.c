@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer4_subtoken.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 06:22:25 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/05 11:39:44 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 16:43:05 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ int	commit_token(t_token **token_list, t_clist **c_list, t_token_type type)
 	char	*token;
 
 	token = NULL;
-	if (is_sub_token(type) && (*c_list) ->sub_clist)
+	if (is_sub_token(type) && (*c_list)->sub_clist)
 	{
-		token = list_to_string(&((*c_list) ->sub_clist));
+		token = list_to_string(&((*c_list)->sub_clist));
 		if (!token)
 			return (FAILUER);
 		if (token[0] == '\0')
 			return (free(token), SUCCESS);
-		add_token(&((*c_list) ->sub_tokens), token, type);
+		add_token(&((*c_list)->sub_tokens), token, type);
 	}
-	if (type == TOKEN_WORD && (*c_list) ->token_clist)
+	if (type == TOKEN_WORD && (*c_list)->token_clist)
 	{
-		token = list_to_string(&((*c_list) ->token_clist));
+		token = list_to_string(&((*c_list)->token_clist));
 		if (!token)
 			return (FAILUER);
 		if (add_token(token_list, token, type) == FAILUER)

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/07 18:30:01 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 08:42:16 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ t_tree	*parser(char *input, t_pipe *info)
 {
 	t_tree	*ast;
 	t_token	*token_list;
-	t_token	*tmp;
 
 	ast = NULL;
 	if (!input || !*input)
@@ -96,7 +95,6 @@ t_tree	*parser(char *input, t_pipe *info)
 		return (NULL);
 	if (!token_list)
 		return (NULL);
-	tmp = token_list;
 	ast = parse_manage(&token_list, info->envp);
 	return (ast);
 }
