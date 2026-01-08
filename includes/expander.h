@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/08 03:26:58 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 09:33:39 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,10 @@ typedef struct s_token		t_token;
 
 bool						is_delimiter_variables(int c);
 int							count_varibles(char *av);
-int							expander(t_token **token_list,
-								t_token *envp);
+int							expander(t_token **token_list, t_token *envp);
 int							field_spliting(t_token **token_list, t_token *envp);
 t_token						*search_variable(char *key, t_token *envp);
-int							expander(t_token **token_list,
-								t_token *envp);
+int							expander(t_token **token_list, t_token *envp);
 char						*value_dup(char *env);
 char						*expand_var(char *str, t_token *envp);
 typedef struct dirent		t_dirent;
@@ -42,8 +40,7 @@ typedef struct s_token		t_token;
 
 # define PASS 0
 
-int	expand_token(t_token **token_list, t_token *envp);
-
+int							expand_token(t_token **token_list, t_token *envp);
 
 /*expand1_variable_expantion*/
 bool						is_delimiter_variables(int c);
@@ -57,12 +54,13 @@ bool						is_dollar(t_token_type type);
 int							pathname_expantion(t_token **token_list);
 int							strchr_len(char *str, int c);
 
-
+int							split_token_list(t_token **arg_list, t_token *envp);
 
 /*expand_utils*/
-bool	is_ifs(char *ifs, int c);
-int		ft_strchr_set(char *str, char *set);
-char	*setup_ifs(t_token *envp);
-
+bool						is_ifs(char *ifs, int c);
+int							ft_strchr_len_set(char *str, char *set);
+char						*setup_ifs(t_token *envp);
+void						skip_set(char **str, char *set);
+int							ft_strchr_len_set(char *str, char *set);
 
 #endif

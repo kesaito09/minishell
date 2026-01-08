@@ -6,79 +6,85 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 17:15:22 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 04:17:02 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 09:31:37 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/expander.h"
 
+t_token	*string_to_tlist(char *token, char *set, t_token_type type)
+{
+	t_token	*new_tlist;
+	t_token	*new_node;
+	char	*new_token;
+	int		len;
 
-// int	copy_first_pointer(t_token **token_list, t_token *new_token_list)
-// {
-// 	t_token	*cur;
+	new_tlist = NULL;
+	while (*token)
+	{
+		skip_set(&token, set);
+		if (!*token)
+			break ;
+		len = ft_strchr_len_set(token, set);
+		new_token = ft_strndup(token, len);
+		if (!new_token)
+			return (NULL);
+		new_node = t_lstnew(new_token, type);
+		if (!new_node)
+			return (NULL);
+		t_lstadd_back(&new_tlist, new_node);
+		token += len;
+	}
+	return (new_tlist);
+}
 
-// 	cur = *token_list;
-// 	cur->next = new_token_list->next;
-// 	cur->sub_token = new_token_list->sub_token;
-// }
+int	merge_tlist(t_token **sub_token, char *set, t_token_type type)
+{
+	t_token	*new_lst;
+	t_token	*cur;
+	t_token	*next;
 
+	if (!sub_token || !set)
+		return (FAILUER);
+	while (*sub_token)
+	{
+		cur = *sub_token;
+		if (cur->type != SUB_TOKEN_DOLLAR)
+		{
+			sub_token = &cur->next;
+			continue ;
+		}
+		next = cur->next;
+		new_lst = string_to_tlist(cur->token, set, type);
+		if (!new_lst)
+			return (FAILUER);
+		*sub_token = new_lst;
+		t_lstlast(new_lst)->next = next;
+		free(cur->token);
+		free(cur);
+		sub_token = &t_lstlast(new_lst)->next;
+	}
+	return (SUCCESS);
+}
 
+int	split_token_list(t_token **token_list, t_token *envp)
+{
+	char	*ifs;
 
-// t_token	*expand_sub_token(char *sub_token, t_token *envp)
-// {
-// 	t_token	*tmp;
-// 	char	*new_token;
-// 	char	*ifs;
-// 	int		dup_len;
-// 	char	*ifs;
+	ifs = setup_ifs(envp);
+	if (!ifs)
+		return (FAILUER);
+	while (*token_list)
+	{
+		if (merge_tlist(&(*token_list)->sub_token, ifs,
+				SUB_TOKEN_GENERAL) == FAILUER)
+			return (FAILUER);
+		token_list = &(*token_list)->next;
+	}
+	return (SUCCESS);
+}
 
-// 	ifs = setup_ifs(envp);
-// 	if (!ifs)
-// 		return (NULL);
-// 	while (*sub_token)
-// 	{
-// 		dup_len = ft_strchr_set(sub_token, ifs);
-// 		if (dup_len < 0)
-// 			return (NULL);
-// 		new_token = ft_strndup(sub_token, dup_len);
-// 		if (!new_token)
-// 			return (NULL);
-		
-// 	}
-// }
-
-// t_token	*split_sub_token(t_token *sub_token, t_token *envp)
-// {
-// 	t_token	*new_sub;
-
-// 	while (sub_token)
-// 	{
-// 		if (sub_token->type != SUB_TOKEN_GENERAL)
-// 		{
-// 			sub_token = sub_token->next;
-// 			continue ;
-// 		}
-// 		sub_token 
-// 	}
-// }
-
-// int	field_spliting(t_token **token_list, t_token *envp)
-// {
-// 	t_token	*tmp;
-// 	t_token	*new_sub_token;
-
-// 	tmp = *token_list;
-// 	while (tmp)
-// 	{
-// 		new_sub_token = split_sub_token(tmp->sub_token, envp);
-// 		if (!new_sub_token)
-// 			return (FAILUER);
-// 		//ここで繋げる
-// 		tmp = tmp->next;
-// 	}
-// 	return (SUCCESS);
-// }
 
 /*
 	SUB_TOKEN_DOLLERが来たときだけ、展開する
