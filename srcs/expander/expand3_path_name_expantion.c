@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 10:34:45 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 17:02:29 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ t_token	*token_dir(t_token *sub)
 		t_lstadd_back(&token_list, token);
 	}
 	closedir(dp);
-	(void)sub;
 	return (token_list);
 }
 
@@ -63,9 +62,9 @@ void	wildcard(t_token *node)
 	if (!ft_strchr(node->token, '*'))
 		return ;
 	tmp = token_dir(node->sub_token);
-	free(input);
 	if (!tmp)
 		return ;
+	free(input);
 	node->token = tmp->token;
 	node->next = tmp->next;
 	free(tmp);
@@ -76,22 +75,22 @@ void	wildcard(t_token *node)
 
 // }
 
-void	print_token2(t_token *node)
-{
-	while (node)
-	{
-		ft_putendl_fd(node->token, 2);
-		node = node->next;
-	}
-}
+//void	print_token2(t_token *node)
+//{
+//	while (node)
+//	{
+//		ft_putendl_fd(node->token, 2);
+//		node = node->next;
+//	}
+//}
 
-int main(int argc, char **argv)
-{
-	t_token *node;
+//int	main(int argc, char **argv)
+//{
+//	t_token	*node;
 
-	if (argc < 2)
-		return (0);
-	node = tokenizer(argv[1]);
-	node = token_dir(node->sub_token);
-	print_token2(node);
-}
+//	if (argc < 2)
+//		return (0);
+//	node = tokenizer(argv[1]);
+//	wildcard(node);
+//	print_token2(node);
+//}

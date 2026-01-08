@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 01:40:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/08 10:37:00 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 16:54:38 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	match_char(t_token *sub_token, char *file)
 	{
 		flag = false;
 		file_token_cmp(&sub_token, &cur_token_c, &file, sub_token->type);
+		if (!sub_token || !*file)
+			break ;
 		flag = skip_star(&sub_token, &cur_token_c, sub_token->type);
 	}
 	if (!sub_token && flag == true)
