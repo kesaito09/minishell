@@ -6,77 +6,14 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 04:20:53 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 10:14:39 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/parser.h"
 
-void	skip_star(char **input)
-{
-	while (**input && **input == '*')
-		(*input)++;
-}
-
-int	increment(char **input, char **match)
-{
-	if (**input == '*' || **input != **match)
-		return (SUCCESS);
-	if (!**input || !**match)
-		return (FAILUER);
-	(*input)++;
-	(*match)++;
-	return(SUCCESS);
-}
-
-int	reset(char **input, char **d_name, char *start, char **match)
-{
-	if (**input == '*' || **input == **d_name)
-		return (SUCCESS);
-	*input = start;
-	if (!**match)
-		return (FAILUER);
-	*d_name = (*match)++;
-	return (SUCCESS);
-}
-
-int	star_skip(char **start, char **match, char **input, char *d_name)
-{
-	if (**input != '*')
-		return (0);
-	skip_star(input);
-	if (!**input)
-		return (1);
-	*start = *input;
-	*match = d_name;
-	return (0);
-}
-
-bool	match_char(char *input, char *d_name)
-{
-	char	*start;
-	char	*match;
-
-	start = input;
-	match = d_name;
-	if (!input)
-		return (false);
-	while (*d_name)
-	{
-		if (star_skip(&start, &match, &input, d_name))
-			break ;
-		if (reset(&input, &d_name, start, &match) == FAILUER)
-			return (false);
-		increment(&input, &match);
-	}
-	skip_star(&input);
-	if (!*input)
-		return (true);
-	return (false);
-}
-
-bool	check_hidden_file(char *input)
+static bool	check_hidden_file(char *input)
 {
 	if (!input)
 		return (false);
@@ -112,6 +49,21 @@ t_token	*token_dir(char *input)
 	}
 	closedir(dp);
 	return (token_list);
+}
+
+void	wildcard(t_token *node)
+{
+	char	*input;
+	t_token	*tmp;
+
+	input = node->token;
+	tmp = token_dir(input);
+	free(input);
+	if (!tmp)
+			return ;
+	node->token = tmp->token;
+	node->next = tmp->next;
+	free(tmp);
 }
 
 // int		pathname_expantion(t_token **token_list)

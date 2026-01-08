@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/08 04:26:37 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 11:24:48 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ static t_tree	*parse_subshell(t_token **cur, t_token *envp)
 
 int	manage_repoint(t_tree *node, t_token **cur)
 {
-	if (is_valid_arg((*cur)->token))
+	if (is_valid_arg((*cur)->token) && !node->arg_list)
 	{
 		node->b_type = ENVP;
 		if (repoint_word_to_list(&node->env_list, cur) == FAILUER)

@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 17:15:22 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 09:51:01 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 11:20:43 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,23 @@ int	split_token_list(t_token **token_list, t_token *envp, t_token_type type)
 	return (SUCCESS);
 }
 
-/*
-	SUB_TOKEN_DOLLERが来たときだけ、展開する
-	サブトークンのタイプが11のときだけifsで分割処理する
+//	tmp = *token_list;
+//	while (tmp)
+//	{
+//		new_sub_token = split_sub_token(tmp->sub_token, envp);
+//		if (!new_sub_token)
+//			return (FAILUER);
+//		//ここで繋げる
+//		tmp = tmp->next;
+//	}
+//	return (SUCCESS);
+//}
 
+///*
+//	SUB_TOKEN_DOLLERが来たときだけ、展開する
+//	サブトークンのタイプが11のときだけifsで分割処理する
 
-	ダブルクォートはIFS展開しない
-	サブトークンを展開する。
+//	ダブルクォートはIFS展開しない
+//	サブトークンを展開する。
 
-
-
-*/
+//*/

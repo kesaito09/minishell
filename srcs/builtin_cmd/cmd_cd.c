@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 01:23:57 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/20 05:07:20 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 10:07:40 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	cd(t_token *node)
 {
 	char	*cd_;
 
+	if (!node->next)
+		return ;
 	cd_ = node->next->token;
 	if (chdir(cd_))
 		return ;

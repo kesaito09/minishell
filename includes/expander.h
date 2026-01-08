@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/08 09:40:38 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 11:22:24 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct s_token		t_token;
 
 # define PASS 0
 
+/*utils2*/
+bool						match_char(char *input, char *d_name);
 int							expand_token(t_token **token_list, t_token *envp);
 
 /*expand1_variable_expantion*/
@@ -59,8 +61,8 @@ int							split_token_list(t_token **token_list,
 
 /*expand2_path_name_expantion*/
 int							pathname_expantion(t_token **token_list);
-
-
+void						wildcard(t_token *node);
+int							strchr_len(char *str, int c);
 
 /*expand_utils*/
 bool						is_ifs(char *ifs, int c);
