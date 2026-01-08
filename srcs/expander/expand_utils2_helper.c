@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 05:48:08 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/07 23:57:54 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ int	ft_strchr_len_set(char *str, char *set)
 	int		len;
 
 	len = 0;
-	if (!str || !ft_strchr(set, str[len]))
-		return (-1);
-	while (str[len] && ft_strchr(set, str[len]))
+	while (str[len] && !ft_strchr(set, str[len]))
 		len++;
 	return (len);
 }
@@ -50,27 +48,19 @@ t_token	*string_to_tlist(char *token, char *set, t_token_type type)
 	int		len;
 
 	new_tlist = NULL;
-	len = 0;
 	while (*token)
 	{
+		skip_set(&token, set);
+		if (!*token)
+			break;		
 		len = ft_strchr_len_set(token, set);
-		if (len < 0)
-			new_token = ft_strdup(token);
-		else if (len == 0)
-		{
-			skip_set(&token, set);
-			continue;
-		}
-		else
-			new_token = ft_strndup(token, len);
+		new_token = new_token = ft_strndup(token, len);
 		if (!new_token)
 			return (NULL);
 		new_node = t_lstnew(new_token, type);
 		if (!new_node)
 			return (NULL);
 		t_lstadd_back(&new_tlist, new_node);
-		if (len < 0)
-			break;
 		token += len;
 	}
 	return (new_tlist);
@@ -82,27 +72,26 @@ int merge_tlist(t_token **sub_token, char *set)
 	t_token	*cur;
 	t_token	*next;
 
-	if (!sub_token)
+	if (!sub_token || !set)
 		return (FAILUER);	
 	while (*sub_token)
 	{
 		cur = *sub_token;
-		if ((*sub_token) ->type != SUB_TOKEN_DOLLAR)
+		if (cur ->type != SUB_TOKEN_DOLLAR)
 		{
-			*sub_token = (*sub_token) ->next;
+			sub_token = &cur ->next;
 			continue;
 		}
 		next = cur ->next;
-		new_lst = string_to_tlist((*sub_token) ->token, set, SUB_TOKEN_DOLLAR);
+		new_lst = string_to_tlist(cur ->token, set, SUB_TOKEN_GENERAL);
 		if (!new_lst)
 			return (FAILUER);
-		cur ->next = new_lst;
+		*sub_token = new_lst;
 		t_lstlast(new_lst) ->next = next;
-		
+		free(cur ->token);
+		free(cur);
+		sub_token = &t_lstlast(new_lst) ->next;
 	}
-	
-	
-	
 	return (SUCCESS);
 }
 
