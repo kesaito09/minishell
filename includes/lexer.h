@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/07 18:35:41 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/07 19:49:40 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ typedef enum e_token_type
 {
 	TOKEN_WORD = 0,
 	TOKEN_PIPE,
-	TOKEN_REDIRECT_IN = 'i',
-	TOKEN_REDIRECT_OUT = 'o',
-	TOKEN_HEREDOC = 'h',
-	TOKEN_APPEND = 'a',
+	TOKEN_REDIRECT_IN ,
+	TOKEN_REDIRECT_OUT,
+	TOKEN_HEREDOC,
+	TOKEN_APPEND,
 	TOKEN_CONJUNCTIONE,
 	TOKEN_DISJUNCTIONE,
 	TOKEN_PARENTHESIS_LEFT,

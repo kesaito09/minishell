@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand1_variables_expantion.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 20:55:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 03:53:12 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ char	*expand_var(char *str, t_token *envp)
 	else
 		var = value_dup(val_ptr->token);
 	free(tmp);
-	if (!var)
-		return (NULL);
 	return (var);
 }
 
@@ -159,12 +157,12 @@ int	expand_token(t_token **token_list, t_token *envp)
 	return (SUCCESS);
 }
 
-int	expander(t_token **token_list, t_token *envp)
-{
-	if (expand_token(token_list, envp) == FAILUER)
-		return (FAILUER);
-	return (SUCCESS);
-}
+// int	expander(t_token **token_list, t_token *envp)
+// {
+// 	if (expand_token(token_list, envp) == FAILUER)
+// 		return (FAILUER);
+// 	return (SUCCESS);
+// }
 
 /*
 

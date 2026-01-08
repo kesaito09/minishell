@@ -6,7 +6,7 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/07 22:54:56 by natakaha         ###   ########.fr        #
+#    Updated: 2026/01/08 10:02:57 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,9 +54,12 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/parser/parse.c\
 			srcs/parser/parse_cmd.c\
 			srcs/expander/expand1_variables_expantion.c\
-			srcs/expander/expand2_path_name_expantion.c\
+			srcs/expander/expand2_field_split.c\
+			srcs/expander/expand3_path_name_expantion.c\
 			srcs/expander/utils1_.c\
 			srcs/expander/utils2_match_char.c\
+			srcs/expander/expand_utils2_helper.c\
+			srcs/expander/expander.c\
 			srcs/main/main.c\
 			srcs/main/signal.c\
 			srcs/main/error.c\
