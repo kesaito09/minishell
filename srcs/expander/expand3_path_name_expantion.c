@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 17:02:29 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 17:58:43 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static bool	check_hidden_file(t_token *sub)
 	return (false);
 }
 
-t_token	*token_dir(t_token *sub)
+t_token	*wild_card(t_token *sub)
 {
 	DIR			*dp;
 	t_token		*token_list;
@@ -53,21 +53,22 @@ t_token	*token_dir(t_token *sub)
 	return (token_list);
 }
 
-void	wildcard(t_token *node)
+int	insert_token(t_token *src, t_token *(*f)(t_token *), t_token *input)
 {
-	char	*input;
+	char	*trash;
 	t_token	*tmp;
 
-	input = node->token;
-	if (!ft_strchr(node->token, '*'))
-		return ;
-	tmp = token_dir(node->sub_token);
+	trash = src->token;
+	if (!ft_strchr(src->token, '*'))
+		return (1);
+	tmp = f(input);
 	if (!tmp)
-		return ;
-	free(input);
-	node->token = tmp->token;
-	node->next = tmp->next;
+		return (0);
+	free(trash);
+	src->token = tmp->token;
+	src->next = tmp->next;
 	free(tmp);
+	return (t_lstsize(tmp));
 }
 
 // int		pathname_expantion(t_token **token_list)
@@ -75,14 +76,14 @@ void	wildcard(t_token *node)
 
 // }
 
-//void	print_token2(t_token *node)
-//{
-//	while (node)
-//	{
-//		ft_putendl_fd(node->token, 2);
-//		node = node->next;
-//	}
-//}
+void	print_token2(t_token *node)
+{
+	while (node)
+	{
+		ft_putendl_fd(node->token, 2);
+		node = node->next;
+	}
+}
 
 //int	main(int argc, char **argv)
 //{

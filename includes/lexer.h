@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 08:34:21 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 17:52:40 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void					t_lstclear(t_token **lst, void (*del)(void *));
 t_token					*t_lstlast(t_token *lst);
 void					t_lstadd_back(t_token **lst, t_token *new);
 void					t_lstadd_front(t_token **lst, t_token *new);
+t_token					*t_lstmove(t_token *lst, int n);
+
 
 /*lexer_utils3_charlist*/
 t_char_list				*c_lstlast(t_char_list *lst);
