@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/08 03:53:12 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 09:39:36 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	*sub_token_dup(char *sub_token, t_token *envp, int *len)
 	return (sub_token_parts);
 }
 
-static char	*join_sub_token(t_token *sub_token)
+char	*join_sub_token(t_token *sub_token)
 {
 	char	*joined;
 	char	*new_str;

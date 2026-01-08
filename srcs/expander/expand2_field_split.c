@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 17:15:22 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 09:31:37 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 09:51:01 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ int	merge_tlist(t_token **sub_token, char *set, t_token_type type)
 	t_token	*new_lst;
 	t_token	*cur;
 	t_token	*next;
+	int		flag;
 
 	if (!sub_token || !set)
 		return (FAILUER);
+	flag = PASS;
 	while (*sub_token)
 	{
 		cur = *sub_token;
@@ -55,6 +57,7 @@ int	merge_tlist(t_token **sub_token, char *set, t_token_type type)
 			sub_token = &cur->next;
 			continue ;
 		}
+		flag = SUCCESS;
 		next = cur->next;
 		new_lst = string_to_tlist(cur->token, set, type);
 		if (!new_lst)
@@ -65,26 +68,35 @@ int	merge_tlist(t_token **sub_token, char *set, t_token_type type)
 		free(cur);
 		sub_token = &t_lstlast(new_lst)->next;
 	}
-	return (SUCCESS);
+	return (flag);
 }
 
-int	split_token_list(t_token **token_list, t_token *envp)
+int	split_token_list(t_token **token_list, t_token *envp, t_token_type type)
 {
+	char	*new_token;
 	char	*ifs;
+	int		flag;
 
 	ifs = setup_ifs(envp);
 	if (!ifs)
 		return (FAILUER);
 	while (*token_list)
 	{
-		if (merge_tlist(&(*token_list)->sub_token, ifs,
-				SUB_TOKEN_GENERAL) == FAILUER)
+		flag = merge_tlist(&(*token_list)->sub_token, ifs, type);
+		if (flag == FAILUER)
 			return (FAILUER);
+		else if (flag == SUCCESS)
+		{
+			new_token = join_sub_token((*token_list) ->sub_token);
+			if (!new_token)
+				return (FAILUER);
+			free((*token_list) ->token);
+			(*token_list) ->token = new_token;	
+		}						
 		token_list = &(*token_list)->next;
 	}
 	return (SUCCESS);
 }
-
 
 /*
 	SUB_TOKEN_DOLLERが来たときだけ、展開する

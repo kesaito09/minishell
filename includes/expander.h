@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/08 09:33:39 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 09:40:38 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,18 @@ t_token						*search_variable(char *key, t_token *envp);
 int							expander(t_token **token_list, t_token *envp);
 char						*value_dup(char *env);
 bool						is_dollar(t_token_type type);
+int							strchr_len(char *str, int c);
+
+
+/*expand_2_field_splitting*/
+int							split_token_list(t_token **token_list,
+								t_token *envp, t_token_type type);
+
 
 /*expand2_path_name_expantion*/
 int							pathname_expantion(t_token **token_list);
-int							strchr_len(char *str, int c);
 
-int							split_token_list(t_token **arg_list, t_token *envp);
+
 
 /*expand_utils*/
 bool						is_ifs(char *ifs, int c);
@@ -62,5 +68,7 @@ int							ft_strchr_len_set(char *str, char *set);
 char						*setup_ifs(t_token *envp);
 void						skip_set(char **str, char *set);
 int							ft_strchr_len_set(char *str, char *set);
+char						*join_sub_token(t_token *sub_token);
+
 
 #endif
