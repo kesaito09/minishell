@@ -43,7 +43,7 @@ typedef struct s_tree
 	t_token			*arg_list;
 	t_token			*file_list;
 	t_token			*env_list;
-	t_tree_type			b_type;
+	t_tree_type		b_type;
 
 }					t_tree;
 
@@ -109,6 +109,6 @@ int					reset_stdin_out(t_pipe *info);
 bool				has_cmd(t_token *args);
 int					local_env(t_token *env, t_pipe *info);
 
-void	print_tokens(t_token *node);
+void				print_tokens(t_token *node);
 
 #endif

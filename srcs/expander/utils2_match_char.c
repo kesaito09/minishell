@@ -6,74 +6,72 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 01:40:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/08 01:43:00 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 10:37:00 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/parser.h"
 
-static void	skip_star(char **input)
+void	next_token(t_token **cur_token, char **cur_token_c)
 {
-	while (**input && **input == '*')
-		(*input)++;
+	if (!*cur_token)
+		return ;
+	*cur_token = (*cur_token)->next;
+	if (*cur_token)
+		*cur_token_c = (*cur_token)->token;
+	else
+		*cur_token_c = NULL;
 }
 
-static int	increment(char **input, char **match)
+void	file_token_cmp(t_token **cur_token,
+	char **cur_token_c, char **cur_file_c, t_token_type type)
 {
-	if (**input == '*' || **input != **match)
-		return (SUCCESS);
-	if (!**input || !**match)
-		return (FAILUER);
-	if (**input != **match)
-		return (FAILUER);
-	(*input)++;
-	(*match)++;
-	return (SUCCESS);
-}
+	int	n;
 
-static int	reset(char **input, char **d_name, char *start, char **match)
-{
-	if (**input == '*' || **input == **match)
-		return (SUCCESS);
-	*input = start;
-	if (!**match)
-		return (FAILUER);
-	*d_name = (*match)++;
-	return (SUCCESS);
-}
-
-static int	star_skip(char **start, char **match, char **input, char *d_name)
-{
-	if (**input != '*')
-		return (0);
-	skip_star(input);
-	if (!**input)
-		return (1);
-	*start = *input;
-	*match = d_name;
-	return (0);
-}
-
-bool	match_char(char *input, char *d_name)
-{
-	char	*start;
-	char	*match;
-
-	start = input;
-	match = d_name;
-	if (!input)
-		return (false);
-	while (*d_name)
+	if (type == SUB_TOKEN_GENERAL)
+		n = strchr_len(*cur_token_c, '*');
+	if (type != SUB_TOKEN_GENERAL || n < 0)
+		n = ft_strlen(*cur_token_c);
+	if (n == 0)
+		return ;
+	if (ft_strncmp(*cur_token_c, *cur_file_c, n))
+		(*cur_file_c)++;
+	else
 	{
-		if (star_skip(&start, &match, &input, d_name))
-			break ;
-		if (reset(&input, &d_name, start, &match) == FAILUER)
-			return (false);
-		increment(&input, &match);
+		(*cur_file_c) += n;
+		(*cur_token_c) += n;
+		if (**cur_token_c == '\0')
+			next_token(cur_token, cur_token_c);
 	}
-	skip_star(&input);
-	if (!*input)
+}
+
+int	skip_star(t_token **cur_token, char **cur_token_c, t_token_type type)
+{
+	if (type != SUB_TOKEN_GENERAL || **cur_token_c != '*')
+		return (false);
+	while (**cur_token_c == '*')
+		(*cur_token_c)++;
+	if (**cur_token_c == '\0')
+		next_token(cur_token, cur_token_c);
+	return (true);
+}
+
+int	match_char(t_token *sub_token, char *file)
+{
+	char	*cur_token_c;
+	int		flag;
+
+	cur_token_c = sub_token->token;
+	while (sub_token && *file)
+	{
+		flag = false;
+		file_token_cmp(&sub_token, &cur_token_c, &file, sub_token->type);
+		flag = skip_star(&sub_token, &cur_token_c, sub_token->type);
+	}
+	if (!sub_token && flag == true)
+		return (true);
+	if (!sub_token && !*file)
 		return (true);
 	return (false);
 }

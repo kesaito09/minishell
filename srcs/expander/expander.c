@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 19:38:09 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/07 20:29:32 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/08 08:54:12 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,20 @@ void	print_token(t_token *token)
 			print_sub_token(token ->sub_token);
 		}
 		token = token ->next;
-	}	
+	}
 }
 
 int	expander(t_token **token_list, t_token *envp)
 {
+	t_token	*tmp;
+
 	if (expand_token(token_list, envp) == FAILUER)
 		return (FAILUER);
-	print_token(*token_list);
+	tmp = *token_list;
+	while (tmp)
+	{
+		wildcard(tmp);
+		tmp = tmp->next;
+	}
 	return (SUCCESS);
 }
