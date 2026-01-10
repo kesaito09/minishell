@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_utils2_helper.c                             :+:      :+:    :+:   */
+/*   expand2_utils1_helper.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 11:17:08 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/10 20:42:57 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*setup_ifs(t_token *envp)
 	var = search_variable("IFS", envp);
 	if (!var)
 		return (ft_strdup(" \n\t"));
-	return (ft_strdup(var->token));
+	return (value_dup(var->token));
 }
 
 int	ft_strchr_len_set(char *str, char *set)
@@ -33,8 +33,17 @@ int	ft_strchr_len_set(char *str, char *set)
 	return (len);
 }
 
-void	skip_set(char **str, char *set)
+void	free_token_list(t_token *list)
 {
-	while (**str && ft_strchr(set, **str))
-		(*str)++;
+	t_token	*next_node;
+
+	while (list)
+	{
+		next_node = list->next;
+		if (list->sub_token)
+			free_token_list(list->sub_token);
+		free(list->token);
+		free(list);
+		list = next_node;
+	}
 }
