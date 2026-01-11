@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/11 12:42:13 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/11 18:05:42 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@
 
 static bool	check_hidden_file(t_token *sub)
 {
-	if (!sub || sub->token)
+	if (!sub || !sub->token)
 		return (false);
-	if (sub->token[0] == '.')
-		return (true);
-	return (false);
+	return (sub->token[0] == '.');
 }
+
 
 t_token	*wild_card(t_token *sub)
 {
@@ -53,28 +52,57 @@ t_token	*wild_card(t_token *sub)
 	return (token_list);
 }
 
-int	insert_token(t_token *src, t_token *(*f)(t_token *), t_token *input)
+int insert_token(t_token *src, t_token *src_next, t_token *new)
 {
 	char	*trash;
+	int		n;
+
+	if (!src || !new)
+		return (0);
+	trash = src ->token;
+	src ->token = new ->token;
+	src ->next = new ->next;
+	n = t_lstsize(src);
+	t_lstlast(src) ->next = src_next;
+	free(trash);
+	free(new);
+	return (n);
+}
+
+int	manage_insert_token(t_token *src, t_token *(*f)(t_token *), t_token *input)
+{
 	t_token	*tmp;
 
-	trash = src->token;
-	if (!ft_strchr(src->token, '*') && input ->type != SUB_TOKEN_GENERAL)
+	if (!src || !input)
+		return (1);
+	if (!ft_strchr(src->token, '*') || input ->type != SUB_TOKEN_GENERAL)
 		return (1);
 	tmp = f(input);
 	if (!tmp)
-		return (0);
-	free(trash);
-	src->token = tmp->token;
-	src->next = tmp->next;
-	free(tmp);
-	return (t_lstsize(tmp));
+		return (1);
+	return (insert_token(src, src ->next, tmp));
 }
 
-// int		pathname_expantion(t_token **token_list)
-// {
+int path_name_expantion(t_token **token_list, t_list_type type)
+{
+	t_token	*tmp;
+	int		n;
 
-// }
+	tmp = *token_list;
+	while (tmp)
+	{
+		n = manage_insert_token(tmp, wild_card, tmp->sub_token);
+		if (n == 0)
+			return (FAILUER);		
+		if (type == FILE_LIST && n > 1)
+		{
+			ft_putendl_fd("ambiguous redirect", 2);
+			return (FAILUER);
+		}
+		tmp = t_lstmove(tmp, n);
+	}
+	return (SUCCESS);
+}
 
 void	print_token2(t_token *node)
 {

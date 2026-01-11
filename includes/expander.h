@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/11 12:39:02 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/11 15:03:03 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,12 @@ char						*value_dup(char *env);
 bool						is_dollar(t_token_type type);
 
 /*expand2_path_name_expantion*/
-int							insert_token(t_token *src,
+int							manage_insert_token(t_token *src,
 								t_token *(*f)(t_token *), t_token *input);
 t_token						*wild_card(t_token *sub);
 int							strchr_len(char *str, int c);
+int 						path_name_expantion(t_token **token_list, t_list_type type);
+
 
 /*expand_utils*/
 bool						is_ifs(char *ifs, int c);

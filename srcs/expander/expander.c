@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 19:38:09 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/11 13:30:15 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/11 15:29:25 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,6 @@ void	print_token(t_token *token)
 	}
 }
 
-int path_name_expantion(t_token **token_list, t_list_type type)
-{
-	t_token	*tmp;
-	int		n;
-
-	tmp = *token_list;
-	while (tmp)
-	{
-		n = insert_token(tmp, wild_card, tmp->sub_token);
-		if (type == FILE_LIST && n > 1)
-		{
-			ft_putendl_fd("ambiguous redirect", 2);
-			return (FAILUER);
-		}
-		tmp = t_lstmove(tmp, n);
-	}
-	return (SUCCESS);
-}
-
  void	free_tlist_deep(t_token *list)
 {
 	t_token	*next_node;
@@ -76,6 +57,6 @@ int	expander(t_token **token_list, t_token *envp, t_list_type type)
 	if (expand_token(token_list, envp) == FAILUER)
 		return (free_tlist_deep(*token_list), FAILUER);
 	if (path_name_expantion(token_list, type) == FAILUER)
-		return (FAILUER);
+		return (free_tlist_deep(*token_list), FAILUER);
 	return (SUCCESS);
 }

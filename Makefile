@@ -6,13 +6,13 @@
 #    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/11 13:30:35 by kesaitou         ###   ########.fr        #
+#    Updated: 2026/01/11 14:13:18 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS =  -Wall -Werror -Wextra
+CFLAGS = -g -O0 -Wall -Werror -Wextra
 
 INCS = includes
 LIBFTDIR = libft
@@ -54,7 +54,6 @@ MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
 			srcs/parser/parse.c\
 			srcs/parser/parse_cmd.c\
 			srcs/expander/expand1_variables_expantion.c\
-			srcs/expander/expand2_field_split.c\
 			srcs/expander/expand3_path_name_expantion.c\
 			srcs/expander/utils1_.c\
 			srcs/expander/utils2_match_char.c\
@@ -73,7 +72,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFTDIR)
 
 $(NAME):$(MAND_OBJS) $(LIBFT)
-	$(CC) $(MAND_OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
+	$(CC) $(MAND_OBJS) $(LDFLAGS) $(LDLIBS) -g -O0 -o $(NAME)
 
 bonus: all
 

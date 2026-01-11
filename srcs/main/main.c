@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/08 16:56:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/11 18:11:23 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	*get_line(int fd)
 	return (line);
 }
 
+#include <stdio.h>
 int	minishell_atty(t_pipe *info)
 {
 	char	*line;
@@ -44,11 +45,15 @@ int	minishell_atty(t_pipe *info)
 	while (true)
 	{
 		setup_signal_prompt();
+		dprintf(2, "[PID %d] prompt\n", getpid());
 		line = readline("minishell$ ");
 		if (!line)
 			return (rl_clear_history(), SUCCESS);
 		if (!*line)
-			continue ;
+        {
+            free(line);
+            continue;
+        }
 		add_history(line);
 		branch = parser(line, info);
 		free(line);
