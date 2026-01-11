@@ -6,23 +6,25 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 09:57:41 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 17:58:43 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/parser.h"
+#include "../../includes/execution.h"
+#include "../../includes/expander.h"
 
-static bool	check_hidden_file(char *input)
+static bool	check_hidden_file(t_token *sub)
 {
-	if (!input)
+	if (!sub || sub->token)
 		return (false);
-	if (input[0] == '.')
+	if (sub->token[0] == '.')
 		return (true);
 	return (false);
 }
 
-t_token	*token_dir(char *input)
+t_token	*wild_card(t_token *sub)
 {
 	DIR			*dp;
 	t_token		*token_list;
@@ -39,8 +41,8 @@ t_token	*token_dir(char *input)
 		if (!dent)
 			break ;
 		if (!ft_strncmp(dent->d_name, "..", 2)
-			|| !match_char(input, dent->d_name)
-			|| (!check_hidden_file(input) && !ft_strncmp(dent->d_name, ".", 1)))
+			|| !match_char(sub, dent->d_name)
+			|| (!check_hidden_file(sub) && !ft_strncmp(dent->d_name, ".", 1)))
 			continue ;
 		token = t_lstnew(dent->d_name);
 		if (!token)
@@ -51,19 +53,22 @@ t_token	*token_dir(char *input)
 	return (token_list);
 }
 
-void	wildcard(t_token *node)
+int	insert_token(t_token *src, t_token *(*f)(t_token *), t_token *input)
 {
-	char	*input;
+	char	*trash;
 	t_token	*tmp;
 
-	input = node->token;
-	tmp = token_dir(input);
-	free(input);
+	trash = src->token;
+	if (!ft_strchr(src->token, '*'))
+		return (1);
+	tmp = f(input);
 	if (!tmp)
-			return ;
-	node->token = tmp->token;
-	node->next = tmp->next;
+		return (0);
+	free(trash);
+	src->token = tmp->token;
+	src->next = tmp->next;
 	free(tmp);
+	return (t_lstsize(tmp));
 }
 
 // int		pathname_expantion(t_token **token_list)
@@ -71,31 +76,22 @@ void	wildcard(t_token *node)
 
 // }
 
-// void	print_token2(t_token *node)
-// {
-// 	while (node)
-// 	{
-// 		ft_putendl_fd(node->token, 2);
-// 		node = node->next;
-// 	}
-// }
+void	print_token2(t_token *node)
+{
+	while (node)
+	{
+		ft_putendl_fd(node->token, 2);
+		node = node->next;
+	}
+}
 
-// int main(void)
-// {
-// 	t_token *token_list = token_dir("*Ma*f**l");
-// 	t_token	*token_list2 = token_dir(".*");
+//int	main(int argc, char **argv)
+//{
+//	t_token	*node;
 
-// 	print_token2(token_list);
-// 	printf("\n");
-// 	print_token2(token_list2);
-// }
-
-//  int main(void)
-// {
-// 	t_token	*token_list = token_dir("M*");
-// 	t_token	*token_list2 = token_dir(".*");
-
-// 	print_token2(token_list);
-// 	printf("\n");
-// 	print_token2(token_list2);
-// }
+//	if (argc < 2)
+//		return (0);
+//	node = tokenizer(argv[1]);
+//	wildcard(node);
+//	print_token2(node);
+//}

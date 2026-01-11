@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils2_list_helpers.c                        :+:      :+:    :+:   */
+/*   lexer_utils2_tlist.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:23:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/22 17:32:03 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 17:52:11 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@ size_t	t_lstsize(t_token *lst)
 		lst = lst->next;
 	}
 	return (len);
+}
+
+t_token	*t_lstmove(t_token *lst, int n)
+{
+	while (n > 0 && lst)
+	{
+		lst = lst->next;
+		n--;
+	}
+	return (lst);
 }
 
 t_token	*t_lstnew(char *token)

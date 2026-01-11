@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 02:58:10 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/22 20:47:30 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/08 18:08:19 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,14 @@ char	**token_argv(t_token *node)
 	int		i;
 	t_token	*tmp;
 
+	ft_putendl_fd(node->next->token, 2);
 	i = t_lstsize(node);
+	ft_putendl_fd(node->next->token, 2);
 	argv = (char **)ft_calloc(i + 1, sizeof(char *));
+	ft_putendl_fd(node->next->token, 2);
 	if (!argv)
 		return (NULL);
+	ft_putendl_fd(node->next->token, 2);
 	tmp = node;
 	i = 0;
 	while (tmp)
