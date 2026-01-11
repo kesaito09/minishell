@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 17:52:40 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/11 13:23:07 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef enum e_token_type
 	SUB_TOKEN_DQUOTE,
 	SUB_TOKEN_DOLLAR,
 	SUB_TOKEN_DOLLAR_DQUOTE,
+	SUB_TOKEN_DOLLAR_QUESTION,
 
 }						t_token_type;
 

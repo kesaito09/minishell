@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils1_token.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:25:00 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/07 17:55:43 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/11 13:28:00 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	add_token(t_token **token_list, char *token, t_token_type type)
 
 	if (!token)
 		return (FAILUER);
-	new_token = malloc(sizeof(t_token));
+	new_token = ft_calloc(1, sizeof(t_token));
 	if (!new_token)
 		return (FAILUER);
 	new_token->next = NULL;

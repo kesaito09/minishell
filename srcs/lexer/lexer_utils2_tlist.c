@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils2_tlist.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:23:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 17:52:11 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/11 12:54:50 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_token	*t_lstnew(char *token)
 	new_elem = ft_calloc(sizeof(t_token), 1);
 	if (!new_elem)
 		return (NULL);
-	new_elem->type = 0;
 	new_elem->token = token;
 	if (!new_elem->token)
 		return (free(new_elem), NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand3_path_name_expantion.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 17:58:43 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/11 12:42:13 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	insert_token(t_token *src, t_token *(*f)(t_token *), t_token *input)
 	t_token	*tmp;
 
 	trash = src->token;
-	if (!ft_strchr(src->token, '*'))
+	if (!ft_strchr(src->token, '*') && input ->type != SUB_TOKEN_GENERAL)
 		return (1);
 	tmp = f(input);
 	if (!tmp)

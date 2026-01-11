@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/08 17:59:11 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/11 12:39:02 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,16 @@ typedef enum e_tree_type	t_tree_type;
 typedef enum e_file_type	t_file_type;
 typedef struct s_token		t_token;
 
+typedef enum e_list_type
+{
+	ARG_LIST = 0,
+	FILE_LIST,
+}	t_list_type;
+
 bool						is_delimiter_variables(int c);
 int							count_varibles(char *av);
-int							expander(t_token **token_list, t_token *envp);
-int							field_spliting(t_token **token_list, t_token *envp);
 t_token						*search_variable(char *key, t_token *envp);
-int							expander(t_token **token_list, t_token *envp);
+int							expander(t_token **token_list, t_token *envp, t_list_type type);
 char						*value_dup(char *env);
 char						*expand_var(char *str, t_token *envp);
 typedef struct dirent		t_dirent;
@@ -48,7 +52,6 @@ int							expand_token(t_token **token_list, t_token *envp);
 bool						is_delimiter_variables(int c);
 int							count_varibles(char *av);
 t_token						*search_variable(char *key, t_token *envp);
-int							expander(t_token **token_list, t_token *envp);
 char						*value_dup(char *env);
 bool						is_dollar(t_token_type type);
 
