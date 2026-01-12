@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand1_variables_expantion.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/08 08:01:22 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/12 18:58:12 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	strchr_len(char *str, int c)
 		return (-1);
 	return ((int)(ptr - str));
 }
+
 
 char	*expand_var(char *str, t_token *envp)
 {
@@ -41,7 +42,24 @@ char	*expand_var(char *str, t_token *envp)
 	return (var);
 }
 
-static char	*sub_token_dup(char *sub_token, t_token *envp, int *len)
+static char *manage_dup(char *sub_token, t_pipe *info, int *len)
+{
+	char *new_str;
+
+	if (!(ft_strncmp(sub_token, "$?", 2)))
+	{
+		new_str = ft_itoa(info ->ecode);
+		*len = 2;
+	}
+	else
+	{
+		new_str = expand_var(sub_token + 1, info ->envp);
+		*len = count_varibles(sub_token + 1) + 1;
+	}
+	return (new_str);
+}
+
+static char	*sub_token_dup(char *sub_token, t_pipe *info, int *len)
 {
 	char	*sub_token_parts;
 
@@ -51,14 +69,11 @@ static char	*sub_token_dup(char *sub_token, t_token *envp, int *len)
 		*len = strchr_len(sub_token, '\0');
 	}
 	else if (*len == 0)
-	{
-		sub_token_parts = expand_var(sub_token + 1, envp);
-		*len = count_varibles(sub_token + 1) + 1;
-	}
+		sub_token_parts = manage_dup(sub_token, info, len);
 	else
 		sub_token_parts = ft_strndup(sub_token, *len);
 	if (!sub_token_parts)
-		return (NULL);
+		return (NULL); 
 	return (sub_token_parts);
 }
 
@@ -80,7 +95,7 @@ static char	*join_sub_token(t_token *sub_token)
 	return (new_str);
 }
 
-static char	*expand_sub_token(char *sub_token, t_token *envp)
+static char	*expand_sub_token(char *sub_token, t_pipe *info)
 {
 	char	*new_str;
 	char	*parts;
@@ -91,7 +106,7 @@ static char	*expand_sub_token(char *sub_token, t_token *envp)
 	while (*sub_token)
 	{
 		len = strchr_len(sub_token, '$');
-		parts = sub_token_dup(sub_token, envp, &len);
+		parts = sub_token_dup(sub_token, info, &len);
 		if (!parts)
 			return (NULL);
 		joined = ft_strjoin(new_str, parts);
@@ -104,7 +119,7 @@ static char	*expand_sub_token(char *sub_token, t_token *envp)
 	return (new_str);
 }
 
-static int	replace_sub_token(t_token **sub_token, t_token *envp)
+static int	replace_sub_token(t_token **sub_token, t_pipe *info)
 {
 	char	*new_sub_token;
 	t_token	*tmp;
@@ -120,7 +135,7 @@ static int	replace_sub_token(t_token **sub_token, t_token *envp)
 			continue ;
 		}
 		flag = SUCCESS;
-		new_sub_token = expand_sub_token(tmp->token, envp);
+		new_sub_token = expand_sub_token(tmp->token, info);
 		if (!new_sub_token)
 			return (FAILUER);
 		free(tmp->token);
@@ -130,7 +145,7 @@ static int	replace_sub_token(t_token **sub_token, t_token *envp)
 	return (flag);
 }
 
-int	expand_token(t_token **token_list, t_token *envp)
+int	expand_token(t_token **token_list, t_pipe *info)
 {
 	t_token	*tmp;
 	char	*new_token;
@@ -139,7 +154,7 @@ int	expand_token(t_token **token_list, t_token *envp)
 	tmp = *token_list;
 	while (tmp)
 	{
-		flag = replace_sub_token(&(tmp->sub_token), envp);
+		flag = replace_sub_token(&(tmp->sub_token), info);
 		if (flag == FAILUER)
 			return (FAILUER);
 		if (flag == PASS)

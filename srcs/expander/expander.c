@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 19:38:09 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/11 15:29:25 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:58:30 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ void	print_token(t_token *token)
 	}
 }
 
-int	expander(t_token **token_list, t_token *envp, t_list_type type)
+int	expander(t_token **token_list, t_pipe *info, t_list_type type)
 {
 
-	if (expand_token(token_list, envp) == FAILUER)
+	if (expand_token(token_list, info) == FAILUER)
 		return (free_tlist_deep(*token_list), FAILUER);
 	if (path_name_expantion(token_list, type) == FAILUER)
 		return (free_tlist_deep(*token_list), FAILUER);

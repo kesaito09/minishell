@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/12 06:48:27 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/12 18:35:10 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 	if (dup2_stdin_out(fd_in, fd_out) == FAILUER)
 		error_exit("dup2", 1);
 	if (manage_redirect(branch) == FAILUER
-		|| expander(&branch->arg_list, info->envp, ARG_LIST) == FAILUER
-		|| expander(&branch->file_list, info->envp, FILE_LIST) == FAILUER)
+		|| expander(&branch->arg_list, info, ARG_LIST) == FAILUER
+		|| expander(&branch->file_list, info, FILE_LIST) == FAILUER)
 		exit(1);
 	t_lstadd_back(&info->envp, branch->env_list);
 	cmd = token_argv(branch->arg_list);
@@ -116,8 +116,8 @@ int	manage_my_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 	close_unused_pipe(fd_in, fd_out, info->fd);
 	if (dup2_stdin_out(fd_in, fd_out) == FAILUER
 		|| manage_redirect(branch) == FAILUER
-		|| expander(&branch->arg_list, info->envp, ARG_LIST) == FAILUER
-		|| expander(&branch->file_list, info->envp, FILE_LIST) == FAILUER)
+		|| expander(&branch->arg_list, info, ARG_LIST) == FAILUER
+		|| expander(&branch->file_list, info, FILE_LIST) == FAILUER)
 		return (FAILUER);
 	execve_my_cmd(branch->arg_list, info, branch);
 	reset_stdin_out(info);
