@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer4_subtoken.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 06:22:25 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 16:43:05 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/12 07:24:39 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
-int	attach_sub_tokens(t_token **token_list, t_clist **c_list)
+int	attach_sub_tokens(t_token **token_list, t_lexer_builder **c_list)
 {
 	t_token	*last_token;
 
@@ -24,7 +24,7 @@ int	attach_sub_tokens(t_token **token_list, t_clist **c_list)
 	return (SUCCESS);
 }
 
-int	commit_token(t_token **token_list, t_clist **c_list, t_token_type type)
+int	commit_token(t_token **token_list, t_lexer_builder **c_list, t_token_type type)
 {
 	char	*token;
 
@@ -50,14 +50,14 @@ int	commit_token(t_token **token_list, t_clist **c_list, t_token_type type)
 }
 
 int	commit_subtoken_wrapper(t_token **token_list,
-		t_clist **c_list, t_token_type type)
+		t_lexer_builder **c_list, t_token_type type)
 {
 	if (!((*c_list)->sub_clist))
 		return (SUCCESS);
 	return (commit_token(token_list, c_list, type));
 }
 
-int	commit_word_token(t_token **token_list, t_clist **c_list,
+int	commit_word_token(t_token **token_list, t_lexer_builder **c_list,
 		t_state_tab *state)
 {
 	t_token_type subtype;

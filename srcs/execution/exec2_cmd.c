@@ -6,12 +6,15 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/11 18:21:29 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/12 06:48:27 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/commands.h"
 #include "../../includes/execution.h"
+#include <stdio.h>
+
+
 
 static int	execve_cmd(char **path, char **envp, char **cmd)
 {
@@ -55,6 +58,7 @@ static int	execve_my_cmd(t_token *node, t_pipe *info, t_tree *branch)
 	return (SUCCESS);
 }
 
+
 int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 {
 	pid_t	pid;
@@ -80,7 +84,7 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 	if (!cmd || !env)
 		return (free_split(cmd), free_split(env), FAILUER);
 	execve_cmd(info->path, env, cmd);
-	exit(127);
+	return (FAILUER);
 }
 
 int	manage_envp(t_tree *branch, t_pipe *info, int fd_in, int fd_out)

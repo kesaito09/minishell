@@ -6,22 +6,32 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/05 11:19:00 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/12 09:52:02 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
-
-void	update_sub_state(t_state_tab *state, int input)
+bool	is_dollar_sub(int s_sub)
 {
-	if (input == '$')
-	{
-		if(state ->s_main == STATE_DQUOTE)
-			state ->s_sub = STATE_DOLLER_DQUOTE;
-		else
-			state->s_sub = STATE_DOLLER;
-	}
+	return (s_sub == STATE_DOLLER || s_sub == STATE_DOLLER_DQUOTE);
+}
+
+static void	begin_dollar(t_state_tab *state)
+{
+	if (state->s_main == STATE_DQUOTE)
+		state->s_sub = STATE_DOLLER_DQUOTE;
+	else
+		state->s_sub = STATE_DOLLER;
+}
+
+int	commit_sub_and_set(t_lexer *lx, int sub_state, int next)
+{
+	if (commit_subtoken_wrapper(&(lx->token_list), &lx->buf,
+			what_type(sub_state)) == FAILUER)
+		return (FAILUER);
+	lx->state->s_sub = next;
+	return (SUCCESS);
 }
 
 int	state_check(int state, char **input)
@@ -38,112 +48,120 @@ int	state_check(int state, char **input)
 	return (state);
 }
 
-int	manage_sub_token(t_token **token_list, char **input,
-		t_clist **c_list, t_state_tab *state)
+
+static int	start_dollar_if_qmark(t_lexer *lx, int ch)
 {
-	if ((state->s_sub == STATE_DOLLER || state ->s_sub == STATE_DOLLER_DQUOTE) && is_delimiter_variables(**input))
+	int	next;
+
+	if (ch != '$')
+		return (SUCCESS);
+	if (lx->state->s_main == STATE_SQUOTE)
+		return (SUCCESS);
+
+	next = (*lx->input)[1];
+	if (next != '?')
+		return (SUCCESS);
+	if (!is_dollar_sub(lx->state->s_sub) && lx->buf->sub_clist)
 	{
-		if (commit_subtoken_wrapper(token_list, c_list, what_type(state ->s_sub)) == FAILUER)
+		if (commit_subtoken_wrapper(&(lx->token_list), &lx->buf,
+				what_type(lx->state->s_main)) == FAILUER)
 			return (FAILUER);
-		state->s_sub = state->s_main;
 	}
-	if (**input == '$' && state->s_main != STATE_SQUOTE)
-	{
-		if (state->s_sub != STATE_DOLLER && (*c_list)->sub_clist)
-		{
-			if (commit_subtoken_wrapper(token_list, c_list,
-					what_type(state ->s_main)) == FAILUER)
-				return (FAILUER);
-		}
-		update_sub_state(state, **input);
-	}
+	begin_dollar(lx->state);
 	return (SUCCESS);
 }
 
-
-static int	manage_state_general(t_token **token_list, char **input,
-		t_clist **c_list, t_state_tab *state)
+static int	consume_char(t_lexer *lx)
 {
-	if (can_be_splitted(*input))
+	int	ch;
+
+	ch = **lx->input;
+
+	if (start_dollar_if_qmark(lx, ch) == FAILUER)
+		return (FAILUER);
+
+	if (manage_append_char(&lx->buf, ch) == FAILUER)
+		return (FAILUER);
+	if (is_dollar_sub(lx->state->s_sub) && ch == '?')
 	{
-		if ((*c_list) ->token_clist)
-		{
-			if (commit_word_token(token_list, c_list, state) == FAILUER)
-				return (FAILUER);
-		}
-		if (is_operator(*input))
-		{
-			if (manage_operater(token_list, input) == FAILUER)
-				return (FAILUER);
-			else if (is_delimiter(**input))
-				(*input)++;
-		}
-		else
-			(*input)++;
-		if (state->s_sub == STATE_DOLLER || state ->s_sub == STATE_DOLLER_DQUOTE)
-			state->s_sub = STATE_GENERAL;
+		if (commit_sub_and_set(lx, lx->state->s_sub, lx->state->s_main) == FAILUER)
+			return (FAILUER);
+	}
+	(*lx->input)++;
+	return (SUCCESS);
+}
+
+static int	token_split_in_general(t_lexer *lx)
+{
+	if (lx->buf->token_clist)
+	{
+		if (commit_word_token(&(lx->token_list), &lx->buf, lx->state) == FAILUER)
+			return (FAILUER);
+	}
+	if (is_operator(*lx->input))
+	{
+		if (manage_operater(&(lx->token_list), lx->input) == FAILUER)
+			return (FAILUER);
+		else if (is_delimiter(**lx->input))
+			(*lx->input)++;
 	}
 	else
-	{
-		if (manage_sub_token(token_list, input, c_list, state) == FAILUER)
-			return (FAILUER);
-		if (manage_append_char(c_list, **input) == FAILUER)
-			return (FAILUER);
-		(*input)++;
-	}
+		(*lx->input)++;
+
+	if (is_dollar_sub(lx->state->s_sub))
+		lx->state->s_sub = STATE_GENERAL;
+
 	return (SUCCESS);
 }
 
-static int	manage_state_quote(t_token	**token_list, char **input,
-		t_clist **c_list, t_state_tab *state)
+static int	manage_state_general(t_lexer *lex)
 {
-	if (**input == (char)state->s_main)
-		return (SUCCESS);
-	if (manage_sub_token(token_list, input, c_list, state) == FAILUER)
+	if (can_be_splitted(*lex->input))
+		return (token_split_in_general(lex));
+	return (consume_char(lex));
+}
+
+static int	manage_state_quote(t_lexer *lex)
+{
+	return (consume_char(lex));
+}
+
+int	switch_main_state(t_lexer *lx, int new_main)
+{
+	if (!lx || !lx->state || !lx->input)
 		return (FAILUER);
-	if (manage_append_char(c_list, **input) == FAILUER)
-		return (FAILUER);
-	(*input)++;
+
+	lx->state->s_main = new_main;
+	if (is_dollar_sub(lx->state->s_sub))
+		lx->state->s_sub = lx->state->s_main;
+
+	(*lx->input)++;
 	return (SUCCESS);
 }
 
-int	hundle_quote(t_token **token_list, char **input,
-		t_clist **c_list, t_state_tab *state)
+int	hundle_quote(t_lexer *lex)
 {
 	int	new;
 
-	new = state_check(state->s_main, input);
-	if ((**input != '\'' && **input != '"') || new == state->s_main)
+	new = state_check(lex->state->s_main, lex->input);
+	if ((**lex->input != '\'' && **lex->input != '"') || new == lex->state->s_main)
 		return (SUCCESS);
-	if (state->s_sub == STATE_DOLLER || state ->s_sub == STATE_DOLLER_DQUOTE)
-	{
-		if (commit_subtoken_wrapper(token_list, c_list, what_type(state ->s_sub)) == FAILUER)
-			return (FAILUER);
-		state->s_sub = state->s_main;
-	}
-	if (commit_subtoken_wrapper(token_list, c_list, what_type(state ->s_main)) == FAILUER)
-		return (FAILUER);
-	state->s_main = new;
-	state->s_sub = new;
-	(*input)++;
-	return (SUCCESS);
+	return (switch_main_state(lex, new));
 }
 
-int	manage_state_transition(t_token **token_list, char **input,
-		t_state_tab *state, t_clist **c_list)
+
+
+int	manage_state_transition(t_lexer *lex)
 {
 	int	flag;
 
-	if (hundle_quote(token_list, input, c_list, state) == FAILUER)
+	if (hundle_quote(lex) == FAILUER)
 		return (FAILUER);
-	if (state->s_main == STATE_GENERAL)
-		flag = manage_state_general(token_list, input, c_list, state);
-	else
-		flag = manage_state_quote(token_list, input, c_list, state);
-	if (flag == FAILUER)
-		return (FAILUER);
-	if (**input == '\0' && (*c_list)->token_clist)
-		return (commit_word_token(token_list, c_list, state));
-	return (SUCCESS);
-}
 
+	if (lex->state->s_main == STATE_GENERAL)
+		flag = manage_state_general(lex);
+	else
+		flag = manage_state_quote(lex);
+
+	return (flag);
+}

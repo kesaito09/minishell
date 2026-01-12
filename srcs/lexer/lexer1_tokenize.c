@@ -6,11 +6,12 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/03 19:39:21 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/12 09:50:12 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
+
 
 void	init_state(t_state_tab *state)
 {
@@ -18,164 +19,101 @@ void	init_state(t_state_tab *state)
 	state->s_sub = STATE_GENERAL;
 }
 
+static void	lexer_builder_clear(t_lexer_builder **buf)
+{
+	if (!buf || !*buf)
+		return ;
+	if ((*buf)->token_clist)
+		c_lstclear(&((*buf)->token_clist), free);
+	if ((*buf)->sub_clist)
+		c_lstclear(&((*buf)->sub_clist), free);
+	if ((*buf)->sub_tokens)
+		t_lstclear(&((*buf)->sub_tokens), free);
+	free(*buf);
+	*buf = NULL;
+}
+
+static void	lexer_destroy(t_lexer *lex, bool free_tokens)
+{
+	if (!lex)
+		return ;
+
+	lexer_builder_clear(&lex->buf);
+	if (free_tokens && lex->token_list)
+	{
+		t_lstclear(&(lex->token_list), free);
+		lex->token_list = NULL;
+	}
+	lex->input = NULL;
+	lex->state = NULL;
+}
+
+static int	lexer_init(t_lexer *lex, char **input, t_state_tab *state)
+{
+	if (!lex || !input || !state)
+		return (FAILUER);
+
+	lex->token_list = NULL;
+	lex->input = input;
+	lex->state = state;
+	init_state(lex->state);
+	lex->buf = ft_calloc(1, sizeof(*lex->buf));
+	if (!lex->buf)
+		return (FAILUER);
+	return (SUCCESS);
+}
+
+static int	lexer_flush_end(t_lexer *lx)
+{
+	if (is_dollar_sub(lx->state->s_sub))
+	{
+		if (commit_sub_and_set(lx, lx->state->s_sub, lx->state->s_main) == FAILUER)
+			return (FAILUER);
+	}
+
+	if (lx->buf->token_clist)
+	{
+		if (commit_word_token(&(lx->token_list), &lx->buf, lx->state) == FAILUER)
+			return (FAILUER);
+	}
+	return (SUCCESS);
+}
+
 t_token	*tokenizer(char *input)
 {
+	t_lexer		lex;
 	t_state_tab	state;
-	t_clist		*c_list;
-	t_token		*token_list;
+	char		*p;
 
-	token_list = NULL;
-	c_list = ft_calloc(1, sizeof(t_clist));
-	if (!c_list)
+	if (!input)
 		return (NULL);
-	init_state(&state);
-	while (*input)
+	p = input;
+
+	if (lexer_init(&lex, &p, &state) == FAILUER)
+		return (NULL);
+
+	while (**lex.input)
 	{
-		if (manage_state_transition(&token_list, &input, &state,
-				&c_list) == FAILUER)
+		if (manage_state_transition(&lex) == FAILUER)
+		{
+			lexer_destroy(&lex, true);
 			return (NULL);
+		}
 	}
-	if (state.s_main == STATE_SQUOTE || state.s_main == STATE_DQUOTE)
+
+	if (lexer_flush_end(&lex) == FAILUER)
 	{
-		if (c_list ->token_clist)
-			c_lstclear(&(c_list ->token_clist), free);
-		t_lstclear(&token_list, free);
+		lexer_destroy(&lex, true);
+		return (NULL);
+	}
+
+	if (lex.state->s_main == STATE_SQUOTE || lex.state->s_main == STATE_DQUOTE)
+	{
+		lexer_destroy(&lex, true);
 		ft_putendl_fd("minishell: syntax error: unclosed quote", 2);
 		return (NULL);
 	}
-	return (token_list);
+
+	lexer_destroy(&lex, false);
+	return (lex.token_list);
 }
-
-// int	lexer(char *input, t_token **token_list)
-//{
-//	t_token	*last_node;
-//	t_token	*eof_node;
-
-//	if (tokenizer(input, token_list) == FAILUER)
-//		return (FAILUER);
-//	if (!*token_list)
-//		return (FAILUER);
-//	last_node = t_lstlast(*token_list);
-//	eof_node = t_lstnew(NULL);
-//	if (!eof_node)
-//		return (FAILUER);
-//	eof_node->type = TOKEN_EOF;
-//	last_node->next = eof_node;
-//	return (SUCCESS);
-//}
-
-
-/*debug*/
-
-void	print_token_ke(t_token *token_list)
-{
-	while (token_list)
-	{
-		ft_putendl_fd(token_list ->token, 2);
-		if (token_list ->type == TOKEN_WORD)
-			ft_putendl_fd("WORD", 2);		
-		else
-			ft_putendl_fd("OP", 2);
-		token_list =  token_list ->next;
-	}
-	
-}
-
-
-
-
-
-// int	main(void)
-// {
-// 	t_token	*token;
-// 	char	*test1;
-// 	char	*test2;
-// 	char	*test3;
-// 	char	*test4;
-// 	// char	*test5;
-
-// 	t_token	*token2;
-// 	t_token	*token3;
-// 	t_token	*token4;
-// 	// t_token	*token5;
-
-// 	token = NULL;
-// 	test1 = " cat- e  file1 file2 file3 infile || cat -e";
-// 	test2 = "cat -e  file1 file2 file3 infila && echo aa";
-// 	test3 = "awk '{print $1}'";
-// 	test4 = "echo \"$USER\" \'$USER\'";
-// 	printf("%s\n", test1);
-// 	my_lex(test1, &token);
-// 	while (token)
-// 	{
-// 		printf(" WORD %s : TYPE ", token->token);
-// 		printf("%u\n", token->type);
-// 		token = token->next;
-// 	}
-// 	token2 = NULL;
-// 	my_lex(test2, &token2);
-// 	printf("%s\n", test2);
-// 	while (token2)
-// 	{
-// 		printf(" WORD %s : TYPE ", token2->token);
-// 		printf("%u\n", token2->type);
-// 		token2 = token2->next;
-// 	}
-// 	token3 = NULL;
-// 	my_lex(test3, &token3);
-// 	printf("%s\n", test3);
-// 	while (token3)
-// 	{
-// 		printf(" WORD %s : TYPE ", token3->token);
-// 		printf("%u\n", token3->type);
-// 		token3 = token3->next;
-// 	}
-// 	token4 = NULL;
-// 	my_lex(test4, &token4);
-// 	printf("%s\n", test4);
-// 	while (token4)
-// 	{
-// 		printf(" WORD %s : TYPE ", token4->token);
-// 		printf("%u\n", token4->type);
-// 		token4 = token4->next;
-// 	}
-// }
-
-/*
-memo
-	inputがヌルになるまでループして、状態によって分岐させる
-	3状態の分岐を作ってcontinueで制御する
-
-
-
-	[
-
-		ls       -l    -a
-
-		echo     hello
-
-		ls|grep
-
-		cat<infile>>outfile
-
-		echo 'hello      world'
-
-		echo "ls | cat"
-
-		echo "'hello'"
-
-		echo ""
-
-		abc'def'"ghi"
-
-		echo "$USER" '$USER'
-
-		awk '{print $1}'
-							]
-
-
-
-	}
-
-
-*/

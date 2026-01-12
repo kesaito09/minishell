@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:25:00 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/11 13:28:00 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/12 08:49:09 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	append_char(t_char_list **list, char c)
 	return (SUCCESS);
 }
 
-int	manage_append_char(t_clist **c_list, char c)
+int	manage_append_char(t_lexer_builder **c_list, char c)
 {
 	if (append_char(&((*c_list)->sub_clist), c) == FAILUER)
 		return (FAILUER);
@@ -106,37 +106,3 @@ int	add_token(t_token **token_list, char *token, t_token_type type)
 }
 
 
-// t_token	*lstmap(t_token *lst, void *(*f)(void *),
-// 		void (*del)(void *))
-// {
-// 	t_token	*begin_list;
-// 	t_token	*new_elem;
-
-// 	if (!lst)
-// 		return (NULL);
-// 	begin_list = lstnew((f)(lst->token));
-// 	if (!begin_list)
-// 		return (NULL);
-// 	lst = lst->next;
-// 	while (lst)
-// 	{
-// 		new_elem = lstnew((f)(lst->token));
-// 		if (!new_elem)
-// 		{
-// 			lstclear(&begin_list, del);
-// 			return (NULL);
-// 		}
-// 		lstadd_back(&begin_list, new_elem);
-// 		lst = lst->next;
-// 	}
-// 	return (begin_list);
-// }
-
-// void	lstiter(t_token *lst, void (*f)(void *))
-// {
-// 	while (lst)
-// 	{
-// 		(f)(lst->token);
-// 		lst = lst->next;
-// 	}
-// }

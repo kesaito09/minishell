@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/11 18:11:23 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/12 06:04:28 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	minishell_atty(t_pipe *info)
 	while (true)
 	{
 		setup_signal_prompt();
-		dprintf(2, "[PID %d] prompt\n", getpid());
 		line = readline("minishell$ ");
 		if (!line)
 			return (rl_clear_history(), SUCCESS);
