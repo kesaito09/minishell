@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 17:58:43 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:14:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,20 @@ int	insert_token(t_token *src, t_token *(*f)(t_token *), t_token *input)
 {
 	char	*trash;
 	t_token	*tmp;
+	int		n;
 
 	trash = src->token;
 	if (!ft_strchr(src->token, '*'))
 		return (1);
 	tmp = f(input);
 	if (!tmp)
-		return (0);
+		return (1);
+	n = t_lstsize(tmp);
 	free(trash);
 	src->token = tmp->token;
 	src->next = tmp->next;
 	free(tmp);
-	return (t_lstsize(tmp));
+	return (n);
 }
 
 // int		pathname_expantion(t_token **token_list)

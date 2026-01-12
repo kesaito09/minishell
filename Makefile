@@ -6,13 +6,13 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/08 18:13:40 by natakaha         ###   ########.fr        #
+#    Updated: 2026/01/12 10:57:05 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -g -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS = -g -Wall -Werror -Wextra
 
 INCS = includes
 LIBFTDIR = libft
