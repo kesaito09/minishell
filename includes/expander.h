@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/11 15:03:03 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:57:54 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ typedef enum e_list_type
 bool						is_delimiter_variables(int c);
 int							count_varibles(char *av);
 t_token						*search_variable(char *key, t_token *envp);
-int							expander(t_token **token_list, t_token *envp, t_list_type type);
+int							expander(t_token **token_list, t_pipe *info, t_list_type type);
+int							expand_token(t_token **token_list, t_pipe *info);
 char						*value_dup(char *env);
 char						*expand_var(char *str, t_token *envp);
 typedef struct dirent		t_dirent;
@@ -46,7 +47,6 @@ typedef struct s_token		t_token;
 
 /*utils2*/
 int							match_char(t_token *sub_token, char *file);
-int							expand_token(t_token **token_list, t_token *envp);
 
 /*expand1_variable_expantion*/
 bool						is_delimiter_variables(int c);

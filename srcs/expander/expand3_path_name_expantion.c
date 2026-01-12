@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/11 18:05:42 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:59:53 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int path_name_expantion(t_token **token_list, t_list_type type)
 	{
 		n = manage_insert_token(tmp, wild_card, tmp->sub_token);
 		if (n == 0)
-			return (FAILUER);		
+			return (FAILUER);
 		if (type == FILE_LIST && n > 1)
 		{
 			ft_putendl_fd("ambiguous redirect", 2);
