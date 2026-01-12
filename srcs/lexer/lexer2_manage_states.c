@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/12 09:52:02 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/12 10:20:41 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,6 @@ int	hundle_quote(t_lexer *lex)
 		return (SUCCESS);
 	return (switch_main_state(lex, new));
 }
-
-
 
 int	manage_state_transition(t_lexer *lex)
 {

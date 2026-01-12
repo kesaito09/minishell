@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/12 09:50:12 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/12 10:20:30 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static int	lexer_flush_end(t_lexer *lx)
 		if (commit_sub_and_set(lx, lx->state->s_sub, lx->state->s_main) == FAILUER)
 			return (FAILUER);
 	}
-
 	if (lx->buf->token_clist)
 	{
 		if (commit_word_token(&(lx->token_list), &lx->buf, lx->state) == FAILUER)
@@ -100,20 +99,17 @@ t_token	*tokenizer(char *input)
 			return (NULL);
 		}
 	}
-
 	if (lexer_flush_end(&lex) == FAILUER)
 	{
 		lexer_destroy(&lex, true);
 		return (NULL);
 	}
-
 	if (lex.state->s_main == STATE_SQUOTE || lex.state->s_main == STATE_DQUOTE)
 	{
 		lexer_destroy(&lex, true);
 		ft_putendl_fd("minishell: syntax error: unclosed quote", 2);
 		return (NULL);
 	}
-
 	lexer_destroy(&lex, false);
 	return (lex.token_list);
 }
