@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 08:42:16 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/13 06:58:26 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,7 @@ t_tree	*parser(char *input, t_pipe *info)
 	token_list = tokenizer(input);
 	if (!token_list)
 		return (NULL);
-	if (!token_list)
-		return (NULL);
+	
 	ast = parse_manage(&token_list, info->envp);
 	return (ast);
 }

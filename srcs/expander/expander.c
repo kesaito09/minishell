@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 19:38:09 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/12 11:58:30 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/13 05:22:49 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	print_token(t_token *token)
 {
 	while (token)
 	{
+		fprintf(stderr, "--TOKEN: %s  TYPE: %d--\n", token ->token, token ->type);
 		if (token ->sub_token)
 		{
 			print_sub_token(token ->sub_token);
