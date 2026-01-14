@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:23:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 17:52:11 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/14 07:54:02 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_token	*t_lstnew(char *token)
 	if (!new_elem)
 		return (NULL);
 	new_elem->type = 0;
-	new_elem->token = token;
+	new_elem->token = ft_strdup(token);
 	if (!new_elem->token)
 		return (free(new_elem), NULL);
 	new_elem->next = NULL;
