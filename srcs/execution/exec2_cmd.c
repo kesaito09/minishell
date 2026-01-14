@@ -6,29 +6,29 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/14 08:00:43 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/14 08:59:54 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/commands.h"
 #include "../../includes/execution.h"
 
-static int	execve_cmd(char **path, char **envp, char **cmd)
+static int	execve_cmd(char **envp, char **cmd)
 {
-	int		i;
 	char	*full_path;
+	t_token	*path;
 
-	i = 0;
 	if (!cmd)
 		return (FAILUER);
-	while (path[i])
+	path = complete_path(envp);
+	while (path)
 	{
-		full_path = ft_strjoin(path[i], cmd[0]);
+		full_path = ft_strjoin(path->token, cmd[0]);
 		if (!full_path)
 			error_exit("malloc", 1);
 		execve(full_path, cmd, envp);
 		free(full_path);
-		i++;
+		path = path->next;
 	}
 	command_error_check(cmd[0], cmd[0]);
 	execve(cmd[0], cmd, envp);
@@ -79,7 +79,7 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 	env = token_argv(info->envp);
 	if (!cmd || !env)
 		return (free_split(cmd), free_split(env), FAILUER);
-	execve_cmd(info->path, env, cmd);
+	execve_cmd(env, cmd);
 	return (FAILUER);
 }
 

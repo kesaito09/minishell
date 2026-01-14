@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/08 16:56:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/14 08:46:33 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,18 @@ int	main(int argc, char **argv, char **envp)
 	int		flag;
 
 	info = collect_info(envp);
+	if (!info.envp)
+		return (EXIT_FAILURE);
 	if (!isatty(STDIN_FILENO))
 		flag = minishell_pipe(&info);
 	else
 		flag = minishell_atty(&info);
-	free_split(info.path);
 	t_lstclear(&info.envp, free);
 	(void)argc;
 	(void)argv;
 	if (flag == FAILUER)
-		return (1);
-	return (0);
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 // /*tester*/

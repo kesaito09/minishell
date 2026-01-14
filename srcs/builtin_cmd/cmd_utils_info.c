@@ -6,87 +6,52 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 06:33:13 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/28 17:23:25 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:00:22 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 
-void	free_path(char **path)
+static char	*find_path(char **envp)
 {
 	int	i;
 
 	i = 0;
-	while (path[i])
-	{
-		free(path[i]);
-		i++;
-	}
-	return ;
-}
-
-static int	find_path(char ***path, char **envp)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	tmp = "tmp";
 	while (envp[i])
 	{
-		if (!ft_strncmp("PATH=", envp[i], 5))
-		{
-			tmp = ft_strdup(envp[i]);
-			if (!tmp)
-				return (FAILUER);
-			break;
-		}
+		if (!ft_argcmp("PATH", envp[i]))
+			return (envp[i]);
 		i++;
 	}
-	if (!tmp)
-		return (FAILUER);
-	*path = ft_split(tmp, ':');
-	free(tmp);
-	if (!path)
-		return (FAILUER);
-	return (SUCCESS);
+	return (NULL);
 }
 
-static int	complete_path(char ***path, char **envp)
+t_token	*complete_path(char **envp)
 {
-	int		i;
+	char	*path_str;
+	char	**path_lst;
 	char	*tmp;
+	int		i;
 
-	if (find_path(path, envp) == FAILUER)
-		return (FAILUER);
+	if (!envp || !*envp)
+		return (NULL);
+	path_str = find_path(envp);
+	if (!path_str)
+		return (NULL);
+	path_lst = ft_split(path_str, ':');
+	if (!path_lst)
+		return (NULL);
 	i = 0;
-	while ((*path)[i])
+	while (path_lst[i])
 	{
-		tmp = (*path)[i];
-		(*path)[i] = ft_strjoin((*path)[i], "/");
-		if (!(*path)[i])
-			return (FAILUER);
+		tmp = path_lst[i];
+		path_lst[i] = ft_strjoin(tmp, "/");
+		if (!path_lst[i])
+			return (free_split(path_lst), NULL);
 		free(tmp);
 		i++;
 	}
-	return (SUCCESS);
-}
-
-char	**dup_split(char **envp)
-{
-	char	**new_env;
-	int		i;
-
-	new_env = (char **)ft_calloc(count_arr_elem(envp) + 1, sizeof(char *));
-	if (!new_env)
-		return (NULL);
-	i = 0;
-	while (envp[i])
-	{
-		new_env[i] = ft_strdup(envp[i]);
-		i++;
-	}
-	return (new_env);
+	return (argv_token(path_lst));
 }
 
 t_pipe	collect_info(char **envp)
@@ -95,8 +60,6 @@ t_pipe	collect_info(char **envp)
 
 
 	ft_bzero(&info, sizeof(t_pipe));
-	if (complete_path(&(info.path), envp) == FAILUER)
-		exit(1);
 	info.envp = argv_token(envp);
 	info.plist = NULL;
 	info.pipe = false;
