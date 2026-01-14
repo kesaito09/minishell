@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 20:01:55 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/14 08:01:55 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,6 @@ int	export_module(t_token *cmd, t_pipe *info)
 
 int	export(t_token *cmd, t_pipe *info)
 {
-	if (ft_strcmp(cmd->token, "export"))
-		return (false);
-	cmd = cmd->next;
 	while (cmd)
 	{
 		export_module(cmd, info);

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/12 12:35:29 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/14 08:00:43 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	execve_my_cmd(t_token *node, t_pipe *info, t_tree *branch)
 	if (!ft_strcmp(node->token, "pwd"))
 		pwd();
 	if (!ft_strcmp(node->token, "export"))
-		export(node, info);
+		export(node->next, info);
 	if (!ft_strcmp(node->token, "unset"))
 		unset(node, info);
 	if (!ft_strcmp(node->token, "env"))
@@ -74,7 +74,7 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 		|| expander(&branch->arg_list, info->envp) == FAILUER
 		|| expander(&branch->file_list, info->envp) == FAILUER)
 		exit(1);
-	t_lstadd_back(&info->envp, branch->env_list);
+	export(branch->env_list, info);
 	cmd = token_argv(branch->arg_list);
 	env = token_argv(info->envp);
 	if (!cmd || !env)
