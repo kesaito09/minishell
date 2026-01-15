@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/15 19:17:34 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/16 01:47:07 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,8 @@ typedef enum e_state
 	STATE_DQUOTE = '"',
 	STATE_DOLLER = '$',
 	STATE_DOLLER_DQUOTE = 'd',
+	FAIL
 }						t_state;
-
-typedef struct s_state_tab
-{
-	int					s_main;
-	int					s_sub;
-}						t_state_tab;
 
 typedef struct s_token
 {
@@ -67,25 +62,10 @@ typedef struct s_char_list
 	struct s_char_list	*next;
 }						t_char_list;
 
-typedef struct s_lexer_builder
-{
-	t_char_list			*token_clist;
-	t_char_list			*sub_clist;
-	t_token				*sub_tokens;
-}						t_lexer_builder;
-
-typedef struct s_lexer
-{
-	t_token				*token_list;
-	char				**input;
-	t_lexer_builder		*buf;
-	t_state_tab			*state;
-}						t_lexer;
-
 /*lexer_utils1_token*/
 void					buff_add_buck(t_char_list **char_list,
 							t_char_list *new_char_list);
-int						manage_append_char(t_lexer_builder **c_list, char c);
+int						append_char(t_char_list **list, char c);
 char					*list_to_string(t_char_list **list);
 int						add_token(t_token **token_list, char *token,
 							t_token_type type);
@@ -100,6 +80,7 @@ void					t_lstadd_back(t_token **lst, t_token *new);
 void					t_lstadd_front(t_token **lst, t_token *new);
 t_token					*t_lstmove(t_token *lst, int n);
 void					t_lstadd_sort(t_token **lst, t_token *new);
+void	c_lstadd_back(t_char_list **lst, t_char_list *new);
 
 /*lexer_utils3_charlist*/
 t_char_list				*c_lstlast(t_char_list *lst);
@@ -111,10 +92,10 @@ int						commit_token(t_token **token_list,
 /*lexer_utils4_manage_states*/
 // int						manage_state_transition(t_token **token_list,
 // 							char **input, int *state, t_char_list **c_list);
-int						manage_state_transition(t_lexer *lex);
 int						commit_sub_and_set(t_lexer *lx, int sub_state,
 							int next);
 bool					is_dollar_sub(int s_sub);
+int	commit_clist(t_token **token, t_char_list *c_list, t_token_type type);
 
 /*lexer_utils5_manage_operaters*/
 int						manage_operater(t_token **token_list, char **input);

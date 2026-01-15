@@ -6,18 +6,18 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/13 06:57:18 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/16 01:19:09 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
 
-void	init_state(t_state_tab *state)
-{
-	state->s_main = STATE_GENERAL;
-	state->s_sub = STATE_GENERAL;
-}
+// void	init_state(t_state_tab *state)
+// {
+// 	state->s_main = STATE_GENERAL;
+// 	state->s_sub = STATE_GENERAL;
+// }
 
 static void	lexer_builder_clear(t_lexer_builder **buf)
 {
@@ -48,64 +48,50 @@ static void	lexer_destroy(t_lexer *lex, bool free_tokens)
 	lex->state = NULL;
 }
 
-static int	lexer_init(t_lexer *lex, char **input, t_state_tab *state)
+static t_lexer	lexer_init(char *input)
 {
-	if (!lex || !input || !state)
-		return (FAILUER);
-
-	lex->token_list = NULL;
-	lex->input = input;
-	lex->state = state;
-	init_state(lex->state);
-	lex->buf = ft_calloc(1, sizeof(*lex->buf));
-	if (!lex->buf)
-		return (FAILUER);
-	return (SUCCESS);
+	t_lexer	lex;
+	
+	ft_bzero(&lex, sizeof(t_lexer));
+	lex.input = input;
+	lex.state->s_main = STATE_GENERAL;
+	lex.state->s_sub = STATE_GENERAL;
+	return (lex);
 }
 
-static int	lexer_flush_end(t_lexer *lx)
-{
-	if (is_dollar_sub(lx->state->s_sub))
-	{
-		if (commit_sub_and_set(lx, lx->state->s_sub, lx->state->s_main) == FAILUER)
-			return (FAILUER);
-	}
-	if (lx->buf->token_clist)
-	{
-		if (commit_word_token(&(lx->token_list), &lx->buf, lx->state) == FAILUER)
-			return (FAILUER);
-	}
-	return (SUCCESS);
-}
+// static int	lexer_flush_end(t_lexer *lex)
+// {
+// 	if (lex->state->s_sub == STATE_DOLLER || lex->state->s_sub == STATE_DOLLER_DQUOTE)
+// 	{
+// 		if (commit_sub_and_set(lex, lex->state->s_sub, lex->state->s_main) == FAILUER)
+// 			return (FAILUER);
+// 	}
+// 	if (lex->buf->token_clist)
+// 	{
+// 		if (commit_word_token(&(lex->token_list), &lex->buf, lex->state) == FAILUER)
+// 			return (FAILUER);
+// 	}
+// 	return (SUCCESS);
+// }
 
 t_token	*tokenizer(char *input)
 {
-	t_lexer		lex;
-	t_state_tab	state;
-
+	t_state		state;
+	t_token		*lst;
+	
 	if (!input)
 		return (NULL);
-	if (lexer_init(&lex, &input, &state) == FAILUER)
-		return (NULL);
-	while (**lex.input)
+	state = STATE_GENERAL;
+	while (input)
 	{
-		if (manage_state_transition(&lex) == FAILUER)
-		{
-			lexer_destroy(&lex, true);
-			return (NULL);
-		}
+		state = manage_state_transition(input, &lst, state);
+		if (state == FAILUER)
+			return (t_lstclear(&lst, free), NULL);
 	}
-	if (lexer_flush_end(&lex) == FAILUER)
+	if (state == STATE_SQUOTE || state == STATE_DQUOTE)
 	{
-		lexer_destroy(&lex, true);
-		return (NULL);
-	}
-	if (lex.state->s_main == STATE_SQUOTE || lex.state->s_main == STATE_DQUOTE)
-	{
-		lexer_destroy(&lex, true);
 		ft_putendl_fd("minishell: syntax error: unclosed quote", 2);
 		return (NULL);
 	}
-	lexer_destroy(&lex, false);
-	return (lex.token_list);
+	return (lst);
 }

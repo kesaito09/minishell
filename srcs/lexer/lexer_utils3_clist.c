@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils3_char_list.c                           :+:      :+:    :+:   */
+/*   lexer_utils3_clist.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:30:23 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/03 06:23:44 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/16 00:40:45 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,21 @@ t_char_list	*c_lstlast(t_char_list *lst)
 	while (lst && lst->next)
 		lst = lst->next;
 	return (lst);
+}
+
+void	c_lstadd_back(t_char_list **lst, t_char_list *new)
+{
+	t_char_list	*last;
+
+	if (!lst)
+		return ;
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	last = c_lstlast(*lst);
+	last->next = new;
 }
 
 size_t	c_lstsize(t_char_list *lst)

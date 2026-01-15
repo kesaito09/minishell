@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:25:00 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/12 08:49:09 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/16 00:45:25 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,59 +29,36 @@ void	buff_add_buck(t_char_list **char_list, t_char_list *new_char_list)
 	}
 }
 
-static int	append_char(t_char_list **list, char c)
+int	append_char(t_char_list **list, char c)
 {
 	t_char_list	*new_node;
 	t_char_list	*temp;
 
-	new_node = malloc(sizeof(t_char_list));
+	new_node = ft_calloc(sizeof(t_char_list), 1);
 	if (!new_node)
 		return (FAILUER);
 	new_node->c = c;
 	new_node->next = NULL;
-	if (!*list)
-	{
-		*list = new_node;
-	}
-	else
-	{
-		temp = *list;
-		while (temp->next)
-			temp = temp->next;
-		temp->next = new_node;
-	}
+	c_lstadd_back(list, new_node);
 	return (SUCCESS);
 }
 
-int	manage_append_char(t_lexer_builder **c_list, char c)
-{
-	if (append_char(&((*c_list)->sub_clist), c) == FAILUER)
-		return (FAILUER);
-	if (append_char(&((*c_list)->token_clist), c) == FAILUER)
-		return (FAILUER);
-	return (SUCCESS);
-}
-
-char	*list_to_string(t_char_list **list)
+char	*list_to_string(t_char_list *c_list)
 {
 	char		*str;
-	t_char_list	*current;
 	int			list_size;
 	size_t		i;
 
-	list_size = c_lstsize(*list);
+	list_size = c_lstsize(c_list);
 	str = ft_calloc(list_size + 1, sizeof(char));
 	if (!str)
-		return (c_lstclear(list, free), NULL);
-	current = *list;
+		return (NULL);
 	i = 0;
-	while (current)
+	while (c_list)
 	{
-		str[i++] = current->c;
-		current = current->next;
+		str[i++] = c_list->c;
+		c_list = c_list->next;
 	}
-	c_lstclear(list, free);
-	*list = NULL;
 	return (str);
 }
 
