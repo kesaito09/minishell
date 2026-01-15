@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/12 10:20:30 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/13 06:57:18 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,11 @@ t_token	*tokenizer(char *input)
 {
 	t_lexer		lex;
 	t_state_tab	state;
-	char		*p;
 
 	if (!input)
 		return (NULL);
-	p = input;
-
-	if (lexer_init(&lex, &p, &state) == FAILUER)
+	if (lexer_init(&lex, &input, &state) == FAILUER)
 		return (NULL);
-
 	while (**lex.input)
 	{
 		if (manage_state_transition(&lex) == FAILUER)

@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/12 18:58:12 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/12 19:34:44 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,15 @@ static char *manage_dup(char *sub_token, t_pipe *info, int *len)
 	if (!(ft_strncmp(sub_token, "$?", 2)))
 	{
 		new_str = ft_itoa(info ->ecode);
+		if (!new_str)
+			return (NULL);		
 		*len = 2;
 	}
 	else
 	{
 		new_str = expand_var(sub_token + 1, info ->envp);
+		if (!new_str)
+			return (NULL);		
 		*len = count_varibles(sub_token + 1) + 1;
 	}
 	return (new_str);

@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/12 10:21:26 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/13 06:58:21 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,17 @@ int	state_check(int state, char **input)
 }
 
 
-static int	start_dollar_if_qmark(t_lexer *lx, int ch)
+static int	start_dollar_if_needed(t_lexer *lx, int ch)
 {
-	int	next;
-
 	if (ch != '$')
 		return (SUCCESS);
 	if (lx->state->s_main == STATE_SQUOTE)
 		return (SUCCESS);
 
-	next = (*lx->input)[1];
-	if (next != '?')
+	if (is_dollar_sub(lx->state->s_sub))
 		return (SUCCESS);
-	if (!is_dollar_sub(lx->state->s_sub) && lx->buf->sub_clist)
+
+	if (lx->buf->sub_clist)
 	{
 		if (commit_subtoken_wrapper(&(lx->token_list), &lx->buf,
 				what_type(lx->state->s_main)) == FAILUER)
@@ -73,19 +71,30 @@ static int	start_dollar_if_qmark(t_lexer *lx, int ch)
 
 static int	consume_char(t_lexer *lx)
 {
-	int	ch;
+	int		ch;
+	int		next;
 
 	ch = **lx->input;
-
-	if (start_dollar_if_qmark(lx, ch) == FAILUER)
+	if (start_dollar_if_needed(lx, ch) == FAILUER)
 		return (FAILUER);
-
 	if (manage_append_char(&lx->buf, ch) == FAILUER)
 		return (FAILUER);
-	if (is_dollar_sub(lx->state->s_sub) && ch == '?')
+	if (is_dollar_sub(lx->state->s_sub))
 	{
-		if (commit_sub_and_set(lx, lx->state->s_sub, lx->state->s_main) == FAILUER)
-			return (FAILUER);
+		if (ch == '?')
+		{
+			if (commit_sub_and_set(lx, lx->state->s_sub, lx->state->s_main) == FAILUER)
+				return (FAILUER);
+		}
+		else
+		{
+			next = (*lx->input)[1];
+			if (next == '\0' || is_delimiter_variables(next))
+			{
+				if (commit_sub_and_set(lx, lx->state->s_sub, lx->state->s_main) == FAILUER)
+					return (FAILUER);
+			}
+		}
 	}
 	(*lx->input)++;
 	return (SUCCESS);
@@ -110,7 +119,6 @@ static int	token_split_in_general(t_lexer *lx)
 
 	if (is_dollar_sub(lx->state->s_sub))
 		lx->state->s_sub = STATE_GENERAL;
-
 	return (SUCCESS);
 }
 
@@ -134,7 +142,6 @@ int	switch_main_state(t_lexer *lx, int new_main)
 	lx->state->s_main = new_main;
 	if (is_dollar_sub(lx->state->s_sub))
 		lx->state->s_sub = lx->state->s_main;
-
 	(*lx->input)++;
 	return (SUCCESS);
 }
@@ -148,17 +155,16 @@ int	hundle_quote(t_lexer *lex)
 		return (SUCCESS);
 	return (switch_main_state(lex, new));
 }
+
 int	manage_state_transition(t_lexer *lex)
 {
 	int	flag;
 
 	if (hundle_quote(lex) == FAILUER)
 		return (FAILUER);
-
 	if (lex->state->s_main == STATE_GENERAL)
 		flag = manage_state_general(lex);
 	else
 		flag = manage_state_quote(lex);
-
 	return (flag);
 }
