@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/12 18:35:10 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/15 19:05:12 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,22 @@
 
 
 
-static int	execve_cmd(char **path, char **envp, char **cmd)
+static int	execve_cmd(char **envp, char **cmd)
 {
-	int		i;
 	char	*full_path;
+	t_token	*path;
 
-	i = 0;
 	if (!cmd)
 		return (FAILUER);
-	while (path[i])
+	path = complete_path(envp);
+	while (path)
 	{
-		full_path = ft_strjoin(path[i], cmd[0]);
+		full_path = ft_strjoin(path->token, cmd[0]);
 		if (!full_path)
 			error_exit("malloc", 1);
 		execve(full_path, cmd, envp);
 		free(full_path);
-		i++;
+		path = path->next;
 	}
 	command_error_check(cmd[0], cmd[0]);
 	execve(cmd[0], cmd, envp);
@@ -48,7 +48,7 @@ static int	execve_my_cmd(t_token *node, t_pipe *info, t_tree *branch)
 	if (!ft_strcmp(node->token, "pwd"))
 		pwd();
 	if (!ft_strcmp(node->token, "export"))
-		export(node, info);
+		export(node->next, info);
 	if (!ft_strcmp(node->token, "unset"))
 		unset(node, info);
 	if (!ft_strcmp(node->token, "env"))
@@ -78,12 +78,12 @@ int	manage_cmd(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
 		|| expander(&branch->arg_list, info, ARG_LIST) == FAILUER
 		|| expander(&branch->file_list, info, FILE_LIST) == FAILUER)
 		exit(1);
-	t_lstadd_back(&info->envp, branch->env_list);
+	export(branch->env_list, info);
 	cmd = token_argv(branch->arg_list);
 	env = token_argv(info->envp);
 	if (!cmd || !env)
 		return (free_split(cmd), free_split(env), FAILUER);
-	execve_cmd(info->path, env, cmd);
+	execve_cmd(env, cmd);
 	return (FAILUER);
 }
 

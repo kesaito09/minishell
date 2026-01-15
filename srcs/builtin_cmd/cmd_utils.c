@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:07:56 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/08 03:53:06 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/14 08:59:39 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_argcmp(const char *arg, const char *env)
 		return (-1);
 	len = strchr_len((char *)arg, '=');
 	if (len < 0)
-		ft_strlen(arg);
+		len = ft_strlen(arg);
 	if (ft_strncmp(arg, env, len))
 		return (1);
 	if (env[len] != '=')

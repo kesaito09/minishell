@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils2_tlist.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:23:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/11 12:54:50 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/15 20:10:19 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,17 @@ t_token	*t_lstmove(t_token *lst, int n)
 t_token	*t_lstnew(char *token)
 {
 	t_token	*new_elem;
+	char	*dest;
 
+	if (!token)
+		return (NULL);
 	new_elem = ft_calloc(sizeof(t_token), 1);
 	if (!new_elem)
 		return (NULL);
-	new_elem->token = token;
-	if (!new_elem->token)
+	dest = ft_strdup(token);
+	if (!dest)
 		return (free(new_elem), NULL);
+	new_elem->token = dest;
 	new_elem->next = NULL;
 	return (new_elem);
 }
@@ -97,4 +101,32 @@ void	t_lstadd_front(t_token **lst, t_token *new)
 {
  	new->next = (*lst);
  	(*lst) = new;
+}
+
+void	t_lstadd_sort(t_token **lst, t_token *new)
+{
+	t_token	*current;
+	t_token	*pre;
+
+	if (!lst || !new)
+		return ;
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	current = *lst;
+	pre = NULL;
+	while (current)
+	{
+		if (ft_strcmp(current->token, new->token) >= 0)
+			break ;
+		pre = current;
+		current = current->next;
+	}
+	if (pre)
+		pre->next = new;
+	else
+		*lst = new;
+	new->next = current;
 }

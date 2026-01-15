@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/11 15:39:01 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/15 19:31:41 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,11 @@
 
 t_token	*f_lstnew(char *token, t_token_type type)
 {
-	char	*fname;
 	t_token	*new_file;
 
-	fname = ft_strdup(token);
-	if (!fname)
-		return (NULL);
-	new_file = t_lstnew(fname);
+	new_file = t_lstnew(token);
 	if (!new_file)
-		return (free(fname), NULL);
+		return (free(token), NULL);
 	new_file->type = type;
 	return (new_file);
 }

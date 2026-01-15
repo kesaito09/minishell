@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand1_variables_expantion.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:51:16 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/12 19:34:44 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/15 19:39:14 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ static char *manage_dup(char *sub_token, t_pipe *info, int *len)
 	{
 		new_str = ft_itoa(info ->ecode);
 		if (!new_str)
-			return (NULL);		
+			return (NULL);
 		*len = 2;
 	}
 	else
 	{
 		new_str = expand_var(sub_token + 1, info ->envp);
 		if (!new_str)
-			return (NULL);		
+			return (NULL);
 		*len = count_varibles(sub_token + 1) + 1;
 	}
 	return (new_str);
@@ -77,7 +77,7 @@ static char	*sub_token_dup(char *sub_token, t_pipe *info, int *len)
 	else
 		sub_token_parts = ft_strndup(sub_token, *len);
 	if (!sub_token_parts)
-		return (NULL); 
+		return (NULL);
 	return (sub_token_parts);
 }
 

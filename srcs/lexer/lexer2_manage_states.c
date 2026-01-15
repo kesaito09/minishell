@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer2_manage_states.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/13 06:58:21 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/15 20:49:56 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ bool	is_dollar_sub(int s_sub)
 	return (s_sub == STATE_DOLLER || s_sub == STATE_DOLLER_DQUOTE);
 }
 
+//$が始まるときのじょうたいを更新するやつ
 static void	begin_dollar(t_state_tab *state)
 {
 	if (state->s_main == STATE_DQUOTE)
@@ -55,10 +56,9 @@ static int	start_dollar_if_needed(t_lexer *lx, int ch)
 		return (SUCCESS);
 	if (lx->state->s_main == STATE_SQUOTE)
 		return (SUCCESS);
-
-	if (is_dollar_sub(lx->state->s_sub))
-		return (SUCCESS);
-
+	//if (is_dollar_sub(lx->state->s_sub))//すでに＄のときは
+	//	return (SUCCESS);
+	//$の開始時はサブトークンを確定する
 	if (lx->buf->sub_clist)
 	{
 		if (commit_subtoken_wrapper(&(lx->token_list), &lx->buf,
@@ -116,7 +116,6 @@ static int	token_split_in_general(t_lexer *lx)
 	}
 	else
 		(*lx->input)++;
-
 	if (is_dollar_sub(lx->state->s_sub))
 		lx->state->s_sub = STATE_GENERAL;
 	return (SUCCESS);

@@ -56,7 +56,6 @@ typedef struct s_pidlist
 typedef struct s_pipe
 {
 	t_token			*envp;
-	char			**path;
 	bool			pipe;
 	int				fd[2];
 	t_pidlist		*plist;

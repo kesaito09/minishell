@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils7_arglist.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 02:58:10 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/12 06:13:22 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/15 20:00:51 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ char	**token_argv(t_token *node)
 
 t_token	*argv_token(char **argv)
 {
-	t_token *node;
-	t_token *lst;
-	int i;
+	t_token	*node;
+	t_token	*lst;
+	int		i;
 
 	i = 0;
 	lst = NULL;
