@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/16 14:22:14 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/16 16:01:49 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	word_len(char *input, char *charsplit, char *charignore)
 	while (input[len])
 	{
 		if ((ft_strchr(charsplit, input[len]))
-			|| (input[len] == '&' && input[len + 1] == '&'))
+			|| (charignore && input[len] == '&' && input[len + 1] == '&'))
 			return (len);
 		if (ft_strchr(charignore, input[len]))
 		{
@@ -93,9 +93,9 @@ t_token	*tokenizer(char *input)
 	return (lst);
 }
 
-t_token	*token_to_sub(t_token *token_list)
-{
-	if (!token_list)
+// t_token	*token_to_sub(t_token *token_list)
+// {
+// 	if (!token_list)
 				
 	
 	
@@ -103,16 +103,16 @@ t_token	*token_to_sub(t_token *token_list)
 	
 	
 	
-}
+// }
 
 
 
-int main(int ac, char **av)
-{
-	if (ac == 1)
-		return (0);
-	print_token(token_lst(av[1]));
-}
+// int main(int ac, char **av)
+// {
+// 	if (ac == 1)
+// 		return (0);
+// 	print_token(tokenizer(av[1]));
+// }
 
 // int	token_len(char *input, char *charset)
 // {
@@ -216,8 +216,8 @@ int main(int ac, char **av)
 // // 	return (lst);
 // // }
 
-t_token	*tokenizer(char *input)
-{
-	(void)input;
-	return (NULL);
-}
+// t_token	*tokenizer(char *input)
+// {
+// 	(void)input;
+// 	return (NULL);
+// }

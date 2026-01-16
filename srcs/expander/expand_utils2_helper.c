@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils2_helper.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/08 10:01:03 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/16 16:51:06 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,3 +89,82 @@
 //		}
 //	}
 //}
+
+t_token	*get_sub_token(char **input)
+{
+	t_state	state;
+	t_token	*node;
+	int		n;
+
+	state = STATE_GENERAL;
+	n = 0;
+	if (ft_strchr("'\"", **input))
+		state = **input;
+	if (state == STATE_GENERAL)
+		n = word_len(*input, "'\"", NULL);
+	else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
+		n = strchr_len(*input + 1, state) + 2;
+	if (n <= 1)
+		return (NULL);
+	node = t_lstnew(ft_strndup(*input, n), free);
+	*input += n;
+	if (!node)
+		return (NULL);
+	node->type = what_type(state);
+	return (node); 
+}
+
+t_token	*expand_dollar(t_token *input)
+{	
+	t_token	*node;
+	t_token	*new;
+	char	*str;
+	int		len;
+
+	str = input->token;
+	node = NULL;
+	while (*str)
+	{
+		len = strchr_len(str, '$');
+		if (len < 0 && node && !*str)
+			return (node);
+		else if (len < 0 && !*str)
+			return (input);
+		else if (len < 0)
+			len = ft_strlen(str);
+		if (!len)
+			len = count_varibles(str + 1) + 1;
+		new = t_lstnew(ft_strndup(str, len), free);
+		if (!new)
+			return (t_lstclear(&node, free), NULL);
+		str += len;
+		t_lstadd_back(&node, new);
+	}
+	t_lstclear(&input, free);
+	return (node);
+}
+
+t_token	*sub_token_lst(char *input)
+{
+	t_token	*lst;
+	t_token	*new;
+	
+	lst = NULL;
+	while (*input)
+	{
+		new = get_sub_token(&input);
+		if (!new)
+			return (t_lstclear(&lst, free), NULL);
+		if (new->type != STATE_SQUOTE)
+		new = expand_dollar(new);
+		t_lstadd_back(&lst, new);
+	}
+	return (lst);
+}
+
+int main(int ac, char **av)
+{
+	if (ac == 1)
+		return (0);
+	print_token(sub_token_lst(av[1]));
+}

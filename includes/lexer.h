@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/16 14:12:55 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:42:15 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,8 @@ t_token_type			what_type(int state);
 
 /*lexer*/
 t_token					*tokenizer(char *input);
+int	word_len(char *input, char *charsplit, char *charignore);
+
+
 
 #endif
