@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/16 10:48:59 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:12:55 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 # include "minishell.h"
 # include <stdbool.h>
+
+# define OPERATOR "|<>()"
+# define DELIMITER " \t\n"
+# define SPLIT "|<>() \t\n"
+# define QUOTE "\'\""
 
 typedef enum e_token_type
 {
@@ -29,6 +34,7 @@ typedef enum e_token_type
 	TOKEN_PARENTHESIS_LEFT = '(',
 	TOKEN_PARENTHESIS_RIGHT = ')',
 	TOKEN_ENVP = '=',
+	TOKEN_SPACE = ' ',
 	SUB_TOKEN_GENERAL = 'g',
 	SUB_TOKEN_SQUOTE = '\'',
 	SUB_TOKEN_DQUOTE = '\"',
@@ -72,7 +78,7 @@ int						add_token(t_token **token_list, char *token,
 
 /*lexer_utils2_list_helpers*/
 size_t					t_lstsize(t_token *lst);
-t_token					*t_lstnew(char *token, void (*del)(char *));
+t_token					*t_lstnew(char *token, void (*del)(void *));
 void					t_lstdelone(t_token *lst, void (*del)(void *));
 void					t_lstclear(t_token **lst, void (*del)(void *));
 t_token					*t_lstlast(t_token *lst);
@@ -87,15 +93,13 @@ t_char_list				*c_lstlast(t_char_list *lst);
 size_t					c_lstsize(t_char_list *lst);
 void					c_lstclear(t_char_list **lst, void (*del)(void *));
 int						commit_token(t_token **token_list,
-							t_lexer_builder **c_lsit, t_token_type type);
 
 /*lexer_utils4_manage_states*/
 // int						manage_state_transition(t_token **token_list,
 // 							char **input, int *state, t_char_list **c_list);
-int						commit_sub_and_set(t_lexer *lx, int sub_state,
 							int next);
 bool					is_dollar_sub(int s_sub);
-int	commit_clist(t_token **token, t_char_list *c_list, t_token_type type);
+int						commit_clist(t_token **token, t_char_list *c_list, t_token_type type);
 
 /*lexer_utils5_manage_operaters*/
 int						manage_operater(t_token **token_list, char **input);
@@ -109,9 +113,5 @@ t_token_type			what_type(int state);
 
 /*lexer*/
 t_token					*tokenizer(char *input);
-int						commit_word_token(t_token **token_list,
-							t_lexer_builder **c_list, t_state_tab *state);
-int						commit_subtoken_wrapper(t_token **token_list,
-							t_lexer_builder **c_list, t_token_type type);
 
 #endif

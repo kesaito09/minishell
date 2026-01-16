@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils2_tlist.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:23:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/16 10:26:43 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/16 13:32:15 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_token	*t_lstmove(t_token *lst, int n)
 	return (lst);
 }
 
-t_token	*t_lstnew(char *token, void (*del)(char *))
+t_token	*t_lstnew(char *token, void (*del)(void *))
 {
 	t_token	*new_elem;
 

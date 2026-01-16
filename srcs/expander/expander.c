@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 19:38:09 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/15 19:18:35 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:10:17 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	print_token(t_token *token)
 	while (token)
 	{
 		fprintf(stderr, "--TOKEN: %s  TYPE: %d--\n", token->token, token->type);
-		if (token->sub_token)
-		{
-			print_sub_token(token->sub_token);
-		}
+		// if (token->sub_token)
+		// {
+		// 	print_sub_token(token->sub_token);
+		// }
 		token = token->next;
 	}
 }

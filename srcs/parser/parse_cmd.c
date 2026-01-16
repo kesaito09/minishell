@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/16 10:29:22 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/16 13:33:30 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
 
-//t_token	*f_lstnew(char *token, t_token_type type)
-//{
-//	t_token	*new_file;
+t_token	*f_lstnew(char *token, t_token_type type)
+{
+	t_token	*new_file;
 
-//	new_file = t_lstnew(token, free);
-//	if (!new_file)
-//		return (free(token), NULL);
-//	new_file->type = type;
-//	return (new_file);
-//}
+	new_file = t_lstnew(token, free);
+	if (!new_file)
+		return (free(token), NULL);
+	new_file->type = type;
+	return (new_file);
+}
 
 int	append_redirect(t_token **file_list, t_token **cur, t_token *envp)
 {
