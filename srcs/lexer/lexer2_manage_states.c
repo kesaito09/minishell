@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer2_manage_states.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:11:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/16 01:49:13 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/16 10:05:30 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,6 @@ int	commit_sub_and_set(t_lexer *lex, int sub_state, int next)
 	lex->state->s_sub = next;
 	return (SUCCESS);
 }
-
-int	state_check(char c, int state)
-{
-	if (c == '\'' || c == '"' || c == '$')
-	{
-		if ((c == '\'' || c == '"') && state == c)
-			return (STATE_GENERAL);
-		else if (state == STATE_GENERAL)
-			return (c);
-		else if (state == STATE_DQUOTE && c == '$')
-			return (STATE_DOLLER_DQUOTE);
-		else
-			return (state);
-	}
-	return (state);
-}
-
 
 static int	start_dollar(t_lexer *lex, int ch)
 {
@@ -118,17 +101,17 @@ static int	token_split_in_general(t_lexer *lex)
 	return (SUCCESS);
 }
 
-static int	manage_state_general(t_lexer *lex)
-{
-	if (can_be_splitted(*lex->input))
-		return (token_split_in_general(lex));
-	return (consume_char(lex));
-}
+//static int	manage_state_general(t_lexer *lex)
+//{
+//	if (can_be_splitted(*lex->input))
+//		return (token_split_in_general(lex));
+//	return (consume_char(lex));
+//}
 
-static int	manage_state_quote(t_lexer *lex)
-{
-	return (consume_char(lex));
-}
+//static int	manage_state_quote(t_lexer *lex)
+//{
+//	return (consume_char(lex));
+//}
 
 // int	switch_main_state(t_lexer *lex, int new)
 // {
@@ -152,15 +135,3 @@ int	is_state_change(char c, t_state state)
 	return (false);
 }
 
-int	manage_state_transition(char *input, t_token **t_lst, t_token **s_list, t_state state)
-{
-	int	flag;
-
-	if (is_state_change(*input, state))
-		commit_clist(s_list, state);
-	if (lex->state->s_main == STATE_GENERAL)
-		flag = manage_state_general(lex);
-	else
-		flag = manage_state_quote(lex);
-	return (flag);
-}

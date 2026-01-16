@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:23:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/15 20:10:19 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/16 10:26:43 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,16 @@ t_token	*t_lstmove(t_token *lst, int n)
 	return (lst);
 }
 
-t_token	*t_lstnew(char *token)
+t_token	*t_lstnew(char *token, void (*del)(char *))
 {
 	t_token	*new_elem;
-	char	*dest;
 
 	if (!token)
 		return (NULL);
 	new_elem = ft_calloc(sizeof(t_token), 1);
 	if (!new_elem)
-		return (NULL);
-	dest = ft_strdup(token);
-	if (!dest)
-		return (free(new_elem), NULL);
-	new_elem->token = dest;
+		return (del(token), NULL);
+	new_elem->token = token;
 	new_elem->next = NULL;
 	return (new_elem);
 }

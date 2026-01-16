@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils5_manage_operaters.c                    :+:      :+:    :+:   */
+/*   lexer3_manage_operaters.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:15:52 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/12/21 01:09:10 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/16 10:38:23 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
-static int	hundle_consective_op1(t_token **token_list, char **input, char *op)
+static int	hundle_consective_op1(char *op)
 {
 	if (!ft_strncmp(*input, "<<", 2))
 	{
 		op = ft_strdup("<<");
 		if (!op)
 			return (FAILUER);
-		add_token(token_list, op, TOKEN_HEREDOC);
-		(*input) += 2;
 	}
 	else if (!ft_strncmp(*input, ">>", 2))
 	{

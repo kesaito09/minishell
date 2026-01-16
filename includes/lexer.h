@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/16 01:47:07 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/16 10:48:59 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,22 @@
 typedef enum e_token_type
 {
 	TOKEN_WORD = 0,
-	TOKEN_PIPE,
-	TOKEN_REDIRECT_IN,
-	TOKEN_REDIRECT_OUT,
-	TOKEN_HEREDOC,
-	TOKEN_APPEND,
-	TOKEN_CONJUNCTIONE,
-	TOKEN_DISJUNCTIONE,
-	TOKEN_PARENTHESIS_LEFT,
-	TOKEN_PARENTHESIS_RIGHT,
-	TOKEN_ENVP,
-	SUB_TOKEN_GENERAL,
-	SUB_TOKEN_SQUOTE,
-	SUB_TOKEN_DQUOTE,
-	SUB_TOKEN_DOLLAR,
-	SUB_TOKEN_DOLLAR_DQUOTE,
-	SUB_TOKEN_DOLLAR_QUESTION,
+	TOKEN_PIPE = '|',
+	TOKEN_REDIRECT_IN = '<',
+	TOKEN_REDIRECT_OUT = '>',
+	TOKEN_HEREDOC = '<' + 128,
+	TOKEN_APPEND = '>' + 128,
+	TOKEN_CONJUNCTIONE = '|' + 128,
+	TOKEN_DISJUNCTIONE = '&' + 128,
+	TOKEN_PARENTHESIS_LEFT = '(',
+	TOKEN_PARENTHESIS_RIGHT = ')',
+	TOKEN_ENVP = '=',
+	SUB_TOKEN_GENERAL = 'g',
+	SUB_TOKEN_SQUOTE = '\'',
+	SUB_TOKEN_DQUOTE = '\"',
+	SUB_TOKEN_DOLLAR = '$',
+	SUB_TOKEN_DOLLAR_DQUOTE = '"' + 128,
+	SUB_TOKEN_DOLLAR_QUESTION = '?',
 
 }						t_token_type;
 
@@ -44,7 +44,7 @@ typedef enum e_state
 	STATE_SQUOTE = '\'',
 	STATE_DQUOTE = '"',
 	STATE_DOLLER = '$',
-	STATE_DOLLER_DQUOTE = 'd',
+	STATE_DOLLER_DQUOTE = '"' + 127,
 	FAIL
 }						t_state;
 
@@ -72,7 +72,7 @@ int						add_token(t_token **token_list, char *token,
 
 /*lexer_utils2_list_helpers*/
 size_t					t_lstsize(t_token *lst);
-t_token					*t_lstnew(char *token);
+t_token					*t_lstnew(char *token, void (*del)(char *));
 void					t_lstdelone(t_token *lst, void (*del)(void *));
 void					t_lstclear(t_token **lst, void (*del)(void *));
 t_token					*t_lstlast(t_token *lst);
@@ -109,7 +109,6 @@ t_token_type			what_type(int state);
 
 /*lexer*/
 t_token					*tokenizer(char *input);
-int						state_check(int state, char **input);
 int						commit_word_token(t_token **token_list,
 							t_lexer_builder **c_list, t_state_tab *state);
 int						commit_subtoken_wrapper(t_token **token_list,

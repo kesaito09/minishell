@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/15 20:26:22 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/16 10:28:54 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_token	*wild_card(t_token *sub)
 				&& !ft_strncmp(dent->d_name, ".", 1))
 			|| !match_char(sub, dent->d_name))
 			continue ;
-		token = t_lstnew(dent->d_name);
+		token = t_lstnew(ft_strdup(dent->d_name), free);
 		if (!token)
 			return (NULL);
 		t_lstadd_sort(&token_list, token);

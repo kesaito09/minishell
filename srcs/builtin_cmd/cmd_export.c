@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/15 19:27:38 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/16 10:28:38 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,23 @@
 int	export_module(t_token *cmd, t_pipe *info)
 {
 	t_token	*env;
-	char	*arg;
 
 	if (is_valid_arg(cmd->token) == FAILUER)
 		return (FAILUER);
-	arg = cmd->token;
 	env = info->envp;
 	while (env)
 	{
-		if (!ft_argcmp(arg, env->token))
+		if (!ft_argcmp(cmd->token, env->token))
 		{
 			free(env->token);
-			env->token = arg;
+			env->token = cmd->token;
 			return (SUCCESS);
 		}
 		env = env->next;
 	}
-	env = t_lstnew(arg);
+	env = t_lstnew(ft_strdup(cmd->token), free);
 	if (!env)
-		return (free(arg), FAILUER);
+		return (FAILUER);
 	t_lstadd_back(&(info->envp), env);
 	return (SUCCESS);
 }
