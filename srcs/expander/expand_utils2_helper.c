@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/16 16:51:06 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/16 17:00:48 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ t_token	*sub_token_lst(char *input)
 {
 	t_token	*lst;
 	t_token	*new;
+	char	*tmp;
 	
 	lst = NULL;
 	while (*input)
@@ -155,8 +156,14 @@ t_token	*sub_token_lst(char *input)
 		new = get_sub_token(&input);
 		if (!new)
 			return (t_lstclear(&lst, free), NULL);
-		if (new->type != STATE_SQUOTE)
-		new = expand_dollar(new);
+		if (new->type != SUB_TOKEN_GENERAL)
+		{
+			tmp = ft_substr(new->token, 1, ft_strlen(new->token) - 2);
+			free(new->token);
+			new->token = tmp;
+		}
+		if (new->type != SUB_TOKEN_SQUOTE)
+			new = expand_dollar(new);
 		t_lstadd_back(&lst, new);
 	}
 	return (lst);
