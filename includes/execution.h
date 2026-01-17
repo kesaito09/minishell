@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.h                                            :+:      :+:    :+:   */
+/*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2025/12/05 17:14:05 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 20:19:13 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,49 +65,47 @@ typedef struct s_shared_info
 }					t_shared_info;
 
 /*exec1_path*/
-t_shared_info				collect_info(char **envp);
-void				free_path(char **path);
+t_shared_info	collect_info(char **envp);
+void			free_path(char **path);
 
 /*exec2_cmd*/
-int					manage_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
-int					manage_my_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int				manage_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int				manage_my_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 
 /*exec3_pipe*/
-int					manage_pipe(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
-int					manage_subshell(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
-int					manage_conjunction(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
-int					manage_disjunction(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
-int					manage_envp(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int				manage_pipe(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int				manage_subshell(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int				manage_conjunction(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int				manage_disjunction(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int				manage_envp(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 
 /*exec4_redirect.c*/
-int					manage_redirect(t_tree *branch);
+int				manage_redirect(t_tree *branch);
 
 /*exec5_operate.c*/
-int					tree_operator(t_tree *branch,
-						t_shared_info *info, int fd_in, int fd_out);
+int				tree_operator(t_tree *branch,
+					t_shared_info *info, int fd_in, int fd_out);
 
 /*exec_utils1_pid*/
-void				pid_add_back(t_pidlist **plist, pid_t pid);
-t_pidlist			*pid_new(pid_t pid);
-void				free_pid(t_pidlist *plist);
-void				close_unused_pipe(int fd_in, int fd_out, int pipes[2]);
-int					wait_pidlist(t_pidlist **plist);
+void			pid_add_back(t_pidlist **plist, pid_t pid);
+void			free_pid(t_pidlist *plist);
+void			close_unused_pipe(int fd_in, int fd_out, int pipes[2]);
+int				wait_pidlist(t_pidlist **plist);
 
 /*exec_utils2_error*/
-void				command_error_check(char *cmd, char *path);
-int					redirect_in_check(char *path);
-int					redirect_out_check(char *path);
+void			command_error_check(char *cmd, char *path);
+int				redirect_in_check(char *path);
+int				redirect_out_check(char *path);
 
 /*exec_utils3_pipe*/
-int					pipe_update(int fd_in[2], int fd_out[2]);
-void				close_fd_in_out(int *fd_in, int *fd_out);
-int					dup2_stdin_out(int fd_in, int fd_out);
-int					reset_stdin_out(t_shared_info *info);
+int				pipe_update(int fd_in[2], int fd_out[2]);
+void			close_fd_in_out(int *fd_in, int *fd_out);
+int				dup2_stdin_out(int fd_in, int fd_out);
+int				reset_stdin_out(t_shared_info *info);
 
 /*utils4_env*/
-bool				has_cmd(t_token *args);
-int					local_env(t_token *env, t_shared_info *info);
-
-void				print_tokens(t_token *node);
+bool			has_cmd(t_token *args);
+int				local_env(t_token *env, t_shared_info *info);
+void			print_tokens(t_token *node);
 
 #endif

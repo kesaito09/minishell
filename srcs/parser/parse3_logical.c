@@ -6,12 +6,15 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 19:39:37 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 20:30:32 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
+
+static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node,
+		t_token *envp);
 
 t_tree	*parse_manage(t_token **cur, t_token *envp)
 {

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_pipe.c                                       :+:      :+:    :+:   */
+/*   parse2_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 19:37:40 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 20:29:34 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_tree	*parse_pipeline_rec(t_token **cur, t_tree *left_node,
 	return (pipe_node);
 }
 
-static t_tree	*parse_pipeline(t_token **cur, t_token *envp)
+t_tree	*parse_pipeline(t_token **cur, t_token *envp)
 {
 	t_tree	*node;
 

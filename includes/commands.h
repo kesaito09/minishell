@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 19:57:59 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 20:09:52 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 # include <stdlib.h>
 # include <stdbool.h>
 
-typedef struct s_tree	t_tree;
-typedef struct t_shared_info	t_shared_info;
-typedef struct s_token	t_token;
+typedef struct s_tree			t_tree;
+typedef struct s_shared_info	t_shared_info;
+typedef struct s_token			t_token;
 
 int		echo(t_token *node);
 void	pwd(void);

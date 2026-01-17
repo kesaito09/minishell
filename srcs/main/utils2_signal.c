@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   utils2_signal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 09:18:46 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 19:16:16 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 20:26:46 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/readline.h"
+#include "../../includes/signal.h"
 
 static void	handle_sigint_prompt(int sig)
 {

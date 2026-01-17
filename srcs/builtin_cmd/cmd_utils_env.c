@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_utils.c                                        :+:      :+:    :+:   */
+/*   cmd_utils_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:07:56 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 16:20:36 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 20:36:49 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	is_valid_arg(char *arg)
 	i = 1;
 	while (i < len)
 	{
-		if (is_delimiter_variables(arg[i]))
+		if (is_env_delimiter(arg[i]))
 			return (invalid_message(arg), false);
 		i++;
 	}

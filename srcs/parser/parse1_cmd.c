@@ -6,12 +6,19 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 19:45:44 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 20:29:17 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
+
+static t_tree	*parse_subshell(t_token **cur, t_token *envp);
+static int		manage_repoint(t_tree *node, t_token **cur);
+static int		repoint_word_to_list(t_token **list, t_token **cur);
+static int		repoint_redirect_to_list(t_token **list, t_token **cur);
+static t_tree	*parse_subshell(t_token **cur, t_token *envp);
+
 
 t_tree	*parse_command(t_token **cur, t_token *envp)
 {
@@ -32,7 +39,7 @@ t_tree	*parse_command(t_token **cur, t_token *envp)
 	return (node);
 }
 
-int	manage_repoint(t_tree *node, t_token **cur)
+static int	manage_repoint(t_tree *node, t_token **cur)
 {
 	if (is_valid_arg((*cur)->token) && !node->arg_list)
 	{
@@ -47,7 +54,7 @@ int	manage_repoint(t_tree *node, t_token **cur)
 	}
 	else if ((*cur) && is_redirect(*cur))
 	{
-		if (repoint_redirect_to_tree(node->file_list, cur) == FAILUER)
+		if (repoint_redirect_to_list(&node->file_list, cur) == FAILUER)
 			return (FAILUER);
 	}
 	return (SUCCESS);
@@ -66,7 +73,7 @@ static int	repoint_word_to_list(t_token **list, t_token **cur)
 	return (SUCCESS);
 }
 
-static int	repoint_redirect_to_tree(t_token **list, t_token **cur)
+static int	repoint_redirect_to_list(t_token **list, t_token **cur)
 {
 	t_token			*op;
 	t_token			*word;

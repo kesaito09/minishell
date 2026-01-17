@@ -6,30 +6,11 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 17:23:17 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 20:38:33 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
-
-int	logical_len(char *input)
-{
-	if (ft_strchr("|&<>", input[0]) && input[0] == input[1])
-		return (2);
-	return (1);
-}
-
-int	str_type(char *op)
-{
-	if (ft_strchr("&|<>", op[0]) && op[0] == op[1])
-		return ((op[0] + 128));
-	else if (ft_strchr("|<>()", op[0]))
-		return (op[0]);
-	else if (ft_strchr(" \t\n", op[0]))
-		return (TOKEN_SPACE);
-	else
-		return (TOKEN_WORD);
-}
 
 int	word_len(char *input, char *charsplit, char *charignore)
 {

@@ -6,11 +6,11 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 20:00:11 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 20:26:31 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/readline.h"
+#include "../../includes/signal.h"
 #include "../../includes/execution.h"
 #include "../../includes/minishell.h"
 
@@ -41,7 +41,7 @@ char	*handle_prompt(void)
 
 	line = readline("minishell$ ");
 	if (!line)
-		return (NULL, SUCCESS);
+		return (NULL);
 	if (!*line)
 	{
 		free(line);
@@ -61,6 +61,8 @@ int	minishell_atty(t_shared_info *info)
 	{
 		setup_signal_prompt();
 		line = handle_prompt();
+		if (!line)
+			return (SUCCESS);
 		branch = parser(line, info);
 		free(line);
 		if (!branch)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/16 14:42:15 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/17 20:39:46 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,51 +69,50 @@ typedef struct s_char_list
 }						t_char_list;
 
 /*lexer_utils1_token*/
-void					buff_add_buck(t_char_list **char_list,
-							t_char_list *new_char_list);
-int						append_char(t_char_list **list, char c);
-char					*list_to_string(t_char_list **list);
-int						add_token(t_token **token_list, char *token,
-							t_token_type type);
+void			buff_add_buck(t_char_list **char_list,
+					t_char_list *new_char_list);
+int				append_char(t_char_list **list, char c);
+char			*list_to_string(t_char_list **list);
+int				add_token(t_token **token_list, char *token,
+					t_token_type type);
 
 /*lexer_utils2_list_helpers*/
-size_t					t_lstsize(t_token *lst);
-t_token					*t_lstnew(char *token, void (*del)(void *));
-void					t_lstdelone(t_token *lst, void (*del)(void *));
-void					t_lstclear(t_token **lst, void (*del)(void *));
-t_token					*t_lstlast(t_token *lst);
-void					t_lstadd_back(t_token **lst, t_token *new);
-void					t_lstadd_front(t_token **lst, t_token *new);
-t_token					*t_lstmove(t_token *lst, int n);
-void					t_lstadd_sort(t_token **lst, t_token *new);
-void	c_lstadd_back(t_char_list **lst, t_char_list *new);
+size_t			t_lstsize(t_token *lst);
+t_token			*t_lstnew(char *token, void (*del)(void *));
+void			t_lstdelone(t_token *lst, void (*del)(void *));
+void			t_lstclear(t_token **lst, void (*del)(void *));
+t_token			*t_lstlast(t_token *lst);
+void			t_lstadd_back(t_token **lst, t_token *new);
+void			t_lstadd_front(t_token **lst, t_token *new);
+t_token			*t_lstmove(t_token *lst, int n);
+void			t_lstadd_sort(t_token **lst, t_token *new);
+void			c_lstadd_back(t_char_list **lst, t_char_list *new);
 
 /*lexer_utils3_charlist*/
-t_char_list				*c_lstlast(t_char_list *lst);
-size_t					c_lstsize(t_char_list *lst);
-void					c_lstclear(t_char_list **lst, void (*del)(void *));
-int						commit_token(t_token **token_list,
+t_char_list		*c_lstlast(t_char_list *lst);
+size_t			c_lstsize(t_char_list *lst);
+void			c_lstclear(t_char_list **lst, void (*del)(void *));
 
-/*lexer_utils4_manage_states*/
-// int						manage_state_transition(t_token **token_list,
-// 							char **input, int *state, t_char_list **c_list);
-							int next);
-bool					is_dollar_sub(int s_sub);
-int						commit_clist(t_token **token, t_char_list *c_list, t_token_type type);
+/*utils4_*/
+int				logical_len(char *input);
+int				str_type(char *op);
+
+
+bool			is_dollar_sub(int s_sub);
 
 /*lexer_utils5_manage_operaters*/
-int						manage_operater(t_token **token_list, char **input);
+int				manage_operater(t_token **token_list, char **input);
 
 /*lexer_utils6_is*/
-bool					is_operator(char *str);
-bool					is_delimiter(int c);
-bool					can_be_splitted(char *str);
-bool					is_sub_token(t_token_type type);
-t_token_type			what_type(int state);
+bool			is_operator(char *str);
+bool			is_delimiter(int c);
+bool			can_be_splitted(char *str);
+bool			is_sub_token(t_token_type type);
+t_token_type	what_type(int state);
 
 /*lexer*/
-t_token					*tokenizer(char *input);
-int	word_len(char *input, char *charsplit, char *charignore);
+t_token			*tokenizer(char *input);
+int				word_len(char *input, char *charsplit, char *charignore);
 
 
 

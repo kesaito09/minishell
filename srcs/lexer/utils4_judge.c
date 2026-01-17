@@ -1,52 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils4_is.c                                  :+:      :+:    :+:   */
+/*   utils4_judge.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/07 19:52:29 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 20:38:37 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
-
-bool	is_operator(char *str)
-{
-	if (*str == '|' || *str == '<' || *str == '>' || *str == '(' || *str == ')')
-		return (true);
-	if (!ft_strncmp(str, "&&", 2))
-		return (true);
-	return (false);
-}
 
 bool	is_delimiter(int c)
 {
 	return (c == ' ' || c == '\n' || c == '\t');
 }
 
-bool	can_be_splitted(char *str)
-{
-	if (is_delimiter(*str))
-		return (true);
-	if (is_operator(str))
-		return (true);
-	if (!ft_strncmp(str, "&&", 2))
-		return (true);
-	return (false);
-}
-
-bool	is_sub_token(t_token_type type)
-{
-	if (type == SUB_TOKEN_GENERAL
-		|| type == SUB_TOKEN_SQUOTE
-		|| type == SUB_TOKEN_DQUOTE
-		|| type == SUB_TOKEN_DOLLAR
-		|| type == SUB_TOKEN_DOLLAR_DQUOTE)
-		return (true);
-	return (false);
-}
 
 t_token_type	what_type(int state)
 {
@@ -61,9 +31,28 @@ t_token_type	what_type(int state)
 	return (SUB_TOKEN_GENERAL);
 }
 
-bool	is_delimiter_variables(int c)
+bool	is_env_delimiter(int c)
 {
 	if (c == '_' || ft_isalnum(c))
 		return (false);
 	return (true);
+}
+
+int	logical_len(char *input)
+{
+	if (ft_strchr("|&<>", input[0]) && input[0] == input[1])
+		return (2);
+	return (1);
+}
+
+int	str_type(char *op)
+{
+	if (ft_strchr("&|<>", op[0]) && op[0] == op[1])
+		return ((op[0] + 128));
+	else if (ft_strchr("|<>()", op[0]))
+		return (op[0]);
+	else if (ft_strchr(" \t\n", op[0]))
+		return (TOKEN_SPACE);
+	else
+		return (TOKEN_WORD);
 }

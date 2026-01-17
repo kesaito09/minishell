@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 12:40:22 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 19:44:08 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 20:05:59 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "commands.h"
 # include "execution.h"
 # include "lexer.h"
-# include "readline.h"
+# include "signal.h"
 # include "parser.h"
 # include "expander.h"
 
