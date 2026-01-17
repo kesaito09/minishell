@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 17:13:43 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 21:29:21 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,13 @@ t_token	*get_sub_token(char *input)
 		t_lstadd_back(&lst, new);
 	}
 	return (lst);
+}
+
+int	main(int ac, char **av)
+{
+	t_token	*node;
+
+	if (ac == 1)
+		return (1);
+	node = get_sub_token(av[1]);
 }

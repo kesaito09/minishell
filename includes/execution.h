@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 20:19:13 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 21:28:40 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,5 @@ int				reset_stdin_out(t_shared_info *info);
 /*utils4_env*/
 bool			has_cmd(t_token *args);
 int				local_env(t_token *env, t_shared_info *info);
-void			print_tokens(t_token *node);
 
 #endif

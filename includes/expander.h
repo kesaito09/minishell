@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 20:41:52 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 21:28:43 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ int		wildcard_expand(t_token **token_list, t_list_type type);
 bool	is_ifs(char *ifs, int c);
 int		ft_strchr_set(char *str, char *set);
 char	*setup_ifs(t_token *envp);
-void	print_token2(t_token *node);
-void	print_token(t_token *token);
 
 /* expand3_expander */
 t_token	*get_sub_token(char *input);

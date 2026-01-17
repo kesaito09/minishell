@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 20:43:07 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 21:28:00 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,29 @@ static char	*heardoc_check(void)
 
 static int	write_next_line(char *eof, int fd, t_token *envp)
 {
-	char	*line;
-	char	*expand;
+	//char	*line;
+	//char	*expand;
 
-	line = readline(">");
-	if (!line)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd("warning: ", 2);
-		ft_putstr_fd("hear-document deliminated ", 2);
-		ft_putendl_fd("by end-of-file(wanted 'EOF')", 2);
-		return (END);
-	}
-	expand = expand_var(line, envp);
-	free(line);
-	if (!expand)
-		return (FAILUER);
-	if (!ft_strcmp(eof, expand))
-		return (FAILUER);
-	ft_putendl_fd(expand, fd);
-	free(expand);
-	return (SUCCESS);
+	//line = readline(">");
+	//if (!line)
+	//{
+	//	ft_putstr_fd("minishell: ", 2);
+	//	ft_putstr_fd("warning: ", 2);
+	//	ft_putstr_fd("hear-document deliminated ", 2);
+	//	ft_putendl_fd("by end-of-file(wanted 'EOF')", 2);
+	//	return (END);
+	//}
+	//expand = expand_var(line, envp);
+	//free(line);
+	//if (!expand)
+	//	return (FAILUER);
+	//if (!ft_strcmp(eof, expand))
+	//	return (FAILUER);
+	//ft_putendl_fd(expand, fd);
+	//free(expand);
+	//return (SUCCESS);
+	(void)eof;
+	(void)fd;
+	(void)envp;
+	return (0);
 }
