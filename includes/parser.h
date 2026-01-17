@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 19:25:14 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:57:59 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef enum e_tree_type	t_tree_type;
 typedef enum e_file_type	t_file_type;
 typedef enum e_token_type	t_token_type;
 typedef struct s_token		t_token;
-typedef struct s_pipe		t_shared_info;
+typedef struct t_shared_info		t_shared_info;
 
 /*utils1_make_tree*/
 t_tree						*tree_new(t_tree_type btype);

@@ -6,7 +6,7 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/17 16:22:13 by natakaha         ###   ########.fr        #
+#    Updated: 2026/01/17 20:04:52 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,39 +30,39 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/builtin_cmd/cmd_pwd.c\
 			srcs/builtin_cmd/cmd_unset.c\
 			srcs/builtin_cmd/cmd_utils_env.c\
+			srcs/execution/exec1_operate.c\
+			srcs/execution/exec2_logical.c\
+			srcs/execution/exec3_execve.c\
+			srcs/execution/exec4_builtin.c\
+			srcs/execution/exec5_env.c\
 			srcs/execution/utils1_pid.c\
 			srcs/execution/utils2_redirect_error.c\
 			srcs/execution/exec_utils3_pipe.c\
 			srcs/execution/exec_utils4_env.c\
 			srcs/execution/exec_utils5_find_pah.c\
-			srcs/execution/exec1_operate.c\
-			srcs/execution/exec2_cmd.c\
-			srcs/execution/exec3_logical.c\
-			srcs/execution/exec4_redirect.c\
+			srcs/expander/expand1_env.c\
+			srcs/expander/expand2_wildcard.c\
+			srcs/expander/expand3_expander.c\
+			srcs/expander/utils1.c\
+			srcs/expander/utils2_search_file.c\
 			srcs/lexer/lexer1_tokenize.c\
-			srcs/lexer/lexer2_manage_states.c\
-			srcs/lexer/lexer3_manage_operaters.c\
-			srcs/lexer/lexer4_subtoken.c\
-			srcs/lexer/lexer_utils1_token.c\
-			srcs/lexer/lexer_utils2_tlist.c\
-			srcs/lexer/lexer_utils3_clist.c\
-			srcs/lexer/lexer_utils4_is.c\
-			srcs/parser/utils1_make_tree.c\
-			srcs/parser/utils3_parse.c\
-			srcs/parser/utils4_heardoc.c\
-			srcs/parser/utils5_is_.c\
-			srcs/parser/utils7_arglist.c\
-			srcs/parser/parse.c\
-			srcs/parser/parse_cmd.c\
-			srcs/expander/expand1_variables_expantion.c\
-			srcs/expander/expand3_path_name_expantion.c\
-			srcs/expander/utils1_.c\
-			srcs/expander/utils2_match_char.c\
-			srcs/expander/expand_utils2_helper.c\
-			srcs/expander/expander.c\
+			srcs/lexer/utils1_tlist1.c\
+			srcs/lexer/utils1_tlist2.c\
+			srcs/lexer/utils3_clist.c\
+			srcs/lexer/utils4_state.c\
+			srcs/lexer/utils5_token_type.c\
 			srcs/main/main.c\
-			srcs/main/signal.c\
-			srcs/main/error.c\
+			srcs/main/utils1_exit_code.c\
+			srcs/main/utils2_signal.c\
+			srcs/parser/parse1_cmd.c\
+			srcs/parser/parse2_pipe.c\
+			srcs/parser/parse3_logical.c\
+			srcs/parser/parse4_parser.c\
+			srcs/parser/utils1_tree.c\
+			srcs/parser/utils2_parse.c\
+			srcs/parser/utils3_heardoc.c\
+			srcs/parser/utils4_is.c\
+			srcs/parser/utils5_arglist.c\
 
 MAND_OBJS = $(MAND_SRCS:.c=.o)
 

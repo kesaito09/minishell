@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand3_wildcard.c                                 :+:      :+:    :+:   */
+/*   expand2_wildcard.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 17:15:29 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:52:35 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_token	*is_valid_file(t_token *sub)
 			break ;
 		if (!ft_strncmp(dent->d_name, "..", 2) || (!check_hidden_file(sub)
 				&& !ft_strncmp(dent->d_name, ".", 1))
-			|| !match_char(sub, dent->d_name))
+			|| !search_file(sub, dent->d_name))
 			continue ;
 		token = t_lstnew(ft_strdup(dent->d_name), free);
 		if (!token)

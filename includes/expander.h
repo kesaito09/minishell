@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 17:16:38 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:52:35 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_token		t_token;
 # define PASS 0
 
 /*utils2*/
-int							match_char(t_token *sub_token, char *file);
+int							search_file(t_token *sub_token, char *file);
 
 /*expand1_variable_expantion*/
 bool						is_delimiter_variables(int c);
