@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec4_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 19:08:27 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 14:17:50 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ int	manage_my_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 	if (info->pipe && pid == 0)
 		setup_signal_child();
 	close_unused_pipe(fd_in, fd_out, info->fd);
-	if (dup2_stdin_out(fd_in, fd_out) == FAILUER
-		|| expander(&branch->arg_list, info, ARG_LIST) == FAILUER
-		|| expander(&branch->file_list, info, FILE_LIST) == FAILUER
-		|| expander(&branch->env_list, info, ENV_LIST) == FAILUER
-		|| manage_redirect(branch) == FAILUER)
-		return (FAILUER);
+	// if (dup2_stdin_out(fd_in, fd_out) == FAILUER
+	// 	|| expander(&branch->arg_list, info, ARG_LIST) == FAILUER
+	// 	|| expander(&branch->file_list, info, FILE_LIST) == FAILUER
+	// 	|| expander(&branch->env_list, info, ENV_LIST) == FAILUER
+	// 	|| manage_redirect(branch) == FAILUER)
+	// 	return (FAILUER);
 	execve_my_cmd(branch->arg_list, info, branch);
 	reset_stdin_out(info);
 	if (!pid)

@@ -3,115 +3,115 @@
 /*                                                        :::      ::::::::   */
 /*   expand1_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 22:21:55 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 14:07:16 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/expander.h"
 
-t_token	*quote_split(char **input)
-{
-	t_state	state;
-	t_token	*node;
-	int		n;
+// t_token	*quote_split(char **input)
+// {
+// 	t_state	state;
+// 	t_token	*node;
+// 	int		n;
 
-	state = STATE_GENERAL;
-	n = 0;
-	if (ft_strchr("'\"", **input))
-		state = **input;
-	if (state == STATE_GENERAL)
-		n = word_len(*input, "'\"", NULL);
-	else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
-		n = strchr_len(*input + 1, state) + 2;
-	if (n <= 1)
-		return (NULL);
-	node = f_lstnew(ft_strndup(*input, n), what_type(state));
-	*input += n;
-	if (!node)
-		return (NULL);
-	return (node);
-}
+// 	state = STATE_GENERAL;
+// 	n = 0;
+// 	if (ft_strchr("'\"", **input))
+// 		state = **input;
+// 	if (state == STATE_GENERAL)
+// 		n = word_len(*input, "'\"", NULL);
+// 	else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
+// 		n = strchr_len(*input + 1, state) + 2;
+// 	if (n <= 1)
+// 		return (NULL);
+// 	node = f_lstnew(ft_strndup(*input, n), what_type(state));
+// 	*input += n;
+// 	if (!node)
+// 		return (NULL);
+// 	return (node);
+// }
 
-t_token	*expand_dollar(t_token *input)
-{
-	t_token			*node;
-	t_token			*new;
-	char			*str;
-	int				len;
+// t_token	*expand_dollar(t_token *input)
+// {
+// 	t_token			*node;
+// 	t_token			*new;
+// 	char			*str;
+// 	int				len;
 
-	str = input->token;
-	node = NULL;
-	while (true)
-	{
-		len = strchr_len(str, '$');
-		if (len < 0 && node && !*str)
-			return (free(input), node);
-		else if (len < 0 && !*str)
-			return (input);
-		else if (len < 0)
-			len = ft_strlen(str);
-		if (len == 0)
-			len = envlen(str + 1) + 1;
-		new = f_lstnew(ft_strndup(str, len), input->type);
-		if (!new)
-			return (t_lstclear(&node, free), NULL);
-		str += len;
-		t_lstadd_back(&node, new);
-	}
-}
+// 	str = input->token;
+// 	node = NULL;
+// 	while (true)
+// 	{
+// 		len = strchr_len(str, '$');
+// 		if (len < 0 && node && !*str)
+// 			return (free(input), node);
+// 		else if (len < 0 && !*str)
+// 			return (input);
+// 		else if (len < 0)
+// 			len = ft_strlen(str);
+// 		if (len == 0)
+// 			len = envlen(str + 1) + 1;
+// 		new = f_lstnew(ft_strndup(str, len), input->type);
+// 		if (!new)
+// 			return (t_lstclear(&node, free), NULL);
+// 		str += len;
+// 		t_lstadd_back(&node, new);
+// 	}
+// }
 
-t_token	*replace_env(t_token *node, t_token *envp)
-{
-	char	*str;
-	t_token	*cur;
+// t_token	*replace_env(t_token *node, t_token *envp)
+// {
+// 	char	*str;
+// 	t_token	*cur;
 
-	if (!node)
-		return (NULL);
-	cur = node;
-	while (cur)
-	{
-		str = cur->token;
-		if (str[0] == '$' && str[1])
-		{
-			cur->token = return_value(cur->token + 1, envp);
-			free(str);
-		}
-		cur = cur->next;
-	}
-	return (node);
-}
+// 	if (!node)
+// 		return (NULL);
+// 	cur = node;
+// 	while (cur)
+// 	{
+// 		str = cur->token;
+// 		if (str[0] == '$' && str[1])
+// 		{
+// 			cur->token = return_value(cur->token + 1, envp);
+// 			free(str);
+// 		}
+// 		cur = cur->next;
+// 	}
+// 	return (node);
+// }
 
-t_token	*get_sub_token(char *input, t_token *envp)
-{
-	t_token	*lst;
-	t_token	*new;
-	char	*tmp;
+// t_token	*get_sub_token(char *input, t_token *envp)
+// {
+// 	t_token	*lst;
+// 	t_token	*new;
+// 	char	*tmp;
 
-	lst = NULL;
-	while (*input)
-	{
-		new = quote_split(&input);
-		if (!new)
-			return (t_lstclear(&lst, free), NULL);
-		if (new->type != SUB_TOKEN_GENERAL)
-		{
-			tmp = ft_substr(new->token, 1, ft_strlen(new->token) - 2);
-			free(new->token);
-			new->token = tmp;
-		}
-		if (new->type != SUB_TOKEN_SQUOTE)
-		{
-			new = expand_dollar(new);
-			new = replace_env(new, envp);
-		}
-		t_lstadd_back(&lst, new);
-	}
-	return (lst);
-}
+// 	lst = NULL;
+// 	while (*input)
+// 	{
+// 		new = quote_split(&input);
+// 		if (!new)
+// 			return (t_lstclear(&lst, free), NULL);
+// 		if (new->type != SUB_TOKEN_GENERAL)
+// 		{
+// 			tmp = ft_substr(new->token, 1, ft_strlen(new->token) - 2);
+// 			free(new->token);
+// 			new->token = tmp;
+// 		}
+// 		if (new->type != SUB_TOKEN_SQUOTE)
+// 		{
+// 			new = expand_dollar(new);
+// 			new = replace_env(new, envp);
+// 		}
+// 		t_lstadd_back(&lst, new);
+// 	}
+// 	return (lst);
+// }
 
 //int	main(int ac, char **av, char **envp)
 //{

@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand3_expander.c                                 :+:      :+:    :+:   */
+/*   utils5_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/07 19:38:09 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 13:57:19 by kesaitou         ###   ########.fr       */
+/*   Created: 2026/01/17 14:58:59 by kesaitou          #+#    #+#             */
+/*   Updated: 2026/01/17 15:26:43 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
-#include "../../includes/expander.h"
+#include "../../includes/parser.h"
 
-// int	expander(t_token **node, t_shared_info *info, t_list_type type)
+// int syntax_error_msg(char *err_token)
 // {
-// 	//if (get_sub_token(node) == FAILUER)
-// 	//	return (deep_token_clear(*node), FAILUER);
-// 	(void)info;
-// 	if (wildcard_expand(node, type) == FAILUER)
-// 		return (deep_token_clear(*node), FAILUER);
-// 	return (SUCCESS);
+   
+    
+    
+    
+    
 // }

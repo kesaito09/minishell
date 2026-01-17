@@ -6,7 +6,7 @@
 #    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/18 16:54:22 by kesaitou          #+#    #+#              #
-#    Updated: 2025/11/26 17:54:25 by kesaitou         ###   ########.fr        #
+#    Updated: 2026/01/17 15:26:27 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ LIBC_SRCS := \
 	ft_lstclear.c ft_lstiter.c ft_lstmap.c
 
 PRINTF_SRCS := \
-	ft_printf.c \
+	ft_dprintf.c \
 	libft_utils.c \
 	uxx_helper.c \
 	parse.c \

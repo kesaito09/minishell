@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec3_execve.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 16:59:31 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 14:17:35 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ int	manage_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 	close_unused_pipe(fd_in, fd_out, info->fd);
 	if (dup2_stdin_out(fd_in, fd_out) == FAILUER)
 		error_exit("dup2", 1);
-	if (manage_redirect(branch) == FAILUER
-		|| expander(&branch->arg_list, info, ARG_LIST) == FAILUER
-		|| expander(&branch->env_list, info, ENV_LIST) == FAILUER
-		|| expander(&branch->file_list, info, FILE_LIST) == FAILUER)
-		exit(1);
-	export(branch->env_list, info);
+	// if (manage_redirect(branch) == FAILUER
+	// 	|| expander(&branch->arg_list, info, ARG_LIST) == FAILUER
+	// 	|| expander(&branch->env_list, info, ENV_LIST) == FAILUER
+	// 	|| expander(&branch->file_list, info, FILE_LIST) == FAILUER)
+	// 	exit(1);
+	// export(branch->env_list, info);
 	cmd = token_argv(branch->arg_list);
 	env = token_argv(info->envp);
-	if (!cmd || !env)
-		return (free_split(cmd), free_split(env), FAILUER);
+	// if (!cmd || !env)
+	// 	return (free_split(cmd), free_split(env), FAILUER);
 	execve_cmd(env, cmd);
 	return (FAILUER);
 }

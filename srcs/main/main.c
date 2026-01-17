@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 21:28:12 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 13:57:05 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,25 +97,25 @@ int	minishell_pipe(t_shared_info *info)
 	return (flag);
 }
 
-//int	main(int argc, char **argv, char **envp)
-//{
-//	t_shared_info	info;
-//	int				flag;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_shared_info	info;
+// 	int				flag;
 
-//	info = collect_info(envp);
-//	if (!info.envp)
-//		return (EXIT_FAILURE);
-//	if (!isatty(STDIN_FILENO))
-//		flag = minishell_pipe(&info);
-//	else
-//		flag = minishell_atty(&info);
-//	t_lstclear(&info.envp, free);
-//	(void)argc;
-//	(void)argv;
-//	if (flag == FAILUER)
-//		return (EXIT_FAILURE);
-//	return (EXIT_SUCCESS);
-//}
+// 	info = collect_info(envp);
+// 	if (!info.envp)
+// 		return (EXIT_FAILURE);
+// 	if (!isatty(STDIN_FILENO))
+// 		flag = minishell_pipe(&info);
+// 	else
+// 		flag = minishell_atty(&info);
+// 	t_lstclear(&info.envp, free);
+// 	(void)argc;
+// 	(void)argv;
+// 	if (flag == FAILUER)
+// 		return (EXIT_FAILURE);
+// 	return (EXIT_SUCCESS);
+// }
 
 // /*tester*/
 

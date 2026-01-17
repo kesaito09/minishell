@@ -3,130 +3,130 @@
 /*                                                        :::      ::::::::   */
 /*   utils3_heardoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 22:29:42 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 13:57:59 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
 
-static char	*heardoc_check(void);
-static int	write_next_line(char *eof, int fd, t_token *envp);
+// static char	*heardoc_check(void);
+// static int	write_next_line(char *eof, int fd, t_token *envp);
 
-char	*heardoc(char *eof, t_token *envp)
-{
-	char	*file;
-	int		fd;
-	int		flag;
+// char	*heardoc(char *eof, t_token *envp)
+// {
+// 	char	*file;
+// 	int		fd;
+// 	int		flag;
 
-	file = heardoc_check();
-	if (!file)
-		return (NULL);
-	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-		return (NULL);
-	while (true)
-	{
-		flag = write_next_line(eof, fd, envp);
-		if (flag == FAILUER)
-			return (close(fd), free(file), NULL);
-		if (flag == END)
-			break ;
-	}
-	close(fd);
-	return (file);
-}
+// 	file = heardoc_check();
+// 	if (!file)
+// 		return (NULL);
+// 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+// 	if (fd < 0)
+// 		return (NULL);
+// 	while (true)
+// 	{
+// 		flag = write_next_line(eof, fd, envp);
+// 		if (flag == FAILUER)
+// 			return (close(fd), free(file), NULL);
+// 		if (flag == END)
+// 			break ;
+// 	}
+// 	close(fd);
+// 	return (file);
+// }
 
-static char	*heardoc_check(void)
-{
-	char	*file;
-	char	*def;
-	int		i;
-	char	*num;
+// static char	*heardoc_check(void)
+// {
+// 	char	*file;
+// 	char	*def;
+// 	int		i;
+// 	char	*num;
 
-	def = ft_strdup(".heardoc_");
-	if (!def)
-		return (NULL);
-	i = 1;
-	while (true)
-	{
-		num = ft_itoa(i);
-		if (!num)
-			return (free(def), NULL);
-		file = ft_strjoin(def, num);
-		free(num);
-		if (!file)
-			return (free(def), NULL);
-		if (access(file, F_OK) == -1)
-			break ;
-		i++;
-	}
-	return (free(def), file);
-}
+// 	def = ft_strdup(".heardoc_");
+// 	if (!def)
+// 		return (NULL);
+// 	i = 1;
+// 	while (true)
+// 	{
+// 		num = ft_itoa(i);
+// 		if (!num)
+// 			return (free(def), NULL);
+// 		file = ft_strjoin(def, num);
+// 		free(num);
+// 		if (!file)
+// 			return (free(def), NULL);
+// 		if (access(file, F_OK) == -1)
+// 			break ;
+// 		i++;
+// 	}
+// 	return (free(def), file);
+// }
 
-char	*split_join(char **argv)
-{
-	char	*str;
-	char	*trash;
+// char	*split_join(char **argv)
+// {
+// 	char	*str;
+// 	char	*trash;
 
-	if (!argv || !*argv)
-		str = *argv;
-	while (++*argv)
-	{
-		trash = str;
-		str = ft_strjoin(str, argv);
-		free(trash);
-	}
-	return (str);
-}
+// 	if (!argv || !*argv)
+// 		str = *argv;
+// 	while (++*argv)
+// 	{
+// 		trash = str;
+// 		str = ft_strjoin(str, argv);
+// 		free(trash);
+// 	}
+// 	return (str);
+// }
 
-static char	*expand_join(char *input, t_token *envp)
-{
-	t_token	*node;
-	char	**argv;
-	char	*str;
+// static char	*expand_join(char *input, t_token *envp)
+// {
+// 	t_token	*node;
+// 	char	**argv;
+// 	char	*str;
 
-	node = get_sub_token(input, envp);
-	if (!node)
-		return (NULL);
-	argv = token_argv(node);
-	free(node);
-	if (!argv)
-		return (NULL);
-	str = split_join(argv);
-	free(argv);
-	if (!str)
-		return (NULL);
-	return (str);
-}
+// 	node = get_sub_token(input, envp);
+// 	if (!node)
+// 		return (NULL);
+// 	argv = token_argv(node);
+// 	free(node);
+// 	if (!argv)
+// 		return (NULL);
+// 	str = split_join(argv);
+// 	free(argv);
+// 	if (!str)
+// 		return (NULL);
+// 	return (str);
+// }
 
-static int	write_next_line(char *eof, int fd, t_token *envp)
-{
-	char	*line;
-	char	*expand;
+// static int	write_next_line(char *eof, int fd, t_token *envp)
+// {
+// 	char	*line;
+// 	char	*expand;
 
-	line = readline(">");
-	if (!line)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd("warning: ", 2);
-		ft_putstr_fd("hear-document deliminated ", 2);
-		ft_putendl_fd("by end-of-file(wanted 'EOF')", 2);
-		return (END);
-	}
-	expand = expand_var(line, envp);
-	free(line);
-	if (!expand)
-		return (FAILUER);
-	if (!ft_strcmp(eof, expand))
-		return (FAILUER);
-	ft_putendl_fd(expand, fd);
-	free(expand);
-	return (SUCCESS);
-	(void)eof;
-	(void)fd;
-	(void)envp;
-	return (0);
-}
+// 	line = readline(">");
+// 	if (!line)
+// 	{
+// 		ft_putstr_fd("minishell: ", 2);
+// 		ft_putstr_fd("warning: ", 2);
+// 		ft_putstr_fd("hear-document deliminated ", 2);
+// 		ft_putendl_fd("by end-of-file(wanted 'EOF')", 2);
+// 		return (END);
+// 	}
+// 	expand = expand_var(line, envp);
+// 	free(line);
+// 	if (!expand)
+// 		return (FAILUER);
+// 	if (!ft_strcmp(eof, expand))
+// 		return (FAILUER);
+// 	ft_putendl_fd(expand, fd);
+// 	free(expand);
+// 	return (SUCCESS);
+// 	(void)eof;
+// 	(void)fd;
+// 	(void)envp;
+// 	return (0);
+// }

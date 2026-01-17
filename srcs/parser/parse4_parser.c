@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse4_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:39:10 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 19:39:30 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 15:27:05 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,18 @@ t_tree	*parser(char *input, t_shared_info *info)
 		return (NULL);
 	ast = parse_manage(&token_list, info->envp);
 	return (ast);
+}
+
+
+int main(int ac, char **av)
+{
+	t_tree *ast;
+
+	ast = parser(av[1], NULL);
+	(void)ast;
+	(void)ac;
+	(void)av;
+	ft_dprintf(2, "fpritnf");
+	return (0);
+	
 }

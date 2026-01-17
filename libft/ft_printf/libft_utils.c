@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 02:38:38 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/16 05:53:32 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/17 15:30:32 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	ft_putchar(char c, t_info *inf)
 {
-	if (write(1, &c, 1) == ERROR)
+	if (write(inf ->fd, &c, 1) == ERROR)
 		return (ERROR);
 	inf->total_len += 1;
 	return (SUCCESS);

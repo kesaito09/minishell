@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 02:47:32 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/25 23:22:21 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 15:25:12 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_info
 	int				precision;
 	char			specifier;
 	int				total_len;
+	int				fd;
 }					t_info;
 
 typedef enum e_flag
@@ -39,7 +40,7 @@ typedef enum e_flag
 	F_HASH = 1 << 4,
 }					t_flag;
 
-int					ft_printf(const char *format, ...);
+int					ft_dprintf(int fd, const char *format, ...);
 int					print_hub(va_list *args, t_info *inf);
 int					u_print_process(char *num_arr, t_info *inf, size_t hash,
 						size_t zero);
