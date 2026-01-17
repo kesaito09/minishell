@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 03:43:18 by naoki             #+#    #+#             */
-/*   Updated: 2026/01/07 17:53:46 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 15:48:13 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ void	pid_add_back(t_pidlist **plist, pid_t pid)
 	tmp->next = pid_new(pid);
 	if (!tmp->next)
 	{
-		free_pid(*plist);
+		p_lstclear(*plist);
 		plist = NULL;
 	}
 }
 
-void	free_pid(t_pidlist *plist)
+void	p_lstclear(t_pidlist *plist)
 {
 	t_pidlist	*tmp;
 
@@ -58,7 +58,7 @@ void	free_pid(t_pidlist *plist)
 	}
 }
 
-int	waitpid_plist(t_pidlist **plist)
+int	wait_pidlist(t_pidlist **plist)
 {
 	int			status;
 	t_pidlist	*tmp;
@@ -72,7 +72,7 @@ int	waitpid_plist(t_pidlist **plist)
 		waitpid((*plist)->pid, &status, 0);
 		(*plist) = (*plist)->next;
 	}
-	free_pid(tmp);
+	p_lstclear(tmp);
 	*plist = NULL;
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));

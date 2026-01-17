@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 09:41:30 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 18:04:27 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:43:12 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,11 @@ bool	is_command(t_token *cur)
 		|| is_redirect(cur))
 		return (true);
 	return (false);
+}
+
+t_tree_type	cmd_type(t_token *cur)
+{
+	if (is_builtin(cur->token))
+		return (MY_COMMAND);
+	return (COMMAND);
 }

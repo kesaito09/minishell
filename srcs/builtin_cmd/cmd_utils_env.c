@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:07:56 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/14 08:59:39 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 16:20:36 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,3 @@ int	ft_keycmp(const char *arg, const char *env)
 		return (1);
 	return (0);
 }
-
-//int	cmd_check(t_token *cmd)
-//{
-//	t_token	*env;
-
-//	env = cmd->next;
-//	if (!env)
-//		return (FAILUER);
-//	if (strchr_len(env->token, '=') == 0)
-//	{
-//		ft_putstr_fd("minishell: export: '", 2);
-//		ft_putstr_fd(env->token, 2);
-//		ft_putendl_fd("': not a valid identifier", 2);
-//		return (FAILUER);
-//	}
-//	if (!ft_strchr(env->token, '='))
-//		return (FAILUER);
-//	return (SUCCESS);
-//}

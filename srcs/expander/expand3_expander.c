@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_env.c                                          :+:      :+:    :+:   */
+/*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/06 06:29:07 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 16:59:31 by natakaha         ###   ########.fr       */
+/*   Created: 2026/01/07 19:38:09 by kesaitou          #+#    #+#             */
+/*   Updated: 2026/01/17 17:17:32 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/commands.h"
 #include "../../includes/execution.h"
+#include "../../includes/expander.h"
 
-void	env(t_token *node, t_shared_info *info)
+int	expander(t_token **node, t_shared_info *info, t_list_type type)
 {
-	t_token	*tmp;
-
-	tmp = info->envp;
-	if (node->next && !ft_strcmp(node->next->token, "-a"))
-	{
-		while (tmp)
-		{
-			ft_putendl_fd(tmp->token, 1);
-			tmp = tmp->next;
-		}
-	}
-	if (!tmp)
-		return ;
-	while (tmp)
-	{
-		if (tmp->type == 0)
-			ft_putendl_fd(tmp->token, 1);
-		tmp = tmp->next;
-	}
+	if (expand_token(node, info) == FAILUER)
+		return (deep_token_clear(*node), FAILUER);
+	if (wildcard_expand(node, type) == FAILUER)
+		return (deep_token_clear(*node), FAILUER);
+	return (SUCCESS);
 }

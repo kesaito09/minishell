@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:37:30 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 18:07:40 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 16:59:31 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@
 # include <sys/types.h>
 # include <bits/sigaction.h>
 
-typedef struct s_pipe	t_pipe;
+typedef struct s_pipe	t_shared_info;
 
 void	setup_signal_prompt(void);
 void	setup_signal_exec(void);
 void	setup_signal_child(void);
 
-int		detect_ecode(int flag, t_pipe *info);
+int		detect_ecode(int flag, t_shared_info *info);
 void	error_exit(char *str, int errno);
 
 #endif

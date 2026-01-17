@@ -6,13 +6,13 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 12:26:37 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/05 08:29:41 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 16:59:31 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 
-int	tree_operator(t_tree *branch, t_pipe *info, int fd_in, int fd_out)
+int	tree_operator(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 {
 	if (!branch)
 		return (FAILUER);

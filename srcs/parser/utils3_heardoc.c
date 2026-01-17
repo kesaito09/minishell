@@ -6,11 +6,38 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 18:25:47 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:25:57 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
+
+static char	*heardoc_check(void);
+static int	write_next_line(char *eof, int fd, t_token *envp);
+
+char	*heardoc(char *eof, t_token *envp)
+{
+	char	*file;
+	int		fd;
+	int		flag;
+
+	file = heardoc_check();
+	if (!file)
+		return (NULL);
+	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+		return (NULL);
+	while (true)
+	{
+		flag = write_next_line(eof, fd, envp);
+		if (flag == FAILUER)
+			return (close(fd), free(file), NULL);
+		if (flag == END)
+			break ;
+	}
+	close(fd);
+	return (file);
+}
 
 static char	*heardoc_check(void)
 {
@@ -62,28 +89,4 @@ static int	write_next_line(char *eof, int fd, t_token *envp)
 	ft_putendl_fd(expand, fd);
 	free(expand);
 	return (SUCCESS);
-}
-
-char	*heardoc(char *eof, t_token *envp)
-{
-	char	*file;
-	int		fd;
-	int		flag;
-
-	file = heardoc_check();
-	if (!file)
-		return (NULL);
-	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-		return (NULL);
-	while (true)
-	{
-		flag = write_next_line(eof, fd, envp);
-		if (flag == FAILUER)
-			return (close(fd), free(file), NULL);
-		if (flag == END)
-			break ;
-	}
-	close(fd);
-	return (file);
 }

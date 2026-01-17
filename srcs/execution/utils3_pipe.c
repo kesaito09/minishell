@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_utils3_pipe.c                                 :+:      :+:    :+:   */
+/*   utils3_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:14:04 by naoki             #+#    #+#             */
-/*   Updated: 2025/12/10 00:11:06 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 16:59:31 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	dup2_stdin_out(int fd_in, int fd_out)
 	return (SUCCESS);
 }
 
-int	reset_stdin_out(t_pipe *info)
+int	reset_stdin_out(t_shared_info *info)
 {
 	return (dup2_stdin_out(info->fd_stdin, info->fd_stdout));
 }

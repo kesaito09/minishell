@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 09:18:46 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/03 19:32:13 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:16:16 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,6 @@ void	setup_signal_prompt(void)
 	sa.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sa, NULL);
 }
-
-//static void	new_line(int sig)
-//{
-//	write(1, "\n", 1);
-//	(void)sig;
-//}
 
 void	setup_signal_exec(void)
 {

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 17:53:30 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:25:14 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef enum e_tree_type	t_tree_type;
 typedef enum e_file_type	t_file_type;
 typedef enum e_token_type	t_token_type;
 typedef struct s_token		t_token;
-typedef struct s_pipe		t_pipe;
+typedef struct s_pipe		t_shared_info;
 
 /*utils1_make_tree*/
 t_tree						*tree_new(t_tree_type btype);
@@ -42,8 +42,7 @@ void						free_flist(t_flist *lst);
 
 /*utils3_parse*/
 t_tree_type					cmd_type(t_token *cur);
-int							count_arr_elem(char **s);
-char						**ultimate_strjoin(char **argv, char *new);
+int							count_element(char **s);
 
 /*utils4_heardoc*/
 char						*heardoc(char *eof, t_token *envp);
@@ -57,7 +56,7 @@ bool						is_command(t_token *cur);
 /*utils7_arglist*/
 int							append_token(t_token *arg_list, t_token **cur);
 char						**token_argv(t_token *node);
-char						**token_cmd(t_token *node, t_pipe *info);
+char						**token_cmd(t_token *node, t_shared_info *info);
 t_token						*argv_token(char **argv);
 
 /*parse_cmd*/
@@ -67,5 +66,5 @@ t_token						*argv_token(char **argv);
 t_token						*f_lstnew(char *token, t_token_type type);
 
 /*parse*/
-t_tree						*parser(char *input, t_pipe *info);
+t_tree						*parser(char *input, t_shared_info *info);
 #endif

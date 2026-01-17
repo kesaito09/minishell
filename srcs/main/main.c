@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/16 13:25:30 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:15:44 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,23 @@ char	*get_line(int fd)
 	return (line);
 }
 
-#include <stdio.h>
-int	minishell_atty(t_pipe *info)
+char	*handle_prompt(void)
+{
+	char	*line;
+
+	line = readline("minishell$ ");
+	if (!line)
+		return (NULL, SUCCESS);
+	if (!*line)
+	{
+		free(line);
+		handle_prompt();
+	}
+	add_history(line);
+	return (line);
+}
+
+int	minishell_atty(t_shared_info *info)
 {
 	char	*line;
 	t_tree	*branch;
@@ -45,15 +60,7 @@ int	minishell_atty(t_pipe *info)
 	while (true)
 	{
 		setup_signal_prompt();
-		line = readline("minishell$ ");
-		if (!line)
-			return (rl_clear_history(), SUCCESS);
-		if (!*line)
-        {
-            free(line);
-            continue;
-        }
-		add_history(line);
+		line = handle_prompt();
 		branch = parser(line, info);
 		free(line);
 		if (!branch)
@@ -69,7 +76,7 @@ int	minishell_atty(t_pipe *info)
 	return (flag);
 }
 
-int	minishell_pipe(t_pipe *info)
+int	minishell_pipe(t_shared_info *info)
 {
 	char	*line;
 	t_tree	*branch;
@@ -88,32 +95,32 @@ int	minishell_pipe(t_pipe *info)
 	return (flag);
 }
 
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	t_pipe	info;
-// 	int		flag;
+int	main(int argc, char **argv, char **envp)
+{
+	t_shared_info	info;
+	int				flag;
 
-// 	info = collect_info(envp);
-// 	if (!info.envp)
-// 		return (EXIT_FAILURE);
-// 	if (!isatty(STDIN_FILENO))
-// 		flag = minishell_pipe(&info);
-// 	else
-// 		flag = minishell_atty(&info);
-// 	t_lstclear(&info.envp, free);
-// 	(void)argc;
-// 	(void)argv;
-// 	if (flag == FAILUER)
-// 		return (EXIT_FAILURE);
-// 	return (EXIT_SUCCESS);
-// }
+	info = collect_info(envp);
+	if (!info.envp)
+		return (EXIT_FAILURE);
+	if (!isatty(STDIN_FILENO))
+		flag = minishell_pipe(&info);
+	else
+		flag = minishell_atty(&info);
+	t_lstclear(&info.envp, free);
+	(void)argc;
+	(void)argv;
+	if (flag == FAILUER)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
 
 // /*tester*/
 
 //int main(int argc, char **argv, char **envp)
 //{
 //	t_tree	*branch;
-//	t_pipe	info;
+//	t_shared_info	info;
 
 //	if (argc < 2)
 //		return (0);
@@ -122,7 +129,7 @@ int	minishell_pipe(t_pipe *info)
 //	tree_operator(branch, &info, 0, 1);
 //	free_tree_rec(branch);
 //	free_split(info.path);
-//	waitpid_plist(info.plist);
+//	wait_pidlist(info.plist);
 //	free_pid(info.plist);
 //}
 

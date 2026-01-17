@@ -1,60 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils2_tlist.c                               :+:      :+:    :+:   */
+/*   lexer_utils1_tlist2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:23:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/16 13:32:15 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/17 17:22:43 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
-
-size_t	t_lstsize(t_token *lst)
-{
-	int	len;
-
-	len = 0;
-	while (lst)
-	{
-		len++;
-		lst = lst->next;
-	}
-	return (len);
-}
-
-t_token	*t_lstmove(t_token *lst, int n)
-{
-	while (n > 0 && lst)
-	{
-		lst = lst->next;
-		n--;
-	}
-	return (lst);
-}
-
-t_token	*t_lstnew(char *token, void (*del)(void *))
-{
-	t_token	*new_elem;
-
-	if (!token)
-		return (NULL);
-	new_elem = ft_calloc(sizeof(t_token), 1);
-	if (!new_elem)
-		return (del(token), NULL);
-	new_elem->token = token;
-	new_elem->next = NULL;
-	return (new_elem);
-}
-
-t_token	*t_lstlast(t_token *lst)
-{
-	while (lst && lst->next)
-		lst = lst->next;
-	return (lst);
-}
 
 void	t_lstdelone(t_token *lst, void (*del)(void *))
 {
@@ -95,8 +51,8 @@ void	t_lstadd_back(t_token **lst, t_token *new)
 
 void	t_lstadd_front(t_token **lst, t_token *new)
 {
- 	new->next = (*lst);
- 	(*lst) = new;
+	new->next = (*lst);
+	(*lst) = new;
 }
 
 void	t_lstadd_sort(t_token **lst, t_token *new)

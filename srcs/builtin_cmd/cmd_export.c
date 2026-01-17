@@ -6,14 +6,14 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/16 10:28:38 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 16:59:31 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/commands.h"
 #include "../../includes/execution.h"
 
-int	export_module(t_token *cmd, t_pipe *info)
+int	export_module(t_token *cmd, t_shared_info *info)
 {
 	t_token	*env;
 
@@ -37,7 +37,7 @@ int	export_module(t_token *cmd, t_pipe *info)
 	return (SUCCESS);
 }
 
-int	export(t_token *cmd, t_pipe *info)
+int	export(t_token *cmd, t_shared_info *info)
 {
 	while (cmd)
 	{
@@ -47,7 +47,7 @@ int	export(t_token *cmd, t_pipe *info)
 	return (SUCCESS);
 }
 
-void	unset_module(t_pipe *info, char *key)
+void	unset_module(t_shared_info *info, char *key)
 {
 	t_token	*node;
 	t_token	*tmp;
@@ -71,7 +71,7 @@ void	unset_module(t_pipe *info, char *key)
 	}
 }
 
-int	unset(t_token *cmd, t_pipe *info)
+int	unset(t_token *cmd, t_shared_info *info)
 {
 	t_token	*key;
 

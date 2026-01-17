@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils3_clist.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:30:23 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/16 00:40:45 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/17 17:18:59 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	c_lstclear(t_char_list **lst, void (*del)(void *))
 	t_char_list	*current;
 	t_char_list	*next;
 
-    (void)del;
+	(void)del;
 	current = *lst;
 	while (current)
 	{

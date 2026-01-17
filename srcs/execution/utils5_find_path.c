@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_utils_info.c                                   :+:      :+:    :+:   */
+/*   utils5_find_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 06:33:13 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/14 09:00:22 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 16:59:31 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ t_token	*complete_path(char **envp)
 	return (argv_token(path_lst));
 }
 
-t_pipe	collect_info(char **envp)
+t_shared_info	collect_info(char **envp)
 {
-	t_pipe	info;
+	t_shared_info	info;
 
 
-	ft_bzero(&info, sizeof(t_pipe));
+	ft_bzero(&info, sizeof(t_shared_info));
 	info.envp = argv_token(envp);
 	info.plist = NULL;
 	info.pipe = false;

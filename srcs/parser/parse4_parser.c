@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_env.c                                          :+:      :+:    :+:   */
+/*   parse4_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/06 06:29:07 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 16:59:31 by natakaha         ###   ########.fr       */
+/*   Created: 2026/01/17 19:39:10 by natakaha          #+#    #+#             */
+/*   Updated: 2026/01/17 19:39:30 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/commands.h"
 #include "../../includes/execution.h"
+#include "../../includes/parser.h"
 
-void	env(t_token *node, t_shared_info *info)
+t_tree	*parser(char *input, t_shared_info *info)
 {
-	t_token	*tmp;
+	t_tree	*ast;
+	t_token	*token_list;
 
-	tmp = info->envp;
-	if (node->next && !ft_strcmp(node->next->token, "-a"))
-	{
-		while (tmp)
-		{
-			ft_putendl_fd(tmp->token, 1);
-			tmp = tmp->next;
-		}
-	}
-	if (!tmp)
-		return ;
-	while (tmp)
-	{
-		if (tmp->type == 0)
-			ft_putendl_fd(tmp->token, 1);
-		tmp = tmp->next;
-	}
+	ast = NULL;
+	if (!input || !*input)
+		return (NULL);
+	token_list = tokenizer(input);
+	if (!token_list)
+		return (NULL);
+	ast = parse_manage(&token_list, info->envp);
+	return (ast);
 }

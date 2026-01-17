@@ -1,11 +1,11 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_env.c                                          :+:      :+:    :+:   */
+/*   cmd_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/06 06:29:07 by natakaha          #+#    #+#             */
+/*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
 /*   Updated: 2026/01/17 16:59:31 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -13,25 +13,46 @@
 #include "../../includes/commands.h"
 #include "../../includes/execution.h"
 
-void	env(t_token *node, t_shared_info *info)
+void	unset_module(t_shared_info *info, char *key)
 {
+	t_token	*node;
 	t_token	*tmp;
 
-	tmp = info->envp;
-	if (node->next && !ft_strcmp(node->next->token, "-a"))
+	node = info->envp;
+	tmp = NULL;
+	while (node)
 	{
-		while (tmp)
+		if (!ft_keycmp(key, node->token))
 		{
-			ft_putendl_fd(tmp->token, 1);
-			tmp = tmp->next;
+			if (tmp)
+				tmp->next = node->next;
+			else
+				info->envp = node->next;
+			free(node->token);
+			free(node);
+			return ;
 		}
+		tmp = node;
+		node = node->next;
 	}
-	if (!tmp)
-		return ;
-	while (tmp)
+}
+
+int	unset(t_token *cmd, t_shared_info *info)
+{
+	t_token	*key;
+
+	key = cmd->next;
+	while (key)
 	{
-		if (tmp->type == 0)
-			ft_putendl_fd(tmp->token, 1);
-		tmp = tmp->next;
+		if (ft_strchr(key->token, '='))
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(key->token, 2);
+			ft_putendl_fd(": invalid parameter name", 2);
+			return (FAILUER);
+		}
+		unset_module(info, key->token);
+		key = key->next;
 	}
+	return (SUCCESS);
 }

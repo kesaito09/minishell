@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils1_make_tree.c                                 :+:      :+:    :+:   */
+/*   utils1_tree.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:42:39 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/07 20:22:21 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:41:55 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,6 @@ t_tree	*tree_new(t_tree_type btype)
 		return (NULL);
 	node->b_type = btype;
 	return (node);
-}
-
-void	tree_add_left(t_tree **branch, t_tree *node)
-{
-	(*branch)->left = node;
-}
-
-void	tree_add_right(t_tree **branch, t_tree *node)
-{
-	(*branch)->right = node;
-}
-
-void	free_split(char **cmd)
-{
-	int	i;
-
-	if (!cmd || !*cmd)
-		return ;
-	i = 0;
-	while (cmd[i])
-	{
-		free(cmd[i]);
-		i++;
-	}
-	free(cmd);
 }
 
 void	free_tree_rec(t_tree *branch)

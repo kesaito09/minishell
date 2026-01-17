@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/11 14:13:18 by kesaitou         ###   ########.fr        #
+#    Updated: 2026/01/17 16:22:13 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,18 +22,19 @@ LIBDIR = $(LIBFTDIR)
 LDFLAGS = -L $(LIBDIR)
 LDLIBS = -lft -lreadline
 
-MAND_SRCS = srcs/builtin_cmd/cmd_echo.c\
-			srcs/builtin_cmd/cmd_pwd.c\
-			srcs/builtin_cmd/cmd_cd.c\
-			srcs/builtin_cmd/cmd_export.c\
+MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
+			srcs/builtin_cmd/cmd_echo.c\
 			srcs/builtin_cmd/cmd_env.c\
 			srcs/builtin_cmd/cmd_exit.c\
-			srcs/builtin_cmd/cmd_utils_info.c\
-			srcs/builtin_cmd/cmd_utils.c\
-			srcs/execution/exec_utils1_pid.c\
-			srcs/execution/exec_utils2_error.c\
+			srcs/builtin_cmd/cmd_export.c\
+			srcs/builtin_cmd/cmd_pwd.c\
+			srcs/builtin_cmd/cmd_unset.c\
+			srcs/builtin_cmd/cmd_utils_env.c\
+			srcs/execution/utils1_pid.c\
+			srcs/execution/utils2_redirect_error.c\
 			srcs/execution/exec_utils3_pipe.c\
 			srcs/execution/exec_utils4_env.c\
+			srcs/execution/exec_utils5_find_pah.c\
 			srcs/execution/exec1_operate.c\
 			srcs/execution/exec2_cmd.c\
 			srcs/execution/exec3_logical.c\
