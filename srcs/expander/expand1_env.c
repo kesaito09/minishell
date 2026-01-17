@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 21:29:21 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 22:21:55 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,19 @@ t_token	*quote_split(char **input)
 		n = strchr_len(*input + 1, state) + 2;
 	if (n <= 1)
 		return (NULL);
-	node = t_lstnew(ft_strndup(*input, n), free);
+	node = f_lstnew(ft_strndup(*input, n), what_type(state));
 	*input += n;
 	if (!node)
 		return (NULL);
-	node->type = what_type(state);
 	return (node);
 }
 
 t_token	*expand_dollar(t_token *input)
 {
-	t_token	*node;
-	t_token	*new;
-	char	*str;
-	int		len;
+	t_token			*node;
+	t_token			*new;
+	char			*str;
+	int				len;
 
 	str = input->token;
 	node = NULL;
@@ -57,7 +56,7 @@ t_token	*expand_dollar(t_token *input)
 			len = ft_strlen(str);
 		if (len == 0)
 			len = envlen(str + 1) + 1;
-		new = t_lstnew(ft_strndup(str, len), free);
+		new = f_lstnew(ft_strndup(str, len), input->type);
 		if (!new)
 			return (t_lstclear(&node, free), NULL);
 		str += len;
@@ -65,7 +64,28 @@ t_token	*expand_dollar(t_token *input)
 	}
 }
 
-t_token	*get_sub_token(char *input)
+t_token	*replace_env(t_token *node, t_token *envp)
+{
+	char	*str;
+	t_token	*cur;
+
+	if (!node)
+		return (NULL);
+	cur = node;
+	while (cur)
+	{
+		str = cur->token;
+		if (str[0] == '$' && str[1])
+		{
+			cur->token = return_value(cur->token + 1, envp);
+			free(str);
+		}
+		cur = cur->next;
+	}
+	return (node);
+}
+
+t_token	*get_sub_token(char *input, t_token *envp)
 {
 	t_token	*lst;
 	t_token	*new;
@@ -84,17 +104,23 @@ t_token	*get_sub_token(char *input)
 			new->token = tmp;
 		}
 		if (new->type != SUB_TOKEN_SQUOTE)
+		{
 			new = expand_dollar(new);
+			new = replace_env(new, envp);
+		}
 		t_lstadd_back(&lst, new);
 	}
 	return (lst);
 }
 
-int	main(int ac, char **av)
-{
-	t_token	*node;
+//int	main(int ac, char **av, char **envp)
+//{
+//	t_token			*node;
+//	t_shared_info	info;
 
-	if (ac == 1)
-		return (1);
-	node = get_sub_token(av[1]);
-}
+//	if (ac == 1)
+//		return (1);
+//	info = collect_info(envp);
+//	node = get_sub_token(av[1], info.envp);
+//	print_token(node);
+//}

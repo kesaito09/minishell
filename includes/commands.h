@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 20:09:52 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 21:57:34 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int		ft_argcmp(const char *arg, const char *env);
 int		ft_keycmp(const char *arg, const char *env);
 int		is_valid_arg(char *arg);
 t_token	*complete_path(char **envp);
+char	*return_value(char *arg, t_token *envp);
+
 
 
 #endif

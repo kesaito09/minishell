@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 21:28:43 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 22:00:35 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int		ft_strchr_set(char *str, char *set);
 char	*setup_ifs(t_token *envp);
 
 /* expand3_expander */
-t_token	*get_sub_token(char *input);
-
+t_token	*get_sub_token(char *input, t_token *envp);
 
 #endif
