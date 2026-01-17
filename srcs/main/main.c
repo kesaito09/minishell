@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 13:57:05 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:20:26 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	minishell_atty(t_shared_info *info)
 		line = handle_prompt();
 		if (!line)
 			return (SUCCESS);
-		branch = parser(line, info);
+		branch = parser(line);
 		free(line);
 		if (!branch)
 			continue ;
@@ -87,7 +87,7 @@ int	minishell_pipe(t_shared_info *info)
 	line = get_line(STDIN_FILENO);
 	if (!line)
 		return (FAILUER);
-	branch = parser(line, info);
+	branch = parser(line);
 	if (!branch)
 		return (free(line), FAILUER);
 	flag = tree_operator(branch, info, 0, 1);

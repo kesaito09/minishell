@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/17 22:20:27 by natakaha         ###   ########.fr        #
+#    Updated: 2026/01/17 17:31:35 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,6 +63,7 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/parser/utils2_parse.c\
 			srcs/parser/utils3_is.c\
 			srcs/parser/utils4_arglist.c\
+			srcs/parser/utils5_error.c\
 			srcs/tester/print_.c\
 
 MAND_OBJS = $(MAND_SRCS:.c=.o)

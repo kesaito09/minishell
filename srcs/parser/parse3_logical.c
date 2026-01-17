@@ -3,30 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   parse3_logical.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 20:30:32 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:45:35 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
 
-static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node,
-		t_token *envp);
+static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node);
 
-t_tree	*parse_manage(t_token **cur, t_token *envp)
+t_tree	*parse_manage(t_token **cur)
 {
 	t_tree	*branch;
 
-	branch = parse_pipeline(cur, envp);
-	branch = parse_logical_rec(cur, branch, envp);
+	branch = parse_pipeline(cur);
+	branch = parse_logical_rec(cur, branch);
 	return (branch);
 }
 
-static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node,
-		t_token *envp)
+static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node)
 {
 	t_tree	*logical_node;
 
@@ -42,12 +40,12 @@ static t_tree	*parse_logical_rec(t_token **cur, t_tree *left_node,
 	if (!logical_node)
 		return (free_tree_rec(left_node), NULL);
 	logical_node->left = left_node;
-	*cur = (*cur)->next;
-	logical_node->right = parse_pipeline(cur, envp);
-	if (*cur && ((*cur)->type != TOKEN_CONJUNCTIONE
-			|| (*cur)->type != TOKEN_DISJUNCTIONE))
-		logical_node = parse_logical_rec(cur, logical_node, envp);
+	free_and_skip_one(cur);
+	logical_node->right = parse_pipeline(cur);
 	if (!logical_node->right)
-		return (NULL);
+    	return (free_tree_rec(logical_node), NULL);
+	if (*cur && ((*cur)->type == TOKEN_CONJUNCTIONE
+			|| (*cur)->type == TOKEN_DISJUNCTIONE))
+		logical_node = parse_logical_rec(cur, logical_node);
 	return (logical_node);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 20:30:03 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:43:29 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ void		free_flist(t_flist *lst);
 /*utils3_parse*/
 t_tree_type	cmd_type(t_token *cur);
 int			count_element(char **s);
+void	free_and_skip_one(t_token **cur);
+
 
 /*utils4_heardoc*/
-char		*heardoc(char *eof, t_token *envp);
+char		*heardoc(char *eof);
 
 /*utils5_is_*/
 bool		is_builtin(char *token);
@@ -59,18 +61,22 @@ char		**token_argv(t_token *node);
 char		**token_cmd(t_token *node, t_shared_info *info);
 t_token		*argv_token(char **argv);
 
+/*utils5_error*/
+void syntax_error_msg(char *err_token);
+
+
 /*parse_cmd*/
-t_tree		*parse_command(t_token **cur, t_token *envp);
-t_tree		*parse_manage(t_token **cur, t_token *envp);
+t_tree		*parse_command(t_token **cur);
+t_tree		*parse_manage(t_token **cur);
 t_token		*argv_token(char **argv);
 t_token		*f_lstnew(char *token, t_token_type type);
 
 /* parse2_pipe */
-t_tree	*parse_pipeline(t_token **cur, t_token *envp);
+t_tree	*parse_pipeline(t_token **cur);
 
 
 /*parse*/
-t_tree		*parser(char *input, t_shared_info *info);
+t_tree		*parser(char *input);
 
 
 

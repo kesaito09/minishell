@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 19:13:11 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 19:42:55 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:43:20 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,3 +39,16 @@ void	free_split(char **cmd)
 	}
 	free(cmd);
 }
+
+void	free_and_skip_one(t_token **cur)
+{
+	t_token	*tmp;
+
+	if (!cur || !*cur)
+		return ;
+	tmp = *cur;
+	*cur = (*cur)->next;
+	tmp->next = NULL;
+	deep_token_clear(tmp);
+}
+
