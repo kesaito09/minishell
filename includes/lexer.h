@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/18 10:26:27 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 11:17:27 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,8 @@ typedef struct s_token
 {
 	char				*token;
 	t_token_type		type;
-	struct s_token		*sub_token;
 	struct s_token		*next;
 }						t_token;
-
-//typedef struct s_char_list
-//{
-//	char				c;
-//	struct s_char_list	*next;
-//}						t_char_list;
 
 /* lexer1_tokenize */
 int				word_len(char *input, char *charsplit, char *charignore);
@@ -84,12 +77,6 @@ void			t_lstclear(t_token **lst, void (*del)(void *));
 void			t_lstadd_back(t_token **lst, t_token *new);
 void			t_lstadd_front(t_token **lst, t_token *new);
 void			t_lstadd_sort(t_token **lst, t_token *new);
-
-/* utils3_clist */
-//t_char_list	*c_lstlast(t_char_list *lst)
-//void	c_lstadd_back(t_char_list **lst, t_char_list *new);
-//size_t	c_lstsize(t_char_list *lst);
-//void	c_lstclear(t_char_list **lst, void (*del)(void *));
 
 /* utils4_judge */
 bool			is_delimiter(int c);

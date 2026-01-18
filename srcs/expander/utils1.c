@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 18:27:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/18 10:44:35 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 11:19:21 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,6 @@ int	strchr_len(char *str, int c)
 	if (!ptr)
 		return (-1);
 	return ((int)(ptr - str));
-}
-
-void	deep_token_clear(t_token *node)
-{
-	t_token	*next_node;
-
-	while (node)
-	{
-		next_node = node->next;
-		if (node->sub_token)
-			t_lstclear(&node->sub_token, free);
-		free(node->token);
-		free(node);
-		node = next_node;
-	}
 }
 
 char	*split_join(char **argv)

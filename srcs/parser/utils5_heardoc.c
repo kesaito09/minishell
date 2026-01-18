@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils3_heardoc.c                                   :+:      :+:    :+:   */
+/*   utils5_heardoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 10:46:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 12:10:29 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
 
-static char	*heardoc_check(void);
-static int	write_next_line(char *eof, int fd, t_token *envp);
+static char	*heardoc_name(void);
+static int	write_heardoc(char *eof, int fd, t_token *envp, t_state state);
+static void	error_message(void);
 
-char	*heardoc(char *eof, t_token *envp)
+char	*heardoc(char *eof, t_token *envp, t_state state)
 {
 	char	*file;
 	int		fd;
 	int		flag;
 
-	file = heardoc_check();
+	file = heardoc_name();
 	if (!file)
 		return (NULL);
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -29,7 +30,7 @@ char	*heardoc(char *eof, t_token *envp)
 		return (NULL);
 	while (true)
 	{
-		flag = write_next_line(eof, fd, envp);
+		flag = write_heardoc(eof, fd, envp, state);
 		if (flag == FAILUER)
 			return (close(fd), free(file), NULL);
 		if (flag == END)
@@ -39,7 +40,7 @@ char	*heardoc(char *eof, t_token *envp)
 	return (file);
 }
 
-static char	*heardoc_check(void)
+static char	*heardoc_name(void)
 {
 	char	*file;
 	char	*def;
@@ -66,31 +67,35 @@ static char	*heardoc_check(void)
 	return (free(def), file);
 }
 
-static int	write_next_line(char *eof, int fd, t_token *envp)
+static int	write_heardoc(char *eof, int fd, t_token *envp, t_state state)
 {
-	//char	*line;
-	//char	*expand;
+	char	*line;
+	char	*expand;
 
-	//line = readline(">");
-	//if (!line)
-	//{
-	//	ft_putstr_fd("minishell: ", 2);
-	//	ft_putstr_fd("warning: ", 2);
-	//	ft_putstr_fd("hear-document deliminated ", 2);
-	//	ft_putendl_fd("by end-of-file(wanted 'EOF')", 2);
-	//	return (END);
-	//}
-	//expand = expand_var(line, envp);
-	//free(line);
-	//if (!expand)
-	//	return (FAILUER);
-	//if (!ft_strcmp(eof, expand))
-	//	return (FAILUER);
-	//ft_putendl_fd(expand, fd);
-	//free(expand);
-	//return (SUCCESS);
-	(void)eof;
-	(void)fd;
-	(void)envp;
+	line = readline(">");
+	if (!line)
+		return (error_message(), END);
+	if (!ft_strcmp(eof, line))
+		return (END);
+	if (state == STATE_GENERAL)
+	{
+		expand = expand_join(line, envp);
+		free(line);
+	}
+	else
+		expand = line;
+	if (!expand)
+		return (FAILUER);
+	ft_putendl_fd(expand, fd);
+	free(expand);
+	return (SUCCESS);
 	return (0);
+}
+
+static void	error_message(void)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd("warning: ", 2);
+	ft_putstr_fd("hear-document deliminated ", 2);
+	ft_putendl_fd("by end-of-file(wanted 'EOF')", 2);
 }

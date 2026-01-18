@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 10:38:42 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 12:09:30 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,8 @@ t_tree_type	cmd_type(t_token *cur);
 /* utils4_arglist */
 char		**token_argv(t_token *node);
 t_token		*argv_token(char **argv);	
+
+/* utils5_heardoc */
+char		*heardoc(char *eof, t_token *envp, t_state state);
 
 #endif
