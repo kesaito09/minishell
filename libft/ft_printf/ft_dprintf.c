@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 02:38:36 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/10/29 17:00:31 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/17 15:23:25 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	parse(const char **format, t_info *inf, va_list *args)
 	return (SUCCESS);
 }
 
-int	ft_printf(const char *format, ...)
+int	ft_dprintf(int fd, const char *format, ...)
 {
 	va_list	args;
 	t_info	inf;
@@ -63,6 +63,7 @@ int	ft_printf(const char *format, ...)
 	inf.total_len = 0;
 	va_start(args, format);
 	init_info(&inf);
+	inf.fd = fd;
 	if (parse(&format, &inf, &args) == ERROR)
 		return (va_end(args), ERROR);
 	va_end(args);

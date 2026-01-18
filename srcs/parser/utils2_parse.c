@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 19:13:11 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 19:42:55 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 12:36:41 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,22 @@ void	free_split(char **cmd)
 		i++;
 	}
 	free(cmd);
+}
+
+void	free_and_skip_one(t_token **cur)
+{
+	t_token	*tmp;
+
+	if (!cur || !*cur)
+		return ;
+	tmp = *cur;
+	*cur = (*cur)->next;
+	t_lstdelone(tmp, free);
+}
+
+void	syntax_error_msg(char *err_token)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd(err_token, 2);
+	ft_putendl_fd("'", 2);
 }

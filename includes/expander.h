@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 12:08:56 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 13:07:28 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,19 @@ typedef enum e_list_type
 }	t_list_type;
 
 /* expand1_env */
-t_token	*get_sub_token(char *input, t_token *envp);
+t_token	*get_sub_token(char *input, t_token *envp, t_token_type flag);
 
 /* expand2_wildcard */
 int		wildcard_expand(t_token *sub, t_list_type type);
 
 /* expand3_expander */
-int	expander(t_token *node, t_shared_info *info, t_list_type l_type);
+int		expander(t_token *node, t_shared_info *info, t_list_type l_type);
 
 /* utils1 */
 int		envlen(char *av);
 int		strchr_len(char *str, int c);
 char	*split_join(char **argv);
-char	*expand_join(char *input, t_token *envp);
+char	*expand_join(char *input, t_token *envp, t_token_type type);
 
 /* utils2_search_file */
 int		search_file(t_token *sub_token, char *file);

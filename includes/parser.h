@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 12:09:30 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 13:29:43 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct dirent			t_dirent;
 typedef struct s_tree			t_tree;
 typedef struct s_flist			t_flist;
 typedef enum e_tree_type		t_tree_type;
+typedef enum e_state			t_state;
 typedef enum e_file_type		t_file_type;
 typedef enum e_token_type		t_token_type;
 typedef struct s_token			t_token;
@@ -38,7 +39,7 @@ t_tree		*parse_pipeline(t_token **cur, t_token *envp);
 t_tree		*parse_manage(t_token **cur, t_token *envp);
 
 /* parse4_parser */
-t_tree		*parser(char *input, t_shared_info *info);
+t_tree		*parser(char *input, t_token *envp);
 
 /* utils1_tree */
 t_tree		*tree_new(t_tree_type btype);
@@ -47,7 +48,8 @@ void		free_tree_rec(t_tree *branch);
 /* utils2_parse */
 int			count_element(char **s);
 void		free_split(char **cmd);
-
+void		free_and_skip_one(t_token **cur);
+void		syntax_error_msg(char *err_token);
 
 /* utils3_is */
 bool		is_builtin(char *token);
@@ -59,8 +61,10 @@ t_tree_type	cmd_type(t_token *cur);
 /* utils4_arglist */
 char		**token_argv(t_token *node);
 t_token		*argv_token(char **argv);	
+char		**token_cmd(t_token *node, t_shared_info *info);
+t_token		*argv_token(char **argv);
 
-/* utils5_heardoc */
-char		*heardoc(char *eof, t_token *envp, t_state state);
+/*utils5_heardoc*/
+char		*heardoc(char *eof, t_token *envp);
 
 #endif

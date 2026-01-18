@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 12:10:29 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 13:19:17 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@ static char	*heardoc_name(void);
 static int	write_heardoc(char *eof, int fd, t_token *envp, t_state state);
 static void	error_message(void);
 
-char	*heardoc(char *eof, t_token *envp, t_state state)
+char	*heardoc(char *eof, t_token *envp)
 {
 	char	*file;
 	int		fd;
 	int		flag;
+	t_state	state;
 
 	file = heardoc_name();
 	if (!file)
@@ -28,6 +29,10 @@ char	*heardoc(char *eof, t_token *envp, t_state state)
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		return (NULL);
+	state = STATE_GENERAL;
+	if (ft_strchr(eof, '\'') || ft_strchr(eof, '"'))
+		state = STATE_DQUOTE;
+	eof = expand_join(eof, envp, TOKEN_HEREDOC);
 	while (true)
 	{
 		flag = write_heardoc(eof, fd, envp, state);
@@ -79,7 +84,7 @@ static int	write_heardoc(char *eof, int fd, t_token *envp, t_state state)
 		return (END);
 	if (state == STATE_GENERAL)
 	{
-		expand = expand_join(line, envp);
+		expand = expand_join(line, envp, TOKEN_WORD);
 		free(line);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/18 10:13:59 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 13:05:17 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_token	*quote_split(char **input);
 static t_token	*expand_dollar(t_token *input);
 static t_token	*replace_env(t_token *node, t_token *envp);
 
-t_token	*get_sub_token(char *input, t_token *envp)
+t_token	*get_sub_token(char *input, t_token *envp, t_token_type flag)
 {
 	t_token	*lst;
 	t_token	*new;
@@ -35,7 +35,7 @@ t_token	*get_sub_token(char *input, t_token *envp)
 			free(new->token);
 			new->token = tmp;
 		}
-		if (new->type != SUB_TOKEN_SQUOTE)
+		if (new->type != SUB_TOKEN_SQUOTE && flag != TOKEN_HEREDOC)
 		{
 			new = expand_dollar(new);
 			new = replace_env(new, envp);

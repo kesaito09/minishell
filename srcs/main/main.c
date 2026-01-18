@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 10:27:36 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 13:41:06 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	minishell_atty(t_shared_info *info)
 		line = handle_prompt();
 		if (!line)
 			return (SUCCESS);
-		branch = parser(line, info);
+		branch = parser(line, info->envp);
 		free(line);
 		if (!branch)
 			continue ;
@@ -50,7 +50,7 @@ int	minishell_pipe(t_shared_info *info)
 	line = get_line(STDIN_FILENO);
 	if (!line)
 		return (FAILUER);
-	branch = parser(line, info);
+	branch = parser(line, info->envp);
 	if (!branch)
 		return (free(line), FAILUER);
 	flag = tree_operator(branch, info, 0, 1);
@@ -60,25 +60,25 @@ int	minishell_pipe(t_shared_info *info)
 	return (flag);
 }
 
-//int	main(int argc, char **argv, char **envp)
-//{
-//	t_shared_info	info;
-//	int				flag;
+int	main(int argc, char **argv, char **envp)
+{
+	t_shared_info	info;
+	int				flag;
 
-//	info = collect_info(envp);
-//	if (!info.envp)
-//		return (EXIT_FAILURE);
-//	if (!isatty(STDIN_FILENO))
-//		flag = minishell_pipe(&info);
-//	else
-//		flag = minishell_atty(&info);
-//	t_lstclear(&info.envp, free);
-//	(void)argc;
-//	(void)argv;
-//	if (flag == FAILUER)
-//		return (EXIT_FAILURE);
-//	return (EXIT_SUCCESS);
-//}
+	info = collect_info(envp);
+	if (!info.envp)
+		return (EXIT_FAILURE);
+	if (!isatty(STDIN_FILENO))
+		flag = minishell_pipe(&info);
+	else
+		flag = minishell_atty(&info);
+	t_lstclear(&info.envp, free);
+	(void)argc;
+	(void)argv;
+	if (flag == FAILUER)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
 
 // /*tester*/
 

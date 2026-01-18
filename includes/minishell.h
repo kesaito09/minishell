@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 12:40:22 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/18 10:27:36 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 13:37:19 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@
 # define END 0
 
 void	print_token(t_token *token);
+void	print_tree(t_tree *branch);
 
 #endif
