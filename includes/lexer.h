@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/18 11:17:27 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 15:18:33 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_token			*tokenizer(char *input);
 /* utils1_tlist1 */
 size_t			t_lstsize(t_token *lst);
 t_token			*t_lstmove(t_token *lst, int n);
+t_token			*t_lstinsert(t_token *lst, t_token *new);
 t_token			*t_lstnew(char *token, void (*del)(void *));
 t_token			*f_lstnew(char *token, t_token_type type);
 

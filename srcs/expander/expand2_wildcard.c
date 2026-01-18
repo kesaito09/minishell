@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/18 12:22:57 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 14:56:50 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,22 @@
 
 static t_token	*return_valid_card(t_token *sub);
 static bool		check_hidden_file(t_token *sub);
+static bool		has_star(t_token *sub);
 
-int	wildcard_expand(t_token *sub, t_list_type type)
+t_token	*wildcard_expand(t_token *sub, t_list_type type)
 {
 	t_token	*tmp;
 	int		n;
 
-	if (!sub)
-		return (FAILUER);
-	if (!ft_strchr(sub->token, '*'))
-		return (1);
+	if (!has_star(sub))
+		return (NULL);
 	tmp = return_valid_card(sub);
 	if (!tmp)
-		return (FAILUER);
+		return (NULL);
 	n = t_lstsize(tmp);
 	if (type != ARG_LIST && n > 1)
-	{
-		ft_putendl_fd("ambiguous redirect", 2);
-		return (free(tmp), FAILUER);
-	}
-	t_lstadd_back(&tmp, sub->next);
-	sub->token = tmp->token;
-	sub->next = tmp->next;
-	free(tmp);
-	return (n);
+		return (ft_putendl_fd("ambiguous redirect", 2), free(tmp), NULL);
+	return (tmp);
 }
 
 static t_token	*return_valid_card(t_token *sub)
@@ -68,6 +60,17 @@ static t_token	*return_valid_card(t_token *sub)
 		t_lstadd_sort(&token_list, token);
 	}
 	return (closedir(dp), token_list);
+}
+
+static bool	has_star(t_token *sub)
+{
+	while (sub)
+	{
+		if (ft_strchr(sub->token, '*') && sub->type == SUB_TOKEN_GENERAL)
+			return (true);
+		sub = sub->next;
+	}
+	return (false);
 }
 
 static bool	check_hidden_file(t_token *sub)
