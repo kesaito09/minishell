@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:23:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 19:18:30 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 10:22:19 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,4 @@ t_token	*f_lstnew(char *token, t_token_type type)
 		return (free(token), NULL);
 	new_file->type = type;
 	return (new_file);
-}
-
-t_token	*t_lstlast(t_token *lst)
-{
-	while (lst && lst->next)
-		lst = lst->next;
-	return (lst);
 }

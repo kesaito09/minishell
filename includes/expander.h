@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 22:00:35 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 10:18:10 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,37 +32,26 @@ typedef enum e_list_type
 	ENV_LIST,
 }	t_list_type;
 
-/* utils1 */
-void	deep_token_clear(t_token *node);
+/* expand1_env */
+t_token	*get_sub_token(char *input, t_token *envp);
 
-int		envlen(char *av);
-t_token	*search_variable(char *key, t_token *envp);
-int		expander(t_token **node,
-			t_shared_info *info, t_list_type type);
-char	*value_dup(char *env);
-
-/*utils2*/
-int		search_file(t_token *sub_token, char *file);
-
-/*expand1_variable_expantion*/
-bool	is_env_delimiter(int c);
-int		envlen(char *av);
-t_token	*search_variable(char *key, t_token *envp);
-char	*value_dup(char *env);
-bool	is_dollar(t_token_type type);
-
-/*expand2_path_name_expantion*/
-int		manage_insert_token(t_token *src,
-			t_token *(*f)(t_token *), t_token *input);
-int		strchr_len(char *str, int c);
+/* expand2_wildcard */
 int		wildcard_expand(t_token **token_list, t_list_type type);
 
-/*expand_utils*/
-bool	is_ifs(char *ifs, int c);
-int		ft_strchr_set(char *str, char *set);
-char	*setup_ifs(t_token *envp);
-
 /* expand3_expander */
-t_token	*get_sub_token(char *input, t_token *envp);
+int		expander(t_token **node, t_shared_info *info, t_list_type type);
+
+/* utils1 */
+int		envlen(char *av);
+int		strchr_len(char *str, int c);
+void	deep_token_clear(t_token *node);
+char	*split_join(char **argv);
+char	*expand_join(char *input, t_token *envp);
+
+/* utils2_search_file */
+int		search_file(t_token *sub_token, char *file);
+
+/* utils3_heardoc */
+char	*heardoc(char *eof, t_token *envp);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 03:43:18 by naoki             #+#    #+#             */
-/*   Updated: 2026/01/17 20:18:31 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 09:47:48 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 
-static void	p_lstclear(t_pidlist *plist);
+static void			p_lstclear(t_pidlist *plist);
 static t_pidlist	*pid_new(pid_t pid);
 
 int	wait_pidlist(t_pidlist **plist)

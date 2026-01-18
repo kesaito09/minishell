@@ -6,12 +6,34 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 16:59:31 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 09:30:20 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/commands.h"
+#include "../../includes/builtin_cmd.h"
 #include "../../includes/execution.h"
+
+void	unset_module(t_shared_info *info, char *key);
+
+int	unset(t_token *cmd, t_shared_info *info)
+{
+	t_token	*key;
+
+	key = cmd->next;
+	while (key)
+	{
+		if (ft_strchr(key->token, '='))
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(key->token, 2);
+			ft_putendl_fd(": invalid parameter name", 2);
+			return (FAILUER);
+		}
+		unset_module(info, key->token);
+		key = key->next;
+	}
+	return (SUCCESS);
+}
 
 void	unset_module(t_shared_info *info, char *key)
 {
@@ -35,24 +57,4 @@ void	unset_module(t_shared_info *info, char *key)
 		tmp = node;
 		node = node->next;
 	}
-}
-
-int	unset(t_token *cmd, t_shared_info *info)
-{
-	t_token	*key;
-
-	key = cmd->next;
-	while (key)
-	{
-		if (ft_strchr(key->token, '='))
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(key->token, 2);
-			ft_putendl_fd(": invalid parameter name", 2);
-			return (FAILUER);
-		}
-		unset_module(info, key->token);
-		key = key->next;
-	}
-	return (SUCCESS);
 }

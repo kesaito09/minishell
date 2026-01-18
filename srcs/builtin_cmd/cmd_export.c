@@ -6,11 +6,11 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 20:31:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 10:42:28 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/commands.h"
+#include "../../includes/builtin_cmd.h"
 #include "../../includes/execution.h"
 
 static int	export_module(t_token *cmd, t_shared_info *info);
@@ -48,6 +48,7 @@ static int	export_module(t_token *cmd, t_shared_info *info)
 	t_lstadd_back(&(info->envp), env);
 	return (SUCCESS);
 }
+
 
 //int main(int ac, char **av)
 //{

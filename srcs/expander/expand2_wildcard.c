@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 19:52:35 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 10:16:12 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,32 @@
 #include "../../includes/expander.h"
 #include "../../includes/parser.h"
 
+static t_token	*is_valid_file(t_token *sub);
+static int	insert_wild_card(t_token *src, t_token *input);
 static bool	check_hidden_file(t_token *sub);
 
-t_token	*is_valid_file(t_token *sub)
+int	wildcard_expand(t_token **token_list, t_list_type type)
+{
+	t_token	*tmp;
+	int		n;
+
+	tmp = *token_list;
+	while (tmp)
+	{
+		n = insert_wild_card(tmp, tmp->sub_token);
+		if (n == FAILUER)
+			return (FAILUER);
+		if (type == ARG_LIST && n > 1)
+		{
+			ft_putendl_fd("ambiguous redirect", 2);
+			return (FAILUER);
+		}
+		tmp = t_lstmove(tmp, n);
+	}
+	return (SUCCESS);
+}
+
+static t_token	*is_valid_file(t_token *sub)
 {
 	DIR			*dp;
 	t_token		*token_list;
@@ -44,7 +67,7 @@ t_token	*is_valid_file(t_token *sub)
 	return (closedir(dp), token_list);
 }
 
-int	insert_wild_card(t_token *src, t_token *input)
+static int	insert_wild_card(t_token *src, t_token *input)
 {
 	t_token	*tmp;
 	int		n;
@@ -61,27 +84,6 @@ int	insert_wild_card(t_token *src, t_token *input)
 	src->next = tmp->next;
 	free(tmp);
 	return (n);
-}
-
-int	wildcard_expand(t_token **token_list, t_list_type type)
-{
-	t_token	*tmp;
-	int		n;
-
-	tmp = *token_list;
-	while (tmp)
-	{
-		n = insert_wild_card(tmp, tmp->sub_token);
-		if (n == FAILUER)
-			return (FAILUER);
-		if (type == ARG_LIST && n > 1)
-		{
-			ft_putendl_fd("ambiguous redirect", 2);
-			return (FAILUER);
-		}
-		tmp = t_lstmove(tmp, n);
-	}
-	return (SUCCESS);
 }
 
 static bool	check_hidden_file(t_token *sub)

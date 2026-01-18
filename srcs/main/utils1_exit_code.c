@@ -6,12 +6,12 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 05:43:42 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 19:58:51 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 09:26:28 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include "../../includes/commands.h"
+#include "../../includes/builtin_cmd.h"
 #include "../../includes/execution.h"
 
 void	error_exit(char *str, int errno)

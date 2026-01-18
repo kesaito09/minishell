@@ -6,12 +6,28 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:49:23 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/05 08:08:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 09:29:43 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/commands.h"
+#include "../../includes/builtin_cmd.h"
 #include "../../includes/execution.h"
+
+static int	echo_opn(t_token *node);
+static int	echo_(t_token *node);
+
+int	echo(t_token *node)
+{
+	t_token	*tmp;
+
+	tmp = node->next;
+	if (!tmp->token)
+		return (FAILUER);
+	if (!ft_strncmp(tmp->token, "-n", 3))
+		return (echo_opn(node));
+	else
+		return (echo_(node));
+}
 
 static int	echo_opn(t_token *node)
 {
@@ -44,19 +60,6 @@ static int	echo_(t_token *node)
 	}
 	ft_putchar_fd('\n', 1);
 	return (SUCCESS);
-}
-
-int	echo(t_token *node)
-{
-	t_token	*tmp;
-
-	tmp = node->next;
-	if (!tmp->token)
-		return (FAILUER);
-	if (!ft_strncmp(tmp->token, "-n", 3))
-		return (echo_opn(node));
-	else
-		return (echo_(node));
 }
 
 //int main(int argc, char **argv)

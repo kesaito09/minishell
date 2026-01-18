@@ -6,20 +6,15 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:07:56 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 22:09:40 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 10:43:00 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "../../includes/commands.h"
+#include "../../includes/builtin_cmd.h"
 #include "../../includes/execution.h"
 
-void	invalid_message(char *arg)
-{
-	ft_putstr_fd("minishell: export: '", 2);
-	ft_putstr_fd(arg, 2);
-	ft_putendl_fd("': not a valid identifier", 2);
-}
+static void	invalid_message(char *arg);
 
 int	is_valid_arg(char *arg)
 {
@@ -80,4 +75,11 @@ char	*return_value(char *arg, t_token *envp)
 		envp = envp->next;
 	}
 	return (ft_strdup(""));
+}
+
+static void	invalid_message(char *arg)
+{
+	ft_putstr_fd("minishell: export: '", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
 }

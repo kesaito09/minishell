@@ -6,16 +6,16 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 19:08:27 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 09:46:36 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/commands.h"
+#include "../../includes/builtin_cmd.h"
 #include "../../includes/execution.h"
 
 static int	execve_my_cmd(t_token *node, t_shared_info *info, t_tree *branch);
 
-int	manage_my_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
+int	manage_builtin(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 {
 	pid_t	pid;
 

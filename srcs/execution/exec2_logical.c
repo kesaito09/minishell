@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 08:54:42 by naoki             #+#    #+#             */
-/*   Updated: 2026/01/17 19:08:34 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 09:44:51 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	manage_subshell(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 	return (SUCCESS);
 }
 
-int	manage_conjunction(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
+int	manage_cjunc(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 {
 	if (tree_operator(branch->left, info, fd_in, fd_out) == FAILUER)
 		return (FAILUER);
@@ -40,7 +40,7 @@ int	manage_conjunction(t_tree *branch, t_shared_info *info, int fd_in, int fd_ou
 	return (SUCCESS);
 }
 
-int	manage_disjunction(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
+int	manage_djunc(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 {
 	if (tree_operator(branch->left, info, fd_in, fd_out) == FAILUER)
 		return (FAILUER);

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 20:30:03 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 10:38:42 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,50 +28,36 @@ typedef enum e_token_type		t_token_type;
 typedef struct s_token			t_token;
 typedef struct s_shared_info	t_shared_info;
 
-/*utils1_make_tree*/
+/* parse1_cmd */
+t_tree		*parse_command(t_token **cur, t_token *envp);
+
+/* parse2_pipe */
+t_tree		*parse_pipeline(t_token **cur, t_token *envp);
+
+/* parse3_logical */
+t_tree		*parse_manage(t_token **cur, t_token *envp);
+
+/* parse4_parser */
+t_tree		*parser(char *input, t_shared_info *info);
+
+/* utils1_tree */
 t_tree		*tree_new(t_tree_type btype);
-void		tree_add_left(t_tree **branch, t_tree *node);
-void		tree_add_right(t_tree **branch, t_tree *node);
-void		free_split(char **cmd);
 void		free_tree_rec(t_tree *branch);
 
-/*utils2_redirect*/
-t_flist		*flist_new(t_file_type ftype, char *fname);
-void		flist_add_back(t_flist **lst, t_flist *new);
-void		free_flist(t_flist *lst);
-
-/*utils3_parse*/
-t_tree_type	cmd_type(t_token *cur);
+/* utils2_parse */
 int			count_element(char **s);
+void		free_split(char **cmd);
 
-/*utils4_heardoc*/
-char		*heardoc(char *eof, t_token *envp);
 
-/*utils5_is_*/
+/* utils3_is */
 bool		is_builtin(char *token);
 bool		is_redirect(t_token *cur);
 bool		is_connection(t_token *cur);
 bool		is_command(t_token *cur);
+t_tree_type	cmd_type(t_token *cur);
 
-/*utils7_arglist*/
-int			append_token(t_token *arg_list, t_token **cur);
+/* utils4_arglist */
 char		**token_argv(t_token *node);
-char		**token_cmd(t_token *node, t_shared_info *info);
-t_token		*argv_token(char **argv);
-
-/*parse_cmd*/
-t_tree		*parse_command(t_token **cur, t_token *envp);
-t_tree		*parse_manage(t_token **cur, t_token *envp);
-t_token		*argv_token(char **argv);
-t_token		*f_lstnew(char *token, t_token_type type);
-
-/* parse2_pipe */
-t_tree	*parse_pipeline(t_token **cur, t_token *envp);
-
-
-/*parse*/
-t_tree		*parser(char *input, t_shared_info *info);
-
-
+t_token		*argv_token(char **argv);	
 
 #endif

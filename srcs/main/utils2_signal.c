@@ -6,11 +6,11 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 09:18:46 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 20:26:46 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 10:27:36 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/signal.h"
+#include "../../includes/main.h"
 
 static void	handle_sigint_prompt(int sig)
 {

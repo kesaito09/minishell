@@ -6,12 +6,24 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 20:29:34 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 10:35:23 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
+
+static t_tree	*parse_pipeline_rec(t_token **cur, t_tree *left_node,
+					t_token *envp);
+
+t_tree	*parse_pipeline(t_token **cur, t_token *envp)
+{
+	t_tree	*node;
+
+	node = parse_command(cur, envp);
+	node = parse_pipeline_rec(cur, node, envp);
+	return (node);
+}
 
 static t_tree	*parse_pipeline_rec(t_token **cur, t_tree *left_node,
 		t_token *envp)
@@ -35,13 +47,4 @@ static t_tree	*parse_pipeline_rec(t_token **cur, t_tree *left_node,
 	if (!pipe_node->right)
 		return (NULL);
 	return (pipe_node);
-}
-
-t_tree	*parse_pipeline(t_token **cur, t_token *envp)
-{
-	t_tree	*node;
-
-	node = parse_command(cur, envp);
-	node = parse_pipeline_rec(cur, node, envp);
-	return (node);
 }

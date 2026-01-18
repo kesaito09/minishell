@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commands.h                                         :+:      :+:    :+:   */
+/*   builtin_cmd.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMMANDS_H
-# define COMMANDS_H
+#ifndef BUILTIN_CMD_H
+# define BUILTIN_CMD_H
 
 # define SUCCESS 1
 # define FAILUER -1
@@ -24,20 +24,20 @@ typedef struct s_tree			t_tree;
 typedef struct s_shared_info	t_shared_info;
 typedef struct s_token			t_token;
 
-int		echo(t_token *node);
-void	pwd(void);
+/* builtin_cmd */
 void	cd(t_token *node);
+int		echo(t_token *node);
 void	env(t_token *node, t_shared_info *info);
-int		export(t_token *node, t_shared_info *info);
-int		unset(t_token *node, t_shared_info *info);
 void	builtin_exit(t_tree *branch, t_shared_info *info);
+int		export(t_token *cmd, t_shared_info *info);
+void	pwd(void);
+int		unset(t_token *cmd, t_shared_info *info);
 
+/* cmd_utils_env */
+int		is_valid_arg(char *arg);
 int		ft_argcmp(const char *arg, const char *env);
 int		ft_keycmp(const char *arg, const char *env);
-int		is_valid_arg(char *arg);
-t_token	*complete_path(char **envp);
 char	*return_value(char *arg, t_token *envp);
-
 
 
 #endif

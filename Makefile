@@ -6,7 +6,7 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/17 22:20:27 by natakaha         ###   ########.fr        #
+#    Updated: 2026/01/18 09:53:20 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,8 +39,7 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/execution/utils1_pid.c\
 			srcs/execution/utils2_redirect_error.c\
 			srcs/execution/utils3_pipe.c\
-			srcs/execution/utils4_env.c\
-			srcs/execution/utils5_find_path.c\
+			srcs/execution/utils4_find_path.c\
 			srcs/expander/expand1_env.c\
 			srcs/expander/expand2_wildcard.c\
 			srcs/expander/expand3_expander.c\
@@ -55,6 +54,7 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/main/main.c\
 			srcs/main/utils1_exit_code.c\
 			srcs/main/utils2_signal.c\
+			srcs/main/utils3.c\
 			srcs/parser/parse1_cmd.c\
 			srcs/parser/parse2_pipe.c\
 			srcs/parser/parse3_logical.c\

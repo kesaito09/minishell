@@ -6,50 +6,13 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 21:28:12 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 10:27:36 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/signal.h"
+#include "../../includes/main.h"
 #include "../../includes/execution.h"
 #include "../../includes/minishell.h"
-
-char	*get_line(int fd)
-{
-	char	*tmp;
-	char	*trash;
-	char	*line;
-
-	tmp = "tmp";
-	line = NULL;
-	while (tmp)
-	{
-		trash = line;
-		tmp = get_next_line(fd);
-		line = ft_strjoin(line, tmp);
-		free(tmp);
-		free(trash);
-		if (!line)
-			return (NULL);
-	}
-	return (line);
-}
-
-char	*handle_prompt(void)
-{
-	char	*line;
-
-	line = readline("minishell$ ");
-	if (!line)
-		return (NULL);
-	if (!*line)
-	{
-		free(line);
-		handle_prompt();
-	}
-	add_history(line);
-	return (line);
-}
 
 int	minishell_atty(t_shared_info *info)
 {

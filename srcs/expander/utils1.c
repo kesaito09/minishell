@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 18:27:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 20:36:49 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 10:44:35 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,40 @@ void	deep_token_clear(t_token *node)
 		free(node);
 		node = next_node;
 	}
+}
+
+char	*split_join(char **argv)
+{
+	char	*str;
+	char	*trash;
+
+	if (!argv || !*argv)
+		str = *argv;
+	while (++*argv)
+	{
+		trash = str;
+		str = ft_strjoin(str, *argv);
+		free(trash);
+	}
+	return (str);
+}
+
+char	*expand_join(char *input, t_token *envp)
+{
+	t_token	*node;
+	char	**argv;
+	char	*str;
+
+	node = get_sub_token(input, envp);
+	if (!node)
+		return (NULL);
+	argv = token_argv(node);
+	free(node);
+	if (!argv)
+		return (NULL);
+	str = split_join(argv);
+	free(argv);
+	if (!str)
+		return (NULL);
+	return (str);
 }

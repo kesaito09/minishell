@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 12:40:22 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 21:38:13 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/18 10:27:36 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include "../libft/includes/ft_printf.h"
 # include "../libft/includes/get_next_line.h"
 # include "../libft/includes/libft.h"
-# include "commands.h"
+# include "builtin_cmd.h"
 # include "execution.h"
 # include "lexer.h"
-# include "signal.h"
+# include "main.h"
 # include "parser.h"
 # include "expander.h"
 
