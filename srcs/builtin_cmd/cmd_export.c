@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/19 07:49:45 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 10:05:37 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	export(t_token *cmd, t_shared_info *info)
 {
 	while (cmd)
 	{
-		export_module(cmd, info);
+		if (export_module(cmd, info) == FAILUER)
+			return (FAILUER);
 		cmd = cmd->next;
 	}
 	return (SUCCESS);

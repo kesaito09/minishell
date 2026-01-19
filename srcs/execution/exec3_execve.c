@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/19 06:08:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 10:56:37 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int	exec_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 	if (expander(branch->arg_list, info, ARG_LIST) == FAILUER
 		|| expander(branch->env_list, info, ENV_LIST) == FAILUER
 		|| expander(branch->file_list, info, FILE_LIST) == FAILUER
-		|| manage_redirect(branch->file_list) == FAILUER)
+		|| manage_redirect(branch->file_list) == FAILUER
+		|| export(branch->env_list, info) == FAILUER)
 		exit(1);
-	export(branch->env_list, info);
 	cmd = token_argv(branch->arg_list);
 	env = token_argv(info->envp);
 	if (!cmd || !env)

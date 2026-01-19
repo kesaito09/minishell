@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/19 09:48:27 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 10:01:21 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	minishell_atty(t_shared_info *info)
 {
 	char	*line;
 	t_tree	*branch;
-	int		e_code;
 	int		flag;
 
 	while (true)
@@ -34,8 +33,8 @@ int	minishell_atty(t_shared_info *info)
 		setup_signal_exec();
 		flag = exec_manage(branch, info, 0, 1);
 		free_tree_rec(branch);
-		e_code = detect_ecode(flag, info);
-		if (export_exit_code(e_code, flag, info) == FAILUER)
+		info->ecode = detect_ecode(flag, info);
+		if (export_exit_code(info->ecode, flag, info) == FAILUER)
 			return (FAILUER);
 		info->pipe = false;
 	}

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 08:54:42 by naoki             #+#    #+#             */
-/*   Updated: 2026/01/19 06:03:14 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 10:57:57 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ int	manage_pipe(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 	close(fd[1]);
 	if (exec_manage(branch->right, info, fd[0], fd_out) == FAILUER)
 		return (FAILUER);
+	close(fd[0]);
 	return (SUCCESS);
 }
