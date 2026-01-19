@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 13:41:06 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 06:57:26 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	minishell_atty(t_shared_info *info)
 		if (!branch)
 			continue ;
 		setup_signal_exec();
-		flag = tree_operator(branch, info, 0, 1);
+		flag = exec_manage(branch, info, 0, 1);
 		free_tree_rec(branch);
 		info->ecode = detect_ecode(flag, info);
 		if (info->ecode == 0 && flag == FAILUER)
@@ -53,7 +53,7 @@ int	minishell_pipe(t_shared_info *info)
 	branch = parser(line, info->envp);
 	if (!branch)
 		return (free(line), FAILUER);
-	flag = tree_operator(branch, info, 0, 1);
+	flag = exec_manage(branch, info, 0, 1);
 	free_tree_rec(branch);
 	info->ecode = detect_ecode(flag, info);
 	free(line);
@@ -91,7 +91,7 @@ int	main(int argc, char **argv, char **envp)
 //		return (0);
 //	info = correct_info(envp);
 //	branch = parser(argv[1]);
-//	tree_operator(branch, &info, 0, 1);
+//	exec_manage(branch, &info, 0, 1);
 //	free_tree_rec(branch);
 //	free_split(info.path);
 //	wait_pidlist(info.plist);

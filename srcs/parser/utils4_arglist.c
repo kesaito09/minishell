@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils7_arglist.c                                   :+:      :+:    :+:   */
+/*   utils4_arglist.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 02:58:10 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/15 20:00:51 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 06:58:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_token	*argv_token(char **argv)
 	lst = NULL;
 	while (argv[i])
 	{
-		node = f_lstnew(argv[i], TOKEN_WORD);
+		node = f_lstnew(ft_strdup(argv[i]), TOKEN_WORD);
 		if (!node)
 			return (t_lstclear(&lst, free), NULL);
 		t_lstadd_back(&lst, node);

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 13:55:55 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 06:08:33 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include "../../includes/execution.h"
 #include <stdio.h>
 
-static int	execve_cmd(char **envp, char **cmd);
+static int	exec_search(char **envp, char **cmd);
 
-int	manage_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
+int	exec_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 {
 	pid_t	pid;
 	char	**cmd;
@@ -34,18 +34,18 @@ int	manage_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 	if (expander(branch->arg_list, info, ARG_LIST) == FAILUER
 		|| expander(branch->env_list, info, ENV_LIST) == FAILUER
 		|| expander(branch->file_list, info, FILE_LIST) == FAILUER
-		|| manage_redirect(branch) == FAILUER)
+		|| manage_redirect(branch->file_list) == FAILUER)
 		exit(1);
 	export(branch->env_list, info);
 	cmd = token_argv(branch->arg_list);
 	env = token_argv(info->envp);
 	if (!cmd || !env)
 		return (free_split(cmd), free_split(env), FAILUER);
-	execve_cmd(env, cmd);
+	exec_search(env, cmd);
 	return (FAILUER);
 }
 
-static int	execve_cmd(char **envp, char **cmd)
+static int	exec_search(char **envp, char **cmd)
 {
 	char	*full_path;
 	t_token	*path;

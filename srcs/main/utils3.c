@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 09:53:27 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 09:54:57 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 07:50:20 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 t_shared_info	collect_info(char **envp)
 {
 	t_shared_info	info;
-
 
 	ft_bzero(&info, sizeof(t_shared_info));
 	info.envp = argv_token(envp);

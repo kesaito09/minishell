@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 13:51:18 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 07:44:16 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	manage_repoint(t_tree *branch, t_token **cur, t_token *envp)
 	else if ((*cur) && is_redirect(*cur))
 	{
 		if ((*cur)->type == TOKEN_HEREDOC)
-			(*cur)->token = heardoc((*cur)->token, envp);
+			(*cur)->next->token = heardoc((*cur)->next->token, envp);
 		if (repoint_redirect_to_list(&branch->file_list, cur) == FAILUER)
 			return (FAILUER);
 	}

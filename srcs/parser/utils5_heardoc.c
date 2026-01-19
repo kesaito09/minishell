@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 13:19:17 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 07:47:50 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ static int	write_heardoc(char *eof, int fd, t_token *envp, t_state state)
 	ft_putendl_fd(expand, fd);
 	free(expand);
 	return (SUCCESS);
-	return (0);
 }
 
 static void	error_message(void)

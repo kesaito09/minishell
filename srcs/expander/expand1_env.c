@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/18 13:05:17 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 07:23:58 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ static t_token	*quote_split(char **input)
 		n = word_len(*input, "'\"", NULL);
 	else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
 		n = strchr_len(*input + 1, state) + 2;
-	if (n <= 1)
-		return (NULL);
 	node = f_lstnew(ft_strndup(*input, n), what_type(state));
 	*input += n;
 	if (!node)

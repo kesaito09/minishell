@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/18 14:56:50 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 07:38:01 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,21 @@ static t_token	*return_valid_card(t_token *sub);
 static bool		check_hidden_file(t_token *sub);
 static bool		has_star(t_token *sub);
 
-t_token	*wildcard_expand(t_token *sub, t_list_type type)
+int	wildcard_expand(t_token *src, t_token **dest, t_list_type type)
 {
 	t_token	*tmp;
 	int		n;
 
-	if (!has_star(sub))
-		return (NULL);
-	tmp = return_valid_card(sub);
+	if (!has_star(src) || type == ENV_LIST)
+		return (false);
+	tmp = return_valid_card(src);
 	if (!tmp)
-		return (NULL);
+		return (false);
 	n = t_lstsize(tmp);
-	if (type != ARG_LIST && n > 1)
-		return (ft_putendl_fd("ambiguous redirect", 2), free(tmp), NULL);
-	return (tmp);
+	if (type == FILE_LIST && n > 1)
+		return (ft_putendl_fd("ambiguous redirect", 2), free(tmp), FAILUER);
+	*dest = tmp;
+	return (n);
 }
 
 static t_token	*return_valid_card(t_token *sub)

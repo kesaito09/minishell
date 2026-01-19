@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:23:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/18 15:18:14 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 06:28:17 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_token	*t_lstinsert(t_token *lst, t_token *new)
 	if (!lst || !new)
 		return (NULL);
 	last = new;
-	while (last && last->next)
+	while (last->next)
 		last = last->next;
 	free(lst->token);
 	tmp = lst->next;
@@ -51,7 +51,7 @@ t_token	*t_lstinsert(t_token *lst, t_token *new)
 	lst->next = new->next;
 	t_lstadd_back(&lst, tmp);
 	free(new);
-	return (last);
+	return (last->next);
 }
 
 t_token	*t_lstnew(char *token, void (*del)(void *))

@@ -6,12 +6,11 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 21:32:05 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 13:42:37 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 07:50:57 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 void	print_token(t_token *token)
 {

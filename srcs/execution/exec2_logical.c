@@ -6,13 +6,13 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 08:54:42 by naoki             #+#    #+#             */
-/*   Updated: 2026/01/18 09:44:51 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 06:03:14 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 
-int	manage_subshell(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
+int	exec_sshell(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 {
 	pid_t	pid;
 	int		status;
@@ -22,32 +22,32 @@ int	manage_subshell(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 		return (perror("fork"), FAILUER);
 	if (pid > 0)
 		return (pid_add_back(&(info->plist), pid), SUCCESS);
-	tree_operator(branch->left, info, fd_in, fd_out);
+	exec_manage(branch->left, info, fd_in, fd_out);
 	status = wait_pidlist(&info->plist);
 	exit(status);
 	return (SUCCESS);
 }
 
-int	manage_cjunc(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
+int	exec_cjunc(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 {
-	if (tree_operator(branch->left, info, fd_in, fd_out) == FAILUER)
+	if (exec_manage(branch->left, info, fd_in, fd_out) == FAILUER)
 		return (FAILUER);
 	info->ecode = wait_pidlist(&info->plist);
 	if (info->ecode != 0)
 		return (FAILUER);
-	if (tree_operator(branch->right, info, fd_in, fd_out) == FAILUER)
+	if (exec_manage(branch->right, info, fd_in, fd_out) == FAILUER)
 		return (FAILUER);
 	return (SUCCESS);
 }
 
-int	manage_djunc(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
+int	exec_djunc(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 {
-	if (tree_operator(branch->left, info, fd_in, fd_out) == FAILUER)
+	if (exec_manage(branch->left, info, fd_in, fd_out) == FAILUER)
 		return (FAILUER);
 	info->ecode = wait_pidlist(&info->plist);
 	if (info->ecode == 0)
 		return (SUCCESS);
-	if (tree_operator(branch->right, info, fd_in, fd_out) == FAILUER)
+	if (exec_manage(branch->right, info, fd_in, fd_out) == FAILUER)
 		return (FAILUER);
 	return (SUCCESS);
 }
@@ -61,10 +61,10 @@ int	manage_pipe(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 		return (perror("pipe"), FAILUER);
 	info->fd[0] = fd[0];
 	info->fd[1] = fd[1];
-	if (tree_operator(branch->left, info, fd_in, fd[1]) == FAILUER)
+	if (exec_manage(branch->left, info, fd_in, fd[1]) == FAILUER)
 		return (FAILUER);
 	close(fd[1]);
-	if (tree_operator(branch->right, info, fd[0], fd_out) == FAILUER)
+	if (exec_manage(branch->right, info, fd[0], fd_out) == FAILUER)
 		return (FAILUER);
 	return (SUCCESS);
 }

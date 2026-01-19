@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cmd.h                                         :+:      :+:    :+:   */
+/*   builtin_cmd.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 21:57:34 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 07:51:49 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,5 @@ int		is_valid_arg(char *arg);
 int		ft_argcmp(const char *arg, const char *env);
 int		ft_keycmp(const char *arg, const char *env);
 char	*return_value(char *arg, t_token *envp);
-
 
 #endif

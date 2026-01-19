@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 18:27:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/18 13:07:06 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 07:41:59 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,34 +39,40 @@ char	*split_join(char **argv)
 {
 	char	*str;
 	char	*trash;
+	int		i;
 
+	i = 0;
 	if (!argv || !*argv)
-		str = *argv;
-	while (++*argv)
+		return (NULL);
+	str = argv[i++];
+	while (argv[i])
 	{
 		trash = str;
-		str = ft_strjoin(str, *argv);
+		str = ft_strjoin(str, argv[i]);
 		free(trash);
+		if (!str)
+			return (NULL);
+		i++;
 	}
 	return (str);
+}
+
+char	*token_join(t_token *lst)
+{
+	char	**argv;
+
+	argv = token_argv(lst);
+	if (!argv)
+		return (NULL);
+	return (split_join(argv));
 }
 
 char	*expand_join(char *input, t_token *envp, t_token_type type)
 {
 	t_token	*node;
-	char	**argv;
-	char	*str;
 
 	node = get_sub_token(input, envp, type);
 	if (!node)
 		return (NULL);
-	argv = token_argv(node);
-	free(node);
-	if (!argv)
-		return (NULL);
-	str = split_join(argv);
-	free(argv);
-	if (!str)
-		return (NULL);
-	return (str);
+	return (token_join(node));
 }

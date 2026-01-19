@@ -6,10 +6,9 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:07:56 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 10:43:00 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 07:50:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/builtin_cmd.h"
 #include "../../includes/execution.h"
@@ -71,7 +70,7 @@ char	*return_value(char *arg, t_token *envp)
 	while (envp)
 	{
 		if (!ft_keycmp(arg, envp->token))
-			return (ft_strdup(envp->token + ft_strlen(arg)));
+			return (ft_strdup(envp->token + ft_strlen(arg) + 1));
 		envp = envp->next;
 	}
 	return (ft_strdup(""));

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 09:56:35 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 06:07:52 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,25 @@ typedef struct s_shared_info
 }					t_shared_info;
 
 /* exec1_operate */
-int		tree_operator(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int		exec_manage(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 
 /* exec2_logical */
-int		manage_subshell(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
-int		manage_cjunc(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
-int		manage_djunc(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int		exec_sshell(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int		exec_cjunc(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int		exec_djunc(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 int		manage_pipe(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 
 /* exec3_execve */
-int		manage_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int		exec_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 
 /* exec4_builtin */
-int		manage_builtin(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int		exec_built(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 
 /* exec5_env */
 int		manage_envp(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 
 /* exec6_redirect */
-int		manage_redirect(t_tree *branch);
+int		manage_redirect(t_token *file_lst);
 
 /* utils1_pid */
 int		wait_pidlist(t_pidlist **plist);

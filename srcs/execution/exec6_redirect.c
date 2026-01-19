@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 20:42:50 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 16:36:02 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 06:58:49 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,13 @@ static int	manage_redirect_module(t_token *flist);
 static int	redirect_in_open_dup2(t_token *flist);
 static int	redirect_out_open_dup2(t_token *flist);
 
-int	manage_redirect(t_tree *branch)
+int	manage_redirect(t_token *file_lst)
 {
-	t_token	*cr;
-
-	cr = branch->file_list;
-	while (cr)
+	while (file_lst)
 	{
-		if (manage_redirect_module(cr) == FAILUER)
+		if (manage_redirect_module(file_lst) == FAILUER)
 			return (FAILUER);
-		cr = cr->next;
+		file_lst = file_lst->next;
 	}
 	return (SUCCESS);
 }
