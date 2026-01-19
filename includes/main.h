@@ -30,6 +30,7 @@ typedef struct s_shared_info	t_shared_info;
 /* utils1_exit_code.c */
 void			error_exit(char *str, int errno);
 int				detect_ecode(int flag, t_shared_info *info);
+int				export_exit_code(int i, int flag, t_shared_info *info);
 
 /* utils2_signal.c */
 void			setup_signal_prompt(void);

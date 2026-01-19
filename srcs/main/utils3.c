@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 09:53:27 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/19 07:50:20 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 09:49:41 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_shared_info	collect_info(char **envp)
 	info.fd[1] = -1;
 	info.fd_stdout = dup(1);
 	info.fd_stdin = dup(0);
+	export_exit_code(0, SUCCESS, &info);
 	return (info);
 }
 

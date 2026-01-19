@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 05:43:42 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 09:26:28 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/19 09:55:20 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,32 @@ int	detect_ecode(int flag, t_shared_info *info)
 	if (!exit_code && flag == FAILUER)
 		return (1);
 	return (0);
+}
+
+int	export_exit_code(int i, int flag, t_shared_info *info)
+{
+	char	*num;
+	char	*env;
+	t_token	*node;
+
+	if (i == 0 && flag == FAILUER)
+		i = 1;
+	num = ft_itoa(i);
+	if (!num)
+		return (FAILUER);
+	env = ft_strjoin("?=", num);
+	free(num);
+	if (!env)
+		return (FAILUER);
+	if (!ft_strncmp(info->envp->token, "?=", 2))
+	{
+		free(info->envp->token);
+		info->envp->token = env;
+		return (SUCCESS);
+	}
+	node = f_lstnew(env, 1);
+	if (!node)
+		return (free(env), FAILUER);
+	t_lstadd_front(&info->envp, node);
+	return (SUCCESS);
 }
