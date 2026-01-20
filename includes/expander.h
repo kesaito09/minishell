@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/19 07:51:13 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 05:23:00 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,24 @@ typedef enum e_list_type
 	ENV_LIST,
 }	t_list_type;
 
+typedef enum e_ifs_state
+{
+	STRT = 0,
+	SPCE,
+	IFS,
+	WORD,
+	NLL,
+}	t_ifs_state;
+
+typedef enum e_ifs_operate
+{
+	INCREMENT = 0,
+	LEN_INCREMENT = 1,
+	STATE_CHANGE = 2,
+	ADD_LST = 3,
+	FINISH = 4,
+}	t_ifs_operate;
+
 /* expand1_env */
 t_token	*get_sub_token(char *input, t_token *envp, t_token_type flag);
 
@@ -50,5 +68,8 @@ char	*token_join(t_token *lst);
 
 /* utils2_search_file */
 int		search_file(t_token *sub_token, char *file);
+
+/* utils3_ifs */
+int	ifs_split(char *input, char *ifs, t_token **lst, t_ifs_state state);
 
 #endif

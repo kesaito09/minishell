@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:07:56 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/19 07:50:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/20 21:56:37 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ int	ft_argcmp(const char *arg, const char *env)
 	return (0);
 }
 
-int	ft_keycmp(const char *arg, const char *env)
+int	ft_keycmp(const char *key, const char *env)
 {
 	int	len;
 
-	if (!arg)
+	if (!key)
 		return (-1);
-	len = ft_strlen(arg);
-	if (ft_strncmp(arg, env, len))
+	len = ft_strlen(key);
+	if (ft_strncmp(key, env, len))
 		return (1);
 	if (env[len] != '=')
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/19 07:23:58 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 07:14:47 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,21 +94,39 @@ static t_token	*expand_dollar(t_token *input)
 	}
 }
 
+static t_token	*expand_insert(t_token *node, t_token *envp)
+{
+	char	*ifs;
+	t_token	*lst;
+	int		n;
+
+	ifs = return_value("IFS", envp);
+	if (!ifs)
+		return (NULL);
+	if (ifs_split(node->token, ifs, &lst, STRT) == FAILUER)
+		return (NULL);
+	n = t_lstsize(lst);
+	t_lstinsert(node, lst);
+	return (t_lstmove(lst, n));
+}
+
 static t_token	*replace_env(t_token *node, t_token *envp)
 {
-	char	*str;
 	t_token	*cur;
+	t_token	*tmp;
 
-	if (!node)
-		return (NULL);
 	cur = node;
+	tmp = NULL;
 	while (cur)
 	{
-		str = cur->token;
-		if (str[0] == '$' && str[1])
+		if (cur->token[0] == '$' && cur->token[1])
 		{
 			cur->token = return_value(cur->token + 1, envp);
-			free(str);
+			if (cur->type == SUB_TOKEN_GENERAL)
+				tmp = expand_insert(cur, envp);
+			if (!tmp)
+				return (NULL);
+			tmp = node;
 		}
 		cur = cur->next;
 	}

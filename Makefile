@@ -6,7 +6,7 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/18 12:21:08 by natakaha         ###   ########.fr        #
+#    Updated: 2026/01/20 23:14:26 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/expander/expand3_expander.c\
 			srcs/expander/utils1.c\
 			srcs/expander/utils2_search_file.c\
+			srcs/expander/utils3_ifs.c\
 			srcs/lexer/lexer1_tokenize.c\
 			srcs/lexer/utils1_tlist1.c\
 			srcs/lexer/utils1_tlist2.c\

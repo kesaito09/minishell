@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/19 07:51:20 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 05:21:57 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ typedef enum e_token_type
 	SUB_TOKEN_GENERAL = 'g',
 	SUB_TOKEN_SQUOTE = '\'',
 	SUB_TOKEN_DQUOTE = '\"',
-	SUB_TOKEN_DOLLAR = '$',
-	SUB_TOKEN_DOLLAR_DQUOTE = '"' + 128,
-	SUB_TOKEN_DOLLAR_QUESTION = '?',
+	SUB_TOKEN_IFS,
 }						t_token_type;
 
 typedef enum e_state
