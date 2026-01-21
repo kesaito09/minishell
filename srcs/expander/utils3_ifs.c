@@ -6,48 +6,14 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 23:03:55 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 06:55:14 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 07:37:49 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/expander.h"
 
-static t_ifs_state	is_ifs(char c, char *ifs);
-static int			ifs_switcher(char c, char *ifs, t_ifs_state state);
-static int			t_lstnew_add_back(t_token **lst, char *input, int i,
-						t_token_type type);
-
-int	ifs_split(char *input, char *ifs, t_token **lst, t_ifs_state state)
-{
-	int	len;
-	int	flag;
-
-	len = 0;
-	while (true)
-	{
-		flag = ifs_switcher(input[len], ifs, state);
-		if (flag >> STATE_CHANGE & 1)
-			state = is_ifs(input[len], ifs);
-		if (flag >> INCREMENT & 1)
-			input++;
-		if (flag >> LEN_INCREMENT & 1)
-			len++;
-		if (flag >> ADD_LST & 1)
-			if (t_lstnew_add_back(lst, input, len,
-					SUB_TOKEN_IFS) == FAILUER)
-				return (t_lstclear(lst, free), FAILUER);
-		if (flag >> FINISH & 1)
-			return (t_lstsize(*lst));
-		if (flag >> ADD_LST & 1)
-		{
-			input += len + 1;
-			len = 0;
-		}
-	}
-}
-
-static t_ifs_state	is_ifs(char c, char *ifs)
+t_ifs_state	is_ifs(char c, char *ifs)
 {
 	if (c == '\0')
 		return (NLL);
@@ -56,27 +22,6 @@ static t_ifs_state	is_ifs(char c, char *ifs)
 	else if (*ifs && ft_strchr(ifs, c))
 		return (IFS);
 	return (WORD);
-}
-
-static int	ifs_switcher(char c, char *ifs, t_ifs_state state)
-{
-	if (is_ifs(c, ifs) == SPCE)
-	{
-		if (state == WORD)
-			return (1 << STATE_CHANGE | 1 << ADD_LST);
-		return (1 << INCREMENT);
-	}
-	if (is_ifs(c, ifs) == IFS)
-	{
-		if (state != SPCE)
-			return (1 << STATE_CHANGE | 1 << ADD_LST);
-		return (1 << INCREMENT | 1 << STATE_CHANGE);
-	}
-	if (is_ifs(c, ifs) == WORD)
-		return (1 << LEN_INCREMENT | 1 << STATE_CHANGE);
-	if (is_ifs(c, ifs) == NLL && state != SPCE)
-		return (1 << STATE_CHANGE | 1 << FINISH | 1 << ADD_LST);
-	return (1 << FINISH);
 }
 
 int	t_lstnew_add_back(t_token **lst, char *input, int i, t_token_type type)
@@ -111,6 +56,36 @@ char	*ifs_join(t_token **sub)
 		(*sub) = (*sub)->next;
 	}
 	return (str);
+}
+
+
+t_token	*ifs_insert(t_token *node, t_token *envp)
+{
+	char	*ifs;
+	t_token	*lst;
+	int		n;
+
+	ifs = return_value("IFS", envp);
+	if (!ifs)
+		return (NULL);
+	lst = NULL;
+	if (ifs_split(node->token, ifs, &lst, STRT) == FAILUER)
+		return (NULL);
+	n = t_lstsize(lst);
+	t_lstinsert(node, lst);
+	node->type = SUB_TOKEN_IFS;
+	return (t_lstmove(lst, n));
+}
+
+bool	has_type(t_token *sub, t_token_type type)
+{
+	while (sub)
+	{
+		if (sub->type == type)
+			return (true);
+		sub = sub->next;
+	}
+	return (false);
 }
 
 // int	main(int ac, char **av)

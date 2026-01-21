@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 06:28:03 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 07:41:43 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,33 @@ typedef enum e_ifs_operate
 }	t_ifs_operate;
 
 /* expand1_env */
-t_token	*get_sub_token(char *input, t_token *envp, t_token_type flag);
+t_token		*get_sub_token(char *input, t_token *envp, t_token_type flag);
 
 /* expand2_wildcard */
-int		wildcard_expand(t_token *sub, t_token *node, t_list_type type);
+int			wildcard_expand(t_token *sub, t_token *node, t_list_type type);
 
 /* expand3_expander */
-int		expander(t_token *node, t_shared_info *info, t_list_type l_type);
+int			expander(t_token *node, t_shared_info *info, t_list_type l_type);
 
 /* expand4_ifs */
-int		ifs_expand(t_token *sub, t_token *node, t_list_type type);
+int			ifs_expand(t_token *sub, t_token *node, t_list_type type);
+int			ifs_split(char *input, char *ifs, t_token **lst, t_ifs_state state);
 
 /* utils1 */
-int		envlen(char *av);
-int		strchr_len(char *str, int c);
-char	*split_join(char **argv);
-char	*expand_join(char *input, t_token *envp, t_token_type type);
-char	*token_join(t_token *node);
+int			envlen(char *av);
+int			strchr_len(char *str, int c);
+char		*split_join(char **argv);
+char		*expand_join(char *input, t_token *envp, t_token_type type);
+char		*token_join(t_token *node);
 
 /* utils2_search_file */
-int		search_file(t_token *sub_token, char *file);
+int			search_file(t_token *sub_token, char *file);
 
 /* utils3_ifs */
-int		ifs_split(char *input, char *ifs, t_token **lst, t_ifs_state state);
-char	*ifs_join(t_token **sub);
+char		*ifs_join(t_token **sub);
+bool		has_type(t_token *sub, t_token_type type);
+t_ifs_state	is_ifs(char c, char *ifs);
+t_token		*ifs_insert(t_token *node, t_token *envp);
+int			t_lstnew_add_back(t_token **lst, char *input, int i, t_token_type type);
 
 #endif

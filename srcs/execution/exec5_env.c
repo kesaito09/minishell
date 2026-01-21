@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/19 07:50:45 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 07:15:44 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static int	set_local_env(t_token *env, t_shared_info *info)
 {
 	t_token	*tmp;
 
+	if (expander(env, info, ENV_LIST) == FAILUER)
+		return (FAILUER);
 	while (env)
 	{
 		if (!env->token)
