@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils1_tlist2.c                              :+:      :+:    :+:   */
+/*   utils1_tlist2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:23:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 17:22:43 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 06:57:27 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	t_lstadd_back(t_token **lst, t_token *new)
 {
 	t_token	*current;
 
+	if (!lst)
+		return ;
 	if (!*lst)
 		*lst = new;
 	else

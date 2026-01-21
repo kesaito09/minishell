@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/21 05:51:35 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 07:06:57 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ static t_token	*ifs_insert(t_token *node, t_token *envp)
 	ifs = return_value("IFS", envp);
 	if (!ifs)
 		return (NULL);
+	lst = NULL;
 	if (ifs_split(node->token, ifs, &lst, STRT) == FAILUER)
 		return (NULL);
 	n = t_lstsize(lst);
@@ -125,7 +126,7 @@ static t_token	*replace_env(t_token *node, t_token *envp)
 			if (cur->type == SUB_TOKEN_GENERAL)
 				tmp = ifs_insert(cur, envp);
 			if (!tmp)
-				return (NULL);
+				return (node);
 			tmp = node;
 		}
 		cur = cur->next;
