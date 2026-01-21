@@ -6,14 +6,14 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 15:58:55 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 19:30:02 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/builtin_cmd.h"
 #include "../../includes/execution.h"
 
-static int	export_module(t_token *cmd, t_shared_info *info, int flag);
+static int	export_module(t_token *cmd, t_shared_info *info, int loc, int type);
 
 int	export(t_token *cmd, t_shared_info *info)
 {
@@ -21,7 +21,7 @@ int	export(t_token *cmd, t_shared_info *info)
 
 	while (cmd)
 	{
-		flag = export_module(cmd, info, BOTTOM);
+		flag = export_module(cmd, info, BOTTOM, COMMAND);
 		if (!flag)
 			return (invalid_message(cmd->token), false);
 		if (flag == FAILUER)
@@ -31,19 +31,19 @@ int	export(t_token *cmd, t_shared_info *info)
 	return (SUCCESS);
 }
 
-int	silent_export(t_token*cmd, t_shared_info *info, int flag)
+int	silent_export(t_token*cmd, t_shared_info *info, int loc)
 {
 	while (cmd)
 	{
-		flag = export_module(cmd, info, flag);
-		if (flag <= 0)
+		if (export_module(cmd, info, loc, 0) <= 0)
 			return (FAILUER);
 		cmd = cmd->next;
 	}
+	t_lstclear(&cmd, free);
 	return (SUCCESS);
 }
 
-static int	export_module(t_token *cmd, t_shared_info *info, int flag)
+static int	export_module(t_token *cmd, t_shared_info *info, int loc, int type)
 {
 	t_token	*env;
 
@@ -56,19 +56,18 @@ static int	export_module(t_token *cmd, t_shared_info *info, int flag)
 		{
 			free(env->token);
 			env->token = cmd->token;
-			free(cmd);
+			if (type != COMMAND)
+				free(cmd);
 			return (SUCCESS);
 		}
 		env = env->next;
 	}
 	env = t_lstnew(ft_strdup(cmd->token), free);
-	if (!env)
+	if (!cmd)
 		return (FAILUER);
-	if (flag == BOTTOM)
-		t_lstadd_back(&(info->envp), env);
-	if (flag == TOP)
-		t_lstadd_front(&(info->envp), env);
-	return (SUCCESS);
+	if (loc == BOTTOM)
+		return (t_lstadd_back(&info->envp, env), SUCCESS);
+	return (t_lstadd_front(&info->envp, env), SUCCESS);
 }
 
 //int main(int ac, char **av)

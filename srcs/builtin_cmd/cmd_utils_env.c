@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:07:56 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 17:32:25 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:52:55 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	is_valid_arg(char *arg)
 	len = strchr_len(arg, '=');
 	if (len < 0)
 		return (false);
+	if (len == 1 && arg[0] == '?')
+		return (true);
 	if (!ft_isalpha(arg[0]) && arg[0] != '_')
 		return (false);
 	i = 1;
