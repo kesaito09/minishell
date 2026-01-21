@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:49:23 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 09:29:43 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:33:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 static int	echo_opn(t_token *node);
 static int	echo_(t_token *node);
+static bool	option_n(char *_n);
+
 
 int	echo(t_token *node)
 {
@@ -23,10 +25,27 @@ int	echo(t_token *node)
 	tmp = node->next;
 	if (!tmp->token)
 		return (FAILUER);
-	if (!ft_strncmp(tmp->token, "-n", 3))
+	if (option_n(tmp->token))
 		return (echo_opn(node));
 	else
 		return (echo_(node));
+}
+
+static bool	option_n(char *_n)
+{
+	int	i;
+
+
+	if (_n[0] != '-')
+		return (false);
+	i = 1;
+	while (_n[i])
+	{
+		if (_n[i] != 'n')
+			return (false);
+		i++;
+	}
+	return (true);
 }
 
 static int	echo_opn(t_token *node)
