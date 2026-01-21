@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 19:38:09 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/21 05:17:41 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 06:26:25 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,20 @@ int	expander(t_token *node, t_shared_info *info, t_list_type l_type)
 static int	expand_token(t_token *node, t_token *envp, t_list_type type)
 {
 	t_token	*sub_token;
-	t_token	*tmp;
 	int		flag;
 
-	tmp = NULL;
 	sub_token = get_sub_token(node->token, envp, TOKEN_WORD);
 	if (!sub_token)
 		return (FAILUER);
-	flag = wildcard_expand(sub_token, &tmp, type);
-	if (flag == FAILUER)
-		return (FAILUER);
-	if (flag > 0)
-		return ((void)t_lstinsert(node, tmp), flag);
+	flag = wildcard_expand(sub_token, node, type);
+	if (flag != false)
+		return (t_lstclear(&sub_token, free), flag);
+	flag = ifs_expand(sub_token, node, type);
+	if (flag != false)
+		return (t_lstclear(&sub_token, free), flag);
 	free(node->token);
 	node->token = token_join(sub_token);
+	t_lstclear(&sub_token, free);
 	if (!node->token)
 		return (FAILUER);
 	return (1);

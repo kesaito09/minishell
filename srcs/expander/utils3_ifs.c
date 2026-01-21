@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 23:03:55 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 05:29:18 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 06:24:29 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ static int	ifs_switcher(char c, char *ifs, t_ifs_state state)
 	return (1 << FINISH);
 }
 
-static int	t_lstnew_add_back(t_token **lst, char *input, int i,
-		t_token_type type)
+int	t_lstnew_add_back(t_token **lst, char *input, int i, t_token_type type)
 {
 	t_token	*node;
 
@@ -89,6 +88,29 @@ static int	t_lstnew_add_back(t_token **lst, char *input, int i,
 		return (FAILUER);
 	t_lstadd_back(lst, node);
 	return (SUCCESS);
+}
+
+char	*ifs_join(t_token **sub)
+{
+	t_token_type	type;
+	char			*str;
+	char			*tmp;
+
+	if (!sub || !*sub)
+		return (NULL);
+	str = ft_strdup("");
+	type = SUB_TOKEN_GENERAL;
+	while (*sub && (type != SUB_TOKEN_IFS || (*sub)->type != SUB_TOKEN_IFS))
+	{
+		tmp = str;
+		str = ft_strjoin(tmp, (*sub)->token);
+		free(tmp);
+		if (!str)
+			return (NULL);
+		type = (*sub)->type;
+		(*sub) = (*sub)->next;
+	}
+	return (str);
 }
 
 // int	main(int ac, char **av)

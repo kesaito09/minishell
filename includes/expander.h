@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 05:23:00 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 06:28:03 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,26 @@ typedef enum e_ifs_operate
 t_token	*get_sub_token(char *input, t_token *envp, t_token_type flag);
 
 /* expand2_wildcard */
-int		wildcard_expand(t_token *src, t_token **dest, t_list_type type);
+int		wildcard_expand(t_token *sub, t_token *node, t_list_type type);
 
 /* expand3_expander */
 int		expander(t_token *node, t_shared_info *info, t_list_type l_type);
+
+/* expand4_ifs */
+int		ifs_expand(t_token *sub, t_token *node, t_list_type type);
 
 /* utils1 */
 int		envlen(char *av);
 int		strchr_len(char *str, int c);
 char	*split_join(char **argv);
 char	*expand_join(char *input, t_token *envp, t_token_type type);
-char	*token_join(t_token *lst);
+char	*token_join(t_token *node);
 
 /* utils2_search_file */
 int		search_file(t_token *sub_token, char *file);
 
 /* utils3_ifs */
-int	ifs_split(char *input, char *ifs, t_token **lst, t_ifs_state state);
+int		ifs_split(char *input, char *ifs, t_token **lst, t_ifs_state state);
+char	*ifs_join(t_token **sub);
 
 #endif

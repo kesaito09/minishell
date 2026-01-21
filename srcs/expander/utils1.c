@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 18:27:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/21 04:56:20 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 06:27:15 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,6 @@ char	*split_join(char **argv)
 	return (str);
 }
 
-char	*token_join(t_token *lst)
-{
-	char	**argv;
-
-	argv = token_argv(lst);
-	if (!argv)
-		return (NULL);
-	return (split_join(argv));
-}
-
 char	*expand_join(char *input, t_token *envp, t_token_type type)
 {
 	t_token	*node;
@@ -75,4 +65,22 @@ char	*expand_join(char *input, t_token *envp, t_token_type type)
 	if (!node)
 		return (NULL);
 	return (token_join(node));
+}
+
+char	*token_join(t_token *node)
+{
+	char	*str;
+	char	*trash;
+
+	str = ft_strdup("");
+	while (node)
+	{
+		trash = str;
+		str = ft_strjoin(str, node->token);
+		free(trash);
+		if (!str)
+			return (NULL);
+		node = node->next;
+	}
+	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/19 07:50:28 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 06:28:43 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ t_token_type	what_type(int state)
 	if (state == STATE_DQUOTE)
 		return (SUB_TOKEN_DQUOTE);
 	if (state == STATE_DOLLER)
-		return (SUB_TOKEN_DOLLAR);
+		return (SUB_TOKEN_GENERAL);
 	if (state == STATE_DOLLER_DQUOTE)
-		return (SUB_TOKEN_DOLLAR_DQUOTE);
+		return (SUB_TOKEN_DQUOTE);
 	return (SUB_TOKEN_GENERAL);
 }
 
