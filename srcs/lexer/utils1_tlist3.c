@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   utils1_tlist3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/16 01:56:46 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/21 17:43:59 by natakaha         ###   ########.fr       */
+/*   Created: 2026/01/21 18:00:46 by natakaha          #+#    #+#             */
+/*   Updated: 2026/01/21 18:02:57 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../../includes/lexer.h"
 
-int	ft_isdigit(int c)
+t_token	*t_lstlast(t_token *lst)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	while (lst && lst->next)
+		lst = lst->next;
+	return (lst);
 }
 
-int	ft_isnumber(char *str)
+int	t_lstnew_add_back(t_token **lst, char *input, int i, t_token_type type)
 {
-	while (*str)
-	{
-		if (!ft_isdigit(*str))
-			return (0);
-		str++;
-	}
-	return (1);
+	t_token	*node;
+
+	node = f_lstnew(ft_strndup(input, i), type);
+	if (!node)
+		return (FAILUER);
+	t_lstadd_back(lst, node);
+	return (SUCCESS);
 }
-
-// int main(void)
-//{
-//	printf("%d\n",ft_isdigit('f'));
-//	printf("%d\n",isdigit('f'));
-
-//}

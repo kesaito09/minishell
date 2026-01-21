@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 23:03:55 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 07:37:49 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:02:49 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,6 @@ t_ifs_state	is_ifs(char c, char *ifs)
 	else if (*ifs && ft_strchr(ifs, c))
 		return (IFS);
 	return (WORD);
-}
-
-int	t_lstnew_add_back(t_token **lst, char *input, int i, t_token_type type)
-{
-	t_token	*node;
-
-	node = f_lstnew(ft_strndup(input, i), type);
-	if (!node)
-		return (FAILUER);
-	t_lstadd_back(lst, node);
-	return (SUCCESS);
 }
 
 char	*ifs_join(t_token **sub)

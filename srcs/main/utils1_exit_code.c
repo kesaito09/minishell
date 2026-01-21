@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 05:43:42 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/19 09:55:20 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 15:08:22 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ int	export_exit_code(int i, int flag, t_shared_info *info)
 	node = f_lstnew(env, 1);
 	if (!node)
 		return (free(env), FAILUER);
-	t_lstadd_front(&info->envp, node);
+	silent_export(node, info, TOP);
 	return (SUCCESS);
 }

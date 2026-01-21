@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 07:41:43 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:04:24 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,5 @@ char		*ifs_join(t_token **sub);
 bool		has_type(t_token *sub, t_token_type type);
 t_ifs_state	is_ifs(char c, char *ifs);
 t_token		*ifs_insert(t_token *node, t_token *envp);
-int			t_lstnew_add_back(t_token **lst, char *input, int i, t_token_type type);
 
 #endif

@@ -6,14 +6,12 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:07:56 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/20 21:56:37 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 17:32:25 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/builtin_cmd.h"
 #include "../../includes/execution.h"
-
-static void	invalid_message(char *arg);
 
 int	is_valid_arg(char *arg)
 {
@@ -24,12 +22,12 @@ int	is_valid_arg(char *arg)
 	if (len < 0)
 		return (false);
 	if (!ft_isalpha(arg[0]) && arg[0] != '_')
-		return (invalid_message(arg), false);
+		return (false);
 	i = 1;
 	while (i < len)
 	{
 		if (is_env_delimiter(arg[i]))
-			return (invalid_message(arg), false);
+			return (false);
 		i++;
 	}
 	return (true);
@@ -76,7 +74,7 @@ char	*return_value(char *arg, t_token *envp)
 	return (ft_strdup(""));
 }
 
-static void	invalid_message(char *arg)
+void	invalid_message(char *arg)
 {
 	ft_putstr_fd("minishell: export: '", 2);
 	ft_putstr_fd(arg, 2);

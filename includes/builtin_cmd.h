@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/19 07:51:49 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:25:54 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,20 @@ typedef struct s_tree			t_tree;
 typedef struct s_shared_info	t_shared_info;
 typedef struct s_token			t_token;
 
+enum e_export
+{
+	TOP,
+	BOTTOM
+}	;
+
 /* builtin_cmd */
-void	cd(t_token *node);
+int		cd(t_token *node, t_shared_info *info);
 int		echo(t_token *node);
 void	env(t_token *node, t_shared_info *info);
 void	builtin_exit(t_tree *branch, t_shared_info *info);
 int		export(t_token *cmd, t_shared_info *info);
-void	pwd(void);
+int		silent_export(t_token*cmd, t_shared_info *info, int flag);
+int		pwd(t_shared_info *info);
 int		unset(t_token *cmd, t_shared_info *info);
 
 /* cmd_utils_env */
@@ -38,5 +45,6 @@ int		is_valid_arg(char *arg);
 int		ft_argcmp(const char *arg, const char *env);
 int		ft_keycmp(const char *arg, const char *env);
 char	*return_value(char *arg, t_token *envp);
+void	invalid_message(char *arg);
 
 #endif

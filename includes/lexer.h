@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/21 05:21:57 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:04:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,11 @@ void			t_lstclear(t_token **lst, void (*del)(void *));
 void			t_lstadd_back(t_token **lst, t_token *new);
 void			t_lstadd_front(t_token **lst, t_token *new);
 void			t_lstadd_sort(t_token **lst, t_token *new);
+
+/* utils1_tlist3 */
+t_token			*t_lstlast(t_token *lst);
+int				t_lstnew_add_back(t_token **lst,
+					char *input, int i, t_token_type type);
 
 /* utils4_judge */
 bool			is_delimiter(int c);

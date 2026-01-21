@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/19 09:56:49 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:13:07 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int		manage_pipe(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 
 /* exec3_execve */
 int		exec_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int		env_underscore(t_token *node, t_shared_info *info);
 
 /* exec4_builtin */
 int		exec_built(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
@@ -93,7 +94,7 @@ void	pid_add_back(t_pidlist **plist, pid_t pid);
 int		is_directory(const char *path);
 int		redirect_in_check(char *path);
 int		redirect_out_check(char *path);
-void	command_error_check(char *cmd, char *path);
+void	command_error_check(char *cmd, t_token *path_node);
 
 /* utils3_pipe */
 void	close_unused_pipe(int fd_in, int fd_out, int pipes[2]);

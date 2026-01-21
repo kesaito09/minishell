@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/19 10:56:37 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:11:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,12 @@ int	exec_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 		return (pid_add_back(&(info->plist), pid), SUCCESS);
 	setup_signal_child();
 	close_unused_pipe(fd_in, fd_out, info->fd);
-	if (dup2_stdin_out(fd_in, fd_out) == FAILUER)
-		error_exit("dup2", 1);
-	if (expander(branch->arg_list, info, ARG_LIST) == FAILUER
+	if (dup2_stdin_out(fd_in, fd_out) == FAILUER
+		|| expander(branch->arg_list, info, ARG_LIST) == FAILUER
 		|| expander(branch->env_list, info, ENV_LIST) == FAILUER
 		|| expander(branch->file_list, info, FILE_LIST) == FAILUER
 		|| manage_redirect(branch->file_list) == FAILUER
-		|| export(branch->env_list, info) == FAILUER)
+		|| silent_export(branch->env_list, info, TOP) == FAILUER)
 		exit(1);
 	cmd = token_argv(branch->arg_list);
 	env = token_argv(info->envp);
@@ -62,8 +61,23 @@ static int	exec_search(char **envp, char **cmd)
 		free(full_path);
 		path = path->next;
 	}
-	command_error_check(cmd[0], cmd[0]);
+	command_error_check(cmd[0], path);
 	execve(cmd[0], cmd, envp);
 	error_exit("command not found", 127);
 	return (FAILUER);
+}
+
+int	env_underscore(t_token *node, t_shared_info *info)
+{
+	char	*str;
+	t_token	*tmp;
+
+	node = t_lstlast(node);
+	str = ft_strjoin("_=", node->token);
+	if (!str)
+		return (FAILUER);
+	tmp = t_lstnew(str, free);
+	if (!tmp)
+		return (FAILUER);
+	return (silent_export(tmp, info, TOP));
 }

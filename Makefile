@@ -6,7 +6,7 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/21 05:54:26 by natakaha         ###   ########.fr        #
+#    Updated: 2026/01/21 18:00:44 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/lexer/lexer1_tokenize.c\
 			srcs/lexer/utils1_tlist1.c\
 			srcs/lexer/utils1_tlist2.c\
-			srcs/lexer/utils3_judge.c\
+			srcs/lexer/utils1_tlist3.c\
+			srcs/lexer/utils4_judge.c\
 			srcs/main/main.c\
 			srcs/main/utils1_exit_code.c\
 			srcs/main/utils2_signal.c\

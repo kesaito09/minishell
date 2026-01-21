@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 07:15:44 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 15:11:10 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	set_local_env(t_token *env, t_shared_info *info)
 		if (!tmp)
 			return (FAILUER);
 		tmp->type = 1;
-		t_lstadd_front(&(info->envp), tmp);
+		silent_export(tmp, info, TOP);
 		env = env->next;
 	}
 	return (FAILUER);

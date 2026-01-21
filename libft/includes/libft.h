@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 02:07:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/21 02:42:25 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/21 17:13:23 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int					ft_isdigit(int c);
 int					ft_isprint(int c);
 int					ft_tolower(int c);
 int					ft_toupper(int c);
+int					ft_isnumber(char *str);
 
 int					ft_atoi(const char *nptr);
 void				*ft_calloc(size_t nmemb, size_t size);
