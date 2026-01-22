@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 23:03:55 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 18:02:49 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 05:23:54 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_ifs_state	is_ifs(char c, char *ifs)
 {
 	if (c == '\0')
 		return (NLL);
-	else if (ft_strchr(" \t\n", c))
+	else if (ft_strchr(" \t", c))
 		return (SPCE);
 	else if (*ifs && ft_strchr(ifs, c))
 		return (IFS);

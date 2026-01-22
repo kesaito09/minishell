@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 09:53:27 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 00:08:30 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 04:47:50 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,22 @@ char	*get_line(int fd)
 	}
 	free(new);
 	return (line);
+}
+
+t_token	*script_split(char *input)
+{
+	int		len;
+	t_token	*lst;
+
+	lst = NULL;
+	while (true)
+	{
+		len = word_len(input, "\n", NULL);
+		if (t_lstnew_add_back(&lst, input, len, 0) == FAILUER)
+			return (t_lstclear(&lst, free), NULL);
+		input += len;
+		if (!*input)
+			return (lst);
+		input++;
+	}
 }

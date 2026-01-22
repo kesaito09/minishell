@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/22 22:23:37 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 05:10:52 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 #include "../../includes/parser.h"
 
 static t_tree	*parse_logical_rec(t_token **cur,
-					t_tree *left_node, t_token *envp);
+					t_tree *left_node, t_shared_info *info);
 
-t_tree	*parse_manage(t_token **cur, t_token *envp)
+t_tree	*parse_manage(t_token **cur, t_shared_info *info)
 {
 	t_tree	*branch;
 
-	branch = parse_pipeline(cur, envp);
-	branch = parse_logical_rec(cur, branch, envp);
+	branch = parse_pipeline(cur, info);
+	branch = parse_logical_rec(cur, branch, info);
 	return (branch);
 }
 
 static t_tree	*parse_logical_rec(t_token **cur,
-					t_tree *left_node, t_token *envp)
+					t_tree *left_node, t_shared_info *info)
 {
 	t_tree	*logical_node;
 
@@ -43,11 +43,11 @@ static t_tree	*parse_logical_rec(t_token **cur,
 		return (free_tree_rec(&left_node), NULL);
 	logical_node->left = left_node;
 	free_and_skip_one(cur);
-	logical_node->right = parse_pipeline(cur, envp);
+	logical_node->right = parse_pipeline(cur, info);
 	if (!logical_node->right)
 		return (free_tree_rec(&logical_node), NULL);
 	if (*cur && ((*cur)->type == TOKEN_CONJUNCTIONE
 			|| (*cur)->type == TOKEN_DISJUNCTIONE))
-		logical_node = parse_logical_rec(cur, logical_node, envp);
+		logical_node = parse_logical_rec(cur, logical_node, info);
 	return (logical_node);
 }

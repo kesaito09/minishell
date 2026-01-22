@@ -43,5 +43,7 @@ void			setup_signal_child(void);
 t_shared_info	collect_info(char **envp);
 char			*handle_prompt(t_token *envp);
 char			*get_line(int fd);
+t_token			*script_split(char *input);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/22 23:07:10 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 05:13:51 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,53 +16,9 @@
 
 int	g_exit_code = 0;
 
-int	minishell_atty(t_shared_info *info)
-{
-	char	*line;
-	int		flag;
-
-	flag = 0;
-	while (true)
-	{
-		setup_signal_prompt();
-		line = handle_prompt(info->envp);
-		if (!line)
-			builtin_exit(info);
-		if (export_exit_code(g_exit_code, flag, info) == FAILUER)
-			return (FAILUER);
-		info->branch = parser(line, info->envp);
-		free(line);
-		if (!info->branch)
-			continue ;
-		setup_signal_exec();
-		flag = exec_manage(info->branch, info, 0, 1);
-		free_tree_rec(&info->branch);
-		g_exit_code = detect_ecode(flag, info);
-		info->pipe = false;
-	}
-	return (flag);
-}
-
-int	minishell_pipe(t_shared_info *info)
-{
-	char	*line;
-	int		flag;
-
-	line = get_line(STDIN_FILENO);
-	if (!line)
-		return (FAILUER);
-	info->branch = parser(line, info->envp);
-	free(line);
-	if (!info->branch)
-		return (FAILUER);
-	setup_signal_exec();
-	flag = exec_manage(info->branch, info, 0, 1);
-	g_exit_code = detect_ecode(flag, info);
-	if (export_exit_code(g_exit_code, flag, info) == FAILUER)
-		return (FAILUER);
-	builtin_exit(info);
-	return (flag);
-}
+static int	minishell_atty(t_shared_info *info);
+static int	minishell_pipe(t_shared_info *info);
+static int	whole_proc(t_shared_info *info);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -80,6 +36,61 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 }
+
+static int	whole_proc(t_shared_info *info)
+{
+	int	flag;
+
+	info->branch = parser(info);
+	if (!info->branch)
+		return (FAILUER);
+	setup_signal_exec();
+	flag = exec_manage(info->branch, info, 0, 1);
+	free_tree_rec(&info->branch);
+	g_exit_code = detect_ecode(flag, info);
+	return (flag);
+}
+
+static int	minishell_atty(t_shared_info *info)
+{
+	char	*input;
+	int		flag;
+
+	flag = 0;
+	while (true)
+	{
+		setup_signal_prompt();
+		input = handle_prompt(info->envp);
+		if (!input)
+			builtin_exit(info);
+		if (export_exit_code(g_exit_code, flag, info) == FAILUER)
+			return (FAILUER);
+		info->input = script_split(input);
+		free(input);
+		if (!info->input)
+			return (FAILUER);
+		while (info->input)
+			whole_proc(info);
+		info->pipe = false;
+	}
+	return (flag);
+}
+
+static int	minishell_pipe(t_shared_info *info)
+{
+	char	*line;
+	int		flag;
+
+	line = get_line(STDIN_FILENO);
+	if (!line)
+		return (FAILUER);
+	flag = whole_proc(info);
+	if (export_exit_code(g_exit_code, flag, info) == FAILUER)
+		return (FAILUER);
+	builtin_exit(info);
+	return (flag);
+}
+
 
 // /*tester*/
 

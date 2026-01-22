@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:14:04 by naoki             #+#    #+#             */
-/*   Updated: 2026/01/23 04:37:39 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 04:50:42 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_token	*discard_local_env(t_token *envp)
 	new_env = NULL;
 	while (envp)
 	{
-		if (envp->type == !0)
+		if (envp->type != 0)
 		{
 			free_and_skip_one(&envp);
 			continue ;

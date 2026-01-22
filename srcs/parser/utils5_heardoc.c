@@ -6,17 +6,17 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/19 07:47:50 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 05:31:19 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
 
 static char	*heardoc_name(void);
-static int	write_heardoc(char *eof, int fd, t_token *envp, t_state state);
+static int	write_heardoc(char *eof, int fd, t_shared_info *info, t_state stat);
 static void	error_message(void);
 
-char	*heardoc(char *eof, t_token *envp)
+char	*heardoc(char *eof, t_shared_info *info)
 {
 	char	*file;
 	int		fd;
@@ -32,10 +32,10 @@ char	*heardoc(char *eof, t_token *envp)
 	state = STATE_GENERAL;
 	if (ft_strchr(eof, '\'') || ft_strchr(eof, '"'))
 		state = STATE_DQUOTE;
-	eof = expand_join(eof, envp, TOKEN_HEREDOC);
+	eof = expand_join(eof, info->envp, TOKEN_HEREDOC);
 	while (true)
 	{
-		flag = write_heardoc(eof, fd, envp, state);
+		flag = write_heardoc(eof, fd, info, state);
 		if (flag == FAILUER)
 			return (close(fd), free(file), NULL);
 		if (flag == END)
@@ -72,28 +72,27 @@ static char	*heardoc_name(void)
 	return (free(def), file);
 }
 
-static int	write_heardoc(char *eof, int fd, t_token *envp, t_state state)
+static int	write_heardoc(char *eof, int fd, t_shared_info *info, t_state state)
 {
 	char	*line;
-	char	*expand;
 
-	line = readline(">");
+	if (info->input)
+	{
+		line = ft_strdup(info->input->token);
+		free_and_skip_one(&info->input);
+	}
+	else
+		line = readline(">");
 	if (!line)
 		return (error_message(), END);
 	if (!ft_strcmp(eof, line))
-		return (END);
+		return (free(line), END);
 	if (state == STATE_GENERAL)
-	{
-		expand = expand_join(line, envp, TOKEN_WORD);
-		free(line);
-	}
-	else
-		expand = line;
-	if (!expand)
+		line = expand_join(line, info->envp, TOKEN_WORD);
+	if (!line)
 		return (FAILUER);
-	ft_putendl_fd(expand, fd);
-	free(expand);
-	return (SUCCESS);
+	ft_putendl_fd(line, fd);
+	return (free(line), SUCCESS);
 }
 
 static void	error_message(void)

@@ -6,19 +6,19 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 00:47:18 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 05:13:12 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
 
-static t_tree	*parse_subshell(t_token **cur, t_token *envp);
-static int		manage_repoint(t_tree *node, t_token **cur, t_token *envp);
+static t_tree	*parse_subshell(t_token **cur, t_shared_info *info);
+static int		manage_repoint(t_tree *node, t_token **cur, t_shared_info *inf);
 static int		repoint_word_to_list(t_token **list, t_token **cur);
 static int		repoint_redirect_to_list(t_token **list, t_token **cur);
 
-t_tree	*parse_command(t_token **cur, t_token *envp)
+t_tree	*parse_command(t_token **cur, t_shared_info *info)
 {
 	t_tree	*branch;
 
@@ -29,13 +29,13 @@ t_tree	*parse_command(t_token **cur, t_token *envp)
 	if ((*cur) && ((*cur)->type == TOKEN_PARENTHESIS_RIGHT))
 		return (syntax_error_msg((*cur)->token), NULL);
 	if ((*cur) && ((*cur)->type == TOKEN_PARENTHESIS_LEFT))
-		return (parse_subshell(cur, envp));
+		return (parse_subshell(cur, info));
 	branch = tree_new(COMMAND);
 	if (!branch)
 		return (NULL);
 	while (*cur && is_command(*cur))
 	{
-		if (manage_repoint(branch, cur, envp) == FAILUER)
+		if (manage_repoint(branch, cur, info) == FAILUER)
 			return (free_tree_rec(&branch), NULL);
 	}
 	if (!branch->arg_list && branch->env_list)
@@ -45,7 +45,7 @@ t_tree	*parse_command(t_token **cur, t_token *envp)
 	return (branch);
 }
 
-static int	manage_repoint(t_tree *branch, t_token **cur, t_token *envp)
+static int	manage_repoint(t_tree *branch, t_token **cur, t_shared_info *info)
 {
 	if (is_valid_arg((*cur)->token) && !branch->arg_list)
 	{
@@ -60,7 +60,7 @@ static int	manage_repoint(t_tree *branch, t_token **cur, t_token *envp)
 	else if ((*cur) && is_redirect(*cur))
 	{
 		if ((*cur)->type == TOKEN_HEREDOC)
-			(*cur)->next->token = heardoc((*cur)->next->token, envp);
+			(*cur)->next->token = heardoc((*cur)->next->token, info);
 		if (repoint_redirect_to_list(&branch->file_list, cur) == FAILUER)
 			return (FAILUER);
 	}
@@ -103,7 +103,7 @@ static int	repoint_redirect_to_list(t_token **list, t_token **cur)
 	return (SUCCESS);
 }
 
-static t_tree	*parse_subshell(t_token **cur, t_token *envp)
+static t_tree	*parse_subshell(t_token **cur, t_shared_info *info)
 {
 	t_tree	*subshell_node;
 
@@ -117,7 +117,7 @@ static t_tree	*parse_subshell(t_token **cur, t_token *envp)
 	subshell_node = tree_new(SUBSHELL);
 	if (!subshell_node)
 		return (NULL);
-	subshell_node->left = parse_manage(cur, envp);
+	subshell_node->left = parse_manage(cur, info);
 	if (!subshell_node ->left)
 		return (free_tree_rec(&subshell_node), NULL);
 	if (!*cur)

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/22 22:49:07 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 05:15:00 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ typedef struct s_token			t_token;
 typedef struct s_shared_info	t_shared_info;
 
 /* parse1_cmd */
-t_tree		*parse_command(t_token **cur, t_token *envp);
+t_tree		*parse_command(t_token **cur, t_shared_info *info);
 
 /* parse2_pipe */
-t_tree		*parse_pipeline(t_token **cur, t_token *envp);
+t_tree		*parse_pipeline(t_token **cur, t_shared_info *info);
 
 /* parse3_logical */
-t_tree		*parse_manage(t_token **cur, t_token *envp);
+t_tree		*parse_manage(t_token **cur, t_shared_info *info);
 
 /* parse4_parser */
-t_tree		*parser(char *input, t_token *envp);
+t_tree		*parser(t_shared_info *info);
 
 /* utils1_tree */
 t_tree		*tree_new(t_tree_type btype);
@@ -66,6 +66,6 @@ char		**token_cmd(t_token *node, t_shared_info *info);
 t_token		*argv_token(char **argv);
 
 /*utils5_heardoc*/
-char		*heardoc(char *eof, t_token *envp);
+char		*heardoc(char *eof, t_shared_info *info);
 
 #endif

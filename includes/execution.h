@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 00:55:08 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 04:40:13 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_pidlist
 typedef struct s_shared_info
 {
 	t_token			*envp;
+	t_token			*input;
 	bool			pipe;
 	int				fd[2];
 	t_pidlist		*plist;

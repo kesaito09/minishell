@@ -6,25 +6,28 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:39:10 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/22 22:23:40 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 05:08:31 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
 
-t_tree	*parser(char *input, t_token *envp)
+t_tree	*parser(t_shared_info *info)
 {
 	t_tree	*branch;
 	t_token	*token_list;
+	char	*input;
 
 	branch = NULL;
+	input = info->input->token;
 	if (!input || !*input)
 		return (NULL);
 	token_list = tokenizer(input);
+	free_and_skip_one(&info->input);
 	if (!token_list)
 		return (NULL);
-	branch = parse_manage(&token_list, envp);
+	branch = parse_manage(&token_list, info);
 	if (branch && token_list)
 	{
 		syntax_error_msg(token_list->token);
