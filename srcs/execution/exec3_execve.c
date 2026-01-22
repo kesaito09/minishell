@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 18:11:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 01:45:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,43 @@
 #include <stdio.h>
 
 static int	exec_search(char **envp, char **cmd);
+static int	exec_cmd_module(t_tree *branch,
+				t_shared_info *info, int fd_in, int fd_out);
 
 int	exec_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 {
 	pid_t	pid;
-	char	**cmd;
-	char	**env;
 
 	pid = fork();
 	if (pid < 0)
 		return (perror("fork"), FAILUER);
 	if (pid > 0)
-		return (pid_add_back(&(info->plist), pid), SUCCESS);
+		return (pid_add_back(&(info->plist), pid),
+			env_underscore(branch->arg_list, info));
 	setup_signal_child();
 	close_unused_pipe(fd_in, fd_out, info->fd);
+	exec_cmd_module(branch, info, fd_in, fd_out);
+	exit(1);
+}
+
+static int	exec_cmd_module(t_tree *branch,
+	t_shared_info *info, int fd_in, int fd_out)
+{
+	char	**cmd;
+	char	**env;
+
 	if (dup2_stdin_out(fd_in, fd_out) == FAILUER
 		|| expander(branch->arg_list, info, ARG_LIST) == FAILUER
 		|| expander(branch->env_list, info, ENV_LIST) == FAILUER
 		|| expander(branch->file_list, info, FILE_LIST) == FAILUER
 		|| manage_redirect(branch->file_list) == FAILUER
-		|| silent_export(branch->env_list, info, TOP) == FAILUER)
-		exit(1);
+		|| silent_export(branch->env_list, info, TOP, 0) == FAILUER
+		|| env_underscore(branch->arg_list, info) == FAILUER)
+		return (FAILUER);
 	cmd = token_argv(branch->arg_list);
+	info->envp = discard_local_env(info->envp);
+	if (!info->envp)
+		return (FAILUER);
 	env = token_argv(info->envp);
 	if (!cmd || !env)
 		return (free_split(cmd), free_split(env), FAILUER);
@@ -79,5 +94,5 @@ int	env_underscore(t_token *node, t_shared_info *info)
 	tmp = t_lstnew(str, free);
 	if (!tmp)
 		return (FAILUER);
-	return (silent_export(tmp, info, TOP));
+	return (silent_export(tmp, info, TOP, 0));
 }

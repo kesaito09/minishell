@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/19 07:44:16 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 00:47:18 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int		repoint_redirect_to_list(t_token **list, t_token **cur);
 
 t_tree	*parse_command(t_token **cur, t_token *envp)
 {
-	t_tree	*node;
+	t_tree	*branch;
 
 	if (!*cur)
 		return (syntax_error_msg("unexpected EOF"), NULL);
@@ -30,22 +30,25 @@ t_tree	*parse_command(t_token **cur, t_token *envp)
 		return (syntax_error_msg((*cur)->token), NULL);
 	if ((*cur) && ((*cur)->type == TOKEN_PARENTHESIS_LEFT))
 		return (parse_subshell(cur, envp));
-	node = tree_new(cmd_type(*cur));
-	if (!node)
+	branch = tree_new(COMMAND);
+	if (!branch)
 		return (NULL);
 	while (*cur && is_command(*cur))
 	{
-		if (manage_repoint(node, cur, envp) == FAILUER)
-			return (free_tree_rec(node), NULL);
+		if (manage_repoint(branch, cur, envp) == FAILUER)
+			return (free_tree_rec(&branch), NULL);
 	}
-	return (node);
+	if (!branch->arg_list && branch->env_list)
+		branch->b_type = ENVP;
+	if (branch->arg_list)
+		branch->b_type = cmd_type(branch->arg_list);
+	return (branch);
 }
 
 static int	manage_repoint(t_tree *branch, t_token **cur, t_token *envp)
 {
 	if (is_valid_arg((*cur)->token) && !branch->arg_list)
 	{
-		branch->b_type = ENVP;
 		if (repoint_word_to_list(&branch->env_list, cur) == FAILUER)
 			return (FAILUER);
 	}
@@ -116,13 +119,13 @@ static t_tree	*parse_subshell(t_token **cur, t_token *envp)
 		return (NULL);
 	subshell_node->left = parse_manage(cur, envp);
 	if (!subshell_node ->left)
-		return (free_tree_rec(subshell_node), NULL);
+		return (free_tree_rec(&subshell_node), NULL);
 	if (!*cur)
 		return (syntax_error_msg("newline"),
-			free_tree_rec(subshell_node), NULL);
+			free_tree_rec(&subshell_node), NULL);
 	if ((*cur)->type != TOKEN_PARENTHESIS_RIGHT)
 		return (syntax_error_msg((*cur)->token),
-			free_tree_rec(subshell_node), NULL);
+			free_tree_rec(&subshell_node), NULL);
 	free_and_skip_one(cur);
 	return (subshell_node);
 }

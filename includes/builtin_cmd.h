@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 16:25:54 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 00:05:19 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include "minishell.h"
 # include <stdlib.h>
 # include <stdbool.h>
+
+extern int						g_exit_code;
 
 typedef struct s_tree			t_tree;
 typedef struct s_shared_info	t_shared_info;
@@ -33,10 +35,10 @@ enum e_export
 /* builtin_cmd */
 int		cd(t_token *node, t_shared_info *info);
 int		echo(t_token *node);
-void	env(t_token *node, t_shared_info *info);
-void	builtin_exit(t_tree *branch, t_shared_info *info);
+int		env(t_token *node, t_shared_info *info);
+void	builtin_exit(t_shared_info *info);
 int		export(t_token *cmd, t_shared_info *info);
-int		silent_export(t_token*cmd, t_shared_info *info, int flag);
+int		silent_export(t_token*cmd, t_shared_info *info, int loc, int type);
 int		pwd(t_shared_info *info);
 int		unset(t_token *cmd, t_shared_info *info);
 

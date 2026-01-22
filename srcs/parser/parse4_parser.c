@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:39:10 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 13:44:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/22 22:23:40 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_tree	*parser(char *input, t_token *envp)
 	if (branch && token_list)
 	{
 		syntax_error_msg(token_list->token);
-		free_tree_rec(branch);
+		free_tree_rec(&branch);
 		t_lstclear(&token_list, free);
 		return (NULL);
 	}

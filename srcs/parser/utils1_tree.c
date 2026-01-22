@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:42:39 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 19:41:55 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/22 22:24:49 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@ t_tree	*tree_new(t_tree_type btype)
 	return (node);
 }
 
-void	free_tree_rec(t_tree *branch)
+void	free_tree_rec(t_tree **branch)
 {
-	if (!branch)
+	if (!(*branch))
 		return ;
-	free_tree_rec(branch->left);
-	free_tree_rec(branch->right);
-	t_lstclear(&(branch->arg_list), free);
-	t_lstclear(&(branch->file_list), free);
-	t_lstclear(&(branch->env_list), free);
-	free(branch);
+	free_tree_rec(&(*branch)->left);
+	free_tree_rec(&(*branch)->right);
+	t_lstclear(&((*branch)->arg_list), free);
+	t_lstclear(&((*branch)->file_list), free);
+	t_lstclear(&((*branch)->env_list), free);
+	free(*branch);
+	*branch = NULL;
 }

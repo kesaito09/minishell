@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 18:13:07 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 00:55:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,15 @@
 # include <unistd.h>
 # include <sys/stat.h>
 
+extern int				g_exit_code;
+
 typedef enum e_tree_type
 {
 	PIPE = 0,
 	CONJUNCTION,
 	DISJUNCTION,
 	COMMAND,
-	MY_COMMAND,
+	BUILTIN,
 	SUBSHELL,
 	ENVP
 }					t_tree_type;
@@ -59,7 +61,7 @@ typedef struct s_shared_info
 	bool			pipe;
 	int				fd[2];
 	t_pidlist		*plist;
-	int				ecode;
+	t_tree			*branch;
 	int				fd_stdin;
 	int				fd_stdout;
 }					t_shared_info;
@@ -71,7 +73,7 @@ int		exec_manage(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 int		exec_sshell(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 int		exec_cjunc(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 int		exec_djunc(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
-int		manage_pipe(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int		exec_pipe(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 
 /* exec3_execve */
 int		exec_cmd(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
@@ -81,7 +83,7 @@ int		env_underscore(t_token *node, t_shared_info *info);
 int		exec_built(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 
 /* exec5_env */
-int		manage_envp(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int		exec_envp(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 
 /* exec6_redirect */
 int		manage_redirect(t_token *file_lst);
@@ -96,10 +98,12 @@ int		redirect_in_check(char *path);
 int		redirect_out_check(char *path);
 void	command_error_check(char *cmd, t_token *path_node);
 
-/* utils3_pipe */
+/* utils3_logical */
 void	close_unused_pipe(int fd_in, int fd_out, int pipes[2]);
 int		dup2_stdin_out(int fd_in, int fd_out);
 int		reset_stdin_out(t_shared_info *info);
+t_token	*discard_local_env(t_token *envp);
+
 
 /* utils4_find_path */
 t_token	*complete_path(char **envp);

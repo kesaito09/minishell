@@ -24,9 +24,11 @@
 # include <sys/types.h>
 # include <signal.h>
 
+extern int						g_exit_code;
 typedef struct s_shared_info	t_shared_info;
 
 /* main.c */
+
 /* utils1_exit_code.c */
 void			error_exit(char *str, int errno);
 int				detect_ecode(int flag, t_shared_info *info);
@@ -39,7 +41,7 @@ void			setup_signal_child(void);
 
 /* utils3.c */
 t_shared_info	collect_info(char **envp);
-char			*handle_prompt(void);
+char			*handle_prompt(t_token *envp);
 char			*get_line(int fd);
 
 #endif

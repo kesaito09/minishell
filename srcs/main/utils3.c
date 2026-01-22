@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 09:53:27 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 19:13:46 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 00:08:30 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ t_shared_info	collect_info(char **envp)
 
 	ft_bzero(&info, sizeof(t_shared_info));
 	info.envp = argv_token(envp);
-	info.plist = NULL;
-	info.pipe = false;
 	info.fd[0] = -1;
 	info.fd[1] = -1;
 	info.fd_stdout = dup(1);
@@ -59,20 +57,28 @@ static int	env_shlvl(t_shared_info *info)
 	node = t_lstnew(shlvl, free);
 	if (!node)
 		return (free(shnum), FAILUER);
-	return (free(shnum), silent_export(node, info, TOP));
+	return (free(shnum), silent_export(node, info, TOP, 0));
 }
 
-char	*handle_prompt(void)
+char	*handle_prompt(t_token *envp)
 {
 	char	*line;
+	char	*prompt;
 
-	line = readline("minishell$ ");
+	prompt = return_value("PS1", envp);
+	if (!prompt || !*prompt)
+	{
+		free(prompt);
+		prompt = ft_strdup("minishell$");
+	}
+	line = readline(prompt);
+	free(prompt);
 	if (!line)
 		return (NULL);
 	if (!*line)
 	{
 		free(line);
-		handle_prompt();
+		handle_prompt(envp);
 	}
 	add_history(line);
 	return (line);
@@ -80,21 +86,27 @@ char	*handle_prompt(void)
 
 char	*get_line(int fd)
 {
-	char	*tmp;
+	int		count;
 	char	*trash;
 	char	*line;
+	char	*new;
 
-	tmp = "tmp";
 	line = NULL;
-	while (tmp)
+	count = 100;
+	line = ft_strdup("");
+	new = ft_calloc(sizeof(char), 100);
+	if (!line || !new)
+		return (free(line), free(new), NULL);
+	while (count > 0)
 	{
+		count = read(fd, new, 100);
 		trash = line;
-		tmp = get_next_line(fd);
-		line = ft_strjoin(line, tmp);
-		free(tmp);
+		line = ft_strjoin(line, new);
 		free(trash);
+		ft_bzero(new, 101 * sizeof(char));
 		if (!line)
-			return (NULL);
+			return (free(new), NULL);
 	}
+	free(new);
 	return (line);
 }

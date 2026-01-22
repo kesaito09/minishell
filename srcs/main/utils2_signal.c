@@ -6,15 +6,18 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 09:18:46 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 10:27:36 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/22 22:55:13 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/main.h"
 
+
+
 static void	handle_sigint_prompt(int sig)
 {
 	(void)sig;
+	g_exit_code = 130;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);

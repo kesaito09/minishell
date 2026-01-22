@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 13:29:43 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/22 22:49:07 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 /*struct detail in execution.h*/
 
+extern int						g_exit_code;
 typedef struct dirent			t_dirent;
 typedef struct s_tree			t_tree;
 typedef struct s_flist			t_flist;
@@ -43,7 +44,7 @@ t_tree		*parser(char *input, t_token *envp);
 
 /* utils1_tree */
 t_tree		*tree_new(t_tree_type btype);
-void		free_tree_rec(t_tree *branch);
+void		free_tree_rec(t_tree **branch);
 
 /* utils2_parse */
 int			count_element(char **s);
@@ -60,7 +61,7 @@ t_tree_type	cmd_type(t_token *cur);
 
 /* utils4_arglist */
 char		**token_argv(t_token *node);
-t_token		*argv_token(char **argv);	
+t_token		*argv_token(char **argv);
 char		**token_cmd(t_token *node, t_shared_info *info);
 t_token		*argv_token(char **argv);
 

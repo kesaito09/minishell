@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils5_is_.c                                       :+:      :+:    :+:   */
+/*   utils3_is.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 09:41:30 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 19:43:12 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/22 23:39:24 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,6 @@ bool	is_command(t_token *cur)
 t_tree_type	cmd_type(t_token *cur)
 {
 	if (is_builtin(cur->token))
-		return (MY_COMMAND);
+		return (BUILTIN);
 	return (COMMAND);
 }

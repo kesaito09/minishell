@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 01:23:57 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 16:07:37 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 01:26:33 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	env_oldpwd(t_shared_info *info)
 	node = t_lstnew(new_env, free);
 	if (!node)
 		return (FAILUER);
-	return (silent_export(node, info, BOTTOM));
+	return (silent_export(node, info, BOTTOM, 0));
 }
 
 static int	env_pwd(t_shared_info *info)
@@ -80,7 +80,7 @@ static int	env_pwd(t_shared_info *info)
 	node = t_lstnew(new_env, free);
 	if (!node)
 		return (FAILUER);
-	return (silent_export(node, info, BOTTOM));
+	return (silent_export(node, info, BOTTOM, 0));
 }
 
 //int main(void)

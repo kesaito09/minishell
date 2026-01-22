@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 19:30:02 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 00:06:32 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	export(t_token *cmd, t_shared_info *info)
 
 	while (cmd)
 	{
-		flag = export_module(cmd, info, BOTTOM, COMMAND);
+		flag = export_module(cmd, info, BOTTOM, 0);
 		if (!flag)
 			return (invalid_message(cmd->token), false);
 		if (flag == FAILUER)
@@ -31,12 +31,12 @@ int	export(t_token *cmd, t_shared_info *info)
 	return (SUCCESS);
 }
 
-int	silent_export(t_token*cmd, t_shared_info *info, int loc)
+int	silent_export(t_token*cmd, t_shared_info *info, int loc, int type)
 {
 	while (cmd)
 	{
-		if (export_module(cmd, info, loc, 0) <= 0)
-			return (FAILUER);
+		if (export_module(cmd, info, loc, type) <= 0)
+			return (t_lstclear(&cmd, free), FAILUER);
 		cmd = cmd->next;
 	}
 	t_lstclear(&cmd, free);
@@ -56,13 +56,12 @@ static int	export_module(t_token *cmd, t_shared_info *info, int loc, int type)
 		{
 			free(env->token);
 			env->token = cmd->token;
-			if (type != COMMAND)
-				free(cmd);
+			env->type = cmd->type;
 			return (SUCCESS);
 		}
 		env = env->next;
 	}
-	env = t_lstnew(ft_strdup(cmd->token), free);
+	env = f_lstnew(ft_strdup(cmd->token), type);
 	if (!cmd)
 		return (FAILUER);
 	if (loc == BOTTOM)

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 18:04:24 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/22 22:48:20 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <dirent.h>
 
 # define PASS 0
-
+extern int					g_exit_code;
 typedef struct dirent		t_dirent;
 typedef struct s_tree		t_tree;
 typedef struct s_flist		t_flist;

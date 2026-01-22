@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/21 18:04:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/22 22:48:41 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # define DELIMITER " \t\n"
 # define SPLIT "|<>() \t\n"
 # define QUOTE "\'\""
+
+extern int				g_exit_code;
 
 typedef enum e_token_type
 {

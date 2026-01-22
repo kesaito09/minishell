@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:49:23 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 18:33:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/22 22:20:28 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,10 @@ static bool	option_n(char *_n);
 
 int	echo(t_token *node)
 {
-	t_token	*tmp;
-
-	tmp = node->next;
-	if (!tmp->token)
+	if (!node->token)
 		return (FAILUER);
-	if (option_n(tmp->token))
-		return (echo_opn(node));
+	if (option_n(node->token))
+		return (echo_opn(node->next));
 	else
 		return (echo_(node));
 }
@@ -50,14 +47,13 @@ static bool	option_n(char *_n)
 
 static int	echo_opn(t_token *node)
 {
-	t_token	*tmp;
-
-	tmp = node->next->next;
-	while (tmp)
+	while (option_n(node->token))
+		node = node->next;
+	while (node)
 	{
-		ft_putstr_fd(tmp->token, 1);
-		tmp = tmp->next;
-		if (!tmp)
+		ft_putstr_fd(node->token, 1);
+		node = node->next;
+		if (!node)
 			return (SUCCESS);
 		ft_putchar_fd(' ', 1);
 	}
@@ -66,14 +62,11 @@ static int	echo_opn(t_token *node)
 
 static int	echo_(t_token *node)
 {
-	t_token	*tmp;
-
-	tmp = node->next;
-	while (tmp)
+	while (node)
 	{
-		ft_putstr_fd(tmp->token, 1);
-		tmp = tmp->next;
-		if (!tmp)
+		ft_putstr_fd(node->token, 1);
+		node = node->next;
+		if (!node)
 			break ;
 		ft_putchar_fd(' ', 1);
 	}
