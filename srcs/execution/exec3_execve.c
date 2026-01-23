@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 04:50:25 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 11:43:19 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ static int	exec_cmd_module(t_tree *branch,
 		|| expander(branch->file_list, info, FILE_LIST) == FAILUER
 		|| manage_redirect(branch->file_list) == FAILUER
 		|| silent_export(branch->env_list, info, TOP, 0) == FAILUER
-		|| env_underscore(branch->arg_list, info) == FAILUER)
+		|| env_underscore(branch->arg_list, info) == FAILUER
+		|| !branch->arg_list)
 		return (FAILUER);
 	cmd = token_argv(branch->arg_list);
 	info->envp = discard_local_env(info->envp);
@@ -87,6 +88,8 @@ int	env_underscore(t_token *node, t_shared_info *info)
 	char	*str;
 	t_token	*tmp;
 
+	if (!node)
+		return (FAILUER);
 	node = t_lstlast(node);
 	str = ft_strjoin("_=", node->token);
 	if (!str)
