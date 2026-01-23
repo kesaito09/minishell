@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 05:31:19 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 11:27:48 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ char	*heardoc(char *eof, t_shared_info *info)
 	{
 		flag = write_heardoc(eof, fd, info, state);
 		if (flag == FAILUER)
-			return (close(fd), free(file), NULL);
+			return (close(fd), free(file), free(eof), NULL);
 		if (flag == END)
 			break ;
 	}
 	close(fd);
-	return (file);
+	return (free(eof), file);
 }
 
 static char	*heardoc_name(void)

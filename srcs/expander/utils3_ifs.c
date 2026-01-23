@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 23:03:55 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 05:23:54 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 10:55:48 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,18 @@ t_token	*ifs_insert(t_token *node, t_token *envp)
 {
 	char	*ifs;
 	t_token	*lst;
-	int		n;
+	t_token	*next;
 
 	ifs = return_value("IFS", envp);
 	if (!ifs)
 		return (NULL);
 	lst = NULL;
 	if (ifs_split(node->token, ifs, &lst, STRT) == FAILUER)
-		return (NULL);
-	n = t_lstsize(lst);
+		return (free(ifs), NULL);
+	next = lst->next;
 	t_lstinsert(node, lst);
 	node->type = SUB_TOKEN_IFS;
-	return (t_lstmove(lst, n));
+	return (free(ifs), next);
 }
 
 bool	has_type(t_token *sub, t_token_type type)

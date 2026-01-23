@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:23:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/20 23:36:13 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 10:19:29 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,18 @@ t_token	*t_lstmove(t_token *lst, int n)
 t_token	*t_lstinsert(t_token *lst, t_token *new)
 {
 	t_token	*tmp;
-	t_token	*last;
+	char	*trash;
 
 	if (!lst || !new)
 		return (NULL);
-	last = new;
-	while (last->next)
-		last = last->next;
-	free(lst->token);
-	tmp = lst->next;
+	trash = lst->token;
 	lst->token = new->token;
+	tmp = lst->next;
 	lst->next = new->next;
 	t_lstadd_back(&lst, tmp);
+	free(trash);
 	free(new);
-	return (last->next);
+	return (tmp);
 }
 
 t_token	*t_lstnew(char *token, void (*del)(void *))

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/21 07:37:32 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 11:12:30 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ t_token	*get_sub_token(char *input, t_token *envp, t_token_type flag)
 			return (t_lstclear(&lst, free), NULL);
 		if (new->type != SUB_TOKEN_GENERAL)
 		{
-			tmp = ft_substr(new->token, 1, ft_strlen(new->token) - 2);
-			free(new->token);
-			new->token = tmp;
+			tmp = new->token;
+			new->token = ft_substr(new->token, 1, ft_strlen(new->token) - 2);
+			free(tmp);
 		}
 		if (new->type != SUB_TOKEN_SQUOTE && flag != TOKEN_HEREDOC)
 		{
@@ -79,7 +79,7 @@ static t_token	*expand_dollar(t_token *input)
 	{
 		len = strchr_len(str, '$');
 		if (len < 0 && node && !*str)
-			return (free(input), node);
+			return (t_lstclear(&input, free), node);
 		else if (len < 0 && !*str)
 			return (input);
 		else if (len < 0)
@@ -88,7 +88,7 @@ static t_token	*expand_dollar(t_token *input)
 			len = envlen(str + 1) + 1;
 		new = f_lstnew(ft_strndup(str, len), input->type);
 		if (!new)
-			return (t_lstclear(&node, free), NULL);
+			return (t_lstclear(&node, free), t_lstclear(&input, free), NULL);
 		str += len;
 		t_lstadd_back(&node, new);
 	}
@@ -98,6 +98,7 @@ static t_token	*replace_env(t_token *node, t_token *envp)
 {
 	t_token	*cur;
 	t_token	*tmp;
+	char	*trash;
 
 	cur = node;
 	tmp = NULL;
@@ -105,7 +106,11 @@ static t_token	*replace_env(t_token *node, t_token *envp)
 	{
 		if (cur->token[0] == '$' && cur->token[1])
 		{
+			trash = cur->token;
 			cur->token = return_value(cur->token + 1, envp);
+			free(trash);
+			if (!cur->token)
+				return (t_lstclear(&node, free), NULL);
 			if (cur->type == SUB_TOKEN_GENERAL)
 				tmp = ifs_insert(cur, envp);
 			if (!tmp)

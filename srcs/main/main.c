@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 09:11:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 11:28:07 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,14 @@ static int	whole_proc(t_shared_info *info);
 int	main(int argc, char **argv, char **envp)
 {
 	t_shared_info	info;
-	int				flag;
 
 	info = collect_info(envp);
 	if (!info.envp)
 		return (EXIT_FAILURE);
 	if (!isatty(STDIN_FILENO))
-		flag = minishell_pipe(&info);
+		minishell_pipe(&info);
 	else
-		flag = minishell_atty(&info);
+		minishell_atty(&info);
 	t_lstclear(&info.envp, free);
 	(void)argc;
 	(void)argv;
@@ -89,9 +88,7 @@ static int	minishell_pipe(t_shared_info *info)
 	if (!info->input)
 		return (FAILUER);
 	while (info->input)
-	{
 		flag = whole_proc(info);
-	}
 	if (export_exit_code(g_exit_code, flag, info) == FAILUER)
 		return (FAILUER);
 	builtin_exit(info);

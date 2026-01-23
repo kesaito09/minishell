@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 18:27:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/23 08:53:29 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 11:17:57 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,15 @@ char	*split_join(char **argv)
 char	*expand_join(char *input, t_token *envp, t_token_type type)
 {
 	t_token	*node;
+	char	*str;
 
 	node = get_sub_token(input, envp, type);
 	if (!node)
 		return (input);
 	free(input);
-	return (token_join(node));
+	str = token_join(node);
+	t_lstclear(&node, free);
+	return (str);
 }
 
 char	*token_join(t_token *node)
