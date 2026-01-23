@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 00:06:32 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 09:32:11 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,16 @@ int	export(t_token *cmd, t_shared_info *info)
 
 int	silent_export(t_token*cmd, t_shared_info *info, int loc, int type)
 {
+	t_token	*tmp;
+
+	tmp = cmd;
 	while (cmd)
 	{
 		if (export_module(cmd, info, loc, type) <= 0)
 			return (t_lstclear(&cmd, free), FAILUER);
 		cmd = cmd->next;
 	}
-	t_lstclear(&cmd, free);
+	t_lstclear(&tmp, free);
 	return (SUCCESS);
 }
 
@@ -55,7 +58,7 @@ static int	export_module(t_token *cmd, t_shared_info *info, int loc, int type)
 		if (!ft_argcmp(cmd->token, env->token))
 		{
 			free(env->token);
-			env->token = cmd->token;
+			env->token = ft_strdup(cmd->token);
 			env->type = cmd->type;
 			return (SUCCESS);
 		}

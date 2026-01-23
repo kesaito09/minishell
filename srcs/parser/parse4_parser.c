@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:39:10 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 05:08:31 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 09:12:07 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_tree	*parser(t_shared_info *info)
 
 	branch = NULL;
 	input = info->input->token;
-	if (!input || !*input)
+	if (!input)
 		return (NULL);
 	token_list = tokenizer(input);
 	free_and_skip_one(&info->input);

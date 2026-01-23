@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 08:08:01 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/22 23:15:44 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 09:36:05 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@ void	builtin_exit(t_shared_info *info)
 	free_tree_rec(&info->branch);
 	wait_pidlist(&info->plist);
 	t_lstclear(&info->envp, free);
+	rl_clear_history();
 	exit(g_exit_code);
 }

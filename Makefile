@@ -6,13 +6,13 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/23 01:21:54 by natakaha         ###   ########.fr        #
+#    Updated: 2026/01/23 09:16:53 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -g -O0 -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
 
 INCS = includes
 LIBFTDIR = libft
@@ -75,7 +75,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFTDIR)
 
 $(NAME):$(MAND_OBJS) $(LIBFT)
-	$(CC) $(MAND_OBJS) $(LDFLAGS) $(LDLIBS) -g -O0 -o $(NAME)
+	$(CC) $(MAND_OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
 
 bonus: all
 

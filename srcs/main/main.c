@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 05:13:51 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 09:11:33 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,20 @@ static int	minishell_atty(t_shared_info *info)
 
 static int	minishell_pipe(t_shared_info *info)
 {
-	char	*line;
+	char	*input;
 	int		flag;
 
-	line = get_line(STDIN_FILENO);
-	if (!line)
+	input = get_line(STDIN_FILENO);
+	if (!input)
 		return (FAILUER);
-	flag = whole_proc(info);
+	info->input = script_split(input);
+	free(input);
+	if (!info->input)
+		return (FAILUER);
+	while (info->input)
+	{
+		flag = whole_proc(info);
+	}
 	if (export_exit_code(g_exit_code, flag, info) == FAILUER)
 		return (FAILUER);
 	builtin_exit(info);

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 05:54:33 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 07:35:37 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 08:56:59 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ifs_expand(t_token *sub, t_token *node, t_list_type type)
 	lst = NULL;
 	while (sub)
 	{
-		tmp = f_lstnew(ifs_join(&sub), SUB_TOKEN_IFS);
+		tmp = f_lstnew(ifs_join(&sub), node->type);
 		if (!tmp)
 			return (t_lstclear(&lst, free), FAILUER);
 		t_lstadd_back(&lst, tmp);
