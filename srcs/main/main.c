@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 11:28:07 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:58:59 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static int	minishell_atty(t_shared_info *info)
 		input = handle_prompt(info->envp);
 		if (!input)
 			builtin_exit(info);
+		if (!*input)
+			continue ;
 		if (export_exit_code(g_exit_code, flag, info) == FAILUER)
 			return (FAILUER);
 		info->input = script_split(input);

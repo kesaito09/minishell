@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 11:43:19 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:41:11 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,7 @@ int	env_underscore(t_token *node, t_shared_info *info)
 	tmp = t_lstnew(str, free);
 	if (!tmp)
 		return (FAILUER);
-	return (silent_export(tmp, info, TOP, 0));
+	if (silent_export(tmp, info, TOP, 0) == FAILUER)
+		return (t_lstclear(&tmp, free), FAILUER);
+	return (t_lstclear(&tmp, free), SUCCESS);
 }

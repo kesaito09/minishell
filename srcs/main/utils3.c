@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 09:53:27 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 04:47:50 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:42:41 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_shared_info	collect_info(char **envp)
 	info.fd[1] = -1;
 	info.fd_stdout = dup(1);
 	info.fd_stdin = dup(0);
-	export_exit_code(0, SUCCESS, &info);
 	if (env_shlvl(&info) == FAILUER
 		|| export_exit_code(0, SUCCESS, &info) == FAILUER)
 		ft_bzero(&info, sizeof(t_shared_info));
@@ -45,19 +44,16 @@ static int	env_shlvl(t_shared_info *info)
 	else
 	{
 		n = ft_atoi(shnum);
-		if (n <= 0)
-			shlvl = ft_strjoin("SHLVL=", "1");
-		else
-		{
-			num = ft_itoa(n + 1);
-			shlvl = ft_strjoin("SHLVL=", num);
-			free(num);
-		}
+		num = ft_itoa(n + 1);
+		if (!num)
+			return (FAILUER);
+		shlvl = ft_strjoin("SHLVL=", num);
+		free(num);
 	}
 	node = t_lstnew(shlvl, free);
-	if (!node)
-		return (free(shnum), FAILUER);
-	return (free(shnum), silent_export(node, info, TOP, 0));
+	if (!node || silent_export(node, info, TOP, 0) == FAILUER)
+		return (free(shnum), t_lstclear(&node, free), FAILUER);
+	return (free(shnum), t_lstclear(&node, free), SUCCESS);
 }
 
 char	*handle_prompt(t_token *envp)
@@ -78,7 +74,7 @@ char	*handle_prompt(t_token *envp)
 	if (!*line)
 	{
 		free(line);
-		handle_prompt(envp);
+		return ("");
 	}
 	add_history(line);
 	return (line);
