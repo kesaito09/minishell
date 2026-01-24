@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 01:23:57 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 01:26:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/24 08:27:18 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,55 @@
 
 static int	env_oldpwd(t_shared_info *info);
 static int	env_pwd(t_shared_info *info);
+static int	is_valid_path(char *path);
+static int	key_not_found(char *key);
 
 int	cd(t_token *node, t_shared_info *info)
 {
-	char	*cd_;
+	char	*path;
+	char	*key;
 
+	key = NULL;
 	if (node && !ft_strcmp(node->token, "-"))
-	{
-		cd_ = return_value("OLDPWD", info->envp);
-		if (!*cd_)
-			return (ft_putendl_fd("minishell: cd: HOME not set", 2),
-				free(cd_), FAILUER);
-	}
-	else if (node)
-		cd_ = ft_strdup(node->token);
+		key = "OLDPWD";
+	else if (!node)
+		key = "HOME";
+	if (key)
+		path = return_value(key, info->envp);
 	else
-	{
-		cd_ = return_value("HOME", info->envp);
-		if (!*cd_)
-			return (ft_putendl_fd("minishell: cd: HOME not set", 2),
-				free(cd_), FAILUER);
-	}
-	if (!cd_)
-		return (FAILUER);
-	if (env_oldpwd(info) == FAILUER
-		|| chdir(cd_) == FAILUER
+		path = ft_strdup(node->token);
+	if (!path
+		|| (!*path && key && key_not_found(key))
+		|| (!is_valid_path(path))
+		|| env_oldpwd(info) == FAILUER
+		|| chdir(path) == FAILUER
 		|| env_pwd(info) == FAILUER)
-		return (free(cd_), FAILUER);
-	return (free(cd_), SUCCESS);
+		return (free(path), FAILUER);
+	return (free(path), SUCCESS);
+}
+
+static int	key_not_found(char *key)
+{
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(key, 2);
+		ft_putendl_fd(" not set", 2);
+	}
+	return (SUCCESS);
+}
+
+static int	is_valid_path(char *path)
+{
+	if (access(path, F_OK) == -1)
+		return (ft_putstr_fd("minishell: cd: ", 2), ft_putstr_fd(path, 2),
+			ft_putendl_fd(" No such file or directory", 2), FAILUER);
+	if (!is_directory(path))
+		return (ft_putstr_fd("minishell: cd: ", 2), ft_putstr_fd(path, 2),
+			ft_putendl_fd(" Not a directory", 2), FAILUER);
+	if (access(path, X_OK) == -1)
+		return (ft_putstr_fd("minishell: cd: ", 2), ft_putstr_fd(path, 2),
+			ft_putendl_fd(" Permission denied", 2), FAILUER);
+	return (SUCCESS);
 }
 
 static int	env_oldpwd(t_shared_info *info)

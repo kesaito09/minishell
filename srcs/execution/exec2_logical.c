@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 08:54:42 by naoki             #+#    #+#             */
-/*   Updated: 2026/01/23 01:40:43 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:27:26 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,9 @@ int	exec_pipe(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 		return (perror("pipe"), FAILUER);
 	info->fd[0] = fd[0];
 	info->fd[1] = fd[1];
-	if (exec_manage(branch->left, info, fd_in, fd[1]) == FAILUER)
-		return (close(fd[1]), close(fd[0]), FAILUER);
+	exec_manage(branch->left, info, fd_in, fd[1]);
 	close(fd[1]);
-	if (exec_manage(branch->right, info, fd[0], fd_out) == FAILUER)
-		return (close(fd[0]), FAILUER);
+	exec_manage(branch->right, info, fd[0], fd_out);
 	close(fd[0]);
 	return (SUCCESS);
 }

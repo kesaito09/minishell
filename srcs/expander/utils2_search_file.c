@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 01:40:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/17 19:56:03 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/24 09:27:20 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,16 @@ int	search_file(t_token *sub_token, char *file)
 	cur_token_c = sub_token->token;
 	if (!file_token_cmp(&sub_token, &cur_token_c, &file, sub_token->type))
 		return (false);
-	flag = false;
-	while (sub_token && *file)
+	flag = skip_star(&sub_token, &cur_token_c, sub_token->type);
+	while (sub_token || *file)
 	{
 		file_token_cmp(&sub_token, &cur_token_c, &file, sub_token->type);
 		if (!sub_token || !*file)
 			break ;
 		flag = skip_star(&sub_token, &cur_token_c, sub_token->type);
 	}
+	if (sub_token)
+		flag = skip_star(&sub_token, &cur_token_c, sub_token->type);
 	if (!sub_token && flag == true)
 		return (true);
 	if (!sub_token && !*file)
