@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 09:30:20 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/25 07:09:21 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	unset(t_token *cmd, t_shared_info *info)
 {
 	t_token	*key;
 
-	key = cmd->next;
+	key = cmd;
 	while (key)
 	{
 		if (ft_strchr(key->token, '='))
@@ -38,23 +38,23 @@ int	unset(t_token *cmd, t_shared_info *info)
 void	unset_module(t_shared_info *info, char *key)
 {
 	t_token	*node;
-	t_token	*tmp;
+	t_token	*prev;
 
 	node = info->envp;
-	tmp = NULL;
+	prev = NULL;
 	while (node)
 	{
 		if (!ft_keycmp(key, node->token))
 		{
-			if (tmp)
-				tmp->next = node->next;
+			if (prev)
+				prev->next = node->next;
 			else
 				info->envp = node->next;
 			free(node->token);
 			free(node);
 			return ;
 		}
-		tmp = node;
+		prev = node;
 		node = node->next;
 	}
 }

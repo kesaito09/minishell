@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/24 15:24:14 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/25 07:52:33 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	export(t_token *cmd, t_shared_info *info)
 	{
 		flag = export_module(cmd, info, BOTTOM, 0);
 		if (!flag)
-			return (invalid_message(cmd->token), false);
+			return (invalid_message(cmd->token), FAILUER);
 		if (flag == FAILUER)
 			return (FAILUER);
 		cmd = cmd->next;

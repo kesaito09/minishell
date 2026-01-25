@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 05:43:42 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/25 06:33:34 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/25 08:05:38 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	detect_ecode(int flag, t_shared_info *info)
 	exit_code = wait_pidlist(&info->plist);
 	if (exit_code)
 		return (exit_code);
-	if (!exit_code && flag == FAILUER)
+	if (flag == FAILUER)
 		return (1);
 	return (0);
 }

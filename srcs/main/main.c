@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/25 06:40:57 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/25 08:33:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	minishell_atty(t_shared_info *info)
 		setup_signal_prompt();
 		input = handle_prompt(info->envp);
 		if (!input)
-			builtin_exit(info);
+			builtin_exit(NULL, info);
 		if (!*input)
 			continue ;
 		if (export_exit_code(g_exit_code, flag, info) == FAILUER)
@@ -93,7 +93,7 @@ static int	minishell_pipe(t_shared_info *info)
 		flag = whole_proc(info);
 	if (export_exit_code(g_exit_code, flag, info) == FAILUER)
 		return (FAILUER);
-	builtin_exit(info);
+	builtin_exit(NULL, info);
 	return (flag);
 }
 

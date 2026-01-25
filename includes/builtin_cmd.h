@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 00:05:19 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/25 08:20:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ enum e_export
 int		cd(t_token *node, t_shared_info *info);
 int		echo(t_token *node);
 int		env(t_token *node, t_shared_info *info);
-void	builtin_exit(t_shared_info *info);
+void	builtin_exit(t_token *node, t_shared_info *info);
 int		export(t_token *cmd, t_shared_info *info);
 int		silent_export(t_token*cmd, t_shared_info *info, int loc, int type);
 int		pwd(t_shared_info *info);

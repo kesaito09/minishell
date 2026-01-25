@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 01:23:57 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/25 06:35:22 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/25 07:15:00 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int	cd(t_token *node, t_shared_info *info)
 	else if (!node)
 		key = "HOME";
 	if (key)
+	{
 		path = return_value(key, info->envp);
+		ft_putendl_fd(path, 1);
+	}
 	else
 		path = ft_strdup(node->token);
 	if (!path

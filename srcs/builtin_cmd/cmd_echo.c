@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:49:23 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/22 22:20:28 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/25 07:42:41 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static bool	option_n(char *_n);
 
 int	echo(t_token *node)
 {
-	if (!node->token)
+	if (!node || !node->token)
 		return (FAILUER);
 	if (option_n(node->token))
 		return (echo_opn(node->next));
