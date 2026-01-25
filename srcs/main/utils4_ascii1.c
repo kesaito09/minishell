@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 11:05:31 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/25 15:51:15 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/25 15:57:57 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void	print_mini(void)
 
 	if (i > 13)
 		return ;
-	str[0] = "       professional hunters'   ";
+	str[0] = " ☠ ☠ professional hunters'    ";
 	str[1] = "                               ";
 	str[2] = "                               ";
 	str[3] = " ███▄ ▄███▓ ██▓ ███▄    █  ██▓ ";
@@ -131,7 +131,7 @@ static void	print_shell(void)
 	str[10] = "  ░  ░   ░  ░░ ░   ░     ░ ░     ░ ░   ";
 	str[11] = "     ░   ░  ░  ░   ░  ░    ░  ░    ░  ░";
 	str[12] = "                                       ";
-	str[13] = "         by kesaitou natakaha          ";
+	str[13] = "         by kesaitou natakaha ☠ ☠      ";
 	ft_putstr_fd(str[i], 1);
 	i++;
 }
