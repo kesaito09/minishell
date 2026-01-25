@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 04:00:08 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/23 05:11:01 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/25 09:11:36 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_tree	*parse_pipeline_rec(t_token **cur,
 		return (left_node);
 	free_and_skip_one(cur);
 	if (!*cur)
-		return (syntax_error_msg("newline"), free_tree_rec(&left_node), NULL);
+		return (syntax_error_msg(NULL), free_tree_rec(&left_node), NULL);
 	pipe_node = tree_new(PIPE);
 	if (!pipe_node)
 		return (free_tree_rec(&left_node), NULL);

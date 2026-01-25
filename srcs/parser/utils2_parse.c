@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 19:13:11 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 12:36:41 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/25 09:24:38 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,14 @@ void	free_and_skip_one(t_token **cur)
 
 void	syntax_error_msg(char *err_token)
 {
-	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-	ft_putstr_fd(err_token, 2);
-	ft_putendl_fd("'", 2);
+	ft_putstr_fd("minishell: syntax error", 2);
+	if (!err_token)
+		ft_putendl_fd(": unexpected newline", 2);
+	else
+	{
+		ft_putstr_fd(" near unexpected token `", 2);
+		ft_putstr_fd(err_token, 2);
+		ft_putendl_fd("'", 2);
+	}
+	g_exit_code = 2;
 }

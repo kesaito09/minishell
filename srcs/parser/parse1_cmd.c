@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 09:23:11 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/25 09:10:57 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_tree	*parse_command(t_token **cur, t_shared_info *info)
 	t_tree	*branch;
 
 	if (!*cur)
-		return (syntax_error_msg("unexpected EOF"), NULL);
+		return (syntax_error_msg(NULL), NULL);
 	if (is_connection(*cur))
 		return (syntax_error_msg((*cur)->token), NULL);
 	if ((*cur) && ((*cur)->type == TOKEN_PARENTHESIS_RIGHT))
