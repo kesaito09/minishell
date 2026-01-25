@@ -6,19 +6,13 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 05:43:42 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/24 15:37:21 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/25 06:33:34 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/builtin_cmd.h"
 #include "../../includes/execution.h"
-
-void	error_exit(char *str, int errno)
-{
-	perror(str);
-	exit(errno);
-}
 
 int	detect_ecode(int flag, t_shared_info *info)
 {

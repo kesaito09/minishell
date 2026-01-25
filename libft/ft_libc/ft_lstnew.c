@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:57:12 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/16 05:53:09 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/25 06:35:22 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_list	*ft_lstnew(void *content)
 {
 	t_list	*new_elem;
 
-	new_elem = malloc(sizeof(t_list));
+	new_elem = ft_malloc(sizeof(t_list));
 	if (!new_elem)
 		return (NULL);
 	new_elem->content = content;

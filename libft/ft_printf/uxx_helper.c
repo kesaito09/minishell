@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   uxx_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 02:38:42 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/10/29 17:01:15 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/25 06:35:22 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_utoa_base(unsigned long long num, const char *base)
 
 	base_len = ft_strlen(base);
 	num_len = count_len(num, base_len);
-	num_arr = malloc(sizeof(char) * (num_len + 1));
+	num_arr = ft_malloc(sizeof(char) * (num_len + 1));
 	if (!num_arr)
 		return (NULL);
 	num_arr[num_len] = '\0';

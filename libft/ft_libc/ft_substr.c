@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:58:31 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/17 04:11:36 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/25 06:35:22 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*ft_strndup(const char *s, size_t n)
 	len = ft_strnlen(s, n);
 	if (len > SIZE_MAX - 1)
 		return (NULL);
-	arr = malloc(sizeof(char) * (len + 1));
+	arr = ft_malloc(sizeof(char) * (len + 1));
 	if (!arr)
 		return (NULL);
 	ft_memcpy(arr, s, len);

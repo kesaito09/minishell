@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/24 15:41:11 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/25 06:35:01 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,13 @@ static int	exec_search(char **envp, char **cmd)
 	{
 		full_path = ft_strjoin(path->token, cmd[0]);
 		if (!full_path)
-			error_exit("malloc", 1);
+			return (FAILUER);
 		execve(full_path, cmd, envp);
 		free(full_path);
 		path = path->next;
 	}
 	command_error_check(cmd[0], path);
 	execve(cmd[0], cmd, envp);
-	error_exit("command not found", 127);
 	return (FAILUER);
 }
 

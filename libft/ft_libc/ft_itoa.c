@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:56:52 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/17 04:10:06 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/25 06:35:22 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_itoa(int n)
 
 	num = n;
 	len = count_len(num);
-	arr = malloc(sizeof(char) * (len + 1));
+	arr = ft_malloc(sizeof(char) * (len + 1));
 	if (!arr)
 		return (NULL);
 	arr[len] = '\0';

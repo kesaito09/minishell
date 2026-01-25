@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_p.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 02:37:52 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/16 05:53:41 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/25 06:35:22 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*ft_uptoa_base(void *ptr, const char *base)
 	num = (uintptr_t)ptr;
 	base_len = ft_strlen(base);
 	num_len = count_len_ptr(num, base_len);
-	num_arr = malloc(sizeof(char) * (num_len + 1));
+	num_arr = ft_malloc(sizeof(char) * (num_len + 1));
 	if (!num_arr)
 		return (NULL);
 	num_arr[num_len] = '\0';

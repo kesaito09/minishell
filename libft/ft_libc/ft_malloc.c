@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_ft_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/28 21:51:54 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/25 06:35:22 by natakaha         ###   ########.fr       */
+/*   Created: 2026/01/25 06:31:19 by natakaha          #+#    #+#             */
+/*   Updated: 2026/01/25 06:33:58 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
+#include <stdio.h>
 
-void	*ft_calloc(size_t nmemb, size_t size)
+static void	error_exit(char *str, int errno);
+
+void	*ft_malloc(size_t size)
 {
-	size_t	total_size;
-	void	*arr;
+	void	*ptr;
 
-	if (size != 0 && nmemb > SIZE_MAX / size)
-		return (NULL);
-	total_size = nmemb * size;
-	arr = ft_malloc(total_size);
-	if (!arr)
-		return (NULL);
-	ft_memset(arr, 0, total_size);
-	return (arr);
+	ptr = malloc(size);
+	if (!ptr)
+		error_exit("malloc", 1);
+	return (ptr);
 }
 
-// int main(void)
-//{
-//     void *p = ft_calloc(2, 2);
-//     if (!p) return 1;
-//     free(p);
-//     return 0;
-// }
+static void	error_exit(char *str, int errno)
+{
+	perror(str);
+	exit(errno);
+}

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 01:23:57 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/24 15:39:48 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/25 06:35:22 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ static int	env_pwd(t_shared_info *info)
 //	char	**cmd;
 
 //	pwd1 = "pwd";
-//	cmd = (char **)malloc(sizeof(char *) * 2);
+//	cmd = (char **)ft_malloc(sizeof(char *) * 2);
 //	cmd[0] = "cd";
 //	cmd[1] = "../";
 //	pwd(&pwd1);

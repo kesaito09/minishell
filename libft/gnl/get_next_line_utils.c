@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 11:35:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/01 07:49:03 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/01/25 06:38:48 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
