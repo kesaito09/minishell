@@ -27,7 +27,12 @@
 extern int						g_exit_code;
 typedef struct s_shared_info	t_shared_info;
 
-/* main.c */
+
+
+/* ascii.c */
+void			print_logo(void);
+void			print_fire(int i);
+
 
 /* utils1_exit_code.c */
 int				detect_ecode(int flag, t_shared_info *info);

@@ -6,7 +6,7 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/23 09:16:53 by natakaha         ###   ########.fr        #
+#    Updated: 2026/01/25 14:51:58 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,8 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/main/utils1_exit_code.c\
 			srcs/main/utils2_signal.c\
 			srcs/main/utils3.c\
+			srcs/main/utils4_ascii1.c\
+			srcs/main/utils4_ascii2.c\
 			srcs/parser/parse1_cmd.c\
 			srcs/parser/parse2_pipe.c\
 			srcs/parser/parse3_logical.c\
@@ -64,7 +66,6 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/parser/utils3_is.c\
 			srcs/parser/utils4_arglist.c\
 			srcs/parser/utils5_heardoc.c\
-			srcs/tester/print_.c\
 
 MAND_OBJS = $(MAND_SRCS:.c=.o)
 
