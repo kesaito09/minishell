@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/17 20:38:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/25 08:59:11 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ int	word_len(char *input, char *charsplit, char *charignore)
 	int	tmp;
 
 	len = 0;
-	if (!input)
-		return (-1);
-	while (input[len])
+	while (input && input[len])
 	{
 		if ((ft_strchr(charsplit, input[len]))
 			|| (charignore && input[len] == '&' && input[len + 1] == '&'))
@@ -31,7 +29,8 @@ int	word_len(char *input, char *charsplit, char *charignore)
 			if (!tmp)
 			{
 				ft_putendl_fd("minishell: syntax error: unclosed quote", 2);
-				return (-1);
+				g_exit_code = 2;
+				return (FAILUER);
 			}
 			len += tmp + 1;
 		}
@@ -58,6 +57,8 @@ t_token	*tokenizer(char *input)
 			continue ;
 		else
 			n = logical_len(input);
+		if (n == FAILUER)
+			return (t_lstclear(&lst, free), NULL);
 		new = t_lstnew(ft_strndup(input, n), free);
 		if (!new)
 			return (t_lstclear(&lst, free), NULL);
