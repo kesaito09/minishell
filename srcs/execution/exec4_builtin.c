@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/25 08:20:31 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/26 11:58:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static int	exec_builtin_module(t_tree *branch,
 		|| manage_redirect(branch->file_list) == FAILUER
 		|| silent_export(branch->env_list, info, TOP, 0) == FAILUER
 		|| builtin_search(branch->arg_list, info) == FAILUER
+		|| silent_unset(branch->env_list, info) == FAILUER
 		|| env_underscore(branch->arg_list, info) == FAILUER)
 		flag = FAILUER;
 	reset_stdin_out(info);

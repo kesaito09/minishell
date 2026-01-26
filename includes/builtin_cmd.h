@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:04 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/25 08:20:08 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/26 11:54:48 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int		export(t_token *cmd, t_shared_info *info);
 int		silent_export(t_token*cmd, t_shared_info *info, int loc, int type);
 int		pwd(t_shared_info *info);
 int		unset(t_token *cmd, t_shared_info *info);
+int		silent_unset(t_token *node, t_shared_info *info);
 
 /* cmd_utils_env */
 int		is_valid_arg(char *arg);

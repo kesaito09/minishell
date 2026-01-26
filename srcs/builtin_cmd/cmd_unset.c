@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/25 07:09:21 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/26 11:54:16 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,26 @@ int	unset(t_token *cmd, t_shared_info *info)
 		}
 		unset_module(info, key->token);
 		key = key->next;
+	}
+	return (SUCCESS);
+}
+
+int	silent_unset(t_token *node, t_shared_info *info)
+{
+	char	*key;
+	int		len;
+
+	while (node)
+	{
+		len = strchr_len(node->token, '=');
+		if (len <= 1)
+			continue ;
+		key = ft_strndup(node->token, len);
+		if (!key)
+			return (FAILUER);
+		unset_module(info, key);
+		free(key);
+		node = node->next;
 	}
 	return (SUCCESS);
 }

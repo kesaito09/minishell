@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/25 15:52:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/01/26 12:01:33 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ static int	minishell_pipe(t_shared_info *info)
 	char	*input;
 	int		flag;
 
-	setup_signal_prompt();
 	input = get_line(STDIN_FILENO);
 	if (!input)
 		return (FAILUER);
