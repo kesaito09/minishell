@@ -19,7 +19,7 @@
 
 /*struct detail in execution.h*/
 
-extern int						g_exit_code;
+extern int						g_signal_code;
 typedef struct dirent			t_dirent;
 typedef struct s_tree			t_tree;
 typedef struct s_flist			t_flist;

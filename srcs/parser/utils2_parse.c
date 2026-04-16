@@ -62,5 +62,4 @@ void	syntax_error_msg(char *err_token)
 		ft_putstr_fd(err_token, 2);
 		ft_putendl_fd("'", 2);
 	}
-	g_exit_code = 2;
 }

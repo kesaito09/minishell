@@ -19,8 +19,9 @@ void	builtin_exit(t_token *node, t_shared_info *info)
 {
 	int	num;
 
+	
 	if (!node)
-		num = g_exit_code;
+		num = info->last_ecode;
 	else if (!ft_isnumber(node->token) || node->next)
 	{
 		invalid_ecode(node->token);

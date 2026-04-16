@@ -23,7 +23,7 @@
 # include <unistd.h>
 # include <sys/stat.h>
 
-extern int				g_exit_code;
+extern int				g_signal_code;
 
 typedef enum e_tree_type
 {
@@ -65,6 +65,7 @@ typedef struct s_shared_info
 	t_tree			*branch;
 	int				fd_stdin;
 	int				fd_stdout;
+	int				last_ecode;
 }					t_shared_info;
 
 /* exec1_operate */

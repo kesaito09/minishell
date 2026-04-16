@@ -24,7 +24,7 @@
 # include <sys/types.h>
 # include <signal.h>
 
-extern int						g_exit_code;
+extern int						g_signal_code;
 typedef struct s_shared_info	t_shared_info;
 
 

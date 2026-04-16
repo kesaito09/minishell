@@ -32,8 +32,8 @@ int	exec_cjunc(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 {
 	if (exec_manage(branch->left, info, fd_in, fd_out) == FAILUER)
 		return (FAILUER);
-	g_exit_code = wait_pidlist(&info->plist);
-	if (g_exit_code != 0)
+	info->last_ecode = wait_pidlist(&info->plist);
+	if (info->last_ecode != 0)
 		return (FAILUER);
 	if (exec_manage(branch->right, info, fd_in, fd_out) == FAILUER)
 		return (FAILUER);
@@ -44,8 +44,8 @@ int	exec_djunc(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 {
 	if (exec_manage(branch->left, info, fd_in, fd_out) == FAILUER)
 		return (FAILUER);
-	g_exit_code = wait_pidlist(&info->plist);
-	if (g_exit_code == 0)
+	info->last_ecode = wait_pidlist(&info->plist);
+	if (info->last_ecode == 0)
 		return (SUCCESS);
 	if (exec_manage(branch->right, info, fd_in, fd_out) == FAILUER)
 		return (FAILUER);

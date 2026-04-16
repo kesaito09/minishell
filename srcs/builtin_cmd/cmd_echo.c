@@ -21,7 +21,7 @@ static bool	option_n(char *_n);
 int	echo(t_token *node)
 {
 	if (!node || !node->token)
-		return (FAILUER);
+		return (SUCCESS);
 	if (option_n(node->token))
 		return (echo_opn(node->next));
 	else

@@ -21,7 +21,7 @@
 # define SPLIT "|<>() \t\n"
 # define QUOTE "\'\""
 
-extern int				g_exit_code;
+extern int				g_signal_code;
 
 typedef enum e_token_type
 {
@@ -31,8 +31,8 @@ typedef enum e_token_type
 	TOKEN_REDIRECT_OUT = '>',
 	TOKEN_HEREDOC = '<' + 128,
 	TOKEN_APPEND = '>' + 128,
-	TOKEN_CONJUNCTIONE = '|' + 128,
-	TOKEN_DISJUNCTIONE = '&' + 128,
+	TOKEN_CONJUNCTIONE = '&' + 128,
+	TOKEN_DISJUNCTIONE = '|' + 128,
 	TOKEN_PARENTHESIS_LEFT = '(',
 	TOKEN_PARENTHESIS_RIGHT = ')',
 	TOKEN_ENVP = '=',

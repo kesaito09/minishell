@@ -20,7 +20,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 
-extern int						g_exit_code;
+extern int						g_signal_code;
 
 typedef struct s_tree			t_tree;
 typedef struct s_shared_info	t_shared_info;

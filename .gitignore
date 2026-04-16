@@ -2,8 +2,9 @@
 minishell
 a.out
 .hear*
+.vscode
 .vscode/*
-
-
-
-
+.gitignore
+*.pdf
+tests
+tests/*

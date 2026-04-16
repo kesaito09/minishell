@@ -14,7 +14,7 @@
 #include "../../includes/execution.h"
 #include "../../includes/minishell.h"
 
-int	g_exit_code = 0;
+int	g_signal_code = 0;
 
 static int	minishell_atty(t_shared_info *info);
 static int	minishell_pipe(t_shared_info *info);
@@ -46,7 +46,10 @@ static int	whole_proc(t_shared_info *info)
 	setup_signal_exec();
 	flag = exec_manage(info->branch, info, 0, 1);
 	free_tree_rec(&info->branch);
-	g_exit_code = detect_ecode(flag, info);
+	info->last_ecode = detect_ecode(flag, info);
+	if (export_exit_code(info->last_ecode, flag, info) == FAILUER)
+			return (FAILUER);
+	info->pipe = false;
 	return (flag);
 }
 
@@ -65,15 +68,12 @@ static int	minishell_atty(t_shared_info *info)
 			builtin_exit(NULL, info);
 		if (!*input)
 			continue ;
-		if (export_exit_code(g_exit_code, flag, info) == FAILUER)
-			return (FAILUER);
 		info->input = script_split(input);
 		free(input);
 		if (!info->input)
 			return (FAILUER);
 		while (info->input)
 			whole_proc(info);
-		info->pipe = false;
 	}
 	return (flag);
 }
@@ -92,7 +92,7 @@ static int	minishell_pipe(t_shared_info *info)
 		return (FAILUER);
 	while (info->input)
 		flag = whole_proc(info);
-	if (export_exit_code(g_exit_code, flag, info) == FAILUER)
+	if (export_exit_code(info->last_ecode, flag, info) == FAILUER)
 		return (FAILUER);
 	builtin_exit(NULL, info);
 	return (flag);

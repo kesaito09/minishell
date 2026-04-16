@@ -29,7 +29,6 @@ int	word_len(char *input, char *charsplit, char *charignore)
 			if (!tmp)
 			{
 				ft_putendl_fd("minishell: syntax error: unclosed quote", 2);
-				g_exit_code = 2;
 				return (FAILUER);
 			}
 			len += tmp + 1;
