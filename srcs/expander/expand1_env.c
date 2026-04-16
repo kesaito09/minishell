@@ -53,10 +53,12 @@ static t_token	*quote_split(char **input)
 
 	state = STATE_GENERAL;
 	n = 0;
-	if (ft_strchr("'\"", **input))
+	if (ft_strchr("'\"$", **input))
 		state = **input;
 	if (state == STATE_GENERAL)
-		n = word_len(*input, "'\"", NULL);
+		n = word_len(*input, "'\"$", NULL);
+	else if (state == STATE_DOLLER)
+		n = word_len(*input + 1, "'\"$", NULL) + 1;
 	else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
 		n = strchr_len(*input + 1, state) + 2;
 	node = f_lstnew(ft_strndup(*input, n), what_type(state));

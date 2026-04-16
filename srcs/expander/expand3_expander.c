@@ -40,7 +40,6 @@ static int	expand_token(t_token *node, t_token *envp, t_list_type type)
 	flag = wildcard_expand(sub_token, node, type);
 	if (flag != false)
 		return (t_lstclear(&sub_token, free), flag);
-	flag = ifs_expand(sub_token, node, type);
 	if (flag != false)
 		return (t_lstclear(&sub_token, free), flag);
 	free(node->token);
