@@ -92,8 +92,6 @@ static int	minishell_pipe(t_shared_info *info)
 		return (FAILUER);
 	while (info->input)
 		flag = whole_proc(info);
-	if (export_exit_code(info->last_ecode, flag, info) == FAILUER)
-		return (FAILUER);
 	builtin_exit(NULL, info);
 	return (flag);
 }

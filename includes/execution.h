@@ -59,6 +59,7 @@ typedef struct s_shared_info
 {
 	t_token			*envp;
 	t_token			*input;
+	t_token			*heardoc;
 	bool			pipe;
 	int				fd[2];
 	t_pidlist		*plist;
@@ -95,7 +96,7 @@ int		wait_pidlist(t_pidlist **plist);
 void	pid_add_back(t_pidlist **plist, pid_t pid);
 
 /* utils2_redirect_error */
-int		is_directory(const char *path);
+bool	is_directory(const char *path);
 int		redirect_in_check(char *path);
 int		redirect_out_check(char *path);
 void	command_error_check(char *cmd, t_token *path_node);

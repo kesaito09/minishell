@@ -37,8 +37,7 @@ int	export_exit_code(int i, int flag, t_shared_info *info)
 	num = ft_itoa(i);
 	if (!num)
 		return (FAILUER);
-	env = ft_strjoin("?=", num);
-	free(num);
+	env = ft_strjoin("?=", num);	
 	if (!env)
 		return (FAILUER);
 	node = f_lstnew(env, 1);

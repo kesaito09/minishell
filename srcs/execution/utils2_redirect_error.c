@@ -12,7 +12,7 @@
 
 #include "../../includes/execution.h"
 
-int	is_directory(const char *path)
+bool	is_directory(const char *path)
 {
 	struct stat	statbuf;
 

@@ -53,12 +53,10 @@ static t_token	*quote_split(char **input)
 
 	state = STATE_GENERAL;
 	n = 0;
-	if (ft_strchr("'\"$", **input))
+	if (ft_strchr("'\"", **input))
 		state = **input;
 	if (state == STATE_GENERAL)
-		n = word_len(*input, "'\"$", NULL);
-	else if (state == STATE_DOLLER)
-		n = word_len(*input + 1, "'\"$", NULL) + 1;
+		n = word_len(*input, "'\"", NULL);
 	else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
 		n = strchr_len(*input + 1, state) + 2;
 	node = f_lstnew(ft_strndup(*input, n), what_type(state));
@@ -99,11 +97,9 @@ static t_token	*expand_dollar(t_token *input)
 static t_token	*replace_env(t_token *node, t_token *envp)
 {
 	t_token	*cur;
-	t_token	*tmp;
 	char	*trash;
 
 	cur = node;
-	tmp = NULL;
 	while (cur)
 	{
 		if (cur->token[0] == '$' && cur->token[1])
@@ -113,11 +109,6 @@ static t_token	*replace_env(t_token *node, t_token *envp)
 			free(trash);
 			if (!cur->token)
 				return (t_lstclear(&node, free), NULL);
-			if (cur->type == SUB_TOKEN_GENERAL)
-				tmp = ifs_insert(cur, envp);
-			if (!tmp)
-				return (node);
-			tmp = node;
 		}
 		cur = cur->next;
 	}

@@ -30,7 +30,7 @@ int	exec_built(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 	if (info->pipe && pid > 0)
 		return (pid_add_back(&(info->plist), pid),
 			env_underscore(branch->arg_list, info), SUCCESS);
-	if (info->pipe && pid == 0)
+	if (info->pipe && !pid)
 		setup_signal_child();
 	flag = exec_builtin_module(branch, info, fd_in, fd_out);
 	if (!pid && flag == FAILUER)
