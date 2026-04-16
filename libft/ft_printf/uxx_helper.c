@@ -29,7 +29,7 @@ char	*ft_utoa_base(unsigned long long num, const char *base)
 
 	base_len = ft_strlen(base);
 	num_len = count_len(num, base_len);
-	num_arr = ft_malloc(sizeof(char) * (num_len + 1));
+	num_arr = malloc(sizeof(char) * (num_len + 1));
 	if (!num_arr)
 		return (NULL);
 	num_arr[num_len] = '\0';

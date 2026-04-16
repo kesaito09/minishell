@@ -10,32 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../../libft/includes/libft.h"
 
 static size_t	count_words(const char *s, char c);
-static void		free_split(char **s);
 static char		*alloc_string(char const *str, char c);
+static void		free_split(char **s);
 
-char	**ft_split(char const *s, char c)
+char	**path_split(char const *s, char c)
 {
 	char	**arr;
 	int		i;
 
+	if (!s)
+		return (NULL);
 	arr = malloc(sizeof(char *) * (count_words(s, c) + 1));
 	if (!arr)
 		return (NULL);
 	i = 0;
 	while (*s)
 	{
-		if (*s != c)
-		{
-			arr[i] = alloc_string(s, c);
-			if (!arr[i++])
-				return (free_split(arr), NULL);
-			while (*s && *s != c)
-				s++;
-		}
-		else
+		arr[i] = alloc_string(s, c);
+		if (!arr[i++])
+			return (free_split(arr), NULL);
+		while (*s && *s != c)
+			s++;
+		if (*s && *s == c)
 			s++;
 	}
 	arr[i] = NULL;
@@ -44,25 +43,18 @@ char	**ft_split(char const *s, char c)
 
 static size_t	count_words(const char *s, char c)
 {
-	size_t	len;
-	size_t	in_word;
+	size_t	count;
 
-	len = 0;
-	in_word = 0;
-	while (*s && *s == c)
-		s++;
-	while (*s)
+	if (!s || !*s)
+		return (0);
+	count = 1;
+	while (s && *s)
 	{
-		if (*s != c && in_word == 0)
-		{
-			len++;
-			in_word = 1;
-		}
-		else if (*s == c)
-			in_word = 0;
+		if (*s == c)
+			count++;
 		s++;
 	}
-	return (len);
+	return (count);
 }
 
 static char	*alloc_string(char const *str, char c)
@@ -74,6 +66,8 @@ static char	*alloc_string(char const *str, char c)
 	len = 0;
 	while (str[len] && str[len] != c)
 		len++;
+	if (len == 0)
+		return (ft_strdup("./"));
 	arr = malloc(sizeof(char) * (len + 1));
 	if (!arr)
 		return (NULL);
@@ -106,15 +100,15 @@ static void	free_split(char **s)
 
 // int	main(void)
 // {
-// 	char	**arr;
 
-// 	arr = ft_split("auuuuhuihuhahuhuihuihahuhuhua   a    a", 'a');
+
+// 	arr = path_split(":auuuuhuihuhahuhuihuihahuhuhua::aa", ':');
 // 	// printf("%zu", count_words("a n n nassk nnn", ' '));
 // 	// printf("%p\n",ft_split("ABCDEF",'a')[1]);
 // 	for (int i = 0; arr[i]; i++)
 // 	{
 // 		printf("%s\n", arr[i]);
+// 		free(arr[i]);
 // 	}
-// 	free_split(arr);
-
+// 	free(arr);
 // }

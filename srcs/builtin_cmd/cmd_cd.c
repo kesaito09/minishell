@@ -117,7 +117,7 @@ static int	env_pwd(t_shared_info *info)
 //	char	**cmd;
 
 //	pwd1 = "pwd";
-//	cmd = (char **)ft_malloc(sizeof(char *) * 2);
+//	cmd = (char **)malloc(sizeof(char *) * 2);
 //	cmd[0] = "cd";
 //	cmd[1] = "../";
 //	pwd(&pwd1);

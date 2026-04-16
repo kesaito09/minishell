@@ -39,6 +39,7 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/execution/utils2_redirect_error.c\
 			srcs/execution/utils3_logical.c\
 			srcs/execution/utils4_find_path.c\
+			srcs/execution/utils5_path_split.c\
 			srcs/expander/expand1_env.c\
 			srcs/expander/expand2_wildcard.c\
 			srcs/expander/expand3_expander.c\

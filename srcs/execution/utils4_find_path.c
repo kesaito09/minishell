@@ -26,7 +26,7 @@ t_token	*complete_path(char **envp)
 	path_str = find_path(envp);
 	if (!path_str)
 		return (NULL);
-	path_lst = ft_split(path_str, ':');
+	path_lst = path_split(path_str, ':');
 	if (!path_lst)
 		return (NULL);
 	i = 0;

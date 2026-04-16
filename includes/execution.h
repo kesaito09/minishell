@@ -109,4 +109,7 @@ t_token	*discard_local_env(t_token *envp);
 /* utils4_find_path */
 t_token	*complete_path(char **envp);
 
+/* utils5_path_split */
+char	**path_split(char const *s, char c);
+
 #endif

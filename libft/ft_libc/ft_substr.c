@@ -43,7 +43,7 @@ static char	*ft_strndup(const char *s, size_t n)
 	len = ft_strnlen(s, n);
 	if (len > SIZE_MAX - 1)
 		return (NULL);
-	arr = ft_malloc(sizeof(char) * (len + 1));
+	arr = malloc(sizeof(char) * (len + 1));
 	if (!arr)
 		return (NULL);
 	ft_memcpy(arr, s, len);
