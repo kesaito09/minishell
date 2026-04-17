@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse1_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/25 09:10:57 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/18 07:23:35 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,19 @@ t_tree	*parse_command(t_token **cur, t_shared_info *info)
 
 	if (!*cur)
 		return (syntax_error_msg(NULL), NULL);
-	if (is_connection(*cur))
-		return (syntax_error_msg((*cur)->token), NULL);
-	if ((*cur) && ((*cur)->type == TOKEN_PARENTHESIS_RIGHT))
+	if (is_connection(*cur) || ((*cur)->type == TOKEN_PARENTHESIS_RIGHT))
 		return (syntax_error_msg((*cur)->token), NULL);
 	if ((*cur) && ((*cur)->type == TOKEN_PARENTHESIS_LEFT))
-		return (parse_subshell(cur, info));
-	branch = tree_new(COMMAND);
+		branch = parse_subshell(cur, info);
+	else
+		branch = tree_new(COMMAND);
 	if (!branch)
 		return (NULL);
 	while (*cur && is_command(*cur))
 	{
+		if (branch->b_type == SUBSHELL && !is_redirect(*cur))
+			return (syntax_error_msg((*cur)->token), free_tree_rec(&branch),
+				NULL);
 		if (manage_repoint(branch, cur, info) == FAILUER)
 			return (free_tree_rec(&branch), NULL);
 	}
@@ -82,21 +84,21 @@ static int	repoint_word_to_list(t_token **list, t_token **cur)
 
 static int	repoint_redirect_to_list(t_token **list, t_token **cur)
 {
-	t_token			*op;
-	t_token			*word;
-	t_token			*next;
+	t_token	*op;
+	t_token	*word;
+	t_token	*next;
 
 	if (!cur || !*cur || !(is_redirect(*cur)))
 		return (FAILUER);
 	op = (*cur);
-	word = op ->next;
+	word = op->next;
 	if (!word)
 		return (syntax_error_msg("newline"), FAILUER);
 	if (word->type != TOKEN_WORD)
 		return (syntax_error_msg(word->token), FAILUER);
-	word ->type = op ->type;
-	next = word ->next;
-	word ->next = NULL;
+	word->type = op->type;
+	next = word->next;
+	word->next = NULL;
 	t_lstadd_back(list, word);
 	t_lstdelone(op, free);
 	(*cur) = next;
@@ -118,14 +120,14 @@ static t_tree	*parse_subshell(t_token **cur, t_shared_info *info)
 	if (!subshell_node)
 		return (NULL);
 	subshell_node->left = parse_manage(cur, info);
-	if (!subshell_node ->left)
+	if (!subshell_node->left)
 		return (free_tree_rec(&subshell_node), NULL);
 	if (!*cur)
-		return (syntax_error_msg("newline"),
-			free_tree_rec(&subshell_node), NULL);
+		return (syntax_error_msg("newline"), free_tree_rec(&subshell_node),
+			NULL);
 	if ((*cur)->type != TOKEN_PARENTHESIS_RIGHT)
-		return (syntax_error_msg((*cur)->token),
-			free_tree_rec(&subshell_node), NULL);
+		return (syntax_error_msg((*cur)->token), free_tree_rec(&subshell_node),
+			NULL);
 	free_and_skip_one(cur);
 	return (subshell_node);
 }

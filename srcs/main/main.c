@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/26 12:01:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/18 07:21:38 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/main.h"
 #include "../../includes/execution.h"
+#include "../../includes/main.h"
 #include "../../includes/minishell.h"
 
-int	g_signal_code = 0;
+int			g_signal_code = 0;
 
 static int	minishell_atty(t_shared_info *info);
 static int	minishell_pipe(t_shared_info *info);
@@ -42,13 +42,17 @@ static int	whole_proc(t_shared_info *info)
 
 	info->branch = parser(info);
 	if (!info->branch)
+	{
+		info->last_ecode = 2;
+		export_exit_code(2, FAILUER, info);
 		return (FAILUER);
+	}
 	setup_signal_exec();
 	flag = exec_manage(info->branch, info, 0, 1);
 	free_tree_rec(&info->branch);
 	info->last_ecode = detect_ecode(flag, info);
 	if (export_exit_code(info->last_ecode, flag, info) == FAILUER)
-			return (FAILUER);
+		return (FAILUER);
 	info->pipe = false;
 	return (flag);
 }
@@ -96,10 +100,9 @@ static int	minishell_pipe(t_shared_info *info)
 	return (flag);
 }
 
-
 // /*tester*/
 
-//int main(int argc, char **argv, char **envp)
+// int main(int argc, char **argv, char **envp)
 //{
 //	t_tree	*branch;
 //	t_shared_info	info;
@@ -115,7 +118,7 @@ static int	minishell_pipe(t_shared_info *info)
 //	free_pid(info.plist);
 //}
 
-//int	main(void)
+// int	main(void)
 //{
 //	while(1);
-//}
+// }

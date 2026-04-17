@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse4_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:39:10 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/25 09:18:41 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/17 19:54:13 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

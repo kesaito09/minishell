@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils1_exit_code.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 05:43:42 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/25 08:05:38 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/18 07:22:51 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
 #include "../../includes/builtin_cmd.h"
 #include "../../includes/execution.h"
+#include "../../includes/minishell.h"
 
 int	detect_ecode(int flag, t_shared_info *info)
 {
@@ -37,7 +37,7 @@ int	export_exit_code(int i, int flag, t_shared_info *info)
 	num = ft_itoa(i);
 	if (!num)
 		return (FAILUER);
-	env = ft_strjoin("?=", num);	
+	env = ft_strjoin("?=", num);
 	if (!env)
 		return (FAILUER);
 	node = f_lstnew(env, 1);
