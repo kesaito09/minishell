@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2_logical.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 08:54:42 by naoki             #+#    #+#             */
-/*   Updated: 2026/01/23 16:27:26 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/18 07:51:45 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ int	exec_sshell(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 		return (perror("fork"), FAILUER);
 	if (pid > 0)
 		return (pid_add_back(&(info->plist), pid), SUCCESS);
+	if (branch->file_list)
+	{
+		expander(branch->file_list, info, FILE_LIST);
+		manage_redirect(branch->file_list);
+	}
 	exec_manage(branch->left, info, fd_in, fd_out);
 	status = wait_pidlist(&info->plist);
 	exit(status);
