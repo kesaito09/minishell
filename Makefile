@@ -6,7 +6,7 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/01/25 14:51:58 by natakaha         ###   ########.fr        #
+#    Updated: 2026/04/18 22:43:54 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,20 +40,19 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/execution/utils3_logical.c\
 			srcs/execution/utils4_find_path.c\
 			srcs/execution/utils5_path_split.c\
+			srcs/execution/utils6_exec_module.c\
 			srcs/expander/expand1_env.c\
 			srcs/expander/expand2_wildcard.c\
 			srcs/expander/expand3_expander.c\
-			srcs/expander/expand4_ifs.c\
 			srcs/expander/utils1.c\
 			srcs/expander/utils2_search_file.c\
-			srcs/expander/utils3_ifs.c\
 			srcs/lexer/lexer1_tokenize.c\
 			srcs/lexer/utils1_tlist1.c\
 			srcs/lexer/utils1_tlist2.c\
 			srcs/lexer/utils1_tlist3.c\
 			srcs/lexer/utils4_judge.c\
 			srcs/main/main.c\
-			srcs/main/utils1_exit_code.c\
+			srcs/main/utils1_env.c\
 			srcs/main/utils2_signal.c\
 			srcs/main/utils3.c\
 			srcs/main/utils4_ascii1.c\
