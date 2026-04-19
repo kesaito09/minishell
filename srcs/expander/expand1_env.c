@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/23 11:12:30 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/19 16:38:00 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_token	*quote_split(char **input);
 static t_token	*expand_dollar(t_token *input);
 static t_token	*replace_env(t_token *node, t_token *envp);
 
-t_token	*get_sub_token(char *input, t_token *envp, t_token_type flag)
+t_token	*env_expand(char *input, t_token *envp, t_token_type flag)
 {
 	t_token	*lst;
 	t_token	*new;
@@ -123,6 +123,6 @@ static t_token	*replace_env(t_token *node, t_token *envp)
 //	if (ac == 1)
 //		return (1);
 //	info = collect_info(envp);
-//	node = get_sub_token(av[1], info.envp);
+//	node = env_expand(av[1], info.envp);
 //	print_token(node);
 //}

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:46:14 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/22 22:48:20 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/17 22:09:53 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,14 @@ typedef enum e_ifs_operate
 }	t_ifs_operate;
 
 /* expand1_env */
-t_token		*get_sub_token(char *input, t_token *envp, t_token_type flag);
+t_token		*env_expand(char *input, t_token *envp, t_token_type flag);
 
 /* expand2_wildcard */
-int			wildcard_expand(t_token *sub, t_token *node, t_list_type type);
+t_token		*return_valid_card(t_token *sub);
 
 /* expand3_expander */
 int			expander(t_token *node, t_shared_info *info, t_list_type l_type);
+int			manage_expander(t_tree *branch, t_shared_info *info);
 
 /* expand4_ifs */
 int			ifs_expand(t_token *sub, t_token *node, t_list_type type);

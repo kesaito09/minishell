@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 03:49:39 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/21 05:41:17 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/18 22:17:46 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,10 @@
 #include "../../includes/expander.h"
 #include "../../includes/parser.h"
 
-static t_token	*return_valid_card(t_token *sub);
 static bool		check_hidden_file(t_token *sub);
-static bool		has_star(t_token *sub);
+static bool		file_name_validate(char *d_name, t_token *sub);
 
-int	wildcard_expand(t_token *sub, t_token *node, t_list_type type)
-{
-	t_token	*tmp;
-	int		n;
-
-	if (!has_star(sub) || type == ENV_LIST)
-		return (false);
-	tmp = return_valid_card(sub);
-	if (!tmp)
-		return (false);
-	n = t_lstsize(tmp);
-	if (type == FILE_LIST && n > 1)
-		return (ft_putendl_fd("ambiguous redirect", 2), free(tmp), FAILUER);
-	t_lstinsert(node, tmp);
-	return (n);
-}
-
-static t_token	*return_valid_card(t_token *sub)
+t_token	*return_valid_card(t_token *sub)
 {
 	DIR			*dp;
 	t_token		*token_list;
@@ -51,32 +33,30 @@ static t_token	*return_valid_card(t_token *sub)
 		dent = readdir(dp);
 		if (!dent)
 			break ;
-		if (!ft_strncmp(dent->d_name, "..", 2) || (!check_hidden_file(sub)
-				&& !ft_strncmp(dent->d_name, ".", 1))
-			|| !search_file(sub, dent->d_name))
+		if (!file_name_validate(dent->d_name, sub))
 			continue ;
 		token = t_lstnew(ft_strdup(dent->d_name), free);
 		if (!token)
-			return (NULL);
+			return (closedir(dp), t_lstclear(&token_list, free), NULL);
 		t_lstadd_sort(&token_list, token);
 	}
 	return (closedir(dp), token_list);
 }
 
-static bool	has_star(t_token *sub)
+static bool	file_name_validate(char *d_name, t_token *sub)
 {
-	while (sub)
-	{
-		if (ft_strchr(sub->token, '*') && sub->type == SUB_TOKEN_GENERAL)
-			return (true);
-		sub = sub->next;
-	}
-	return (false);
+	if (!ft_strcmp(d_name, ".") || !ft_strcmp(d_name, ".."))
+		return (false);
+	if (!check_hidden_file(sub) && d_name[0] == '.')
+		return (false);
+	if (!search_file(sub, d_name))
+		return (false);
+	return (true);
 }
 
 static bool	check_hidden_file(t_token *sub)
 {
-	if (!sub || !sub->token)
+	if (!sub || !sub->token || sub->token[0] != '.')
 		return (false);
-	return (sub->token[0] == '.');
+	return (true);
 }
