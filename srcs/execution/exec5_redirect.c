@@ -55,6 +55,7 @@ static int	redirect_in_open_dup2(t_token *flist)
 		return (FAILUER);
 	if (dup2(fd_in, 0) == FAILUER)
 		return (FAILUER);
+	close(fd_in);
 	if (flist->type != TOKEN_HEREDOC)
 		return (SUCCESS);
 	if (unlink(flist->token) == FAILUER)
@@ -76,5 +77,6 @@ static int	redirect_out_open_dup2(t_token *flist)
 		return (FAILUER);
 	if (dup2(fd_out, 1) == FAILUER)
 		return (FAILUER);
+	close(fd_out);
 	return (SUCCESS);
 }

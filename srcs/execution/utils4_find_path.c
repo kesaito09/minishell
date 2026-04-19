@@ -6,27 +6,20 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 06:33:13 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/18 09:55:44 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/19 17:40:03 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 
-static char	*find_path(char **envp);
-
-t_token	*complete_path(char **envp)
+t_token	*complete_path(char *path)
 {
-	char	*path_str;
 	char	**path_lst;
 	char	*tmp;
 	int		i;
 
-	if (!envp || !*envp)
-		return (NULL);
-	path_str = find_path(envp);
-	if (!path_str)
-		return (NULL);
-	path_lst = path_split(path_str, ':');
+	
+	path_lst = path_split(path, ':');
 	if (!path_lst)
 		return (NULL);
 	i = 0;
@@ -42,7 +35,7 @@ t_token	*complete_path(char **envp)
 	return (argv_token(path_lst));
 }
 
-static char	*find_path(char **envp)
+char	*find_path(char **envp)
 {
 	int	i;
 

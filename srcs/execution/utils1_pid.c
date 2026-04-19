@@ -41,14 +41,16 @@ int	wait_pidlist(t_pidlist **plist)
 	return (127);
 }
 
-void	pid_add_back(t_pidlist **plist, pid_t pid)
+int	pid_add_back(t_pidlist **plist, pid_t pid)
 {
 	t_pidlist	*tmp;
 
 	if (!*plist)
 	{
 		*plist = pid_new(pid);
-		return ;
+		if (!*plist)
+			return (FAILUER);
+		return (SUCCESS);
 	}
 	tmp = *plist;
 	while (tmp->next)
@@ -57,8 +59,10 @@ void	pid_add_back(t_pidlist **plist, pid_t pid)
 	if (!tmp->next)
 	{
 		p_lstclear(*plist);
-		plist = NULL;
+		*plist = NULL;
+		return (FAILUER);
 	}
+	return (SUCCESS);
 }
 
 static t_pidlist	*pid_new(pid_t pid)

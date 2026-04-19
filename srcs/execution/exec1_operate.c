@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 12:26:37 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/24 14:56:23 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/17 22:05:18 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	exec_manage(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 	if (branch->b_type == ENVP)
 		return (silent_export(branch->env_list, info, TOP, 1));
 	if (branch->b_type == COMMAND)
-		return (exec_cmd(branch, info, fd_in, fd_out));
+		return (exec_fork(branch, info, fd_in, fd_out));
 	if (branch->b_type == BUILTIN)
 		return (exec_built(branch, info, fd_in, fd_out));
 	return (SUCCESS);
