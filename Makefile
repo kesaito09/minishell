@@ -41,6 +41,7 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/execution/utils4_find_path.c\
 			srcs/execution/utils5_path_split.c\
 			srcs/execution/utils6_exec_module.c\
+			srcs/execution/utils7_builtin_module.c\
 			srcs/expander/expand1_env.c\
 			srcs/expander/expand2_wildcard.c\
 			srcs/expander/expand3_expander.c\

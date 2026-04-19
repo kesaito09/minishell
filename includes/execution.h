@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/18 22:14:18 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/19 18:40:15 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int		exec_fork(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 int		env_underscore(t_token *node, t_shared_info *info);
 
 /* exec4_builtin */
-int		exec_built(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
+int		builtin_fork(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 
 /* exec5_env */
 int		exec_envp(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
@@ -116,7 +116,7 @@ t_token	*discard_local_env(t_token *envp);
 
 
 /* utils4_find_path */
-t_token	*complete_path(char *path);
+t_token	*complete_path(t_token *envp);
 char	*find_path(char **envp);
 
 
@@ -128,5 +128,9 @@ int		manage_file_descriptor(int fd_in, int fd_out ,t_shared_info *info, t_tree *
 int		manage_expander(t_tree *branch, t_shared_info *info);
 int		manage_exporter(t_tree *branch, t_shared_info *info);
 char	**manage_arg_load(t_shared_info *info, t_token *node);
+
+/* utils7_builtin_module.c*/
+int	builtin_file_descriptor(int fd_in, int fd_out ,t_shared_info *info, t_tree *branch);
+
 
 #endif

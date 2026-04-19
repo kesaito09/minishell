@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/19 17:31:45 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/19 18:10:28 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	exec_search(t_token *path, char **envp, char **cmd, t_shared_info *in
 static void	exec_child_process(t_tree *branch,
 				t_shared_info *info, int fd_in, int fd_out);
 static int	validate_execute(int cache, char *full_path, char **cmd, char **envp);
-static void	exec_search_path(char **envp, char **cmd, t_shared_info *info);
+static void	exec_search_path(t_token *env_node, char **cmd, t_shared_info *info);
 
 
 int	exec_fork(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
@@ -45,32 +45,28 @@ static void	exec_child_process(t_tree *branch,
 	t_shared_info *info, int fd_in, int fd_out)
 {
 	char	**cmd;
-	char	**env;
 
 	setup_signal_child();
-	manage_file_descriptor(fd_in, fd_out, info, branch);
 	manage_expander(branch, info);
 	manage_exporter(branch, info);
+	manage_file_descriptor(fd_in, fd_out, info, branch);
 	info->envp = discard_local_env(info->envp);
-	env = manage_arg_load(info, info->envp);
 	cmd = manage_arg_load(info, branch->arg_list);
-	exec_search_path(env, cmd, info);
+	exec_search_path(info->envp, cmd, info);
 }
 
-static void	exec_search_path(char **envp, char **cmd, t_shared_info *info)
+static void	exec_search_path(t_token *env_node, char **cmd, t_shared_info *info)
 {
-	char	*path_str;
 	t_token	*path;
+	char	**envp;
 
-	path_str = find_path(envp);
-	if (!path_str)	 
-		path_str = "./";
-	path = complete_path(path_str);
+	path = complete_path(env_node);
 	if (!path)
 	{
 		info->last_ecode = 2;
 		builtin_exit(NULL, info);
 	}
+	envp = manage_arg_load(info, env_node);
 	exec_search(path, envp, cmd, info);
 	info->last_ecode = 2;
 	builtin_exit(NULL, info);

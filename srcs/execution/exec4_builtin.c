@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/26 11:58:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/19 19:18:46 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "../../includes/execution.h"
 
 static int	builtin_search(t_token *node, t_shared_info *info);
-static int	exec_builtin_module(t_tree *branch,
+static int	builtin_module(t_tree *branch,
 				t_shared_info *info, int fd_in, int fd_out);
 
-int	exec_built(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
+int	builtin_fork(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 {
 	pid_t	pid;
 	int		flag;
@@ -28,36 +28,43 @@ int	exec_built(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 	if (pid < 0)
 		return (perror("fork"), FAILUER);
 	if (info->pipe && pid > 0)
-		return (pid_add_back(&(info->plist), pid),
-			env_underscore(branch->arg_list, info), SUCCESS);
-	if (info->pipe && !pid)
+	{
+		if (pid_add_back(&(info->plist), pid) == SUCCESS
+		&& env_underscore(branch->arg_list, info) == SUCCESS)
+			return (SUCCESS);
+		return (FAILUER);
+	}
+	if (info->pipe && pid == 0)
 		setup_signal_child();
-	flag = exec_builtin_module(branch, info, fd_in, fd_out);
-	if (!pid && flag == FAILUER)
+	flag = builtin_module(branch, info, fd_in, fd_out);
+	if (pid == 0 && flag == FAILUER)
 		exit(EXIT_FAILURE);
-	else if (!pid)
+	else if (pid == 0)
 		exit(EXIT_SUCCESS);
 	return (flag);
 }
 
-static int	exec_builtin_module(t_tree *branch,
+static int	builtin_module(t_tree *branch,
 	t_shared_info *info, int fd_in, int fd_out)
 {
 	int	flag;
-
+	
 	flag = SUCCESS;
-	close_unused_pipe(fd_in, fd_out, info->fd);
-	if (dup2_stdin_out(fd_in, fd_out) == FAILUER
-		|| expander(branch->arg_list, info, ARG_LIST) == FAILUER
-		|| expander(branch->file_list, info, FILE_LIST) == FAILUER
-		|| expander(branch->env_list, info, ENV_LIST) == FAILUER
-		|| manage_redirect(branch->file_list) == FAILUER
-		|| silent_export(branch->env_list, info, TOP, 0) == FAILUER
-		|| builtin_search(branch->arg_list, info) == FAILUER
-		|| silent_unset(branch->env_list, info) == FAILUER
-		|| env_underscore(branch->arg_list, info) == FAILUER)
+	manage_expander(branch, info);
+	manage_exporter(branch, info);
+	if (builtin_file_descriptor(fd_in, fd_out, info, branch) == FAILUER)
 		flag = FAILUER;
-	reset_stdin_out(info);
+	if (builtin_search(branch->arg_list, info) == FAILUER)
+		flag = FAILUER;
+	if (reset_stdin_out(info) == FAILUER)
+		flag = FAILUER;
+	if (silent_unset(branch->env_list, info) == FAILUER)
+		flag = FAILUER;
+	if (env_underscore(branch->arg_list, info) == FAILUER)
+	{
+		info->last_ecode = 2;
+		builtin_exit(NULL, info);
+	}
 	return (flag);
 }
 
