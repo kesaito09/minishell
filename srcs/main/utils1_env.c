@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 05:43:42 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/19 16:28:24 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/19 19:20:21 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ int	env_underscore(t_token *node, t_shared_info *info)
 	char	*str;
 	t_token	*tmp;
 
-	if (!node)
-		return (FAILUER);
 	node = t_lstlast(node);
 	str = ft_strjoin("_=", node->token);
 	if (!str)
