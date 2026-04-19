@@ -6,46 +6,43 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 11:27:48 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/19 16:22:10 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
 
-static char	*heardoc_name(void);
-static int	write_heardoc(char *eof, int fd, t_shared_info *info, t_state stat);
+static char	*determine_heardoc_name(void);
+static int	heardoc_write_one_line(char *delimiter, int fd, t_shared_info *info);
 static void	error_message(void);
+static int	heardoc_write_context(char *delimiter, int fd, t_shared_info *info);
 
-char	*heardoc(char *eof, t_shared_info *info)
+char	*heardoc(char *delimiter, t_shared_info *info)
 {
-	char	*file;
 	int		fd;
-	int		flag;
+	char	*file;
 	t_state	state;
+	t_token	*new;
 
-	file = heardoc_name();
+	file = determine_heardoc_name();
 	if (!file)
 		return (NULL);
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
-		return (NULL);
+		return (free(file), NULL);
 	state = STATE_GENERAL;
-	if (ft_strchr(eof, '\'') || ft_strchr(eof, '"'))
+	if (ft_strchr(delimiter, '\'') || ft_strchr(delimiter, '"'))
 		state = STATE_DQUOTE;
-	eof = expand_join(eof, info->envp, TOKEN_HEREDOC);
-	while (true)
-	{
-		flag = write_heardoc(eof, fd, info, state);
-		if (flag == FAILUER)
-			return (close(fd), free(file), free(eof), NULL);
-		if (flag == END)
-			break ;
-	}
-	close(fd);
-	return (free(eof), file);
+	delimiter = expand_join(delimiter, info->envp, TOKEN_HEREDOC);	
+	heardoc_write_context(delimiter, fd, info);
+	new = f_lstnew(file, what_type(state));
+	if (!new)
+		return (free(file), NULL);
+	t_lstadd_back(&(info->heardoc), new);
+	return (free(delimiter), file);
 }
 
-static char	*heardoc_name(void)
+static char	*determine_heardoc_name(void)
 {
 	char	*file;
 	char	*def;
@@ -72,7 +69,23 @@ static char	*heardoc_name(void)
 	return (free(def), file);
 }
 
-static int	write_heardoc(char *eof, int fd, t_shared_info *info, t_state state)
+static int	heardoc_write_context(char *delimiter, int fd, t_shared_info *info)
+{
+	int	flag;
+	
+	while (true)
+	{
+		flag = heardoc_write_one_line(delimiter, fd, info);
+		if (flag == FAILUER)
+			return (close(fd), free(delimiter), flag);
+		else if (flag == END)
+			return (close(fd), free(delimiter), flag);
+		else
+			continue ;
+	}
+}
+
+static int	heardoc_write_one_line(char *delimiter, int fd, t_shared_info *info)
 {
 	char	*line;
 
@@ -85,10 +98,8 @@ static int	write_heardoc(char *eof, int fd, t_shared_info *info, t_state state)
 		line = readline(">");
 	if (!line)
 		return (error_message(), END);
-	if (!ft_strcmp(eof, line))
+	if (!ft_strcmp(delimiter, line))
 		return (free(line), END);
-	if (state == STATE_GENERAL)
-		line = expand_join(line, info->envp, TOKEN_WORD);
 	if (!line)
 		return (FAILUER);
 	ft_putendl_fd(line, fd);
@@ -100,5 +111,18 @@ static void	error_message(void)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd("warning: ", 2);
 	ft_putstr_fd("hear-document deliminated ", 2);
-	ft_putendl_fd("by end-of-file(wanted 'EOF')", 2);
+	ft_putendl_fd("by end-of-file(wanted 'delimiter')", 2);
+}
+
+void	heardoc_clear(t_token **heardoc)
+{
+	t_token	*tmp;
+	
+	tmp = *heardoc;
+	while (tmp)
+	{
+		unlink(tmp->token);
+		tmp = tmp->next;
+	}
+	t_lstclear(heardoc, free);
 }

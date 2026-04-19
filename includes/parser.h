@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/23 05:15:00 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/18 21:37:33 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ t_token		*argv_token(char **argv);
 
 /*utils5_heardoc*/
 char		*heardoc(char *eof, t_shared_info *info);
+void		heardoc_clear(t_token **heardoc);
 
 #endif
