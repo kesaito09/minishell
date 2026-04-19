@@ -6,13 +6,13 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 09:53:27 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/25 10:22:55 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/19 16:20:50 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	env_shlvl(t_shared_info *info);
+int	env_shlvl(t_shared_info *info);
 
 t_shared_info	collect_info(char **envp)
 {
@@ -25,35 +25,9 @@ t_shared_info	collect_info(char **envp)
 	info.fd_stdout = dup(1);
 	info.fd_stdin = dup(0);
 	if (env_shlvl(&info) == FAILUER
-		|| export_exit_code(0, SUCCESS, &info) == FAILUER)
+		|| env_exit_code(0, SUCCESS, &info) == FAILUER)
 		t_lstclear(&info.envp, free);
 	return (info);
-}
-
-static int	env_shlvl(t_shared_info *info)
-{
-	char	*shnum;
-	int		n;
-	char	*num;
-	char	*shlvl;
-	t_token	*node;
-
-	shnum = return_value("SHLVL", info->envp);
-	if (!shnum || !*shnum || !ft_isnumber(shnum))
-		shlvl = ft_strjoin("SHLVL=", "1");
-	else
-	{
-		n = ft_atoi(shnum);
-		num = ft_itoa(n + 1);
-		if (!num)
-			return (FAILUER);
-		shlvl = ft_strjoin("SHLVL=", num);
-		free(num);
-	}
-	node = t_lstnew(shlvl, free);
-	if (!node || silent_export(node, info, TOP, 0) == FAILUER)
-		return (free(shnum), t_lstclear(&node, free), FAILUER);
-	return (free(shnum), t_lstclear(&node, free), SUCCESS);
 }
 
 char	*handle_prompt(t_token *envp)

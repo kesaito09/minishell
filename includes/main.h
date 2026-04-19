@@ -34,9 +34,11 @@ void			print_logo(void);
 void			print_fire(int i);
 
 
-/* utils1_exit_code.c */
+/* utils1_env.c */  
 int				detect_ecode(int flag, t_shared_info *info);
-int				export_exit_code(int i, int flag, t_shared_info *info);
+int				env_exit_code(int i, int flag, t_shared_info *info);
+int				env_shlvl(t_shared_info *info);
+int				env_underscore(t_token *node, t_shared_info *info);
 
 /* utils2_signal.c */
 void			setup_signal_prompt(void);
@@ -48,6 +50,7 @@ t_shared_info	collect_info(char **envp);
 char			*handle_prompt(t_token *envp);
 char			*get_line(int fd);
 t_token			*script_split(char *input);
+int				env_shlvl(t_shared_info *info);
 
 
 #endif

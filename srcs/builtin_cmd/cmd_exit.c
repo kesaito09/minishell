@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 08:08:01 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/25 08:45:36 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/17 22:54:23 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	builtin_exit(t_token *node, t_shared_info *info)
 		num = ft_atoi(node->token) % 256;
 	free_tree_rec(&info->branch);
 	wait_pidlist(&info->plist);
+	heardoc_clear(&(info->heardoc));
 	t_lstclear(&info->envp, free);
 	rl_clear_history();
 	exit(num);

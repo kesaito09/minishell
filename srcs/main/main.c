@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/18 07:21:38 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/04/19 00:12:07 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ static int	whole_proc(t_shared_info *info)
 	if (!info->branch)
 	{
 		info->last_ecode = 2;
-		export_exit_code(2, FAILUER, info);
+		env_exit_code(2, FAILUER, info);
 		return (FAILUER);
 	}
 	setup_signal_exec();
 	flag = exec_manage(info->branch, info, 0, 1);
 	free_tree_rec(&info->branch);
 	info->last_ecode = detect_ecode(flag, info);
-	if (export_exit_code(info->last_ecode, flag, info) == FAILUER)
+	if (env_exit_code(info->last_ecode, flag, info) == FAILUER)
 		return (FAILUER);
 	info->pipe = false;
 	return (flag);
@@ -75,8 +75,11 @@ static int	minishell_atty(t_shared_info *info)
 		info->input = script_split(input);
 		free(input);
 		if (!info->input)
-			return (FAILUER);
-		while (info->input)
+		{
+			info->last_ecode = 2;
+			builtin_exit(NULL, info);
+		}
+		while (info->input && info->input->token)
 			whole_proc(info);
 	}
 	return (flag);
@@ -89,12 +92,15 @@ static int	minishell_pipe(t_shared_info *info)
 
 	input = get_line(STDIN_FILENO);
 	if (!input)
-		return (FAILUER);
+		builtin_exit(NULL, info);
 	info->input = script_split(input);
 	free(input);
 	if (!info->input)
-		return (FAILUER);
-	while (info->input)
+	{
+		info->last_ecode = 2;
+		builtin_exit(NULL, info);
+	}
+	while (info->input && info->input->token)
 		flag = whole_proc(info);
 	builtin_exit(NULL, info);
 	return (flag);
