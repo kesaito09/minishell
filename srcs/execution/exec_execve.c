@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/30 03:22:52 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static void	exec_child_process(t_tree *branch,
 	manage_file_descriptor(fd_in, fd_out, info, branch);
 	info->envp = discard_local_env(info->envp);
 	cmd = manage_arg_load(info, branch->arg_list);
+	if (!cmd)
+		builtin_exit(NULL, info);
 	exec_search_path(info->envp, cmd, info);
 }
 

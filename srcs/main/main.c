@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/19 22:00:00 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/30 03:42:26 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,13 @@ int main(int argc, char **argv, char **envp) {
   (void)argv;
 }
 
-static int whole_proc(t_shared_info *info) {
+static int whole_proc(t_shared_info *info) 
+{
   int flag;
 
   info->branch = parser(info);
+  if (!info->branch)
+    return (SUCCESS);
   setup_signal_exec();
   flag = exec_manage(info->branch, info, 0, 1);
   free_tree_rec(&info->branch);
@@ -57,10 +60,6 @@ static int minishell_atty(t_shared_info *info) {
     input = handle_prompt(info->envp);
     if (!input)
       builtin_exit(NULL, info);
-    if (!*input) {
-      env_exit_code(0, SUCCESS, info);
-      continue;
-    }
     info->input = script_split(input);
     free(input);
     if (!info->input)

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 05:43:42 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/30 03:22:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int	env_underscore(t_token *node, t_shared_info *info)
 	char	*str;
 	t_token	*tmp;
 
+	if (!node)
+		return (SUCCESS);
 	node = t_lstlast(node);
 	str = ft_strjoin("_=", node->token);
 	if (!str)

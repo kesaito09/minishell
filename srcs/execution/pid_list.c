@@ -14,6 +14,7 @@
 
 static void			p_lstclear(t_pidlist *plist);
 static t_pidlist	*pid_new(pid_t pid);
+int					pid_fix(int status);
 
 int	wait_pidlist(t_pidlist **plist)
 {
@@ -31,6 +32,11 @@ int	wait_pidlist(t_pidlist **plist)
 	}
 	p_lstclear(tmp);
 	*plist = NULL;
+	return (pid_fix(status));
+}
+
+int	pid_fix(int status)
+{
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heardoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/29 21:59:31 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/30 03:15:12 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ char *heardoc(char *delimiter, t_shared_info *info) {
   if (ft_strchr(delimiter, '\'') || ft_strchr(delimiter, '"'))
     state = STATE_DQUOTE;
   delimiter = expand_join(delimiter, info->envp, TOKEN_HEARDOC);
-  heardoc_fork(delimiter, fd, info);
+  if (heardoc_fork(delimiter, fd, info) == FAILURE)
+    return (NULL);
   new = f_lstnew(ft_strdup(file), what_type(state));
   if (!new)
     return (free(file), NULL);
@@ -96,7 +97,7 @@ static int heardoc_fork(char *delimiter, int fd, t_shared_info *info) {
     waitpid(pid, &status, 0);
     if (status == 0)
       return (SUCCESS);
-    return (FAILURE);
+    return (pid_fix(status));
   }
   if (pid == 0) {
     setup_signal_child();

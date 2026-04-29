@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 02:13:45 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/30 02:12:05 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ int	redirect_in_check(char *path)
 
 int	redirect_out_check(char *path)
 {
-	ft_putendl_fd("check", 2);
 	if (access(path, F_OK) == -1)
 		return (SUCCESS);
-	ft_putendl_fd("check2", 2);
 	if (access(path, W_OK) == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);

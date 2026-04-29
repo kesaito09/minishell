@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 19:14:31 by naoki             #+#    #+#             */
-/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/30 03:19:10 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ int manage_expander(t_tree *branch, t_shared_info *info) {
 }
 
 int manage_exporter(t_tree *branch, t_shared_info *info) {
-  if (silent_export(branch->env_list, info, TOP, 0) == FAILURE ||
-      env_underscore(branch->arg_list, info) == FAILURE)
+  if (silent_export(branch->env_list, info, TOP, 0) == FAILURE)
     child_fatal_exit(info);
   return (SUCCESS);
 }
