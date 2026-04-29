@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2_redirect_error.c                            :+:      :+:    :+:   */
+/*   error_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 02:13:45 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/19 17:32:20 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,42 +30,44 @@ int	redirect_in_check(char *path)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(path, 2);
 		ft_putendl_fd(": No such file or directory", 2);
-		return (FAILUER);
+		return (FAILURE);
 	}
 	if (access(path, R_OK) == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(path, 2);
 		ft_putendl_fd(": Permission denied", 2);
-		return (FAILUER);
+		return (FAILURE);
 	}
 	if (is_directory(path))
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(path, 2);
 		ft_putendl_fd(": Is a directory", 2);
-		return (FAILUER);
+		return (FAILURE);
 	}
 	return (SUCCESS);
 }
 
 int	redirect_out_check(char *path)
 {
+	ft_putendl_fd("check", 2);
 	if (access(path, F_OK) == -1)
 		return (SUCCESS);
+	ft_putendl_fd("check2", 2);
 	if (access(path, W_OK) == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(path, 2);
 		ft_putendl_fd(": Permission denied", 2);
-		return (FAILUER);
+		return (FAILURE);
 	}
 	if (is_directory(path))
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(path, 2);
 		ft_putendl_fd(": Is a directory", 2);
-		return (FAILUER);
+		return (FAILURE);
 	}
 	return (SUCCESS);
 }

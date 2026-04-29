@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec4_builtin.c                                    :+:      :+:    :+:   */
+/*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/19 19:18:46 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/builtin_cmd.h"
 #include "../../includes/execution.h"
+#include "../../includes/main.h"
 
 static int	builtin_search(t_token *node, t_shared_info *info);
 static int	builtin_module(t_tree *branch,
@@ -26,18 +27,19 @@ int	builtin_fork(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 	if (info->pipe)
 		pid = fork();
 	if (pid < 0)
-		return (perror("fork"), FAILUER);
+		return (perror("fork"), FAILURE);
 	if (info->pipe && pid > 0)
 	{
-		if (pid_add_back(&(info->plist), pid) == SUCCESS
-		&& env_underscore(branch->arg_list, info) == SUCCESS)
-			return (SUCCESS);
-		return (FAILUER);
+		if (pid_add_back(&(info->plist), pid) == FAILURE)
+			fatal_exit(info);
+		if (env_underscore(branch->arg_list, info) == FAILURE)
+			fatal_exit(info);
+		return (SUCCESS);
 	}
 	if (info->pipe && pid == 0)
 		setup_signal_child();
 	flag = builtin_module(branch, info, fd_in, fd_out);
-	if (pid == 0 && flag == FAILUER)
+	if (pid == 0 && flag == FAILURE)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
 		exit(EXIT_SUCCESS);
@@ -48,23 +50,28 @@ static int	builtin_module(t_tree *branch,
 	t_shared_info *info, int fd_in, int fd_out)
 {
 	int	flag;
-	
+
 	flag = SUCCESS;
-	manage_expander(branch, info);
-	manage_exporter(branch, info);
-	if (builtin_file_descriptor(fd_in, fd_out, info, branch) == FAILUER)
-		flag = FAILUER;
-	if (builtin_search(branch->arg_list, info) == FAILUER)
-		flag = FAILUER;
-	if (reset_stdin_out(info) == FAILUER)
-		flag = FAILUER;
-	if (silent_unset(branch->env_list, info) == FAILUER)
-		flag = FAILUER;
-	if (env_underscore(branch->arg_list, info) == FAILUER)
+	if (info->pipe)
 	{
-		info->last_ecode = 2;
-		builtin_exit(NULL, info);
+		manage_expander(branch, info);
+		manage_exporter(branch, info);
 	}
+	else
+	{
+		builtin_expander(branch, info);
+		builtin_exporter(branch, info);
+	}
+	if (builtin_file_descriptor(fd_in, fd_out, info, branch) == FAILURE)
+		flag = FAILURE;
+	if (builtin_search(branch->arg_list, info) == FAILURE)
+		flag = FAILURE;
+	if (reset_stdin_out(info) == FAILURE)
+		flag = FAILURE;
+	if (silent_unset(branch->env_list, info) == FAILURE)
+		flag = FAILURE;
+	if (env_underscore(branch->arg_list, info) == FAILURE)
+		flag = FAILURE;
 	return (flag);
 }
 
@@ -84,5 +91,5 @@ static int	builtin_search(t_token *node, t_shared_info *info)
 		return (env(node->next, info));
 	if (!ft_strcmp(node->token, "exit"))
 		builtin_exit(node->next, info);
-	return (FAILUER);
+	return (FAILURE);
 }

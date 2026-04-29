@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec3_execve.c                                     :+:      :+:    :+:   */
+/*   exec_execve.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/19 18:10:28 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,18 @@ int	exec_fork(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 
 	pid = fork();
 	if (pid < 0)
-		return (perror("fork"), FAILUER);
+		return (perror("fork"), FAILURE);
 	else if (pid > 0)
 	{
-		if (pid_add_back(&(info->plist), pid) == SUCCESS 
-		&& env_underscore(branch->arg_list, info) == SUCCESS)
-			return (SUCCESS);
-		return (FAILUER);
+		if (pid_add_back(&(info->plist), pid) == FAILURE)
+			fatal_exit(info);
+		if (env_underscore(branch->arg_list, info) == FAILURE)
+			fatal_exit(info);
+		return (SUCCESS);
 	}
 	else if (pid == 0)
 		exec_child_process(branch, info, fd_in, fd_out);
-	return (FAILUER);
+	return (FAILURE);
 }
 
 static void	exec_child_process(t_tree *branch,
@@ -60,12 +61,7 @@ static void	exec_search_path(t_token *env_node, char **cmd, t_shared_info *info)
 	t_token	*path;
 	char	**envp;
 
-	path = complete_path(env_node);
-	if (!path)
-	{
-		info->last_ecode = 2;
-		builtin_exit(NULL, info);
-	}
+	path = complete_path(env_node, info);
 	envp = manage_arg_load(info, env_node);
 	exec_search(path, envp, cmd, info);
 	info->last_ecode = 2;
@@ -76,27 +72,27 @@ static int	exec_search(t_token *path, char **envp, char **cmd, t_shared_info *in
 {
 	int		cache;
 	char	*full_path;
-	
+	t_token	*walker;
+
 	cache = COMMAND_NOT_FOUND;
-	while (path)
+	walker = path;
+	while (walker)
 	{
-		full_path = ft_strjoin(path->token, cmd[0]);
+		full_path = ft_strjoin(walker->token, cmd[0]);
 		if (!full_path)
-		{
-			info->last_ecode = 2;
-			builtin_exit(NULL, info);
-		}
+			child_fatal_exit(info);
 		cache = validate_execute(cache, full_path, cmd, envp);
 		free(full_path);
-		path = path->next;
+		walker = walker->next;
 	}
 	if (ft_strchr(cmd[0], '/'))
 		cache = validate_execute(cache, cmd[0], cmd, envp);
 	info->last_ecode = command_error_message(cmd[0], cache);
+	t_lstclear(&path, free);
 	free_split(cmd);
 	free_split(envp);
 	builtin_exit(NULL, info);
-	return (FAILUER);
+	return (FAILURE);
 }
 
 static int	validate_execute(int cache, char *full_path, char **cmd, char **envp)

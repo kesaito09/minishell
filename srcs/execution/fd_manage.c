@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils3_logical.c                                   :+:      :+:    :+:   */
+/*   fd_manage.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/03 09:14:04 by naoki             #+#    #+#             */
-/*   Updated: 2026/04/19 16:04:05 by natakaha         ###   ########.fr       */
+/*   Created: 2026/04/20 00:00:00 by natakaha          #+#    #+#             */
+/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,36 +23,15 @@ void	close_unused_pipe(int fd_in, int fd_out, int pipes[2])
 int	dup2_stdin_out(int fd_in, int fd_out)
 {
 	if (fd_in >= 0)
-		if (dup2(fd_in, 0) == FAILUER)
-			return (FAILUER);
+		if (dup2(fd_in, 0) == FAILURE)
+			return (FAILURE);
 	if (fd_out >= 0)
-		if (dup2(fd_out, 1) == FAILUER)
-			return (FAILUER);
+		if (dup2(fd_out, 1) == FAILURE)
+			return (FAILURE);
 	return (SUCCESS);
 }
 
 int	reset_stdin_out(t_shared_info *info)
 {
 	return (dup2_stdin_out(info->fd_stdin, info->fd_stdout));
-}
-
-t_token	*discard_local_env(t_token *envp)
-{
-	t_token	*new_env;
-	t_token	*tmp;
-
-	new_env = NULL;
-	while (envp)
-	{
-		if (envp->type != 0)
-		{
-			free_and_skip_one(&envp);
-			continue ;
-		}
-		tmp = envp->next;
-		envp->next = NULL;
-		t_lstadd_back(&new_env, envp);
-		envp = tmp;
-	}
-	return (new_env);
 }

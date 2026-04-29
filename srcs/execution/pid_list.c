@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils1_pid.c                                       :+:      :+:    :+:   */
+/*   pid_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 03:43:18 by naoki             #+#    #+#             */
-/*   Updated: 2026/01/23 04:55:41 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	pid_add_back(t_pidlist **plist, pid_t pid)
 	{
 		*plist = pid_new(pid);
 		if (!*plist)
-			return (FAILUER);
+			return (FAILURE);
 		return (SUCCESS);
 	}
 	tmp = *plist;
@@ -60,7 +60,7 @@ int	pid_add_back(t_pidlist **plist, pid_t pid)
 	{
 		p_lstclear(*plist);
 		*plist = NULL;
-		return (FAILUER);
+		return (FAILURE);
 	}
 	return (SUCCESS);
 }
