@@ -6,12 +6,13 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 06:21:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/19 19:15:10 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/builtin_cmd.h"
 #include "../../includes/execution.h"
+#include "../../includes/main.h"
 
 void	unset_module(t_shared_info *info, char *key);
 
@@ -27,7 +28,7 @@ int	unset(t_token *cmd, t_shared_info *info)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(key->token, 2);
 			ft_putendl_fd(": invalid parameter name", 2);
-			return (FAILUER);
+			return (FAILURE);
 		}
 		unset_module(info, key->token);
 		key = key->next;
@@ -47,10 +48,7 @@ int	silent_unset(t_token *node, t_shared_info *info)
 			continue ;
 		key = ft_strndup(node->token, len);
 		if (!key)
-		{
-			info->last_ecode = 2;
-			builtin_exit(NULL, info);
-		}
+			fatal_exit(info);
 		unset_module(info, key);
 		free(key);
 		node = node->next;

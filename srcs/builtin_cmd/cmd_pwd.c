@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 00:54:34 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 17:01:00 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	pwd(t_shared_info *info)
 	if (!tmp || !*tmp)
 		return (free(tmp),
 			ft_putendl_fd("minishell: pwd: No such file or directory", 2),
-			FAILUER);
+			FAILURE);
 	ft_putendl_fd(tmp, 1);
 	free(tmp);
 	return (SUCCESS);
