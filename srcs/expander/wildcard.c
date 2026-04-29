@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand2_wildcard.c                                 :+:      :+:    :+:   */
+/*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -17,7 +17,7 @@
 static bool		check_hidden_file(t_token *sub);
 static bool		file_name_validate(char *d_name, t_token *sub);
 
-t_token	*return_valid_card(t_token *sub)
+t_token	*return_valid_card(t_token *sub, t_shared_info *info)
 {
 	DIR			*dp;
 	t_token		*token_list;
@@ -37,7 +37,7 @@ t_token	*return_valid_card(t_token *sub)
 			continue ;
 		token = t_lstnew(ft_strdup(dent->d_name), free);
 		if (!token)
-			return (closedir(dp), t_lstclear(&token_list, free), NULL);
+			return (closedir(dp), t_lstclear(&token_list, free), fatal_exit(info), NULL);
 		t_lstadd_sort(&token_list, token);
 	}
 	return (closedir(dp), token_list);

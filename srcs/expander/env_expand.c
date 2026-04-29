@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand1_env.c                                      :+:      :+:    :+:   */
+/*   env_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/04/19 16:38:00 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/26 00:48:53 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_token	*env_expand(char *input, t_token *envp, t_token_type flag)
 			new->token = ft_substr(new->token, 1, ft_strlen(new->token) - 2);
 			free(tmp);
 		}
-		if (new->type != SUB_TOKEN_SQUOTE && flag != TOKEN_HEREDOC)
+		if (new->type != SUB_TOKEN_SQUOTE && flag != TOKEN_HEARDOC)
 		{
 			new = expand_dollar(new);
 			new = replace_env(new, envp);
