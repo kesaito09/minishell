@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 18:00:46 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/21 18:02:57 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	t_lstnew_add_back(t_token **lst, char *input, int i, t_token_type type)
 
 	node = f_lstnew(ft_strndup(input, i), type);
 	if (!node)
-		return (FAILUER);
+		return (FAILURE);
 	t_lstadd_back(lst, node);
 	return (SUCCESS);
 }

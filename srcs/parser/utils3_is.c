@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 09:41:30 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/22 23:39:24 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/26 00:48:53 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	is_redirect(t_token *cur)
 		return (false);
 	if (cur->type == TOKEN_REDIRECT_IN
 		|| cur->type == TOKEN_REDIRECT_OUT
-		|| cur->type == TOKEN_HEREDOC
+		|| cur->type == TOKEN_HEARDOC
 		|| cur->type == TOKEN_APPEND)
 		return (true);
 	return (false);

@@ -71,10 +71,10 @@ t_token	*f_lstnew(char *token, t_token_type type)
 	t_token	*new_file;
 
 	if (!token)
-		NULL;
+		return (NULL);
 	new_file = t_lstnew(token, free);
 	if (!new_file)
-		return (free(token), NULL);
+		return (NULL);
 	new_file->type = type;
 	return (new_file);
 }

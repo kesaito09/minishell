@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse1_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/18 07:23:35 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_tree	*parse_command(t_token **cur, t_shared_info *info)
 		if (branch->b_type == SUBSHELL && !is_redirect(*cur))
 			return (syntax_error_msg((*cur)->token), free_tree_rec(&branch),
 				NULL);
-		if (manage_repoint(branch, cur, info) == FAILUER)
+		if (manage_repoint(branch, cur, info) == FAILURE)
 			return (free_tree_rec(&branch), NULL);
 	}
 	if (!branch->arg_list && branch->env_list)
@@ -51,20 +51,20 @@ static int	manage_repoint(t_tree *branch, t_token **cur, t_shared_info *info)
 {
 	if (is_valid_arg((*cur)->token) && !branch->arg_list)
 	{
-		if (repoint_word_to_list(&branch->env_list, cur) == FAILUER)
-			return (FAILUER);
+		if (repoint_word_to_list(&branch->env_list, cur) == FAILURE)
+			return (FAILURE);
 	}
 	else if ((*cur) && (*cur)->type == TOKEN_WORD)
 	{
-		if (repoint_word_to_list(&branch->arg_list, cur) == FAILUER)
-			return (FAILUER);
+		if (repoint_word_to_list(&branch->arg_list, cur) == FAILURE)
+			return (FAILURE);
 	}
 	else if ((*cur) && is_redirect(*cur))
 	{
-		if ((*cur)->type == TOKEN_HEREDOC && (*cur)->next)
+		if ((*cur)->type == TOKEN_HEARDOC && (*cur)->next)
 			(*cur)->next->token = heardoc((*cur)->next->token, info);
-		if (repoint_redirect_to_list(&branch->file_list, cur) == FAILUER)
-			return (FAILUER);
+		if (repoint_redirect_to_list(&branch->file_list, cur) == FAILURE)
+			return (FAILURE);
 	}
 	return (SUCCESS);
 }
@@ -74,7 +74,7 @@ static int	repoint_word_to_list(t_token **list, t_token **cur)
 	t_token	*word_head;
 
 	if (!cur || !*cur || ((*cur)->type != TOKEN_WORD))
-		return (FAILUER);
+		return (FAILURE);
 	word_head = (*cur);
 	*cur = (*cur)->next;
 	word_head->next = NULL;
@@ -89,13 +89,13 @@ static int	repoint_redirect_to_list(t_token **list, t_token **cur)
 	t_token	*next;
 
 	if (!cur || !*cur || !(is_redirect(*cur)))
-		return (FAILUER);
+		return (FAILURE);
 	op = (*cur);
 	word = op->next;
 	if (!word)
-		return (syntax_error_msg("newline"), FAILUER);
+		return (syntax_error_msg("newline"), FAILURE);
 	if (word->type != TOKEN_WORD)
-		return (syntax_error_msg(word->token), FAILUER);
+		return (syntax_error_msg(word->token), FAILURE);
 	word->type = op->type;
 	next = word->next;
 	word->next = NULL;
