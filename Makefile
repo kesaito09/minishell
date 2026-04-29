@@ -6,7 +6,7 @@
 #    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/04/18 22:43:54 by natakaha         ###   ########.fr        #
+#    Updated: 2026/04/29 21:59:31 by natakaha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,14 @@ INCS = includes
 LIBFTDIR = libft
 LIBFT = $(LIBFTDIR)/libft.a
 
+READLINE_PREFIX := $(shell brew --prefix readline 2>/dev/null)
+ifneq ($(READLINE_PREFIX),)
+	CFLAGS += -I$(READLINE_PREFIX)/include
+	LDFLAGS_RL = -L$(READLINE_PREFIX)/lib
+endif
+
 LIBDIR = $(LIBFTDIR)
-LDFLAGS = -L $(LIBDIR)
+LDFLAGS = -L $(LIBDIR) $(LDFLAGS_RL)
 LDLIBS = -lft -lreadline
 
 MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
@@ -29,35 +35,39 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/builtin_cmd/cmd_export.c\
 			srcs/builtin_cmd/cmd_pwd.c\
 			srcs/builtin_cmd/cmd_unset.c\
-			srcs/builtin_cmd/cmd_utils_env.c\
-			srcs/execution/exec1_operate.c\
-			srcs/execution/exec2_logical.c\
-			srcs/execution/exec3_execve.c\
-			srcs/execution/exec4_builtin.c\
-			srcs/execution/exec5_redirect.c\
-			srcs/execution/utils1_pid.c\
-			srcs/execution/utils2_redirect_error.c\
-			srcs/execution/utils3_logical.c\
-			srcs/execution/utils4_find_path.c\
-			srcs/execution/utils5_path_split.c\
-			srcs/execution/utils6_exec_module.c\
-			srcs/execution/utils7_builtin_module.c\
-			srcs/expander/expand1_env.c\
-			srcs/expander/expand2_wildcard.c\
-			srcs/expander/expand3_expander.c\
-			srcs/expander/utils1.c\
-			srcs/expander/utils2_search_file.c\
+			srcs/builtin_cmd/env_helpers.c\
+			srcs/execution/exec_dispatch.c\
+			srcs/execution/exec_logical.c\
+			srcs/execution/exec_execve.c\
+			srcs/execution/exec_builtin.c\
+			srcs/execution/redirect.c\
+			srcs/execution/pid_list.c\
+			srcs/execution/error_check.c\
+			srcs/execution/fd_manage.c\
+			srcs/execution/env_filter.c\
+			srcs/execution/path_search.c\
+			srcs/execution/path_split.c\
+			srcs/execution/child_helpers.c\
+			srcs/execution/builtin_helpers.c\
+			srcs/execution/heardoc.c\
+			srcs/expander/env_expand.c\
+			srcs/expander/wildcard.c\
+			srcs/expander/expander.c\
+			srcs/expander/string_join.c\
+			srcs/expander/glob_match.c\
 			srcs/lexer/lexer1_tokenize.c\
 			srcs/lexer/utils1_tlist1.c\
 			srcs/lexer/utils1_tlist2.c\
 			srcs/lexer/utils1_tlist3.c\
 			srcs/lexer/utils4_judge.c\
 			srcs/main/main.c\
-			srcs/main/utils1_env.c\
-			srcs/main/utils2_signal.c\
-			srcs/main/utils3.c\
-			srcs/main/utils4_ascii1.c\
-			srcs/main/utils4_ascii2.c\
+			srcs/main/fatal_exit.c\
+			srcs/main/env_special.c\
+			srcs/main/signal.c\
+			srcs/main/init.c\
+			srcs/main/input.c\
+			srcs/main/logo_main.c\
+			srcs/main/logo_fire.c\
 			srcs/parser/parse1_cmd.c\
 			srcs/parser/parse2_pipe.c\
 			srcs/parser/parse3_logical.c\
@@ -66,7 +76,6 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/parser/utils2_parse.c\
 			srcs/parser/utils3_is.c\
 			srcs/parser/utils4_arglist.c\
-			srcs/parser/utils5_heardoc.c\
 
 MAND_OBJS = $(MAND_SRCS:.c=.o)
 

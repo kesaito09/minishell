@@ -8,3 +8,5 @@ a.out
 *.pdf
 tests
 tests/*
+compile_commands.json
+.cache/
