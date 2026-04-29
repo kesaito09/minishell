@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils1_env.c                                       :+:      :+:    :+:   */
+/*   env_special.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 05:43:42 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/19 19:20:21 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/builtin_cmd.h"
 #include "../../includes/main.h"
+
+static char	*build_shlvl(char *shnum);
 
 int	detect_ecode(int flag, t_shared_info *info)
 {
@@ -20,7 +22,7 @@ int	detect_ecode(int flag, t_shared_info *info)
 	exit_code = wait_pidlist(&info->plist);
 	if (exit_code)
 		return (exit_code);
-	if (flag == FAILUER)
+	if (flag == FAILURE)
 		return (1);
 	return (0);
 }
@@ -31,46 +33,55 @@ int	env_exit_code(int i, int flag, t_shared_info *info)
 	char	*env;
 	t_token	*node;
 
-	if (i == 0 && flag == FAILUER)
+	if (i == 0 && flag == FAILURE)
 		i = 1;
 	num = ft_itoa(i);
 	if (!num)
-		return (FAILUER);
+		fatal_exit(info);
 	env = ft_strjoin("?=", num);
+	free(num);
 	if (!env)
-		return (FAILUER);
+		fatal_exit(info);
 	node = f_lstnew(env, 1);
 	if (!node)
-		return (free(env), FAILUER);
-	if (silent_export(node, info, TOP, 1) == FAILUER)
-		return (t_lstclear(&node, free), FAILUER);
+		return (free(env), fatal_exit(info), FAILURE);
+	if (silent_export(node, info, TOP, 1) == FAILURE)
+		return (t_lstclear(&node, free), fatal_exit(info), FAILURE);
 	return (t_lstclear(&node, free), SUCCESS);
 }
 
 int	env_shlvl(t_shared_info *info)
 {
 	char	*shnum;
-	int		n;
-	char	*num;
 	char	*shlvl;
 	t_token	*node;
 
 	shnum = return_value("SHLVL", info->envp);
-	if (!shnum || !*shnum || !ft_isnumber(shnum))
-		shlvl = ft_strjoin("SHLVL=", "1");
-	else
-		{
-		n = ft_atoi(shnum);
-		num = ft_itoa(n + 1);
-		if (!num)
-			return (FAILUER);
-		shlvl = ft_strjoin("SHLVL=", num);
-		free(num);
-	}
+	if (!shnum)
+		fatal_exit(info);
+	shlvl = build_shlvl(shnum);
+	free(shnum);
+	if (!shlvl)
+		fatal_exit(info);
 	node = t_lstnew(shlvl, free);
-	if (!node || silent_export(node, info, TOP, 0) == FAILUER)
-		return (free(shnum), t_lstclear(&node, free), FAILUER);
-	return (free(shnum), t_lstclear(&node, free), SUCCESS);
+	if (!node || silent_export(node, info, TOP, 0) == FAILURE)
+		return (t_lstclear(&node, free), fatal_exit(info), FAILURE);
+	return (t_lstclear(&node, free), SUCCESS);
+}
+
+static char	*build_shlvl(char *shnum)
+{
+	char	*num;
+	char	*result;
+
+	if (!*shnum || !ft_isnumber(shnum))
+		return (ft_strdup("SHLVL=1"));
+	num = ft_itoa(ft_atoi(shnum) + 1);
+	if (!num)
+		return (NULL);
+	result = ft_strjoin("SHLVL=", num);
+	free(num);
+	return (result);
 }
 
 int	env_underscore(t_token *node, t_shared_info *info)
@@ -81,11 +92,11 @@ int	env_underscore(t_token *node, t_shared_info *info)
 	node = t_lstlast(node);
 	str = ft_strjoin("_=", node->token);
 	if (!str)
-		return (FAILUER);
+		fatal_exit(info);
 	tmp = t_lstnew(str, free);
 	if (!tmp)
-		return (FAILUER);
-	if (silent_export(tmp, info, TOP, 0) == FAILUER)
-		return (t_lstclear(&tmp, free), FAILUER);
+		return (free(str), fatal_exit(info), FAILURE);
+	if (silent_export(tmp, info, TOP, 0) == FAILURE)
+		return (t_lstclear(&tmp, free), fatal_exit(info), FAILURE);
 	return (t_lstclear(&tmp, free), SUCCESS);
 }
