@@ -65,8 +65,4 @@ t_token		*argv_token(char **argv);
 char		**token_cmd(t_token *node, t_shared_info *info);
 t_token		*argv_token(char **argv);
 
-/*utils5_heardoc*/
-char		*heardoc(char *eof, t_shared_info *info);
-void		heardoc_clear(t_token **heardoc);
-
 #endif

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/22 22:48:41 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/26 00:48:53 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef enum e_token_type
 	TOKEN_PIPE = '|',
 	TOKEN_REDIRECT_IN = '<',
 	TOKEN_REDIRECT_OUT = '>',
-	TOKEN_HEREDOC = '<' + 128,
+	TOKEN_HEARDOC = '<' + 128,
 	TOKEN_APPEND = '>' + 128,
 	TOKEN_CONJUNCTIONE = '&' + 128,
 	TOKEN_DISJUNCTIONE = '|' + 128,

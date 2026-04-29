@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/19 18:40:15 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/04/29 21:59:31 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int		builtin_fork(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 int		exec_envp(t_tree *branch, t_shared_info *info, int fd_in, int fd_out);
 
 /* exec6_redirect */
-int		manage_redirect(t_token *file_lst);
+int		manage_redirect(t_token *file_lst, t_shared_info *info);
 
 /* utils1_pid */
 int			wait_pidlist(t_pidlist **plist);
@@ -116,12 +116,12 @@ t_token	*discard_local_env(t_token *envp);
 
 
 /* utils4_find_path */
-t_token	*complete_path(t_token *envp);
+t_token	*complete_path(t_token *envp, t_shared_info *info);
 char	*find_path(char **envp);
 
 
 /* utils5_path_split */
-char	**path_split(char const *s, char c);
+char	**path_split(char const *s, char c, t_shared_info *info);
 
 /* utils6_exec_module.c */
 int		manage_file_descriptor(int fd_in, int fd_out ,t_shared_info *info, t_tree *branch);
@@ -130,7 +130,13 @@ int		manage_exporter(t_tree *branch, t_shared_info *info);
 char	**manage_arg_load(t_shared_info *info, t_token *node);
 
 /* utils7_builtin_module.c*/
-int	builtin_file_descriptor(int fd_in, int fd_out ,t_shared_info *info, t_tree *branch);
+int		builtin_file_descriptor(int fd_in, int fd_out, t_shared_info *info, t_tree *branch);
+int		builtin_expander(t_tree *branch, t_shared_info *info);
+int		builtin_exporter(t_tree *branch, t_shared_info *info);
+char	**builtin_arg_load(t_shared_info *info, t_token *node);
 
+/* heardoc.c */
+char	*heardoc(char *eof, t_shared_info *info);
+void	heardoc_clear(t_token **heardoc);
 
 #endif

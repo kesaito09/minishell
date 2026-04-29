@@ -13,6 +13,7 @@
 #ifndef EXPANDER_H
 # define EXPANDER_H
 
+#include "builtin_cmd.h"
 # include "minishell.h"
 # include <dirent.h>
 
@@ -54,7 +55,7 @@ typedef enum e_ifs_operate
 t_token		*env_expand(char *input, t_token *envp, t_token_type flag);
 
 /* expand2_wildcard */
-t_token		*return_valid_card(t_token *sub);
+t_token		*return_valid_card(t_token *sub, t_shared_info *info);
 
 /* expand3_expander */
 int			expander(t_token *node, t_shared_info *info, t_list_type l_type);

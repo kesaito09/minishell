@@ -14,7 +14,7 @@
 # define MAIN_H
 
 # define SUCCESS 1
-# define FAILUER -1
+# define FAILURE -1
 
 # include "minishell.h"
 # include <readline/history.h>
@@ -52,5 +52,8 @@ char			*get_line(int fd);
 t_token			*script_split(char *input);
 int				env_shlvl(t_shared_info *info);
 
+/* fatal_exit.c */
+void			fatal_exit(t_shared_info *info);
+void			child_fatal_exit(t_shared_info *info);
 
 #endif
