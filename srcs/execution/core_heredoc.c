@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/01 00:37:20 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 02:33:05 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,12 @@ char	*heardoc(char *delimiter, t_tree *branch, t_shared_info *info)
 	if (ft_strchr(delimiter, '\'') || ft_strchr(delimiter, '"'))
 		state = STATE_DQUOTE;
 	delimiter = expand_join(delimiter, info->envp, TOKEN_HEARDOC, info);
-	if (heardoc_fork(delimiter, fd, info) == FAILURE)
-		return (NULL);
+	if (heardoc_fork(delimiter, fd, info) != EXIT_SUCCESS)
+		return (free(delimiter), unlink(file), free(file), NULL);
+	free(delimiter);
 	new = f_lstnew(ft_strdup(file), what_type(state));
 	if (!new)
-		return (free(file), NULL);
+		return (unlink(file), free(file), NULL);
 	t_lstadd_back(&(branch->heredoc), new);
 	return (file);
 }
@@ -99,22 +100,24 @@ static int	heardoc_fork(char *delimiter, int fd, t_shared_info *info)
 		return (heardoc_no_fork(delimiter, fd, info));
 	pid = fork();
 	if (pid < 0)
-		return (perror("heardoc"), FAILURE);
+		return (perror("heardoc"), EXIT_FAILURE);
 	status = 0;
 	if (pid > 0)
 	{
 		setup_signal_exec();
 		waitpid(pid, &status, 0);
 		if (status == 0)
-			return (SUCCESS);
-		return (pid_fix(status));
+			return (EXIT_SUCCESS);
+		status = pid_fix(status);
+		env_exit_code(status, FAILURE, info);
+		return (status);
 	}
 	if (pid == 0)
 	{
 		setup_signal_child();
 		exit(heardoc_write_context(delimiter, fd, info));
 	}
-	return (SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 static int	heardoc_write_one_line(char *delimiter, int fd, t_shared_info *info)
