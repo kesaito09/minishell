@@ -14,26 +14,52 @@
 #include "../../includes/execution.h"
 #include "../../includes/main.h"
 
-void	unset_module(t_shared_info *info, char *key);
+void		unset_module(t_shared_info *info, char *key);
+static bool	is_valid_unset_arg(char *arg);
+static void	unset_invalid_msg(char *arg);
 
 int	unset(t_token *cmd, t_shared_info *info)
 {
-	t_token	*key;
+	int	flag;
 
-	key = cmd;
-	while (key)
+	flag = SUCCESS;
+	while (cmd)
 	{
-		if (ft_strchr(key->token, '='))
+		if (!is_valid_unset_arg(cmd->token))
 		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(key->token, 2);
-			ft_putendl_fd(": invalid parameter name", 2);
-			return (FAILURE);
+			unset_invalid_msg(cmd->token);
+			flag = FAILURE;
 		}
-		unset_module(info, key->token);
-		key = key->next;
+		else
+			unset_module(info, cmd->token);
+		cmd = cmd->next;
 	}
-	return (SUCCESS);
+	return (flag);
+}
+
+static bool	is_valid_unset_arg(char *arg)
+{
+	int	i;
+
+	if (!arg || !*arg)
+		return (false);
+	if (!ft_isalpha(arg[0]) && arg[0] != '_')
+		return (false);
+	i = 1;
+	while (arg[i])
+	{
+		if (is_env_delimiter(arg[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+static void	unset_invalid_msg(char *arg)
+{
+	ft_putstr_fd("minishell: unset: `", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
 }
 
 int	silent_unset(t_token *node, t_shared_info *info)

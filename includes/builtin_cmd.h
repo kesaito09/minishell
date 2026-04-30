@@ -50,4 +50,8 @@ int		ft_keycmp(const char *arg, const char *env);
 char	*return_value(char *arg, t_token *envp);
 void	invalid_message(char *arg);
 
+/* utils_cd */
+int		env_oldpwd(t_shared_info *info);
+int		env_pwd(t_shared_info *info);
+
 #endif

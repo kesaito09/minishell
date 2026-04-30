@@ -43,14 +43,15 @@ static int	expand_token(t_token *node, t_list_type type, t_shared_info *info)
 		free(node->token);
 		node->token = token_join(sub);
 		return (t_lstclear(&sub, free), SUCCESS);
-	}	
+	}
 	tmp = return_valid_card(sub, info);
 	t_lstclear(&sub, free);
 	n = t_lstsize(tmp);
 	if (n == 0)
 		return (1);
 	if (type == FILE_LIST && n > 1)
-		return (ft_putendl_fd("ambiguous redirect", 2), t_lstclear(&tmp, free), 0);
+		return (ft_putendl_fd("ambiguous redirect", 2), t_lstclear(&tmp, free),
+			0);
 	t_lstinsert(node, tmp);
 	return (n);
 }

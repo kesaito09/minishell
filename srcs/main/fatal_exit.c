@@ -21,9 +21,8 @@ void	fatal_exit(t_shared_info *info)
 {
 	if (info)
 	{
-		heardoc_clear(&info->heardoc);
-		t_lstclear(&info->input, free);
 		free_tree_rec(&info->branch);
+		t_lstclear(&info->input, free);
 		wait_pidlist(&info->plist);
 		t_lstclear(&info->envp, free);
 		close_saved_fds(info);
@@ -37,9 +36,8 @@ void	child_fatal_exit(t_shared_info *info)
 {
 	if (info)
 	{
-		heardoc_clear(&info->heardoc);
-		t_lstclear(&info->input, free);
 		free_tree_rec(&info->branch);
+		t_lstclear(&info->input, free);
 		t_lstclear(&info->envp, free);
 		close_saved_fds(info);
 	}

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parser.h"
 #include "../../includes/execution.h"
+#include "../../includes/parser.h"
 
 int	count_element(char **s)
 {
@@ -49,17 +49,4 @@ void	free_and_skip_one(t_token **cur)
 	tmp = *cur;
 	*cur = (*cur)->next;
 	t_lstdelone(tmp, free);
-}
-
-void	syntax_error_msg(char *err_token)
-{
-	ft_putstr_fd("minishell: syntax error", 2);
-	if (!err_token)
-		ft_putendl_fd(": unexpected newline", 2);
-	else
-	{
-		ft_putstr_fd(" near unexpected token `", 2);
-		ft_putstr_fd(err_token, 2);
-		ft_putendl_fd("'", 2);
-	}
 }

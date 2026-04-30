@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_helpers.c                                  :+:      :+:    :+:   */
+/*   utils3_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,11 +13,12 @@
 #include "../../includes/execution.h"
 #include "../../includes/main.h"
 
-int	builtin_file_descriptor(int fd_in, int fd_out ,t_shared_info *info, t_tree *branch)
+int	builtin_file_descriptor(int fd_in, int fd_out, t_shared_info *info,
+		t_tree *branch)
 {
 	close_unused_pipe(fd_in, fd_out, info->fd);
 	if (dup2_stdin_out(fd_in, fd_out) == FAILURE
-	|| manage_redirect(branch->file_list, info) == FAILURE)
+		|| manage_redirect(branch, info) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);
 }

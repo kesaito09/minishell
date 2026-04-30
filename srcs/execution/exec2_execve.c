@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_execve.c                                      :+:      :+:    :+:   */
+/*   exec2_execve.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,13 +14,14 @@
 #include "../../includes/execution.h"
 #include "../../includes/main.h"
 
-
-static int	exec_search(t_token *path, char **envp, char **cmd, t_shared_info *info);
-static void	exec_child_process(t_tree *branch,
-				t_shared_info *info, int fd_in, int fd_out);
-static int	validate_execute(int cache, char *full_path, char **cmd, char **envp);
-static void	exec_search_path(t_token *env_node, char **cmd, t_shared_info *info);
-
+static int	exec_search(t_token *path, char **envp, char **cmd,
+				t_shared_info *info);
+static void	exec_child_process(t_tree *branch, t_shared_info *info, int fd_in,
+				int fd_out);
+static int	validate_execute(int cache, char *full_path, char **cmd,
+				char **envp);
+static void	exec_search_path(t_token *env_node, char **cmd,
+				t_shared_info *info);
 
 int	exec_fork(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 {
@@ -33,8 +34,7 @@ int	exec_fork(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 	{
 		if (pid_add_back(&(info->plist), pid) == FAILURE)
 			fatal_exit(info);
-		if (env_underscore(branch->arg_list, info) == FAILURE)
-			fatal_exit(info);
+		env_underscore(branch->arg_list, info);
 		return (SUCCESS);
 	}
 	else if (pid == 0)
@@ -42,8 +42,8 @@ int	exec_fork(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 	return (FAILURE);
 }
 
-static void	exec_child_process(t_tree *branch,
-	t_shared_info *info, int fd_in, int fd_out)
+static void	exec_child_process(t_tree *branch, t_shared_info *info, int fd_in,
+		int fd_out)
 {
 	char	**cmd;
 
@@ -70,7 +70,8 @@ static void	exec_search_path(t_token *env_node, char **cmd, t_shared_info *info)
 	builtin_exit(NULL, info);
 }
 
-static int	exec_search(t_token *path, char **envp, char **cmd, t_shared_info *info)
+static int	exec_search(t_token *path, char **envp, char **cmd,
+		t_shared_info *info)
 {
 	int		cache;
 	char	*full_path;
@@ -97,7 +98,8 @@ static int	exec_search(t_token *path, char **envp, char **cmd, t_shared_info *in
 	return (FAILURE);
 }
 
-static int	validate_execute(int cache, char *full_path, char **cmd, char **envp)
+static int	validate_execute(int cache, char *full_path, char **cmd,
+		char **envp)
 {
 	int	flag;
 

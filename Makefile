@@ -36,20 +36,24 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/builtin_cmd/cmd_pwd.c\
 			srcs/builtin_cmd/cmd_unset.c\
 			srcs/builtin_cmd/env_helpers.c\
-			srcs/execution/exec_dispatch.c\
-			srcs/execution/exec_logical.c\
-			srcs/execution/exec_execve.c\
-			srcs/execution/exec_builtin.c\
-			srcs/execution/redirect.c\
-			srcs/execution/pid_list.c\
-			srcs/execution/error_check.c\
-			srcs/execution/fd_manage.c\
-			srcs/execution/env_filter.c\
-			srcs/execution/path_search.c\
-			srcs/execution/path_split.c\
-			srcs/execution/child_helpers.c\
-			srcs/execution/builtin_helpers.c\
-			srcs/execution/heardoc.c\
+			srcs/builtin_cmd/utils_cd.c\
+			srcs/execution/exec0_dispatch.c\
+			srcs/execution/exec1_logical.c\
+			srcs/execution/exec2_execve.c\
+			srcs/execution/exec3_builtin.c\
+			srcs/execution/fd0_manage.c\
+			srcs/execution/fd1_heredoc.c\
+			srcs/execution/utils2_child.c\
+			srcs/execution/utils2_env.c\
+			srcs/execution/utils2_path_search.c\
+			srcs/execution/utils2_path_split.c\
+			srcs/execution/utils3_builtin.c\
+			srcs/execution/core_heredoc.c\
+			srcs/execution/core_heredoc_utils.c\
+			srcs/execution/core_fd.c\
+			srcs/execution/core_err_check.c\
+			srcs/execution/core_err_messages.c\
+			srcs/execution/core_pid.c\
 			srcs/expander/env_expand.c\
 			srcs/expander/wildcard.c\
 			srcs/expander/expander.c\
@@ -78,6 +82,7 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/parser/utils4_arglist.c\
 
 MAND_OBJS = $(MAND_SRCS:.c=.o)
+HEADERS = $(wildcard $(INCS)/*.h)
 
 
 all : $(NAME)
@@ -90,12 +95,13 @@ $(NAME):$(MAND_OBJS) $(LIBFT)
 
 bonus: all
 
-%.o : %.c
+%.o : %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
 clean:
 	rm -f $(MAND_OBJS)
+	find srcs -name '*.d' -delete
 	$(MAKE) -C $(LIBFTDIR) clean
 
 fclean: clean

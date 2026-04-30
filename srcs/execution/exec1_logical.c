@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_logical.c                                     :+:      :+:    :+:   */
+/*   exec1_logical.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -31,7 +31,7 @@ int	exec_sshell(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 	{
 		if (expander(branch->file_list, info, FILE_LIST) == FAILURE)
 			child_fatal_exit(info);
-		manage_redirect(branch->file_list, info);
+		manage_redirect(branch, info);
 	}
 	exec_manage(branch->left, info, fd_in, fd_out);
 	status = wait_pidlist(&info->plist);

@@ -10,78 +10,82 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/main.h"
 #include "../../includes/execution.h"
+#include "../../includes/main.h"
 #include "../../includes/minishell.h"
 
-int g_signal_code = 0;
+int			g_signal_code = 0;
 
-static int minishell_atty(t_shared_info *info);
-static int minishell_pipe(t_shared_info *info);
-static int whole_proc(t_shared_info *info);
+static int	minishell_atty(t_shared_info *info);
+static int	minishell_pipe(t_shared_info *info);
+static int	whole_proc(t_shared_info *info);
 
-int main(int argc, char **argv, char **envp) {
-  t_shared_info info;
-
-  info = collect_info(envp);
-  if (!isatty(STDIN_FILENO))
-    minishell_pipe(&info);
-  else
-    minishell_atty(&info);
-  builtin_exit(NULL, &info);
-  (void)argc;
-  (void)argv;
-}
-
-static int whole_proc(t_shared_info *info) 
+int	main(int argc, char **argv, char **envp)
 {
-  int flag;
+	t_shared_info	info;
 
-  info->branch = parser(info);
-  if (!info->branch)
-    return (SUCCESS);
-  setup_signal_exec();
-  flag = exec_manage(info->branch, info, 0, 1);
-  free_tree_rec(&info->branch);
-  info->last_ecode = detect_ecode(flag, info);
-  env_exit_code(info->last_ecode, flag, info);
-  info->pipe = false;
-  return (flag);
+	info = collect_info(envp);
+	if (!isatty(STDIN_FILENO))
+		minishell_pipe(&info);
+	else
+		minishell_atty(&info);
+	builtin_exit(NULL, &info);
+	(void)argc;
+	(void)argv;
 }
 
-static int minishell_atty(t_shared_info *info) {
-  char *input;
-  int flag;
+static int	whole_proc(t_shared_info *info)
+{
+	int	flag;
 
-  flag = 0;
-  print_logo();
-  while (true) {
-    setup_signal_prompt();
-    input = handle_prompt(info->envp);
-    if (!input)
-      builtin_exit(NULL, info);
-    info->input = script_split(input);
-    free(input);
-    if (!info->input)
-      fatal_exit(info);
-    while (info->input && info->input->token)
-      whole_proc(info);
-  }
-  return (flag);
+	info->branch = parser(info);
+	if (!info->branch)
+		return (env_exit_code(info->last_ecode, SUCCESS, info), SUCCESS);
+	setup_signal_exec();
+	flag = exec_manage(info->branch, info, 0, 1);
+	info->last_ecode = detect_ecode(flag, info);
+	free_tree_rec(&info->branch);
+	env_exit_code(info->last_ecode, flag, info);
+	info->pipe = false;
+	return (flag);
 }
 
-static int minishell_pipe(t_shared_info *info) {
-  char *input;
-  int flag;
+static int	minishell_atty(t_shared_info *info)
+{
+	char	*input;
+	int		flag;
 
-  input = get_line(STDIN_FILENO);
-  if (!input)
-    fatal_exit(info);
-  info->input = script_split(input);
-  free(input);
-  if (!info->input)
-    fatal_exit(info);
-  while (info->input && info->input->token)
-    flag = whole_proc(info);
-  return (flag);
+	flag = 0;
+	print_logo();
+	while (true)
+	{
+		setup_signal_prompt();
+		input = handle_prompt(info->envp);
+		if (!input)
+			builtin_exit(NULL, info);
+		info->input = script_split(input);
+		free(input);
+		if (!info->input)
+			fatal_exit(info);
+		while (info->input && info->input->token)
+			whole_proc(info);
+	}
+	return (flag);
+}
+
+static int	minishell_pipe(t_shared_info *info)
+{
+	char	*input;
+	int		flag;
+
+	input = get_line(STDIN_FILENO);
+	if (!input)
+		fatal_exit(info);
+	info->input = script_split(input);
+	free(input);
+	if (!info->input)
+		fatal_exit(info);
+	while (info->input && info->input->token)
+		flag = whole_proc(info);
+	return (flag);
 }

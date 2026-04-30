@@ -15,6 +15,8 @@
 #include "../../includes/main.h"
 
 static int	export_module(t_token *cmd, t_shared_info *info, int loc, int type);
+static int	update_existing_env(t_token *cmd, t_token *env,
+				t_shared_info *info);
 
 int	export(t_token *cmd, t_shared_info *info)
 {
@@ -52,7 +54,23 @@ static int	export_module(t_token *cmd, t_shared_info *info, int loc, int type)
 
 	if (!is_valid_arg(cmd->token))
 		return (false);
-	env = info->envp;
+	if (update_existing_env(cmd, info->envp, info) == SUCCESS)
+		return (SUCCESS);
+	dup = ft_strdup(cmd->token);
+	if (!dup)
+		fatal_exit(info);
+	env = f_lstnew(dup, type);
+	if (!env)
+		return (free(dup), fatal_exit(info), FAILURE);
+	if (loc == BOTTOM)
+		return (t_lstadd_back(&info->envp, env), SUCCESS);
+	return (t_lstadd_front(&info->envp, env), SUCCESS);
+}
+
+static int	update_existing_env(t_token *cmd, t_token *env, t_shared_info *info)
+{
+	char	*dup;
+
 	while (env)
 	{
 		if (!ft_argcmp(cmd->token, env->token))
@@ -67,13 +85,5 @@ static int	export_module(t_token *cmd, t_shared_info *info, int loc, int type)
 		}
 		env = env->next;
 	}
-	dup = ft_strdup(cmd->token);
-	if (!dup)
-		fatal_exit(info);
-	env = f_lstnew(dup, type);
-	if (!env)
-		return (free(dup), fatal_exit(info), FAILURE);
-	if (loc == BOTTOM)
-		return (t_lstadd_back(&info->envp, env), SUCCESS);
-	return (t_lstadd_front(&info->envp, env), SUCCESS);
+	return (FAILURE);
 }

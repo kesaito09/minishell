@@ -13,11 +13,12 @@
 #ifndef EXPANDER_H
 # define EXPANDER_H
 
-#include "builtin_cmd.h"
+# include "builtin_cmd.h"
 # include "minishell.h"
 # include <dirent.h>
 
 # define PASS 0
+
 extern int					g_signal_code;
 typedef struct dirent		t_dirent;
 typedef struct s_tree		t_tree;
@@ -31,7 +32,7 @@ typedef enum e_list_type
 	ARG_LIST = 0,
 	FILE_LIST,
 	ENV_LIST,
-}	t_list_type;
+}							t_list_type;
 
 typedef enum e_ifs_state
 {
@@ -40,7 +41,7 @@ typedef enum e_ifs_state
 	IFS,
 	WORD,
 	NLL,
-}	t_ifs_state;
+}							t_ifs_state;
 
 typedef enum e_ifs_operate
 {
@@ -49,36 +50,43 @@ typedef enum e_ifs_operate
 	STATE_CHANGE = 2,
 	ADD_LST = 3,
 	FINISH = 4,
-}	t_ifs_operate;
+}							t_ifs_operate;
 
 /* expand1_env */
-t_token		*env_expand(char *input, t_token *envp, t_token_type flag);
+t_token						*env_expand(char *input, t_token *envp,
+								t_token_type flag);
 
 /* expand2_wildcard */
-t_token		*return_valid_card(t_token *sub, t_shared_info *info);
+t_token						*return_valid_card(t_token *sub,
+								t_shared_info *info);
 
 /* expand3_expander */
-int			expander(t_token *node, t_shared_info *info, t_list_type l_type);
-int			manage_expander(t_tree *branch, t_shared_info *info);
+int							expander(t_token *node, t_shared_info *info,
+								t_list_type l_type);
+int							manage_expander(t_tree *branch,
+								t_shared_info *info);
 
 /* expand4_ifs */
-int			ifs_expand(t_token *sub, t_token *node, t_list_type type);
-int			ifs_split(char *input, char *ifs, t_token **lst, t_ifs_state state);
+int							ifs_expand(t_token *sub, t_token *node,
+								t_list_type type);
+int							ifs_split(char *input, char *ifs, t_token **lst,
+								t_ifs_state state);
 
 /* utils1 */
-int			envlen(char *av);
-int			strchr_len(char *str, int c);
-char		*split_join(char **argv);
-char		*expand_join(char *input, t_token *envp, t_token_type type);
-char		*token_join(t_token *node);
+int							envlen(char *av);
+int							strchr_len(char *str, int c);
+char						*split_join(char **argv);
+char						*expand_join(char *input, t_token *envp,
+								t_token_type type);
+char						*token_join(t_token *node);
 
 /* utils2_search_file */
-int			search_file(t_token *sub_token, char *file);
+int							search_file(t_token *sub_token, char *file);
 
 /* utils3_ifs */
-char		*ifs_join(t_token **sub);
-bool		has_type(t_token *sub, t_token_type type);
-t_ifs_state	is_ifs(char c, char *ifs);
-t_token		*ifs_insert(t_token *node, t_token *envp);
+char						*ifs_join(t_token **sub);
+bool						has_type(t_token *sub, t_token_type type);
+t_ifs_state					is_ifs(char c, char *ifs);
+t_token						*ifs_insert(t_token *node, t_token *envp);
 
 #endif

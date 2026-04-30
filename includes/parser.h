@@ -50,7 +50,6 @@ void		free_tree_rec(t_tree **branch);
 int			count_element(char **s);
 void		free_split(char **cmd);
 void		free_and_skip_one(t_token **cur);
-void		syntax_error_msg(char *err_token);
 
 /* utils3_is */
 bool		is_builtin(char *token);

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_check.c                                      :+:      :+:    :+:   */
+/*   core_err_check.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -81,23 +81,23 @@ t_command_error	command_error_check(char *cmd)
 	return (SUCCESS);
 }
 
-int	command_error_message(char *cmd, t_command_error errno)
+int	command_error_message(char *cmd, t_command_error err)
 {
-	if (errno == COMMAND_NOT_FOUND)
+	if (err == COMMAND_NOT_FOUND)
 	{
 		ft_putstr_fd("minishell:", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putendl_fd(": command not found", 2);
 		return (127);
 	}
-	else if (errno == IS_A_DIRECTORY)
+	else if (err == IS_A_DIRECTORY)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putendl_fd(": Is a directory", 2);
 		return (126);
 	}
-	else if (errno == PERMISSION_DENIED)
+	else if (err == PERMISSION_DENIED)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);

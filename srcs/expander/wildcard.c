@@ -14,8 +14,8 @@
 #include "../../includes/expander.h"
 #include "../../includes/parser.h"
 
-static bool		check_hidden_file(t_token *sub);
-static bool		file_name_validate(char *d_name, t_token *sub);
+static bool	check_hidden_file(t_token *sub);
+static bool	file_name_validate(char *d_name, t_token *sub);
 
 t_token	*return_valid_card(t_token *sub, t_shared_info *info)
 {
@@ -37,7 +37,8 @@ t_token	*return_valid_card(t_token *sub, t_shared_info *info)
 			continue ;
 		token = t_lstnew(ft_strdup(dent->d_name), free);
 		if (!token)
-			return (closedir(dp), t_lstclear(&token_list, free), fatal_exit(info), NULL);
+			return (closedir(dp), t_lstclear(&token_list, free),
+				fatal_exit(info), NULL);
 		t_lstadd_sort(&token_list, token);
 	}
 	return (closedir(dp), token_list);

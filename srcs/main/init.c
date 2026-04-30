@@ -12,8 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-int	env_shlvl(t_shared_info *info);
-
 t_shared_info	collect_info(char **envp)
 {
 	t_shared_info	info;

@@ -30,7 +30,7 @@ t_tree	*parser(t_shared_info *info)
 	branch = parse_manage(&token_list, info);
 	if (branch && token_list)
 	{
-		syntax_error_msg(token_list->token);
+		err_syntax(info, token_list->token);
 		free_tree_rec(&branch);
 		t_lstclear(&token_list, free);
 		return (NULL);

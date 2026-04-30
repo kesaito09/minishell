@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_builtin.c                                     :+:      :+:    :+:   */
+/*   exec3_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -63,7 +63,7 @@ static int	builtin_module(t_tree *branch,
 		builtin_exporter(branch, info);
 	}
 	if (builtin_file_descriptor(fd_in, fd_out, info, branch) == FAILURE)
-		flag = FAILURE;
+		return (reset_stdin_out(info), FAILURE);
 	if (builtin_search(branch->arg_list, info) == FAILURE)
 		flag = FAILURE;
 	if (reset_stdin_out(info) == FAILURE)

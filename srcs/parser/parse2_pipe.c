@@ -35,7 +35,7 @@ static t_tree	*parse_pipeline_rec(t_token **cur,
 		return (left_node);
 	free_and_skip_one(cur);
 	if (!*cur)
-		return (syntax_error_msg(NULL), free_tree_rec(&left_node), NULL);
+		return (err_syntax(info, NULL), free_tree_rec(&left_node), NULL);
 	pipe_node = tree_new(PIPE);
 	if (!pipe_node)
 		return (free_tree_rec(&left_node), NULL);
