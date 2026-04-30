@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 04:00:00 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/30 07:16:51 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 00:37:28 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*redirect_heardoc(t_token *flist, int fd_in, t_tree *branch,
 	flist->type = heardoc_file_type(flist, branch);
 	if (flist->type != SUB_TOKEN_GENERAL)
 		return (raw_str);
-	expanded = expand_join(raw_str, info->envp, SUB_TOKEN_DQUOTE);
+	expanded = expand_join(raw_str, info->envp, SUB_TOKEN_DQUOTE, info);
 	if (!expanded)
 		fatal_exit(info);
 	return (expanded);

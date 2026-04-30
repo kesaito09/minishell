@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 19:38:09 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 00:36:11 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	expand_token(t_token *node, t_list_type type, t_shared_info *info)
 	t_token	*sub;
 	int		n;
 
-	sub = env_expand(node->token, info->envp, TOKEN_WORD);
+	sub = env_expand(node->token, info->envp, TOKEN_WORD, info);
 	if (!has_star(sub) || type == ENV_LIST)
 	{
 		free(node->token);

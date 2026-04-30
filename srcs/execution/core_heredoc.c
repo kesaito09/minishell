@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/30 03:15:12 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 00:37:20 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*heardoc(char *delimiter, t_tree *branch, t_shared_info *info)
 	state = STATE_GENERAL;
 	if (ft_strchr(delimiter, '\'') || ft_strchr(delimiter, '"'))
 		state = STATE_DQUOTE;
-	delimiter = expand_join(delimiter, info->envp, TOKEN_HEARDOC);
+	delimiter = expand_join(delimiter, info->envp, TOKEN_HEARDOC, info);
 	if (heardoc_fork(delimiter, fd, info) == FAILURE)
 		return (NULL);
 	new = f_lstnew(ft_strdup(file), what_type(state));

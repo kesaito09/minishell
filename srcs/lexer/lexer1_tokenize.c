@@ -6,13 +6,13 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 00:30:57 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
-int	word_len(char *input, char *charsplit, char *charignore)
+int	word_len(char *input, char *charsplit, char *charignore, t_shared_info *info)
 {
 	int	len;
 	int	tmp;
@@ -29,6 +29,7 @@ int	word_len(char *input, char *charsplit, char *charignore)
 			if (!tmp)
 			{
 				ft_putendl_fd("minishell: syntax error: unclosed quote", 2);
+				env_exit_code(2, FAILURE, info);
 				return (FAILURE);
 			}
 			len += tmp + 1;
@@ -39,7 +40,7 @@ int	word_len(char *input, char *charsplit, char *charignore)
 	return (len);
 }
 
-t_token	*tokenizer(char *input)
+t_token	*tokenizer(char *input, t_shared_info *info)
 {
 	t_token			*lst;
 	t_token			*new;
@@ -51,7 +52,7 @@ t_token	*tokenizer(char *input)
 	{
 		type = (t_token_type)str_type(input);
 		if (type == TOKEN_WORD)
-			n = word_len(input, SPLIT, QUOTE);
+			n = word_len(input, SPLIT, QUOTE, info);
 		else if (type == TOKEN_SPACE && input++)
 			continue ;
 		else

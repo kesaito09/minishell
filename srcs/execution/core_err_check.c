@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 02:13:45 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/30 02:12:05 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 01:59:49 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ int	redirect_out_check(char *path)
 	return (SUCCESS);
 }
 
-t_command_error	command_error_check(char *cmd)
+t_command_error	command_error_check(char *full_path, bool cur)
 {
-	if (access(cmd, F_OK) == -1)
+	if (access(full_path, F_OK) == -1)
 		return (COMMAND_NOT_FOUND);
-	if (is_directory(cmd))
+	if (is_directory(full_path) && cur == true)
 		return (IS_A_DIRECTORY);
-	else if (access(cmd, X_OK) == -1)
+	else if (access(full_path, X_OK) == -1)
 		return (PERMISSION_DENIED);
 	return (SUCCESS);
 }

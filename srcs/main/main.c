@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/30 03:42:26 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 01:11:48 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	whole_proc(t_shared_info *info)
 
 	info->branch = parser(info);
 	if (!info->branch)
-		return (env_exit_code(info->last_ecode, SUCCESS, info), SUCCESS);
+		return (FAILURE);
 	setup_signal_exec();
 	flag = exec_manage(info->branch, info, 0, 1);
 	info->last_ecode = detect_ecode(flag, info);
@@ -63,7 +63,7 @@ static int	minishell_atty(t_shared_info *info)
 		input = handle_prompt(info->envp);
 		if (!input)
 			builtin_exit(NULL, info);
-		info->input = script_split(input);
+		info->input = script_split(input, info);
 		free(input);
 		if (!info->input)
 			fatal_exit(info);
@@ -81,7 +81,7 @@ static int	minishell_pipe(t_shared_info *info)
 	input = get_line(STDIN_FILENO);
 	if (!input)
 		fatal_exit(info);
-	info->input = script_split(input);
+	info->input = script_split(input, info);
 	free(input);
 	if (!info->input)
 		fatal_exit(info);

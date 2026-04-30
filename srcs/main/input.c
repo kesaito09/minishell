@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 00:00:00 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 00:33:28 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*get_line(int fd)
 	return (line);
 }
 
-t_token	*script_split(char *input)
+t_token	*script_split(char *input, t_shared_info *info)
 {
 	int		len;
 	t_token	*lst;
@@ -71,7 +71,7 @@ t_token	*script_split(char *input)
 	lst = NULL;
 	while (true)
 	{
-		len = word_len(input, "\n", NULL);
+		len = word_len(input, "\n", NULL, info);
 		if (t_lstnew_add_back(&lst, input, len, 0) == FAILURE)
 			return (t_lstclear(&lst, free), NULL);
 		input += len;

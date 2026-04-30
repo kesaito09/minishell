@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/29 21:59:31 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 02:00:21 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int						reset_stdin_out(t_shared_info *info);
 bool					is_directory(const char *path);
 int						redirect_in_check(char *path);
 int						redirect_out_check(char *path);
-t_command_error			command_error_check(char *cmd);
+t_command_error			command_error_check(char *cmd, bool cur);
 int						command_error_message(char *cmd, t_command_error err);
 
 /* core_err_messages.c — message + last_ecode をセットで設定し FAILURE を返す */

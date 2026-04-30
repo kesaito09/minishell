@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:56:46 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/25 08:46:58 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 01:14:18 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_isdigit(int c)
 
 int	ft_isnumber(char *str)
 {
-	if (*str == '-')
+	if (*str == '-' || *str == '+')
 		str++;
 	while (*str)
 	{

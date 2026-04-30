@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/30 03:22:52 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 02:03:57 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static int	exec_search(t_token *path, char **envp, char **cmd,
 		walker = walker->next;
 	}
 	if (ft_strchr(cmd[0], '/'))
-		cache = validate_execute(cache, cmd[0], cmd, envp);
+		cache = validate_execute(cache, NULL, cmd, envp);
 	info->last_ecode = command_error_message(cmd[0], cache);
 	t_lstclear(&path, free);
 	free_split(cmd);
@@ -103,7 +103,10 @@ static int	validate_execute(int cache, char *full_path, char **cmd,
 {
 	int	flag;
 
-	flag = command_error_check(full_path);
+	if (full_path)
+		flag = command_error_check(full_path, false);
+	else
+		flag = command_error_check(cmd[0], true);
 	if (flag == SUCCESS)
 		execve(full_path, cmd, envp);
 	if (flag == IS_A_DIRECTORY || flag == PERMISSION_DENIED)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse4_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:39:10 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/17 19:54:13 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/05/01 00:28:33 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_tree	*parser(t_shared_info *info)
 	input = info->input->token;
 	if (!input)
 		return (NULL);
-	token_list = tokenizer(input);
+	token_list = tokenizer(input, info);
 	free_and_skip_one(&info->input);
 	if (!token_list)
 		return (NULL);

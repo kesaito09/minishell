@@ -6,18 +6,18 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 03:25:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/04/26 00:48:53 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 00:35:17 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 #include "../../includes/expander.h"
 
-static t_token	*quote_split(char **input);
+static t_token	*quote_split(char **input, t_shared_info *info);
 static t_token	*expand_dollar(t_token *input);
 static t_token	*replace_env(t_token *node, t_token *envp);
 
-t_token	*env_expand(char *input, t_token *envp, t_token_type flag)
+t_token	*env_expand(char *input, t_token *envp, t_token_type flag, t_shared_info *info)
 {
 	t_token	*lst;
 	t_token	*new;
@@ -26,7 +26,7 @@ t_token	*env_expand(char *input, t_token *envp, t_token_type flag)
 	lst = NULL;
 	while (*input)
 	{
-		new = quote_split(&input);
+		new = quote_split(&input, info);
 		if (!new)
 			return (t_lstclear(&lst, free), NULL);
 		if (new->type != SUB_TOKEN_GENERAL)
@@ -45,7 +45,7 @@ t_token	*env_expand(char *input, t_token *envp, t_token_type flag)
 	return (lst);
 }
 
-static t_token	*quote_split(char **input)
+static t_token	*quote_split(char **input, t_shared_info *info)
 {
 	t_state	state;
 	t_token	*node;
@@ -56,7 +56,7 @@ static t_token	*quote_split(char **input)
 	if (ft_strchr("'\"", **input))
 		state = **input;
 	if (state == STATE_GENERAL)
-		n = word_len(*input, "'\"", NULL);
+		n = word_len(*input, "'\"", NULL, info);
 	else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
 		n = strchr_len(*input + 1, state) + 2;
 	node = f_lstnew(ft_strndup(*input, n), what_type(state));

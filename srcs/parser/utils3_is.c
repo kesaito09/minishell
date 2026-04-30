@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 09:41:30 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/26 00:48:53 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 01:35:14 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ bool	is_command(t_token *cur)
 
 t_tree_type	cmd_type(t_token *cur)
 {
-	if (is_builtin(cur->token))
+	if (cur && is_builtin(cur->token))
 		return (BUILTIN);
 	return (COMMAND);
 }
