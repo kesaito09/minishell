@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/01 02:00:21 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/02 00:55:43 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,7 @@ char					**builtin_arg_load(t_shared_info *info, t_token *node);
 /* core_heredoc.c */
 char					*heardoc(char *eof, t_tree *branch,
 							t_shared_info *info);
-int						heardoc_write_context(char *delimiter, int fd,
-							t_shared_info *info);
+int						heardoc_write_context(char *delimiter, int fd);
 
 /* core_heredoc_utils.c */
 void					heardoc_clear(t_token **heredoc);

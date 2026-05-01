@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   core_heredoc_utils.c                               :+:      :+:    :+:   */
+/*   exec4_envp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/30 04:00:00 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/02 01:01:21 by natakaha         ###   ########.fr       */
+/*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
+/*   Updated: 2026/05/01 05:34:14 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/builtin_cmd.h"
 #include "../../includes/execution.h"
+#include "../../includes/main.h"
 
-void	heardoc_error_message(void)
+int	export_local_env(t_tree *branch, t_shared_info *info)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd("warning: ", 2);
-	ft_putstr_fd("here-document deliminated ", 2);
-	ft_putendl_fd("by end-of-file(wanted 'delimiter')", 2);
-}
-
-void	heardoc_clear(t_token **heardoc)
-{
-	t_token	*tmp;
-
-	tmp = *heardoc;
-	while (tmp)
-	{
-		unlink(tmp->token);
-		tmp = tmp->next;
-	}
-	t_lstclear(heardoc, free);
+	if (expander(branch->env_list, info, ENV_LIST) == FAILURE)
+		return (FAILURE);
+	return (silent_export(branch->env_list, info, TOP, 1));
 }

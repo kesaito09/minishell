@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/01 02:33:05 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/02 01:02:11 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 #include <stdlib.h>
 
 static char	*determine_heardoc_name(void);
-static int	heardoc_write_one_line(char *delimiter, int fd,
-				t_shared_info *info);
+static int	heardoc_write_one_line(char *delimiter, int fd);
 static int	heardoc_fork(char *delimiter, int fd, t_shared_info *info);
-
-int			heardoc_write_context(char *delimiter, int fd, t_shared_info *info);
+int			heardoc_write_context(char *delimiter, int fd);
 
 char	*heardoc(char *delimiter, t_tree *branch, t_shared_info *info)
 {
@@ -75,13 +73,13 @@ static char	*determine_heardoc_name(void)
 	return (free(def), file);
 }
 
-int	heardoc_write_context(char *delimiter, int fd, t_shared_info *info)
+int	heardoc_write_context(char *delimiter, int fd)
 {
 	int	flag;
 
 	while (true)
 	{
-		flag = heardoc_write_one_line(delimiter, fd, info);
+		flag = heardoc_write_one_line(delimiter, fd);
 		if (flag == FAILURE)
 			return (close(fd), free(delimiter), EXIT_FAILURE);
 		else if (flag == END)
@@ -96,8 +94,6 @@ static int	heardoc_fork(char *delimiter, int fd, t_shared_info *info)
 	int	pid;
 	int	status;
 
-	if (info->input)
-		return (heardoc_no_fork(delimiter, fd, info));
 	pid = fork();
 	if (pid < 0)
 		return (perror("heardoc"), EXIT_FAILURE);
@@ -115,24 +111,18 @@ static int	heardoc_fork(char *delimiter, int fd, t_shared_info *info)
 	if (pid == 0)
 	{
 		setup_signal_child();
-		exit(heardoc_write_context(delimiter, fd, info));
+		exit(heardoc_write_context(delimiter, fd));
 	}
 	return (EXIT_SUCCESS);
 }
 
-static int	heardoc_write_one_line(char *delimiter, int fd, t_shared_info *info)
+static int	heardoc_write_one_line(char *delimiter, int fd)
 {
 	char	*line;
-
-	if (info->input)
-	{
-		line = ft_strdup(info->input->token);
-		free_and_skip_one(&info->input);
-	}
-	else
-		line = readline(">");
+	
+	line = readline(">");
 	if (!line)
-		return (heardoc_error_message(), FAILURE);
+		return (heardoc_error_message(), END);
 	if (!ft_strcmp(delimiter, line))
 		return (free(line), END);
 	if (!line)

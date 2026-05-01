@@ -41,6 +41,7 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/execution/exec1_logical.c\
 			srcs/execution/exec2_execve.c\
 			srcs/execution/exec3_builtin.c\
+			srcs/execution/exec4_envp.c\
 			srcs/execution/fd0_manage.c\
 			srcs/execution/fd1_heredoc.c\
 			srcs/execution/utils2_child.c\
