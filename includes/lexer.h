@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/05/01 00:32:11 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/02 01:19:37 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ typedef struct s_token
 }						t_token;
 
 /* lexer1_tokenize */
-int				word_len(char *input, char *charsplit, char *charignore, t_shared_info *info);
+int				word_len(char *input, char *charsplit, char *charignore,
+					t_shared_info *info);
 t_token			*tokenizer(char *input, t_shared_info *info);
 
 /* utils1_tlist1 */

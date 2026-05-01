@@ -6,13 +6,14 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/05/01 00:30:57 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/02 01:17:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
-int	word_len(char *input, char *charsplit, char *charignore, t_shared_info *info)
+int	word_len(char *input, char *charsplit
+	, char *charignore, t_shared_info *info)
 {
 	int	len;
 	int	tmp;

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/02 01:02:11 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/02 01:18:48 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static int	heardoc_fork(char *delimiter, int fd, t_shared_info *info)
 static int	heardoc_write_one_line(char *delimiter, int fd)
 {
 	char	*line;
-	
+
 	line = readline(">");
 	if (!line)
 		return (heardoc_error_message(), END);
