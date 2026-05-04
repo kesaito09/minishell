@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse1_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/01 02:26:38 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 17:31:56 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ static t_tree	*parse_subshell(t_token **cur, t_shared_info *info)
 	subshell_node = tree_new(SUBSHELL);
 	if (!subshell_node)
 		return (NULL);
-	subshell_node->left = parse_manage(cur, info);
+	subshell_node->left = parse_logical(cur, info);
 	if (!subshell_node->left)
 		return (free_tree_rec(&subshell_node), NULL);
 	if (!*cur)

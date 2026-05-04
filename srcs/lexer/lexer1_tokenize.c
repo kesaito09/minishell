@@ -3,17 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   lexer1_tokenize.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:22:47 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/05/02 01:17:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/05 01:50:26 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
-int	word_len(char *input, char *charsplit
-	, char *charignore, t_shared_info *info)
+static void	*fatal_exit_wrapper(t_token **lst, t_shared_info *info)
+{
+	t_lstclear(&lst, free);
+	fatal_exit(info);
+	return (NULL);
+}
+
+int	word_len(char *input, char *charsplit, char *charignore,
+		t_shared_info *info)
 {
 	int	len;
 	int	tmp;
@@ -21,8 +28,8 @@ int	word_len(char *input, char *charsplit
 	len = 0;
 	while (input && input[len])
 	{
-		if ((ft_strchr(charsplit, input[len]))
-			|| (charignore && input[len] == '&' && input[len + 1] == '&'))
+		if ((ft_strchr(charsplit, input[len])) || (charignore
+				&& input[len] == '&' && input[len + 1] == '&'))
 			return (len);
 		if (ft_strchr(charignore, input[len]))
 		{
@@ -30,7 +37,6 @@ int	word_len(char *input, char *charsplit
 			if (!tmp)
 			{
 				ft_putendl_fd("minishell: syntax error: unclosed quote", 2);
-				env_exit_code(2, FAILURE, info);
 				return (FAILURE);
 			}
 			len += tmp + 1;
@@ -62,7 +68,7 @@ t_token	*tokenizer(char *input, t_shared_info *info)
 			return (t_lstclear(&lst, free), NULL);
 		new = t_lstnew(ft_strndup(input, n), free);
 		if (!new)
-			return (t_lstclear(&lst, free), NULL);
+			return (fatal_exit_wrapper(&lst, info));
 		input += n;
 		new->type = type;
 		t_lstadd_back(&lst, new);

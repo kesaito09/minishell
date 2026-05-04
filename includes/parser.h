@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 13:44:28 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/18 21:37:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 17:29:42 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ t_tree		*parse_command(t_token **cur, t_shared_info *info);
 t_tree		*parse_pipeline(t_token **cur, t_shared_info *info);
 
 /* parse3_logical */
-t_tree		*parse_manage(t_token **cur, t_shared_info *info);
-
+t_tree	*parse_logical(t_token **cur, t_shared_info *info);
 /* parse4_parser */
 t_tree		*parser(t_shared_info *info);
 

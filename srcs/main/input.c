@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 00:00:00 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/01 00:33:28 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 05:20:54 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*handle_prompt(t_token *envp)
 	if (!prompt || !*prompt)
 	{
 		free(prompt);
-		prompt = ft_strdup("minishell$");
+		prompt = ft_strdup("minishell$ ");
 	}
 	if (!prompt)
 		return (NULL);
