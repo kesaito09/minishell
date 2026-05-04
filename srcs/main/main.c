@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/02 00:57:54 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/04 18:23:29 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ static int	minishell_atty(t_shared_info *info)
 static int	minishell_pipe(t_shared_info *info)
 {
 	char	*input;
-	int		flag;
 
 	input = get_line(STDIN_FILENO);
 	if (!input)
@@ -85,6 +84,7 @@ static int	minishell_pipe(t_shared_info *info)
 	free(input);
 	if (!info->input)
 		fatal_exit(info);
-	flag = whole_proc(info);
-	return (flag);
+	while (info->input && info->input->token)
+		whole_proc(info);
+	return (SUCCESS);
 }
