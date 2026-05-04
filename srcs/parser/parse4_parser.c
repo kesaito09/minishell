@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse4_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:39:10 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/01 00:28:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/01 17:29:51 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_tree	*parser(t_shared_info *info)
 	free_and_skip_one(&info->input);
 	if (!token_list)
 		return (NULL);
-	branch = parse_manage(&token_list, info);
+	branch = parse_logical(&token_list, info);
 	if (branch && token_list)
 	{
 		err_syntax(info, token_list->token);
