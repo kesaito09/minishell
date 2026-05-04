@@ -68,10 +68,11 @@ t_token	*script_split(char *input, t_shared_info *info)
 	int		len;
 	t_token	*lst;
 
+	(void)info;
 	lst = NULL;
 	while (true)
 	{
-		len = word_len(input, "\n", NULL, info);
+		len = scan_until(input, "\n");
 		if (t_lstnew_add_back(&lst, input, len, 0) == FAILURE)
 			return (t_lstclear(&lst, free), NULL);
 		input += len;

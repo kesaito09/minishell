@@ -61,8 +61,8 @@ typedef struct s_token
 }						t_token;
 
 /* lexer1_tokenize */
-int				word_len(char *input, char *charsplit, char *charignore,
-					t_shared_info *info);
+int				shell_word_len(const char *input);
+int				scan_until(const char *s, const char *terminators);
 t_token			*tokenizer(char *input, t_shared_info *info);
 
 /* utils1_tlist1 */

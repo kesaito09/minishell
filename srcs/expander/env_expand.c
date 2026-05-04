@@ -52,12 +52,13 @@ static t_token	*quote_split(char **input, t_shared_info *info)
 	t_token	*node;
 	int		n;
 
+	(void)info;
 	state = STATE_GENERAL;
 	n = 0;
 	if (ft_strchr("'\"", **input))
 		state = **input;
 	if (state == STATE_GENERAL)
-		n = word_len(*input, "'\"", NULL, info);
+		n = scan_until(*input, "'\"");
 	else if (state == STATE_SQUOTE || state == STATE_DQUOTE)
 		n = strchr_len(*input + 1, state) + 2;
 	node = f_lstnew(ft_strndup(*input, n), what_type(state));
