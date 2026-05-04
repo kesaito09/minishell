@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/04 18:23:29 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/05/05 01:46:57 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ static int	whole_proc(t_shared_info *info)
 
 	info->branch = parser(info);
 	if (!info->branch)
+	{
+		info->last_ecode = 2;
+		env_exit_code(2, FAILURE, info);
 		return (FAILURE);
+	}
 	setup_signal_exec();
 	flag = exec_manage(info->branch, info, 0, 1);
 	info->last_ecode = detect_ecode(flag, info);
