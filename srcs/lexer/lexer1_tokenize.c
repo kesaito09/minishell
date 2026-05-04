@@ -14,7 +14,7 @@
 
 static void	*fatal_exit_wrapper(t_token **lst, t_shared_info *info)
 {
-	t_lstclear(&lst, free);
+	t_lstclear(lst, free);
 	fatal_exit(info);
 	return (NULL);
 }
@@ -25,6 +25,7 @@ int	word_len(char *input, char *charsplit, char *charignore,
 	int	len;
 	int	tmp;
 
+	(void)info;
 	len = 0;
 	while (input && input[len])
 	{
@@ -63,7 +64,7 @@ t_token	*tokenizer(char *input, t_shared_info *info)
 		else if (type == TOKEN_SPACE && input++)
 			continue ;
 		else
-			n = logical_len(input);
+			n = operator_len(input);
 		if (n == FAILURE)
 			return (t_lstclear(&lst, free), NULL);
 		new = t_lstnew(ft_strndup(input, n), free);

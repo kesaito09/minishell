@@ -88,7 +88,7 @@ int				t_lstnew_add_back(t_token **lst,
 bool			is_delimiter(int c);
 t_token_type	what_type(int state);
 bool			is_env_delimiter(int c);
-int				logical_len(char *input);
+int				operator_len(char *input);
 int				str_type(char *op);
 
 #endif
