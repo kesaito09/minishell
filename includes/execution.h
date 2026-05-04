@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/02 00:55:43 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/05 07:43:49 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef enum e_tree_type
 	COMMAND,
 	BUILTIN,
 	SUBSHELL,
+	NONE,
 	ENVP
 }						t_tree_type;
 

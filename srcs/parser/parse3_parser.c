@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse4_parser.c                                    :+:      :+:    :+:   */
+/*   parse3_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -27,7 +27,7 @@ t_tree	*parser(t_shared_info *info)
 	free_and_skip_one(&info->input);
 	if (!token_list)
 		return (NULL);
-	branch = parse_logical(&token_list, info);
+	branch = parse_left_join(&token_list, info, OP_LOGICAL);
 	if (branch && token_list)
 	{
 		err_syntax(info, token_list->token);
