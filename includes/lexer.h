@@ -61,8 +61,8 @@ typedef struct s_token
 }						t_token;
 
 /* lexer1_tokenize */
-int				word_len(char *input, char *charsplit, char *charignore,
-					t_shared_info *info);
+int				shell_word_len(const char *input);
+int				scan_until(const char *s, const char *terminators);
 t_token			*tokenizer(char *input, t_shared_info *info);
 
 /* utils1_tlist1 */
@@ -88,7 +88,7 @@ int				t_lstnew_add_back(t_token **lst,
 bool			is_delimiter(int c);
 t_token_type	what_type(int state);
 bool			is_env_delimiter(int c);
-int				logical_len(char *input);
+int				operator_len(char *input);
 int				str_type(char *op);
 
 #endif

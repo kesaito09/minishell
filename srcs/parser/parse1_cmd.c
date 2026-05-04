@@ -125,7 +125,7 @@ static t_tree	*parse_subshell(t_token **cur, t_shared_info *info)
 	subshell_node = tree_new(SUBSHELL);
 	if (!subshell_node)
 		return (NULL);
-	subshell_node->left = parse_logical(cur, info);
+	subshell_node->left = parse_left_join(cur, info, OP_LOGICAL);
 	if (!subshell_node->left)
 		return (free_tree_rec(&subshell_node), NULL);
 	if (!*cur)

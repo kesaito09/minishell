@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils3_judge.c                                     :+:      :+:    :+:   */
+/*   utils4_judge.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/01/21 06:28:43 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/05 04:26:07 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,20 @@ bool	is_env_delimiter(int c)
 	return (true);
 }
 
-int	logical_len(char *input)
+int	operator_len(char *input)
 {
-	if (ft_strchr("|&<>", input[0]) && input[0] == input[1])
+	if (input[0] && ft_strchr("|&<>", input[0]) && input[0] == input[1])
 		return (2);
 	return (1);
 }
 
 int	str_type(char *op)
 {
-	if (ft_strchr("&|<>", op[0]) && op[0] == op[1])
+	if (op[0] && ft_strchr("&|<>", op[0]) && op[0] == op[1])
 		return ((op[0] + 128));
-	else if (ft_strchr("|<>()", op[0]))
+	if (op[0] && ft_strchr("|<>()", op[0]))
 		return (op[0]);
-	else if (ft_strchr(" \t\n", op[0]))
+	if (op[0] && ft_strchr(" \t\n", op[0]))
 		return (TOKEN_SPACE);
-	else
-		return (TOKEN_WORD);
+	return (TOKEN_WORD);
 }

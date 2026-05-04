@@ -74,9 +74,8 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/main/logo_main.c\
 			srcs/main/logo_fire.c\
 			srcs/parser/parse1_cmd.c\
-			srcs/parser/parse2_pipe.c\
-			srcs/parser/parse3_logical.c\
-			srcs/parser/parse4_parser.c\
+			srcs/parser/parse2_left_join.c\
+			srcs/parser/parse3_parser.c\
 			srcs/parser/utils1_tree.c\
 			srcs/parser/utils2_parse.c\
 			srcs/parser/utils3_is.c\
