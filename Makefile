@@ -61,6 +61,7 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/expander/string_join.c\
 			srcs/expander/glob_match.c\
 			srcs/lexer/lexer1_tokenize.c\
+			srcs/lexer/lexer2_scan.c\
 			srcs/lexer/utils1_tlist1.c\
 			srcs/lexer/utils1_tlist2.c\
 			srcs/lexer/utils1_tlist3.c\
