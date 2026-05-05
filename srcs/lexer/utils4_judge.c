@@ -12,9 +12,9 @@
 
 #include "../../includes/lexer.h"
 
-bool	is_delimiter(int c)
+static bool	is_doubled_op(const char *s)
 {
-	return (c == ' ' || c == '\n' || c == '\t');
+	return (s[0] && s[0] == s[1] && ft_strchr("&|<>", s[0]));
 }
 
 t_token_type	what_type(int state)
@@ -39,18 +39,26 @@ bool	is_env_delimiter(int c)
 
 int	operator_len(char *input)
 {
-	if (input[0] && ft_strchr("|&<>", input[0]) && input[0] == input[1])
+	if (is_doubled_op(input))
 		return (2);
 	return (1);
 }
 
-int	str_type(char *op)
+t_token_type	str_type(char *input)
 {
-	if (op[0] && ft_strchr("&|<>", op[0]) && op[0] == op[1])
-		return ((op[0] + 128));
-	if (op[0] && ft_strchr("|<>()", op[0]))
-		return (op[0]);
-	if (op[0] && ft_strchr(" \t\n", op[0]))
+	if (is_doubled_op(input))
+	{
+		if (input[0] == '<')
+			return (TOKEN_HEARDOC);
+		if (input[0] == '>')
+			return (TOKEN_APPEND);
+		if (input[0] == '|')
+			return (TOKEN_DISJUNCTIONE);
+		return (TOKEN_CONJUNCTIONE);
+	}
+	if (input[0] && ft_strchr(OPERATOR, input[0]))
+		return ((t_token_type)input[0]);
+	if (input[0] && ft_strchr(DELIMITER, input[0]))
 		return (TOKEN_SPACE);
 	return (TOKEN_WORD);
 }
