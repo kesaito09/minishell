@@ -42,11 +42,15 @@ typedef enum e_op_level
 t_tree							*parse_command(t_token **cur,
 									t_shared_info *info);
 
-/* parse2_left_join */
+/* parse2_subshell */
+t_tree							*parse_subshell(t_token **cur,
+									t_shared_info *info);
+
+/* parse3_left_join */
 t_tree							*parse_left_join(t_token **cur,
 									t_shared_info *info, t_op_level level);
 
-/* parse3_parser */
+/* parse4_parser */
 t_tree							*parser(t_shared_info *info);
 
 /* utils1_tree */
@@ -57,6 +61,7 @@ void							free_tree_rec(t_tree **branch);
 int								count_element(char **s);
 void							free_split(char **cmd);
 void							free_and_skip_one(t_token **cur);
+void							splice_to_list(t_token **list, t_token **cur);
 
 /* utils3_is */
 bool							is_builtin(char *token);

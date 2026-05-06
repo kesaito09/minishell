@@ -50,3 +50,13 @@ void	free_and_skip_one(t_token **cur)
 	*cur = (*cur)->next;
 	t_lstdelone(tmp, free);
 }
+
+void	splice_to_list(t_token **list, t_token **cur)
+{
+	t_token	*head;
+
+	head = *cur;
+	*cur = head->next;
+	head->next = NULL;
+	t_lstadd_back(list, head);
+}
