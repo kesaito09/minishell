@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/05/02 01:19:37 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/07 07:52:28 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ bool			is_delimiter(int c);
 t_token_type	what_type(int state);
 bool			is_env_delimiter(int c);
 int				operator_len(char *input);
-int				str_type(char *op);
+t_token_type	str_type(char *op);
+
 
 #endif

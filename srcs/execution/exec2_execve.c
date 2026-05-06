@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/01 02:03:57 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/07 07:41:32 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,17 @@ static int	validate_execute(int cache, char *full_path, char **cmd,
 	int	flag;
 
 	if (full_path)
+	{
 		flag = command_error_check(full_path, false);
+		if (flag == SUCCESS)
+			execve(full_path, cmd, envp);
+	}
 	else
+	{
 		flag = command_error_check(cmd[0], true);
-	if (flag == SUCCESS)
-		execve(full_path, cmd, envp);
+		if (flag == SUCCESS)
+			execve(cmd[0], cmd, envp);
+	}
 	if (flag == IS_A_DIRECTORY || flag == PERMISSION_DENIED)
 		return (flag);
 	return (cache);
