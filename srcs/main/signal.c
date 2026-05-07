@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 09:18:46 by natakaha          #+#    #+#             */
-/*   Updated: 2026/01/22 22:55:13 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/07 09:14:47 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,13 @@ void	setup_signal_child(void)
 	sigaction(SIGINT, &sa, NULL);
 	sa.sa_handler = SIG_DFL;
 	sigaction(SIGQUIT, &sa, NULL);
+}
+
+void	singal_to_exitcode(t_shared_info *info)
+{
+	if (g_signal_code == 0)
+		return ;
+	env_exit_code(g_signal_code, FAILURE, info);
+	g_signal_code = 0;
+	return ;
 }

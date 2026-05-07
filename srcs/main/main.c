@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/05 01:46:57 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/05/07 09:18:33 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ static int	minishell_atty(t_shared_info *info)
 		input = handle_prompt(info->envp);
 		if (!input)
 			builtin_exit(NULL, info);
+		singal_to_exitcode(info);
+		if (!*input)
+			continue ;
 		info->input = script_split(input, info);
 		free(input);
 		if (!info->input)
