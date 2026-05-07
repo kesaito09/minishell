@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 00:00:00 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/07 09:26:46 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/07 20:17:57 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ t_token	*script_split(char *input, t_shared_info *info)
 
 static int	prompt_has_character(char *line)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (line[i])
 	{
