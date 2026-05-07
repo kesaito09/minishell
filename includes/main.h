@@ -43,7 +43,7 @@ int								env_underscore(t_token *node,
 void							setup_signal_prompt(void);
 void							setup_signal_exec(void);
 void							setup_signal_child(void);
-
+void							singal_to_exitcode(t_shared_info *info);
 /* utils3.c */
 t_shared_info					collect_info(char **envp);
 char							*handle_prompt(t_token *envp);

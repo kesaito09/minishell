@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 00:00:00 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/01 05:20:54 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/05/07 09:26:46 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static int	prompt_has_character(char *line);
 
 char	*handle_prompt(t_token *envp)
 {
@@ -29,7 +31,7 @@ char	*handle_prompt(t_token *envp)
 	free(prompt);
 	if (!line)
 		return (NULL);
-	if (!*line)
+	if (prompt_has_character(line) == false)
 		return (free(line), ft_strdup(""));
 	add_history(line);
 	return (line);
@@ -80,4 +82,18 @@ t_token	*script_split(char *input, t_shared_info *info)
 			return (lst);
 		input++;
 	}
+}
+
+static int	prompt_has_character(char *line)
+{
+	int i;
+	
+	i = 0;
+	while (line[i])
+	{
+		if (ft_strchr(" /t/n", line[i]) == NULL)
+			return (true);
+		i++;
+	}
+	return (false);
 }
