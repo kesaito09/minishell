@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 19:38:09 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/05/01 05:23:24 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/08 16:41:11 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	expand_token(t_token *node, t_list_type type, t_shared_info *info)
 		return (1);
 	if (type == FILE_LIST && n > 1)
 		return (ft_putendl_fd("ambiguous redirect", 2), t_lstclear(&tmp, free),
-			0);
+			1);
 	t_lstinsert(node, tmp);
 	return (n);
 }

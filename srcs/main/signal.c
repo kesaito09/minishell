@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 09:18:46 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/07 20:21:19 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/05/08 16:40:37 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	singal_to_exitcode(t_shared_info *info)
 {
 	if (g_signal_code == 0)
 		return ;
-	env_exit_code(g_signal_code, FAILURE, info);
+	env_exit_code(g_signal_code + 128, FAILURE, info);
 	g_signal_code = 0;
 	return ;
 }
