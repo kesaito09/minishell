@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2_execve.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/07 07:41:32 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/08 18:00:42 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static void	exec_child_process(t_tree *branch, t_shared_info *info, int fd_in,
 	char	**cmd;
 
 	setup_signal_child();
-	manage_expander(branch, info);
 	manage_exporter(branch, info);
 	manage_file_descriptor(fd_in, fd_out, info, branch);
 	info->envp = discard_local_env(info->envp);

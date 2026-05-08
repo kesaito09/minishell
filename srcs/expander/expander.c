@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 19:38:09 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/05/08 16:41:11 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/08 18:54:31 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static bool	has_star(t_token *sub);
 int	expander(t_token *node, t_shared_info *info, t_list_type l_type)
 {
 	int	n;
-
+	
 	while (node)
 	{
 		n = expand_token(node, l_type, info);
@@ -50,7 +50,7 @@ static int	expand_token(t_token *node, t_list_type type, t_shared_info *info)
 	if (n == 0)
 		return (1);
 	if (type == FILE_LIST && n > 1)
-		return (ft_putendl_fd("ambiguous redirect", 2), t_lstclear(&tmp, free),
+		return (ft_putendl_fd("minishell: ambiguous redirect", 2), t_lstclear(&tmp, free),
 			1);
 	t_lstinsert(node, tmp);
 	return (n);

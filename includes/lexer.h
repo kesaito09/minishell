@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:55:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2026/05/07 07:52:28 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/08 17:23:49 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define SPLIT "|<>() \t\n"
 # define QUOTE "\'\""
 
-extern int				g_signal_code;
+extern int			g_signal_code;
 
 typedef enum e_token_type
 {
@@ -41,7 +41,7 @@ typedef enum e_token_type
 	SUB_TOKEN_SQUOTE = '\'',
 	SUB_TOKEN_DQUOTE = '\"',
 	SUB_TOKEN_IFS,
-}						t_token_type;
+}					t_token_type;
 
 typedef enum e_state
 {
@@ -51,45 +51,44 @@ typedef enum e_state
 	STATE_DOLLER = '$',
 	STATE_DOLLER_DQUOTE = '"' + 127,
 	FAIL
-}						t_state;
+}					t_state;
 
 typedef struct s_token
 {
-	char				*token;
-	t_token_type		type;
-	struct s_token		*next;
-}						t_token;
+	char			*token;
+	t_token_type	type;
+	struct s_token	*next;
+}					t_token;
 
 /* lexer1_tokenize */
-int				shell_word_len(const char *input);
-int				scan_until(const char *s, const char *terminators);
-t_token			*tokenizer(char *input, t_shared_info *info);
+int					shell_word_len(const char *input);
+int					scan_until(const char *s, const char *terminators);
+t_token				*tokenizer(char *input, t_shared_info *info);
 
 /* utils1_tlist1 */
-size_t			t_lstsize(t_token *lst);
-t_token			*t_lstmove(t_token *lst, int n);
-t_token			*t_lstinsert(t_token *lst, t_token *new);
-t_token			*t_lstnew(char *token, void (*del)(void *));
-t_token			*f_lstnew(char *token, t_token_type type);
+size_t				t_lstsize(t_token *lst);
+t_token				*t_lstmove(t_token *lst, int n);
+t_token				*t_lstinsert(t_token *lst, t_token *new);
+t_token				*t_lstnew(char *token, void (*del)(void *));
+t_token				*f_lstnew(char *token, t_token_type type);
 
 /* utils1_tlist2 */
-void			t_lstdelone(t_token *lst, void (*del)(void *));
-void			t_lstclear(t_token **lst, void (*del)(void *));
-void			t_lstadd_back(t_token **lst, t_token *new);
-void			t_lstadd_front(t_token **lst, t_token *new);
-void			t_lstadd_sort(t_token **lst, t_token *new);
+void				t_lstdelone(t_token *lst, void (*del)(void *));
+void				t_lstclear(t_token **lst, void (*del)(void *));
+void				t_lstadd_back(t_token **lst, t_token *new);
+void				t_lstadd_front(t_token **lst, t_token *new);
+void				t_lstadd_sort(t_token **lst, t_token *new);
 
 /* utils1_tlist3 */
-t_token			*t_lstlast(t_token *lst);
-int				t_lstnew_add_back(t_token **lst,
-					char *input, int i, t_token_type type);
+t_token				*t_lstlast(t_token *lst);
+int					t_lstnew_add_back(t_token **lst, char *input, int i,
+						t_token_type type);
 
 /* utils4_judge */
-bool			is_delimiter(int c);
-t_token_type	what_type(int state);
-bool			is_env_delimiter(int c);
-int				operator_len(char *input);
-t_token_type	str_type(char *op);
-
+bool				is_delimiter(int c);
+t_token_type		what_type(int state);
+bool				is_env_delimiter(int c);
+int					operator_len(char *input);
+t_token_type		str_type(char *op);
 
 #endif

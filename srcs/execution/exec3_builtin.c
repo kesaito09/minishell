@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec3_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/29 21:58:08 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/08 17:59:51 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,9 @@ static int	builtin_module(t_tree *branch,
 
 	flag = SUCCESS;
 	if (info->pipe)
-	{
-		manage_expander(branch, info);
 		manage_exporter(branch, info);
-	}
 	else
-	{
-		builtin_expander(branch, info);
 		builtin_exporter(branch, info);
-	}
 	if (builtin_file_descriptor(fd_in, fd_out, info, branch) == FAILURE)
 		return (reset_stdin_out(info), FAILURE);
 	if (builtin_search(branch->arg_list, info) == FAILURE)
