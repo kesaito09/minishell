@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 08:54:42 by naoki             #+#    #+#             */
-/*   Updated: 2026/05/07 07:43:56 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/08 17:03:06 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	exec_djunc(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 	info->last_ecode = wait_pidlist(&info->plist);
 	if (info->last_ecode == 0)
 		return (SUCCESS);
+	env_exit_code(info->last_ecode, FAILURE, info);
 	if (exec_manage(branch->right, info, fd_in, fd_out) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);
