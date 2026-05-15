@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 08:54:42 by naoki             #+#    #+#             */
-/*   Updated: 2026/05/08 17:03:06 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/15 15:51:47 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 int	exec_sshell(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 {
 	pid_t	pid;
-	int		status;
 
 	pid = fork();
 	if (pid < 0)
@@ -34,8 +33,8 @@ int	exec_sshell(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 		manage_redirect(branch, info);
 	}
 	exec_manage(branch->left, info, fd_in, fd_out);
-	status = wait_pidlist(&info->plist);
-	exit(status);
+info->last_ecode = wait_pidlist(&info->plist);
+	builtin_exit(NULL, info);
 	return (SUCCESS);
 }
 

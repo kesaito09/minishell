@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/05 07:43:49 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/05/15 16:04:46 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ char					**builtin_arg_load(t_shared_info *info, t_token *node);
 
 /* core_heredoc.c */
 char					*heardoc(char *eof, t_tree *branch,
-							t_shared_info *info);
+							t_shared_info *info, t_token *cur);
 int						heardoc_write_context(char *delimiter, int fd);
 
 /* core_heredoc_utils.c */

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/02 01:18:48 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/15 16:16:56 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 
 static char	*determine_heardoc_name(void);
 static int	heardoc_write_one_line(char *delimiter, int fd);
-static int	heardoc_fork(char *delimiter, int fd, t_shared_info *info);
+static int	heardoc_fork(char *delimiter, int fd,
+				t_shared_info *info, t_token *cur);
 int			heardoc_write_context(char *delimiter, int fd);
 
-char	*heardoc(char *delimiter, t_tree *branch, t_shared_info *info)
+char	*heardoc(char *delimiter, t_tree *branch, t_shared_info *info,
+	t_token *cur)
 {
 	int		fd;
 	char	*file;
@@ -36,7 +38,7 @@ char	*heardoc(char *delimiter, t_tree *branch, t_shared_info *info)
 	if (ft_strchr(delimiter, '\'') || ft_strchr(delimiter, '"'))
 		state = STATE_DQUOTE;
 	delimiter = expand_join(delimiter, info->envp, TOKEN_HEARDOC, info);
-	if (heardoc_fork(delimiter, fd, info) != EXIT_SUCCESS)
+	if (heardoc_fork(delimiter, fd, info, cur) != EXIT_SUCCESS)
 		return (free(delimiter), unlink(file), free(file), NULL);
 	free(delimiter);
 	new = f_lstnew(ft_strdup(file), what_type(state));
@@ -89,7 +91,7 @@ int	heardoc_write_context(char *delimiter, int fd)
 	}
 }
 
-static int	heardoc_fork(char *delimiter, int fd, t_shared_info *info)
+static int	heardoc_fork(char *delimiter, int fd, t_shared_info *info, t_token *cur)
 {
 	int	pid;
 	int	status;
@@ -111,7 +113,8 @@ static int	heardoc_fork(char *delimiter, int fd, t_shared_info *info)
 	if (pid == 0)
 	{
 		setup_signal_child();
-		exit(heardoc_write_context(delimiter, fd));
+		info->last_ecode = heardoc_write_context(delimiter, fd);
+		builtin_exit(NULL, info);
 	}
 	return (EXIT_SUCCESS);
 }
