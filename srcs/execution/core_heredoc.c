@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/15 16:16:56 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/15 18:07:39 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*heardoc(char *delimiter, t_tree *branch, t_shared_info *info,
 	state = STATE_GENERAL;
 	if (ft_strchr(delimiter, '\'') || ft_strchr(delimiter, '"'))
 		state = STATE_DQUOTE;
+	cur->next->token = NULL;
 	delimiter = expand_join(delimiter, info->envp, TOKEN_HEARDOC, info);
 	if (heardoc_fork(delimiter, fd, info, cur) != EXIT_SUCCESS)
 		return (free(delimiter), unlink(file), free(file), NULL);
@@ -110,12 +111,10 @@ static int	heardoc_fork(char *delimiter, int fd, t_shared_info *info, t_token *c
 		env_exit_code(status, FAILURE, info);
 		return (status);
 	}
-	if (pid == 0)
-	{
-		setup_signal_child();
-		info->last_ecode = heardoc_write_context(delimiter, fd);
-		builtin_exit(NULL, info);
-	}
+	setup_signal_child();
+	info->last_ecode = heardoc_write_context(delimiter, fd);
+	t_lstclear(&cur, free);
+	builtin_exit(NULL, info);
 	return (EXIT_SUCCESS);
 }
 
