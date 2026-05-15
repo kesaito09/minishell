@@ -1,0 +1,23 @@
+{
+   leak_readline_function
+   Memcheck:Leak
+   match-leak-kinds: reachable,definite,indirect,possible
+   ...
+   fun:readline
+}
+
+{
+   leak_add_history
+   Memcheck:Leak
+   match-leak-kinds: reachable,definite,indirect,possible
+   ...
+   fun:add_history
+}
+
+{
+   leak_rl_initialize
+   Memcheck:Leak
+   match-leak-kinds: reachable,definite,indirect,possible
+   ...
+   fun:rl_initialize
+}

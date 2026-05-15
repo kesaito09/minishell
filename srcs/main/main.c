@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/07 09:18:33 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/15 15:47:52 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ static int	minishell_atty(t_shared_info *info)
 			builtin_exit(NULL, info);
 		singal_to_exitcode(info);
 		if (!*input)
+		{
+			free(input);
 			continue ;
+		}
 		info->input = script_split(input, info);
 		free(input);
 		if (!info->input)
