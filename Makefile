@@ -6,7 +6,7 @@
 #    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/05/16 16:01:23 by kesaitou         ###   ########.fr        #
+#    Updated: 2026/05/16 16:29:54 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -126,7 +126,6 @@ valgrind-gen-supp: $(NAME) $(VALGRIND_SUPP)
 	valgrind $(VALGRIND_FLAGS) --gen-suppressions=all ./$(NAME) $(ARGS)
 
 $(VALGRIND_SUPP):
-	@echo "ERROR: $(VALGRIND_SUPP) が見つかりません" >&2
 	@exit 1
 
 
