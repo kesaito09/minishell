@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:55:44 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/15 16:04:46 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/16 15:59:23 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int						builtin_fork(t_tree *branch, t_shared_info *info,
 int						manage_redirect(t_tree *branch, t_shared_info *info);
 
 /* fd1_heredoc.c */
-int						heardoc_open_dup2(t_token *flist, t_tree *branch,
+int						heredoc_open_dup2(t_token *flist, t_tree *branch,
 							t_shared_info *info);
 
 /* utils2_child.c */
@@ -132,15 +132,19 @@ int						builtin_exporter(t_tree *branch, t_shared_info *info);
 char					**builtin_arg_load(t_shared_info *info, t_token *node);
 
 /* core_heredoc.c */
-char					*heardoc(char *eof, t_tree *branch,
-							t_shared_info *info, t_token *cur);
-int						heardoc_write_context(char *delimiter, int fd);
+char					*heredoc(char *eof, t_tree *branch,
+							t_shared_info *info);
+int						heredoc_write_context(char *delimiter, int fd);
+
+/* core_heredoc_search.c */
+int						search_heredoc(t_shared_info *info, t_tree *branch);
 
 /* core_heredoc_utils.c */
-void					heardoc_clear(t_token **heredoc);
-void					heardoc_error_message(void);
-int						heardoc_no_fork(char *delimiter, int fd,
-							t_shared_info *info);
+void					heredoc_clear(t_token **heredoc);
+void					heredoc_unlink_files(t_token *heredoc);
+void					heredoc_free_list(t_token **heredoc);
+void					heredoc_error_message(void);
+void					heredoc_unlink_tree(t_tree *branch);
 
 /* core_fd.c */
 void					close_unused_pipe(int fd_in, int fd_out, int pipes[2]);

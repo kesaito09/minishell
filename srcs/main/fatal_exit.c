@@ -21,6 +21,7 @@ void	fatal_exit(t_shared_info *info)
 {
 	if (info)
 	{
+		heredoc_unlink_tree(info->branch);
 		free_tree_rec(&info->branch);
 		t_lstclear(&info->input, free);
 		wait_pidlist(&info->plist);

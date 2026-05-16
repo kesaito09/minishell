@@ -47,7 +47,7 @@ static int	manage_redirect_module(t_token *flist, t_tree *branch,
 			return (FAILURE);
 		if (flist->type == TOKEN_REDIRECT_IN)
 			return (redirect_in_open_dup2(flist, info));
-		return (heardoc_open_dup2(flist, branch, info));
+		return (heredoc_open_dup2(flist, branch, info));
 	}
 }
 

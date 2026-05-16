@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:36:49 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/15 15:47:52 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/16 15:59:48 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,12 @@ static int	whole_proc(t_shared_info *info)
 		env_exit_code(2, FAILURE, info);
 		return (FAILURE);
 	}
+	if (search_heredoc(info, info->branch) == FAILURE)
+		fatal_exit(info);
 	setup_signal_exec();
 	flag = exec_manage(info->branch, info, 0, 1);
 	info->last_ecode = detect_ecode(flag, info);
+	heredoc_unlink_tree(info->branch);
 	free_tree_rec(&info->branch);
 	env_exit_code(info->last_ecode, flag, info);
 	info->pipe = false;

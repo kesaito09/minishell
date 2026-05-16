@@ -33,7 +33,7 @@ bool	is_redirect(t_token *cur)
 		return (false);
 	if (cur->type == TOKEN_REDIRECT_IN
 		|| cur->type == TOKEN_REDIRECT_OUT
-		|| cur->type == TOKEN_HEARDOC
+		|| cur->type == TOKEN_HEREDOC
 		|| cur->type == TOKEN_APPEND)
 		return (true);
 	return (false);

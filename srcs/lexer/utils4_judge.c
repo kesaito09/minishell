@@ -49,7 +49,7 @@ t_token_type	str_type(char *input)
 	if (is_doubled_op(input))
 	{
 		if (input[0] == '<')
-			return (TOKEN_HEARDOC);
+			return (TOKEN_HEREDOC);
 		if (input[0] == '>')
 			return (TOKEN_APPEND);
 		if (input[0] == '|')

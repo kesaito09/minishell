@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/04/29 21:59:31 by natakaha         ###   ########.fr        #
+#    Updated: 2026/05/16 16:01:23 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/execution/utils2_path_split.c\
 			srcs/execution/utils3_builtin.c\
 			srcs/execution/core_heredoc.c\
+			srcs/execution/core_heredoc_search.c\
 			srcs/execution/core_heredoc_utils.c\
 			srcs/execution/core_fd.c\
 			srcs/execution/core_err_check.c\
@@ -112,4 +113,46 @@ fclean: clean
 re: fclean all
 
 
-.PHONY: all clean fclean re
+VALGRIND_SUPP   = readline.supp
+VALGRIND_FLAGS  = -q \
+                  --leak-check=full \
+                  --show-leak-kinds=all \
+                  --suppressions=$(VALGRIND_SUPP) \
+
+valgrind: $(NAME) $(VALGRIND_SUPP)
+	valgrind $(VALGRIND_FLAGS) ./$(NAME) $(ARGS)
+
+valgrind-gen-supp: $(NAME) $(VALGRIND_SUPP)
+	valgrind $(VALGRIND_FLAGS) --gen-suppressions=all ./$(NAME) $(ARGS)
+
+$(VALGRIND_SUPP):
+	@echo "ERROR: $(VALGRIND_SUPP) が見つかりません" >&2
+	@exit 1
+
+
+DOCKER_DIR     = docker
+DOCKER_COMPOSE = docker compose -f $(DOCKER_DIR)/docker-compose.yml
+DOCKER_SVC     = minishell
+
+docker-build:
+	$(DOCKER_COMPOSE) build
+
+docker-up:
+	$(DOCKER_COMPOSE) up -d
+
+docker-down:
+	$(DOCKER_COMPOSE) down
+
+docker-shell: docker-up
+	$(DOCKER_COMPOSE) exec $(DOCKER_SVC) /bin/bash
+
+docker-rebuild:
+	$(DOCKER_COMPOSE) build --no-cache
+
+docker-clean:
+	$(DOCKER_COMPOSE) down -v --rmi local
+
+
+.PHONY: all clean fclean re \
+        valgrind valgrind-gen-supp \
+        docker-build docker-up docker-down docker-shell docker-rebuild docker-clean

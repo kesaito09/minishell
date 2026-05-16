@@ -29,7 +29,7 @@ typedef enum e_token_type
 	TOKEN_PIPE = '|',
 	TOKEN_REDIRECT_IN = '<',
 	TOKEN_REDIRECT_OUT = '>',
-	TOKEN_HEARDOC = '<' + 128,
+	TOKEN_HEREDOC = '<' + 128,
 	TOKEN_APPEND = '>' + 128,
 	TOKEN_CONJUNCTIONE = '&' + 128,
 	TOKEN_DISJUNCTIONE = '|' + 128,

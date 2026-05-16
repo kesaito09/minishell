@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse1_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:50:47 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/15 18:07:08 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/16 15:53:44 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,6 @@ static int	consume_redirect_tokens(t_tree *branch, t_token **cur,
 	word = op->next;
 	if (!word)
 		return (err_syntax(info, "newline"), FAILURE);
-	if (op->type == TOKEN_HEARDOC)
-	{
-		word->token = heardoc(word->token, branch, info, *cur);
-		if (!word->token)
-			return (FAILURE);
-	}
 	if (word->type != TOKEN_WORD)
 		return (err_syntax(info, word->token), FAILURE);
 	word->type = op->type;

@@ -32,7 +32,7 @@ void	free_tree_rec(t_tree **branch)
 	t_lstclear(&((*branch)->arg_list), free);
 	t_lstclear(&((*branch)->file_list), free);
 	t_lstclear(&((*branch)->env_list), free);
-	heardoc_clear(&((*branch)->heredoc));
+	heredoc_free_list(&((*branch)->heredoc));
 	free(*branch);
 	*branch = NULL;
 }

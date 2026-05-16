@@ -13,28 +13,28 @@
 #include "../../includes/execution.h"
 #include <sys/fcntl.h>
 
-static char			*redirect_heardoc(t_token *flist, int fd_in, t_tree *branch,
+static char			*redirect_heredoc(t_token *flist, int fd_in, t_tree *branch,
 						t_shared_info *info);
-static t_token_type	heardoc_file_type(t_token *flist, t_tree *branch);
+static t_token_type	heredoc_file_type(t_token *flist, t_tree *branch);
 
-int	heardoc_open_dup2(t_token *flist, t_tree *branch, t_shared_info *info)
+int	heredoc_open_dup2(t_token *flist, t_tree *branch, t_shared_info *info)
 {
 	int		fd_raw;
 	int		fd_expand;
 	int		fd_dup2;
-	char	*heardoc;
+	char	*heredoc;
 
 	fd_raw = open(flist->token, O_RDONLY);
 	if (fd_raw < 0)
 		return (unlink(flist->token), FAILURE);
-	heardoc = redirect_heardoc(flist, fd_raw, branch, info);
+	heredoc = redirect_heredoc(flist, fd_raw, branch, info);
 	close(fd_raw);
 	fd_expand = open(flist->token, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd_expand < 0)
-		return (free(heardoc), unlink(flist->token), FAILURE);
-	ft_putstr_fd(heardoc, fd_expand);
+		return (free(heredoc), unlink(flist->token), FAILURE);
+	ft_putstr_fd(heredoc, fd_expand);
 	close(fd_expand);
-	free(heardoc);
+	free(heredoc);
 	fd_dup2 = open(flist->token, O_RDONLY);
 	if (fd_dup2 < 0)
 		return (unlink(flist->token), FAILURE);
@@ -46,7 +46,7 @@ int	heardoc_open_dup2(t_token *flist, t_tree *branch, t_shared_info *info)
 	return (SUCCESS);
 }
 
-static char	*redirect_heardoc(t_token *flist, int fd_in, t_tree *branch,
+static char	*redirect_heredoc(t_token *flist, int fd_in, t_tree *branch,
 		t_shared_info *info)
 {
 	char	*raw_str;
@@ -55,7 +55,7 @@ static char	*redirect_heardoc(t_token *flist, int fd_in, t_tree *branch,
 	raw_str = get_line(fd_in);
 	if (!raw_str)
 		fatal_exit(info);
-	flist->type = heardoc_file_type(flist, branch);
+	flist->type = heredoc_file_type(flist, branch);
 	if (flist->type != SUB_TOKEN_GENERAL)
 		return (raw_str);
 	expanded = expand_join(raw_str, info->envp, SUB_TOKEN_DQUOTE, info);
@@ -64,7 +64,7 @@ static char	*redirect_heardoc(t_token *flist, int fd_in, t_tree *branch,
 	return (expanded);
 }
 
-static t_token_type	heardoc_file_type(t_token *flist, t_tree *branch)
+static t_token_type	heredoc_file_type(t_token *flist, t_tree *branch)
 {
 	char	*file;
 	t_token	*tmp;

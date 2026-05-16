@@ -36,7 +36,7 @@ t_token	*env_expand(char *input, t_token *envp
 			new->token = ft_substr(new->token, 1, ft_strlen(new->token) - 2);
 			free(tmp);
 		}
-		if (new->type != SUB_TOKEN_SQUOTE && flag != TOKEN_HEARDOC)
+		if (new->type != SUB_TOKEN_SQUOTE && flag != TOKEN_HEREDOC)
 		{
 			new = expand_dollar(new);
 			new = replace_env(new, envp);

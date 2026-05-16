@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   core_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 21:02:26 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/15 18:07:39 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/16 15:55:59 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,20 @@
 #include "../../includes/parser.h"
 #include <stdlib.h>
 
-static char	*determine_heardoc_name(void);
-static int	heardoc_write_one_line(char *delimiter, int fd);
-static int	heardoc_fork(char *delimiter, int fd,
-				t_shared_info *info, t_token *cur);
-int			heardoc_write_context(char *delimiter, int fd);
+static char	*determine_heredoc_name(void);
+static int	heredoc_write_one_line(char *delimiter, int fd);
+static int	heredoc_fork(char *delimiter, int fd, char *file,
+				t_shared_info *info);
+int			heredoc_write_context(char *delimiter, int fd);
 
-char	*heardoc(char *delimiter, t_tree *branch, t_shared_info *info,
-	t_token *cur)
+char	*heredoc(char *delimiter, t_tree *branch, t_shared_info *info)
 {
 	int		fd;
 	char	*file;
 	t_state	state;
 	t_token	*new;
 
-	file = determine_heardoc_name();
+	file = determine_heredoc_name();
 	if (!file)
 		return (NULL);
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -37,9 +36,8 @@ char	*heardoc(char *delimiter, t_tree *branch, t_shared_info *info,
 	state = STATE_GENERAL;
 	if (ft_strchr(delimiter, '\'') || ft_strchr(delimiter, '"'))
 		state = STATE_DQUOTE;
-	cur->next->token = NULL;
-	delimiter = expand_join(delimiter, info->envp, TOKEN_HEARDOC, info);
-	if (heardoc_fork(delimiter, fd, info, cur) != EXIT_SUCCESS)
+	delimiter = expand_join(delimiter, info->envp, TOKEN_HEREDOC, info);
+	if (heredoc_fork(delimiter, fd, file, info) != EXIT_SUCCESS)
 		return (free(delimiter), unlink(file), free(file), NULL);
 	free(delimiter);
 	new = f_lstnew(ft_strdup(file), what_type(state));
@@ -49,14 +47,14 @@ char	*heardoc(char *delimiter, t_tree *branch, t_shared_info *info,
 	return (file);
 }
 
-static char	*determine_heardoc_name(void)
+static char	*determine_heredoc_name(void)
 {
 	char	*file;
 	char	*def;
 	int		i;
 	char	*num;
 
-	def = ft_strdup(".heardoc_");
+	def = ft_strdup(".heredoc_");
 	if (!def)
 		return (NULL);
 	i = 1;
@@ -71,18 +69,19 @@ static char	*determine_heardoc_name(void)
 			return (free(def), NULL);
 		if (access(file, F_OK) == -1)
 			break ;
+		free(file);
 		i++;
 	}
 	return (free(def), file);
 }
 
-int	heardoc_write_context(char *delimiter, int fd)
+int	heredoc_write_context(char *delimiter, int fd)
 {
 	int	flag;
 
 	while (true)
 	{
-		flag = heardoc_write_one_line(delimiter, fd);
+		flag = heredoc_write_one_line(delimiter, fd);
 		if (flag == FAILURE)
 			return (close(fd), free(delimiter), EXIT_FAILURE);
 		else if (flag == END)
@@ -92,14 +91,15 @@ int	heardoc_write_context(char *delimiter, int fd)
 	}
 }
 
-static int	heardoc_fork(char *delimiter, int fd, t_shared_info *info, t_token *cur)
+static int	heredoc_fork(char *delimiter, int fd, char *file,
+		t_shared_info *info)
 {
 	int	pid;
 	int	status;
 
 	pid = fork();
 	if (pid < 0)
-		return (perror("heardoc"), EXIT_FAILURE);
+		return (perror("heredoc"), EXIT_FAILURE);
 	status = 0;
 	if (pid > 0)
 	{
@@ -112,19 +112,20 @@ static int	heardoc_fork(char *delimiter, int fd, t_shared_info *info, t_token *c
 		return (status);
 	}
 	setup_signal_child();
-	info->last_ecode = heardoc_write_context(delimiter, fd);
-	t_lstclear(&cur, free);
+	free_tree_rec(&info->branch);
+	info->last_ecode = heredoc_write_context(delimiter, fd);
+	free(file);
 	builtin_exit(NULL, info);
 	return (EXIT_SUCCESS);
 }
 
-static int	heardoc_write_one_line(char *delimiter, int fd)
+static int	heredoc_write_one_line(char *delimiter, int fd)
 {
 	char	*line;
 
 	line = readline(">");
 	if (!line)
-		return (heardoc_error_message(), END);
+		return (heredoc_error_message(), END);
 	if (!ft_strcmp(delimiter, line))
 		return (free(line), END);
 	if (!line)
