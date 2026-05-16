@@ -18,10 +18,10 @@
 # include "../libft/includes/libft.h"
 # include "builtin_cmd.h"
 # include "execution.h"
-# include "expander.h"
 # include "lexer.h"
 # include "main.h"
 # include "parser.h"
+# include "expander.h"
 
 # define SUCCESS 1
 # define FAILURE -1
