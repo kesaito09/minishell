@@ -6,7 +6,7 @@
 #    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/02 23:20:38 by kesaitou          #+#    #+#              #
-#    Updated: 2026/05/19 15:59:32 by kesaitou         ###   ########.fr        #
+#    Updated: 2026/05/19 16:09:12 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,14 +18,8 @@ INCS = includes
 LIBFTDIR = libft
 LIBFT = $(LIBFTDIR)/libft.a
 
-READLINE_PREFIX := $(shell brew --prefix readline 2>/dev/null)
-ifneq ($(READLINE_PREFIX),)
-	CFLAGS += -I$(READLINE_PREFIX)/include
-	LDFLAGS_RL = -L$(READLINE_PREFIX)/lib
-endif
-
 LIBDIR = $(LIBFTDIR)
-LDFLAGS = -L $(LIBDIR) $(LDFLAGS_RL)
+LDFLAGS = -L $(LIBDIR)
 LDLIBS = -lft -lreadline
 
 MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
@@ -85,7 +79,13 @@ MAND_SRCS = srcs/builtin_cmd/cmd_cd.c\
 			srcs/parser/utils4_arglist.c\
 
 MAND_OBJS = $(MAND_SRCS:.c=.o)
-HEADERS = $(wildcard $(INCS)/*.h)
+HEADERS = $(INCS)/builtin_cmd.h\
+		  $(INCS)/execution.h\
+		  $(INCS)/expander.h\
+		  $(INCS)/lexer.h\
+		  $(INCS)/main.h\
+		  $(INCS)/minishell.h\
+		  $(INCS)/parser.h
 
 
 all : $(NAME)
@@ -104,7 +104,6 @@ bonus: all
 
 clean:
 	rm -f $(MAND_OBJS)
-	find srcs -name '*.d' -delete
 	$(MAKE) -C $(LIBFTDIR) clean
 
 fclean: clean
@@ -112,6 +111,4 @@ fclean: clean
 
 re: fclean all
 
-
-
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus
