@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec3_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/08 17:59:51 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/05/19 17:17:16 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	builtin_fork(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 		setup_signal_child();
 	flag = builtin_module(branch, info, fd_in, fd_out);
 	if (pid == 0 && flag == FAILURE)
-		exit(EXIT_FAILURE);
-	else if (pid == 0)
-		exit(EXIT_SUCCESS);
+		info->last_ecode = 1;
+	if (pid == 0)
+		builtin_exit(NULL, info);
 	return (flag);
 }
 
