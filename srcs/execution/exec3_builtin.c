@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/19 17:17:16 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/19 17:30:30 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ int	builtin_fork(t_tree *branch, t_shared_info *info, int fd_in, int fd_out)
 	if (info->pipe && pid == 0)
 		setup_signal_child();
 	flag = builtin_module(branch, info, fd_in, fd_out);
-	if (pid == 0 && flag == FAILURE)
-		info->last_ecode = 1;
 	if (pid == 0)
+	{
+		info->last_ecode = detect_ecode(flag, info);
 		builtin_exit(NULL, info);
+	}
 	return (flag);
 }
 

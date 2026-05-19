@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 05:43:42 by natakaha          #+#    #+#             */
-/*   Updated: 2026/04/30 03:22:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2026/05/19 17:30:19 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	detect_ecode(int flag, t_shared_info *info)
 	if (exit_code)
 		return (exit_code);
 	if (flag == FAILURE)
-		return (1);
-	return (0);
+		return (EXIT_FAILURE);
+return (EXIT_SUCCESS);
 }
 
 int	env_exit_code(int i, int flag, t_shared_info *info)
