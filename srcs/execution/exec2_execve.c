@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2_execve.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 22:55:18 by natakaha          #+#    #+#             */
-/*   Updated: 2026/05/08 18:00:42 by kesaitou         ###   ########.fr       */
+/*   Updated: 2026/05/19 16:51:44 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	exec_search(t_token *path, char **envp, char **cmd,
 
 	cache = COMMAND_NOT_FOUND;
 	walker = path;
-	while (walker)
+	while (walker && ft_strchr(cmd[0], '/') == NULL)
 	{
 		full_path = ft_strjoin(walker->token, cmd[0]);
 		if (!full_path)
