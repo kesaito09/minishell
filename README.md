@@ -39,9 +39,9 @@ Bonus features:
 - A Unix-like environment (Linux or macOS).
 - A C toolchain providing `cc` (Clang or GCC).
 - GNU Readline development headers and library.
-  - macOS (Homebrew): `brew install readline` — the Makefile auto-detects
-    `brew --prefix readline` and adds the include and library paths.
-  - Debian/Ubuntu: `sudo apt install libreadline-dev`.
+    - macOS (Homebrew): `brew install readline` — the Makefile auto-detects
+      `brew --prefix readline` and adds the include and library paths.
+    - Debian/Ubuntu: `sudo apt install libreadline-dev`.
 - `make`.
 
 ### Build
@@ -80,8 +80,6 @@ echo 'echo hello | cat' | ./minishell
 
 ### Documentation and references
 
-- The official subject PDF (`subject/minishell.pdf`, version 9.0) — primary
-  source of truth for required behavior.
 - `bash(1)` and the GNU Bash manual
   (<https://www.gnu.org/software/bash/manual/>) — reference shell whose
   behavior we mirror whenever the subject is silent.
@@ -123,12 +121,12 @@ minishell/
 
 ## Built-ins quick reference
 
-| Builtin  | Supported options / scope          |
-| -------- | ---------------------------------- |
-| `echo`   | `-n` flag                          |
-| `cd`     | Absolute and relative paths        |
-| `pwd`    | No options                         |
-| `export` | No options                         |
-| `unset`  | No options                         |
-| `env`    | No options, no arguments           |
-| `exit`   | No options (numeric arg accepted)  |
+| Builtin  | Supported options / scope         |
+| -------- | --------------------------------- |
+| `echo`   | `-n` flag                         |
+| `cd`     | Absolute and relative paths       |
+| `pwd`    | No options                        |
+| `export` | No options                        |
+| `unset`  | No options                        |
+| `env`    | No options, no arguments          |
+| `exit`   | No options (numeric arg accepted) |
